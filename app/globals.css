@@ -1,0 +1,261 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg: #090909;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+
+  /* Borders */
+  --border: #222222;
+  --border-light: #2a2a2a;
+
+  /* Text */
+  --text: #ede8de;
+  --muted: #6b6860;
+
+  /* Brand Colors */
+  --accent: #c9ff47;
+  --danger: #ff4747;
+  --warning: #ffb547;
+
+  /* shadcn/ui token compatibility */
+  --background: #090909;
+  --foreground: #ede8de;
+  --card: #111111;
+  --card-foreground: #ede8de;
+  --popover: #1a1a1a;
+  --popover-foreground: #ede8de;
+  --primary: #c9ff47;
+  --primary-foreground: #090909;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ede8de;
+  --muted-bg: #1a1a1a;
+  --muted-foreground: #6b6860;
+  --accent-bg: #1a1a1a;
+  --accent-foreground: #ede8de;
+  --destructive: #ff4747;
+  --destructive-foreground: #ede8de;
+  --border-shadcn: #222222;
+  --input: #1a1a1a;
+  --ring: #c9ff47;
+  --radius: 0.5rem;
+
+  /* Chart Colors */
+  --chart-1: #c9ff47;
+  --chart-2: #47c9ff;
+  --chart-3: #ff47c9;
+  --chart-4: #ffb547;
+  --chart-5: #ff4747;
+
+  /* Sidebar */
+  --sidebar: #111111;
+  --sidebar-foreground: #ede8de;
+  --sidebar-primary: #c9ff47;
+  --sidebar-primary-foreground: #090909;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ede8de;
+  --sidebar-border: #222222;
+  --sidebar-ring: #c9ff47;
+}
+
+/* ─── Tailwind Theme Mapping ─────────────────────────────────────────────── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-bg);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent-bg);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border-shadcn);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Direct design token colors */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text: var(--text);
+  --color-muted-text: var(--muted);
+  --color-accent-green: var(--accent);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --font-syne: 'Syne', sans-serif;
+  --font-fraunces: 'Fraunces', serif;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  p, li, blockquote {
+    font-family: 'Fraunces', serif;
+  }
+
+  /* Numbers and labels stay Syne */
+  label, caption, th, td,
+  [data-label],
+  [data-number] {
+    font-family: 'Syne', sans-serif;
+  }
+}
+
+/* ─── Scrollbar Styling ──────────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--surface);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 999px;
+  border: 1px solid var(--surface);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--accent) 80%, white);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--surface);
+}
+
+/* ─── Text Selection ─────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--accent);
+  color: #090909;
+}
+
+::-moz-selection {
+  background-color: var(--accent);
+  color: #090909;
+}
+
+/* ─── Focus Ring ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── Utility Overrides ──────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .font-syne {
+    font-family: 'Syne', sans-serif;
+  }
+
+  .font-fraunces {
+    font-family: 'Fraunces', serif;
+  }
+
+  /* Surface helpers */
+  .bg-surface {
+    background-color: var(--surface);
+  }
+
+  .bg-surface-2 {
+    background-color: var(--surface-2);
+  }
+
+  .border-brand {
+    border-color: var(--border);
+  }
+
+  .border-brand-light {
+    border-color: var(--border-light);
+  }
+
+  .text-accent {
+    color: var(--accent);
+  }
+
+  .text-danger {
+    color: var(--danger);
+  }
+
+  .text-warning {
+    color: var(--warning);
+  }
+
+  .text-muted-custom {
+    color: var(--muted);
+  }
+}

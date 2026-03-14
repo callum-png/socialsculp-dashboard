@@ -1,0 +1,113 @@
+'use client'
+
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ReferenceLine,
+  ResponsiveContainer,
+  TooltipProps,
+} from 'recharts'
+
+interface ROASDataPoint {
+  date: string
+  roas: number
+  target?: number
+}
+
+interface ROASAreaChartProps {
+  data: ROASDataPoint[]
+}
+
+function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: any[]; label?: string }) {
+  if (!active || !payload || payload.length === 0) return null
+
+  return (
+    <div className="bg-[#1A1A1A] border border-[#222222] px-3 py-2.5 text-xs font-syne">
+      <p className="text-[#6B6860] mb-1.5">{label}</p>
+      {payload.map((entry) => (
+        <div key={entry.dataKey} className="flex items-center gap-2">
+          <span
+            className="inline-block w-2 h-2"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-[#6B6860] capitalize">{entry.dataKey}:</span>
+          <span className="text-[#EDE8DE] font-bold">
+            {typeof entry.value === 'number' ? `${entry.value.toFixed(2)}x` : entry.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+export function ROASAreaChart({ data }: ROASAreaChartProps) {
+  const hasTarget = data.some((d) => d.target !== undefined)
+
+  return (
+    <ResponsiveContainer width="100%" height={280}>
+      <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+        <defs>
+          <linearGradient id="roasGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#C9FF47" stopOpacity={0.2} />
+            <stop offset="100%" stopColor="#C9FF47" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+
+        <CartesianGrid
+          vertical={false}
+          stroke="#222222"
+          strokeDasharray="0"
+        />
+
+        <XAxis
+          dataKey="date"
+          tickFormatter={formatDate}
+          tick={{ fill: '#6B6860', fontSize: 11, fontFamily: 'Syne' }}
+          axisLine={false}
+          tickLine={false}
+          interval="preserveStartEnd"
+        />
+
+        <YAxis
+          tickFormatter={(v) => `${v.toFixed(1)}x`}
+          tick={{ fill: '#6B6860', fontSize: 11, fontFamily: 'Syne' }}
+          axisLine={false}
+          tickLine={false}
+        />
+
+        <Tooltip content={<CustomTooltip />} />
+
+        <Area
+          type="monotone"
+          dataKey="roas"
+          stroke="#C9FF47"
+          strokeWidth={2}
+          fill="url(#roasGradient)"
+          dot={false}
+          activeDot={{ r: 4, fill: '#C9FF47', strokeWidth: 0 }}
+        />
+
+        {hasTarget && (
+          <Area
+            type="monotone"
+            dataKey="target"
+            stroke="#6B6860"
+            strokeWidth={1.5}
+            strokeDasharray="4 4"
+            fill="none"
+            dot={false}
+          />
+        )}
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}

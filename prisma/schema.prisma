@@ -1,0 +1,282 @@
+// ─── Datasource ───────────────────────────────────────────────────────────────
+// Connection URLs are configured in prisma.config.ts (Prisma v7+).
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Generator ────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  CREATOR
+  BRAND
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum Platform {
+  TIKTOK
+  INSTAGRAM
+  YOUTUBE
+  BOTH
+}
+
+enum DealStage {
+  OUTREACH
+  NEGOTIATING
+  SIGNED
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum ContentType {
+  REEL
+  TIKTOK_VIDEO
+  STORY
+  POST
+  CAROUSEL
+  YOUTUBE_SHORT
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String
+  role      UserRole
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creatorProfile CreatorProfile?
+  brandProfile   BrandProfile?
+
+  @@map("users")
+}
+
+model CreatorProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  handle       String  @unique
+  bio          String?
+  niche        String[]
+  location     String?
+  mediaKitUrl  String?
+
+  // TikTok stats
+  tiktokFollowers Int?
+  tiktokAvgViews  Int?
+  tiktokEngRate   Float?
+
+  // Instagram stats
+  instagramFollowers Int?
+  instagramAvgLikes  Int?
+  instagramEngRate   Float?
+
+  // Aggregate stats
+  totalReach     Int   @default(0)
+  avgEngagement  Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deals             Deal[]
+  campaignCreators  CampaignCreator[]
+  platformStats     PlatformStat[]
+
+  @@map("creator_profiles")
+}
+
+model BrandProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  companyName String
+  industry    String?
+  logoUrl     String?
+  website     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaigns Campaign[]
+
+  @@map("brand_profiles")
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  status      CampaignStatus @default(DRAFT)
+  platform    Platform
+  contentTypes ContentType[]
+
+  totalBudget  Float
+  spentBudget  Float @default(0)
+
+  startDate DateTime?
+  endDate   DateTime?
+
+  targetReach       Int?
+  targetEngagement  Float?
+  targetROAS        Float?
+
+  brandId String
+  brand   BrandProfile @relation(fields: [brandId], references: [id], onDelete: Restrict)
+
+  tags       String[]
+  briefUrl   String?
+  createdById String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deals               Deal[]
+  campaignCreators    CampaignCreator[]
+  analyticsSnapshots  AnalyticsSnapshot[]
+
+  @@map("campaigns")
+}
+
+model CampaignCreator {
+  id         String @id @default(cuid())
+  campaignId String
+  campaign   Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  creatorId  String
+  creator    CreatorProfile @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  role  String?
+  fee   Float?
+  notes String?
+
+  @@unique([campaignId, creatorId])
+  @@map("campaign_creators")
+}
+
+model Deal {
+  id    String    @id @default(cuid())
+  title String
+  stage DealStage @default(OUTREACH)
+
+  proposedFee Float?
+  agreedFee   Float?
+  currency    String @default("USD")
+
+  campaignId String
+  campaign   Campaign       @relation(fields: [campaignId], references: [id], onDelete: Restrict)
+  creatorId  String
+  creator    CreatorProfile @relation(fields: [creatorId], references: [id], onDelete: Restrict)
+
+  outreachDate   DateTime?
+  signedDate     DateTime?
+  liveDate       DateTime?
+  completedDate  DateTime?
+
+  notes       String?
+  contractUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deliverables  Deliverable[]
+  stageHistory  DealStageEvent[]
+
+  @@map("deals")
+}
+
+model Deliverable {
+  id     String @id @default(cuid())
+  dealId String
+  deal   Deal   @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  platform    Platform
+  contentType ContentType
+
+  dueDate   DateTime?
+  submitted Boolean   @default(false)
+  liveUrl   String?
+
+  @@map("deliverables")
+}
+
+model DealStageEvent {
+  id     String @id @default(cuid())
+  dealId String
+  deal   Deal   @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  fromStage  DealStage?
+  toStage    DealStage
+  note       String?
+  changedById String
+
+  createdAt DateTime @default(now())
+
+  @@map("deal_stage_events")
+}
+
+model AnalyticsSnapshot {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  date     DateTime
+  platform Platform
+
+  impressions    Int   @default(0)
+  reach          Int   @default(0)
+  engagements    Int   @default(0)
+  clicks         Int   @default(0)
+  conversions    Int   @default(0)
+  engagementRate Float @default(0)
+  cpm            Float @default(0)
+  cpc            Float @default(0)
+  roas           Float @default(0)
+  spend          Float @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@unique([campaignId, date, platform])
+  @@map("analytics_snapshots")
+}
+
+model PlatformStat {
+  id        String         @id @default(cuid())
+  creatorId String
+  creator   CreatorProfile @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  platform Platform
+  date     DateTime
+
+  followers   Int
+  avgViews    Int?
+  avgLikes    Int?
+  avgComments Int?
+  engRate     Float
+
+  createdAt DateTime @default(now())
+
+  @@unique([creatorId, platform, date])
+  @@map("platform_stats")
+}
