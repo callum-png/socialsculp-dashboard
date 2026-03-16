@@ -26,7 +26,7 @@ const config: Config = {
         },
         text: '#EDE8DE',
         muted: '#6B6860',
-        accent: '#C9FF47',
+        accent: '#008cff',
         danger: '#FF4747',
         warning: '#FFB547',
 

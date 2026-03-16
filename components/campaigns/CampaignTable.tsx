@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import { CampaignStatusBadge } from './CampaignStatusBadge'
 import { formatCurrency, budgetPercent } from '@/lib/utils'
-import { MOCK_BRANDS } from '@/lib/mock-data'
 import { PLATFORM_LABELS } from '@/lib/constants'
 import type { CampaignStatusValue, PlatformValue } from '@/lib/constants'
 
 interface CampaignRow {
+  id: string
   name: string
-  brandIndex: number
+  brandName: string
   status: string
   platform: string
   totalBudget: number
@@ -17,7 +17,7 @@ interface CampaignRow {
 }
 
 interface Props {
-  campaigns: readonly CampaignRow[]
+  campaigns: CampaignRow[]
 }
 
 export function CampaignTable({ campaigns }: Props) {
@@ -50,20 +50,19 @@ export function CampaignTable({ campaigns }: Props) {
           </tr>
         </thead>
         <tbody>
-          {campaigns.map((campaign, i) => {
-            const brand = MOCK_BRANDS[campaign.brandIndex as number]
+          {campaigns.map((campaign) => {
             const pct = budgetPercent(campaign.spentBudget, campaign.totalBudget)
 
             return (
               <tr
-                key={i}
+                key={campaign.id}
                 className="border-b border-[#1A1A1A] hover:bg-[#141414] transition-colors"
               >
                 <td className="px-5 py-4 text-[#EDE8DE] font-medium max-w-[200px]">
                   <span className="block truncate">{campaign.name}</span>
                 </td>
                 <td className="px-5 py-4 text-[#6B6860]">
-                  {brand?.companyName ?? '—'}
+                  {campaign.brandName}
                 </td>
                 <td className="px-5 py-4">
                   <CampaignStatusBadge status={campaign.status as CampaignStatusValue} />
@@ -78,7 +77,7 @@ export function CampaignTable({ campaigns }: Props) {
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-1 bg-[#1A1A1A] min-w-[60px]">
                       <div
-                        className="h-full bg-[#C9FF47]"
+                        className="h-full bg-[#008cff]"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -89,8 +88,8 @@ export function CampaignTable({ campaigns }: Props) {
                 </td>
                 <td className="px-5 py-4">
                   <Link
-                    href={`/admin/campaigns/${i}`}
-                    className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-[#222222] text-[#6B6860] hover:border-[#C9FF47] hover:text-[#C9FF47] transition-colors"
+                    href={`/admin/campaigns/${campaign.id}`}
+                    className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-[#222222] text-[#6B6860] hover:border-[#008cff] hover:text-[#008cff] transition-colors"
                   >
                     View
                   </Link>
@@ -98,6 +97,13 @@ export function CampaignTable({ campaigns }: Props) {
               </tr>
             )
           })}
+          {campaigns.length === 0 && (
+            <tr>
+              <td colSpan={7} className="px-5 py-12 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                No campaigns yet
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

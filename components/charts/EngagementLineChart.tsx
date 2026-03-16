@@ -99,10 +99,10 @@ export function EngagementLineChart({ data, height = 260 }: Props) {
           type="monotone"
           dataKey="tiktok"
           name="tiktok"
-          stroke="#C9FF47"
+          stroke="#008cff"
           strokeWidth={2}
-          dot={<CustomDot stroke="#C9FF47" />}
-          activeDot={{ r: 4, fill: '#C9FF47', strokeWidth: 0 }}
+          dot={<CustomDot stroke="#008cff" />}
+          activeDot={{ r: 4, fill: '#008cff', strokeWidth: 0 }}
         />
 
         <Line

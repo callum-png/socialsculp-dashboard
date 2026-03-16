@@ -57,8 +57,8 @@ export function ROASAreaChart({ data }: ROASAreaChartProps) {
       <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
         <defs>
           <linearGradient id="roasGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9FF47" stopOpacity={0.2} />
-            <stop offset="100%" stopColor="#C9FF47" stopOpacity={0} />
+            <stop offset="0%" stopColor="#008cff" stopOpacity={0.2} />
+            <stop offset="100%" stopColor="#008cff" stopOpacity={0} />
           </linearGradient>
         </defs>
 
@@ -89,11 +89,11 @@ export function ROASAreaChart({ data }: ROASAreaChartProps) {
         <Area
           type="monotone"
           dataKey="roas"
-          stroke="#C9FF47"
+          stroke="#008cff"
           strokeWidth={2}
           fill="url(#roasGradient)"
           dot={false}
-          activeDot={{ r: 4, fill: '#C9FF47', strokeWidth: 0 }}
+          activeDot={{ r: 4, fill: '#008cff', strokeWidth: 0 }}
         />
 
         {hasTarget && (

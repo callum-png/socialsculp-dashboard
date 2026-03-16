@@ -22,7 +22,7 @@ export default function BrandReportsPage() {
         <span className="inline-flex items-center px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-[#1A1A1A] border border-[#222222] text-[#6B6860]">
           Last 30 Days
         </span>
-        <button className="inline-flex items-center gap-2 px-4 py-2 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#C9FF47] hover:text-[#C9FF47] transition-colors">
+        <button className="inline-flex items-center gap-2 px-4 py-2 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
           <Download size={13} />
           Export Report
         </button>
@@ -46,7 +46,7 @@ export default function BrandReportsPage() {
               Download a detailed PDF report with all campaign metrics, creator performance, and ROAS breakdown.
             </p>
           </div>
-          <button className="shrink-0 ml-6 inline-flex items-center gap-2 px-5 py-2.5 bg-[#C9FF47] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#b8ee36] transition-colors">
+          <button className="shrink-0 ml-6 inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors">
             <Download size={13} />
             Export PDF
           </button>

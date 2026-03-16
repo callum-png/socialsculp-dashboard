@@ -13,6 +13,7 @@ import {
   Settings,
   User,
   FileText,
+  ContactRound,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { UserRole } from '@/types'
@@ -33,15 +34,20 @@ const ICON_MAP = {
   Settings,
   User,
   FileText,
+  ContactRound,
 }
 
 const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof typeof ICON_MAP }[]> = {
+  AGENT: [
+    { label: 'My CRM', href: '/agent/crm', icon: 'ContactRound' },
+  ],
   ADMIN: [
     { label: 'Overview', href: '/admin', icon: 'LayoutDashboard' },
     { label: 'Campaigns', href: '/admin/campaigns', icon: 'Megaphone' },
     { label: 'Creators', href: '/admin/creators', icon: 'Users' },
     { label: 'Deals', href: '/admin/deals', icon: 'Handshake' },
     { label: 'Brands', href: '/admin/brands', icon: 'Building2' },
+    { label: 'CRM', href: '/admin/crm', icon: 'ContactRound' },
     { label: 'Analytics', href: '/admin/analytics', icon: 'BarChart3' },
     { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
   ],
@@ -62,6 +68,7 @@ const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof type
 
 const ROLE_LABELS: Record<UserRole, string> = {
   ADMIN: 'Admin',
+  AGENT: 'Agent',
   CREATOR: 'Creator',
   BRAND: 'Brand',
 }
@@ -82,12 +89,12 @@ export function Sidebar({ role }: SidebarProps) {
           <Link href="/" className="flex flex-col gap-0.5">
             <div className="flex items-baseline gap-0.5">
               <span className="font-syne text-xl font-bold text-[#EDE8DE] tracking-tight">
-                S23
+                SocialSculp
               </span>
-              <span className="font-syne text-xl font-bold text-[#C9FF47]">.</span>
+              <span className="font-syne text-xl font-bold text-[#008cff]">.</span>
             </div>
             <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-[#6B6860]">
-              SocialSculp
+              Campaign Intelligence
             </span>
           </Link>
         </div>
@@ -111,18 +118,18 @@ export function Sidebar({ role }: SidebarProps) {
                         className={cn(
                           'flex items-center gap-3 px-3 py-2.5 text-sm font-syne font-medium transition-all relative group',
                           isActive
-                            ? 'text-[#C9FF47] bg-[#1A1A1A]'
+                            ? 'text-[#008cff] bg-[#1A1A1A]'
                             : 'text-[#6B6860] hover:text-[#EDE8DE] hover:bg-[#1A1A1A]'
                         )}
                       >
                         {isActive && (
-                          <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#C9FF47]" />
+                          <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#008cff]" />
                         )}
                         <Icon
                           size={16}
                           className={cn(
                             'shrink-0',
-                            isActive ? 'text-[#C9FF47]' : 'text-[#6B6860] group-hover:text-[#EDE8DE]'
+                            isActive ? 'text-[#008cff]' : 'text-[#6B6860] group-hover:text-[#EDE8DE]'
                           )}
                         />
                         <span className="truncate">{item.label}</span>
@@ -153,7 +160,7 @@ export function Sidebar({ role }: SidebarProps) {
               }}
             />
             <div className="flex-1 min-w-0">
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#0D1F00] text-[#C9FF47] border-[#2A4400]">
+              <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#001a33] text-[#008cff] border-[#003366]">
                 {ROLE_LABELS[role]}
               </span>
             </div>

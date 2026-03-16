@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
-import { MOCK_CAMPAIGNS, MOCK_BRANDS, generateAnalyticsData } from '@/lib/mock-data'
-import { MOCK_CREATORS } from '@/lib/mock-data'
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
+import { getDb } from '@/lib/db'
+import { generateAnalyticsData } from '@/lib/mock-data'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { CampaignStatusBadge } from '@/components/campaigns/CampaignStatusBadge'
 import { StatCardGrid } from '@/components/dashboard/StatCardGrid'
@@ -13,28 +15,39 @@ import type { CampaignStatusValue, PlatformValue } from '@/lib/constants'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DollarSign, TrendingUp, Users, Eye } from 'lucide-react'
 
-// Only Cal AI (brandIndex 0) campaigns for brand portal
-const BRAND_CAMPAIGN_INDICES = MOCK_CAMPAIGNS
-  .map((c, i) => ({ ...c, i }))
-  .filter((c) => c.brandIndex === 0)
-  .map((c) => c.i)
-
 interface PageProps {
   params: Promise<{ id: string }>
 }
 
 export default async function BrandCampaignDetailPage({ params }: PageProps) {
-  const { id } = await params
-  const index = parseInt(id, 10)
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
 
-  if (isNaN(index) || !BRAND_CAMPAIGN_INDICES.includes(index)) {
+  const { id } = await params
+  const db = getDb()
+
+  const campaign = await db.campaign.findUnique({
+    where: { id },
+    include: {
+      brand: true,
+      campaignCreators: { include: { creator: true } },
+    },
+  })
+
+  if (!campaign) notFound()
+
+  // Verify this campaign belongs to the authenticated brand
+  const user = await db.user.findUnique({
+    where: { clerkId: userId },
+    include: { brandProfile: { select: { id: true } } },
+  })
+
+  if (user?.brandProfile?.id && campaign.brandId !== user.brandProfile.id) {
     notFound()
   }
 
-  const campaign = MOCK_CAMPAIGNS[index]
-  const brand = MOCK_BRANDS[campaign.brandIndex]
-  const analytics = generateAnalyticsData(campaign.name, 30)
   const pct = budgetPercent(campaign.spentBudget, campaign.totalBudget)
+  const analytics = generateAnalyticsData(campaign.id, 30)
 
   const engData = analytics.map((d) => ({
     date: d.date,
@@ -52,11 +65,6 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
       instagram: Math.round(totalReach * 0.4),
     })
   }
-
-  const assignedCreators = [
-    MOCK_CREATORS[index % MOCK_CREATORS.length],
-    MOCK_CREATORS[(index + 2) % MOCK_CREATORS.length],
-  ]
 
   const totalImpressions = analytics.reduce((s, d) => s + d.impressions, 0)
   const totalReach = analytics.reduce((s, d) => s + d.reach, 0)
@@ -87,7 +95,7 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
           <div className="flex flex-wrap gap-6 items-start mb-4">
             <div>
               <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Brand</div>
-              <div className="text-sm font-syne font-bold text-[#EDE8DE]">{brand.companyName}</div>
+              <div className="text-sm font-syne font-bold text-[#EDE8DE]">{campaign.brand.companyName}</div>
             </div>
             <div>
               <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Platform</div>
@@ -95,10 +103,12 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
                 {PLATFORM_LABELS[campaign.platform as PlatformValue]}
               </div>
             </div>
-            <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Target ROAS</div>
-              <div className="text-sm font-syne font-bold text-[#C9FF47]">{campaign.targetROAS}×</div>
-            </div>
+            {campaign.targetROAS && (
+              <div>
+                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Target ROAS</div>
+                <div className="text-sm font-syne font-bold text-[#008cff]">{campaign.targetROAS}×</div>
+              </div>
+            )}
           </div>
 
           <div>
@@ -109,7 +119,7 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
               <span className="text-xs font-syne font-bold text-[#EDE8DE]">{pct}%</span>
             </div>
             <div className="h-1.5 bg-[#1A1A1A] w-full">
-              <div className="h-full bg-[#C9FF47]" style={{ width: `${pct}%` }} />
+              <div className="h-full bg-[#008cff]" style={{ width: `${pct}%` }} />
             </div>
           </div>
         </div>
@@ -121,7 +131,7 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-[#6B6860] data-active:text-[#C9FF47] data-active:bg-[#0D1F00] data-active:shadow-none border-r border-[#222222] last:border-r-0"
+                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-[#6B6860] data-active:text-[#008cff] data-active:bg-[#001a33] data-active:shadow-none border-r border-[#222222] last:border-r-0"
               >
                 {tab}
               </TabsTrigger>
@@ -130,10 +140,12 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
 
           <TabsContent value="overview" className="mt-5 space-y-5">
             <StatCardGrid stats={stats} />
-            <div className="bg-[#111111] border border-[#222222] p-5">
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-3">Description</div>
-              <p className="font-fraunces text-[#EDE8DE] leading-relaxed">{campaign.description}</p>
-            </div>
+            {campaign.description && (
+              <div className="bg-[#111111] border border-[#222222] p-5">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-3">Description</div>
+                <p className="font-fraunces text-[#EDE8DE] leading-relaxed">{campaign.description}</p>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="analytics" className="mt-5 space-y-5">
@@ -147,21 +159,29 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
 
           <TabsContent value="creators" className="mt-5">
             <div className="bg-[#111111] border border-[#222222] divide-y divide-[#1A1A1A]">
-              {assignedCreators.map((creator, i) => (
-                <div key={i} className="flex items-center gap-3 px-5 py-4">
-                  <div className="w-9 h-9 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
-                    <span className="font-syne text-xs font-bold text-[#C9FF47]">
-                      {creator.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="font-syne font-bold text-sm text-[#EDE8DE]">{creator.handle}</div>
-                    <div className="font-fraunces text-xs text-[#6B6860]">
-                      {creator.niche.join(', ')} · {creator.location}
+              {campaign.campaignCreators.length === 0 ? (
+                <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                  No creators assigned yet
+                </div>
+              ) : (
+                campaign.campaignCreators.map((cc) => (
+                  <div key={cc.id} className="flex items-center gap-3 px-5 py-4">
+                    <div className="w-9 h-9 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
+                      <span className="font-syne text-xs font-bold text-[#008cff]">
+                        {cc.creator.handle.replace('@', '').slice(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="font-syne font-bold text-sm text-[#EDE8DE]">{cc.creator.handle}</div>
+                      {cc.creator.niche.length > 0 && (
+                        <div className="font-fraunces text-xs text-[#6B6860]">
+                          {cc.creator.niche.join(', ')}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </TabsContent>
         </Tabs>

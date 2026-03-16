@@ -14,7 +14,9 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
+import { Plus } from 'lucide-react'
 import { DealKanbanCard, type KanbanDeal } from './DealKanbanCard'
+import { NewDealModal, type DealCampaignOption, type DealCreatorOption } from './NewDealModal'
 import { DEAL_STAGE_LABELS, DEAL_STAGE_COLORS } from '@/lib/constants'
 import type { DealStage } from '@/types'
 
@@ -28,11 +30,14 @@ const KANBAN_STAGES: DealStage[] = [
 
 interface Props {
   initialDeals: KanbanDeal[]
+  campaigns: DealCampaignOption[]
+  creators: DealCreatorOption[]
 }
 
-export function DealKanban({ initialDeals }: Props) {
+export function DealKanban({ initialDeals, campaigns, creators }: Props) {
   const [deals, setDeals] = useState<KanbanDeal[]>(initialDeals)
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [showNewDeal, setShowNewDeal] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -44,6 +49,18 @@ export function DealKanban({ initialDeals }: Props) {
     setActiveId(String(event.active.id))
   }
 
+  async function persistStageChange(dealId: string, newStage: DealStage) {
+    try {
+      await fetch(`/api/deals/${dealId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stage: newStage }),
+      })
+    } catch (err) {
+      console.error('[DealKanban] Failed to persist stage change:', err)
+    }
+  }
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     setActiveId(null)
@@ -52,29 +69,42 @@ export function DealKanban({ initialDeals }: Props) {
 
     const draggedId = String(active.id)
     const overId = String(over.id)
+    const currentDeal = deals.find((d) => d.id === draggedId)
 
-    // If dropped over a column header (stage id)
+    // Dropped over a column header (stage id)
     if (KANBAN_STAGES.includes(overId as DealStage)) {
+      const newStage = overId as DealStage
+      if (currentDeal?.stage === newStage) return
       setDeals((prev) =>
-        prev.map((d) =>
-          d.id === draggedId ? { ...d, stage: overId as DealStage } : d
-        )
+        prev.map((d) => (d.id === draggedId ? { ...d, stage: newStage } : d))
       )
+      persistStageChange(draggedId, newStage)
       return
     }
 
-    // If dropped over another card — move to that card's stage
+    // Dropped over another card — move to that card's stage
     const overDeal = deals.find((d) => d.id === overId)
-    if (overDeal && overDeal.stage !== deals.find((d) => d.id === draggedId)?.stage) {
+    if (overDeal && overDeal.stage !== currentDeal?.stage) {
       setDeals((prev) =>
-        prev.map((d) =>
-          d.id === draggedId ? { ...d, stage: overDeal.stage } : d
-        )
+        prev.map((d) => (d.id === draggedId ? { ...d, stage: overDeal.stage } : d))
       )
+      persistStageChange(draggedId, overDeal.stage)
     }
   }
 
   return (
+    <>
+      {/* New Deal button */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setShowNewDeal(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+        >
+          <Plus size={13} />
+          New Deal
+        </button>
+      </div>
+
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="flex gap-3 overflow-x-auto pb-4 min-h-[500px]">
         {KANBAN_STAGES.map((stage) => {
@@ -132,5 +162,15 @@ export function DealKanban({ initialDeals }: Props) {
         )}
       </DragOverlay>
     </DndContext>
+
+      {showNewDeal && (
+        <NewDealModal
+          campaigns={campaigns}
+          creators={creators}
+          onClose={() => setShowNewDeal(false)}
+          onCreated={(deal) => setDeals((prev) => [deal, ...prev])}
+        />
+      )}
+    </>
   )
 }

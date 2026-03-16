@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
+import { WebhookEvent, clerkClient } from '@clerk/nextjs/server'
 import { getDb } from '@/lib/db'
 
 export async function POST(req: Request) {
@@ -76,6 +76,10 @@ export async function POST(req: Request) {
           },
         })
       }
+
+      // Write role back to Clerk publicMetadata so it appears in session JWT claims
+      const client = await clerkClient()
+      await client.users.updateUser(id, { publicMetadata: { role } })
 
       console.log(`[webhook] user.created: ${user.id} (${role})`)
     } catch (err) {

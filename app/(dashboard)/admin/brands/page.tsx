@@ -1,85 +1,94 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { Plus, ExternalLink } from 'lucide-react'
 import { PageHeader } from '@/components/shared/PageHeader'
-import { MOCK_BRANDS, MOCK_CAMPAIGNS } from '@/lib/mock-data'
-import { ExternalLink } from 'lucide-react'
+import { NewBrandModal, type NewBrandResult } from '@/components/brands/NewBrandModal'
+
+interface Brand {
+  id: string
+  companyName: string
+  industry: string | null
+  website: string | null
+  campaigns: { id: string; status: string }[]
+}
 
 export default function AdminBrandsPage() {
+  const [brands, setBrands] = useState<Brand[]>([])
+  const [loading, setLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/brands').then(r => r.json()).then(data => { setBrands(data); setLoading(false) })
+  }, [])
+
+  function handleCreated(brand: NewBrandResult) {
+    setBrands(prev => [...prev, { ...brand, campaigns: [] }])
+  }
+
   return (
     <div>
       <PageHeader
         title="Brands"
-        description={`${MOCK_BRANDS.length} brands in your network`}
-      />
+        description={`${brands.length} brand${brands.length === 1 ? '' : 's'} in your network`}
+      >
+        <button
+          onClick={() => setShowModal(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+        >
+          <Plus size={13} /> New Brand
+        </button>
+      </PageHeader>
 
       <div className="p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {MOCK_BRANDS.map((brand, i) => {
-            const activeCampaigns = MOCK_CAMPAIGNS.filter(
-              (c) => c.brandIndex === i && c.status === 'ACTIVE'
-            ).length
-            const totalCampaigns = MOCK_CAMPAIGNS.filter((c) => c.brandIndex === i).length
-
-            const initials = brand.companyName
-              .split(' ')
-              .map((w) => w[0])
-              .join('')
-              .toUpperCase()
-              .slice(0, 2)
-
-            return (
-              <div
-                key={brand.companyName}
-                className="bg-[#111111] border border-[#222222] p-5 hover:border-[#333333] transition-colors"
-              >
-                {/* Header */}
-                <div className="flex items-start gap-3 mb-5">
-                  <div className="w-10 h-10 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
-                    <span className="font-syne text-sm font-bold text-[#C9FF47]">{initials}</span>
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-syne font-bold text-[#EDE8DE] text-sm truncate">
-                      {brand.companyName}
+        {loading ? (
+          <div className="text-center py-16 text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">Loading…</div>
+        ) : brands.length === 0 ? (
+          <div className="bg-[#111111] border border-[#222222] px-5 py-16 text-center">
+            <p className="text-[#3A3A3A] font-syne text-xs uppercase tracking-widest mb-4">No brands yet</p>
+            <button onClick={() => setShowModal(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors">
+              <Plus size={13} /> Add First Brand
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {brands.map((brand) => {
+              const activeCampaigns = brand.campaigns.filter(c => c.status === 'ACTIVE').length
+              const initials = brand.companyName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+              return (
+                <div key={brand.id} className="bg-[#111111] border border-[#222222] p-5 hover:border-[#333333] transition-colors">
+                  <div className="flex items-start gap-3 mb-5">
+                    <div className="w-10 h-10 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
+                      <span className="font-syne text-sm font-bold text-[#008cff]">{initials}</span>
                     </div>
-                    <div className="font-fraunces text-xs text-[#6B6860]">{brand.industry}</div>
+                    <div className="min-w-0">
+                      <div className="font-syne font-bold text-[#EDE8DE] text-sm truncate">{brand.companyName}</div>
+                      {brand.industry && <div className="font-fraunces text-xs text-[#6B6860]">{brand.industry}</div>}
+                    </div>
                   </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
+                      <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">Total Campaigns</span>
+                      <span className="text-sm font-syne font-bold text-[#EDE8DE]">{brand.campaigns.length}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
+                      <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">Active</span>
+                      <span className={`text-sm font-syne font-bold ${activeCampaigns > 0 ? 'text-[#008cff]' : 'text-[#6B6860]'}`}>{activeCampaigns}</span>
+                    </div>
+                  </div>
+                  {brand.website && (
+                    <a href={brand.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] transition-colors">
+                      <ExternalLink size={11} /> {brand.website.replace(/^https?:\/\//, '')}
+                    </a>
+                  )}
                 </div>
-
-                {/* Stats */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
-                    <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
-                      Total Campaigns
-                    </span>
-                    <span className="text-sm font-syne font-bold text-[#EDE8DE]">{totalCampaigns}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
-                    <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
-                      Active
-                    </span>
-                    <span
-                      className={`text-sm font-syne font-bold ${
-                        activeCampaigns > 0 ? 'text-[#C9FF47]' : 'text-[#6B6860]'
-                      }`}
-                    >
-                      {activeCampaigns}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Website */}
-                <a
-                  href={brand.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#C9FF47] transition-colors"
-                >
-                  <ExternalLink size={11} />
-                  {brand.website.replace('https://', '')}
-                </a>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        )}
       </div>
+
+      {showModal && <NewBrandModal onClose={() => setShowModal(false)} onCreated={handleCreated} />}
     </div>
   )
 }

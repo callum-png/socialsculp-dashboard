@@ -28,7 +28,7 @@ export const DEAL_STAGE_COLORS: Record<DealStageValue, string> = {
   OUTREACH: 'bg-[#1A1A1A] text-[#6B6860] border border-[#2A2A2A]',
   NEGOTIATING: 'bg-[#1A1200] text-[#FFB547] border border-[#3A2D00]',
   SIGNED: 'bg-[#0D1F3C] text-[#47AAFF] border border-[#1A3A6A]',
-  LIVE: 'bg-[#0D1F00] text-[#C9FF47] border border-[#2A4400]',
+  LIVE: 'bg-[#001a33] text-[#008cff] border border-[#003366]',
   COMPLETED: 'bg-[#0A1F0A] text-[#4ADE80] border border-[#1A4A1A]',
   CANCELLED: 'bg-[#1F0A0A] text-[#FF4747] border border-[#4A1A1A]',
 }
@@ -37,7 +37,7 @@ export const DEAL_STAGE_DOT_COLORS: Record<DealStageValue, string> = {
   OUTREACH: '#6B6860',
   NEGOTIATING: '#FFB547',
   SIGNED: '#47AAFF',
-  LIVE: '#C9FF47',
+  LIVE: '#008cff',
   COMPLETED: '#4ADE80',
   CANCELLED: '#FF4747',
 }
@@ -64,7 +64,7 @@ export const CAMPAIGN_STATUS_LABELS: Record<CampaignStatusValue, string> = {
 
 export const CAMPAIGN_STATUS_COLORS: Record<CampaignStatusValue, string> = {
   DRAFT: 'bg-[#1A1A1A] text-[#6B6860] border border-[#2A2A2A]',
-  ACTIVE: 'bg-[#0D1F00] text-[#C9FF47] border border-[#2A4400]',
+  ACTIVE: 'bg-[#001a33] text-[#008cff] border border-[#003366]',
   PAUSED: 'bg-[#1A1200] text-[#FFB547] border border-[#3A2D00]',
   COMPLETED: 'bg-[#0A1F0A] text-[#4ADE80] border border-[#1A4A1A]',
   CANCELLED: 'bg-[#1F0A0A] text-[#FF4747] border border-[#4A1A1A]',
@@ -72,7 +72,7 @@ export const CAMPAIGN_STATUS_COLORS: Record<CampaignStatusValue, string> = {
 
 export const CAMPAIGN_STATUS_DOT_COLORS: Record<CampaignStatusValue, string> = {
   DRAFT: '#6B6860',
-  ACTIVE: '#C9FF47',
+  ACTIVE: '#008cff',
   PAUSED: '#FFB547',
   COMPLETED: '#4ADE80',
   CANCELLED: '#FF4747',
@@ -112,7 +112,7 @@ export const PLATFORM_LABELS: Record<PlatformValue, string> = {
 export const PLATFORM_COLORS: Record<PlatformValue, string> = {
   TIKTOK: '#FF0050',
   INSTAGRAM: '#E1306C',
-  BOTH: '#C9FF47',
+  BOTH: '#008cff',
 }
 
 // ─── Content Types ────────────────────────────────────────────────────────────
@@ -206,7 +206,7 @@ export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const
 // ─── Chart / Analytics ───────────────────────────────────────────────────────
 
 export const CHART_COLORS = {
-  accent: '#C9FF47',
+  accent: '#008cff',
   blue: '#47AAFF',
   pink: '#FF47C9',
   warning: '#FFB547',

@@ -25,9 +25,9 @@ export default function CreatorAnalyticsPage() {
 
       <div className="p-6 space-y-6">
         {/* Follower growth note */}
-        <div className="bg-[#0D1F00] border border-[#2A4400] p-4 flex items-center gap-3">
-          <TrendingUp size={16} className="text-[#C9FF47] shrink-0" />
-          <span className="text-sm font-syne font-bold text-[#C9FF47]">
+        <div className="bg-[#001a33] border border-[#003366] p-4 flex items-center gap-3">
+          <TrendingUp size={16} className="text-[#008cff] shrink-0" />
+          <span className="text-sm font-syne font-bold text-[#008cff]">
             +12.4K followers this month
           </span>
           <span className="text-xs font-fraunces text-[#6B6860]">
@@ -52,7 +52,7 @@ export default function CreatorAnalyticsPage() {
                   </span>
                   <span
                     className={`text-sm font-syne font-bold ${
-                      row.accent ? 'text-[#C9FF47]' : 'text-[#EDE8DE]'
+                      row.accent ? 'text-[#008cff]' : 'text-[#EDE8DE]'
                     }`}
                   >
                     {row.value}
@@ -77,7 +77,7 @@ export default function CreatorAnalyticsPage() {
                   </span>
                   <span
                     className={`text-sm font-syne font-bold ${
-                      row.accent ? 'text-[#C9FF47]' : 'text-[#EDE8DE]'
+                      row.accent ? 'text-[#008cff]' : 'text-[#EDE8DE]'
                     }`}
                   >
                     {row.value}

@@ -12,6 +12,7 @@ import {
   Settings,
   User,
   FileText,
+  ContactRound,
 } from 'lucide-react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
@@ -27,9 +28,13 @@ const ICON_MAP = {
   Settings,
   User,
   FileText,
+  ContactRound,
 }
 
 const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof typeof ICON_MAP }[]> = {
+  AGENT: [
+    { label: 'My CRM', href: '/agent/crm', icon: 'ContactRound' },
+  ],
   ADMIN: [
     { label: 'Overview', href: '/admin', icon: 'LayoutDashboard' },
     { label: 'Campaigns', href: '/admin/campaigns', icon: 'Megaphone' },
@@ -72,11 +77,11 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
       >
         <div className="px-5 py-6 border-b border-[#222222]">
           <div className="flex items-baseline gap-0.5">
-            <span className="font-syne text-xl font-bold text-[#EDE8DE] tracking-tight">S23</span>
-            <span className="font-syne text-xl font-bold text-[#C9FF47]">.</span>
+            <span className="font-syne text-xl font-bold text-[#EDE8DE] tracking-tight">SocialSculp</span>
+            <span className="font-syne text-xl font-bold text-[#008cff]">.</span>
           </div>
           <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-[#6B6860]">
-            SocialSculp
+            Campaign Intelligence
           </span>
         </div>
 
@@ -97,18 +102,18 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
                     className={cn(
                       'flex items-center gap-3 px-3 py-3 text-sm font-syne font-medium transition-all relative',
                       isActive
-                        ? 'text-[#C9FF47] bg-[#1A1A1A]'
+                        ? 'text-[#008cff] bg-[#1A1A1A]'
                         : 'text-[#6B6860] hover:text-[#EDE8DE] hover:bg-[#1A1A1A]'
                     )}
                   >
                     {isActive && (
-                      <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#C9FF47]" />
+                      <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#008cff]" />
                     )}
                     <Icon
                       size={16}
                       className={cn(
                         'shrink-0',
-                        isActive ? 'text-[#C9FF47]' : 'text-[#6B6860]'
+                        isActive ? 'text-[#008cff]' : 'text-[#6B6860]'
                       )}
                     />
                     {item.label}

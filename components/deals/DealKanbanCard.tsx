@@ -72,7 +72,7 @@ export function DealKanbanCard({ deal }: Props) {
             </span>
             <span
               className={`text-xs font-syne font-bold ${
-                deal.agreedFee != null ? 'text-[#C9FF47]' : 'text-[#6B6860]'
+                deal.agreedFee != null ? 'text-[#008cff]' : 'text-[#6B6860]'
               }`}
             >
               {formatCurrency(displayFee)}

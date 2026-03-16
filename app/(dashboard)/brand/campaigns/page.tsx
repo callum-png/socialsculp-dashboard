@@ -1,19 +1,46 @@
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { CampaignTable } from '@/components/campaigns/CampaignTable'
-import { MOCK_CAMPAIGNS } from '@/lib/mock-data'
+import { getDb } from '@/lib/db'
 
-// Cal AI brand = index 0
-const MY_CAMPAIGNS = MOCK_CAMPAIGNS.filter((c) => c.brandIndex === 0)
+export default async function BrandCampaignsPage() {
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
 
-export default function BrandCampaignsPage() {
+  const db = getDb()
+  const user = await db.user.findUnique({
+    where: { clerkId: userId },
+    include: {
+      brandProfile: {
+        include: {
+          campaigns: { orderBy: { createdAt: 'desc' } },
+        },
+      },
+    },
+  })
+
+  const campaigns = user?.brandProfile?.campaigns ?? []
+  const brandName = user?.brandProfile?.companyName ?? 'Your Brand'
+
+  const tableData = campaigns.map((c) => ({
+    id: c.id,
+    name: c.name,
+    brandName,
+    status: c.status,
+    platform: c.platform,
+    totalBudget: c.totalBudget,
+    spentBudget: c.spentBudget,
+  }))
+
   return (
     <div>
       <PageHeader
         title="My Campaigns"
-        description={`${MY_CAMPAIGNS.length} campaigns for Cal AI`}
+        description={`${campaigns.length} campaign${campaigns.length === 1 ? '' : 's'} for ${brandName}`}
       />
       <div className="p-6">
-        <CampaignTable campaigns={MY_CAMPAIGNS} />
+        <CampaignTable campaigns={tableData} />
       </div>
     </div>
   )

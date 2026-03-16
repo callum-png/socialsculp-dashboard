@@ -3,14 +3,20 @@ import { Plus, Megaphone, FileText, CheckCircle, DollarSign } from 'lucide-react
 import { PageHeader } from '@/components/shared/PageHeader'
 import { StatCardGrid } from '@/components/dashboard/StatCardGrid'
 import { CampaignTable } from '@/components/campaigns/CampaignTable'
-import { MOCK_CAMPAIGNS } from '@/lib/mock-data'
+import { getDb } from '@/lib/db'
 import { formatCurrency } from '@/lib/utils'
 
-export default function AdminCampaignsPage() {
-  const active = MOCK_CAMPAIGNS.filter((c) => c.status === 'ACTIVE').length
-  const draft = MOCK_CAMPAIGNS.filter((c) => c.status === 'DRAFT').length
-  const completed = MOCK_CAMPAIGNS.filter((c) => c.status === 'COMPLETED').length
-  const totalBudget = MOCK_CAMPAIGNS.reduce((sum, c) => sum + c.totalBudget, 0)
+export default async function AdminCampaignsPage() {
+  const db = getDb()
+  const campaigns = await db.campaign.findMany({
+    include: { brand: true },
+    orderBy: { createdAt: 'desc' },
+  })
+
+  const active = campaigns.filter((c) => c.status === 'ACTIVE').length
+  const draft = campaigns.filter((c) => c.status === 'DRAFT').length
+  const completed = campaigns.filter((c) => c.status === 'COMPLETED').length
+  const totalBudget = campaigns.reduce((sum, c) => sum + c.totalBudget, 0)
 
   const stats = [
     { title: 'Active', value: active, icon: Megaphone, delta: 12.5, deltaLabel: 'vs last month' },
@@ -19,15 +25,25 @@ export default function AdminCampaignsPage() {
     { title: 'Total Budget', value: formatCurrency(totalBudget), icon: DollarSign, accent: true },
   ]
 
+  const tableData = campaigns.map((c) => ({
+    id: c.id,
+    name: c.name,
+    brandName: c.brand.companyName,
+    status: c.status,
+    platform: c.platform,
+    totalBudget: c.totalBudget,
+    spentBudget: c.spentBudget,
+  }))
+
   return (
     <div>
       <PageHeader
         title="Campaigns"
-        description={`${MOCK_CAMPAIGNS.length} campaigns total`}
+        description={`${campaigns.length} campaigns total`}
       >
         <Link
           href="/admin/campaigns/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9FF47] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#b8ee36] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
         >
           <Plus size={13} />
           New Campaign
@@ -36,7 +52,7 @@ export default function AdminCampaignsPage() {
 
       <div className="p-6 space-y-6">
         <StatCardGrid stats={stats} />
-        <CampaignTable campaigns={MOCK_CAMPAIGNS} />
+        <CampaignTable campaigns={tableData} />
       </div>
     </div>
   )

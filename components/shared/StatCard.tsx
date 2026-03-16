@@ -46,7 +46,7 @@ export function StatCard({
     <div
       className={cn(
         'bg-[#111111] border border-[#222222] p-5 relative',
-        accent && 'border-l-2 border-l-[#C9FF47]'
+        accent && 'border-l-2 border-l-[#008cff]'
       )}
     >
       {/* Icon + Title row */}

@@ -6,9 +6,9 @@ export default function SignUpPage() {
       <div className="mb-8 flex flex-col items-center gap-2">
         <div className="flex items-center gap-1">
           <span className="font-syne text-4xl font-bold text-[#EDE8DE] tracking-tight">
-            S23
+            SocialSculp
           </span>
-          <span className="text-4xl font-bold text-[#C9FF47]">.</span>
+          <span className="text-4xl font-bold text-[#008cff]">.</span>
         </div>
         <p className="text-sm font-syne tracking-[0.2em] uppercase text-[#6B6860]">
           Campaign Intelligence Platform
@@ -23,7 +23,7 @@ export default function SignUpPage() {
             colorInputText: '#EDE8DE',
             colorText: '#EDE8DE',
             colorTextSecondary: '#6B6860',
-            colorPrimary: '#C9FF47',
+            colorPrimary: '#008cff',
             colorDanger: '#FF4747',
             borderRadius: '0px',
             fontFamily: 'Syne, sans-serif',
@@ -39,13 +39,13 @@ export default function SignUpPage() {
             dividerText: 'text-[#6B6860] font-syne',
             formFieldLabel: 'text-[#6B6860] font-syne text-xs uppercase tracking-widest',
             formFieldInput:
-              'bg-[#1A1A1A] border border-[#222222] text-[#EDE8DE] rounded-none focus:border-[#C9FF47] focus:ring-0 font-syne',
+              'bg-[#1A1A1A] border border-[#222222] text-[#EDE8DE] rounded-none focus:border-[#008cff] focus:ring-0 font-syne',
             formButtonPrimary:
-              'bg-[#C9FF47] text-[#090909] hover:bg-[#b8ee36] rounded-none font-syne font-bold tracking-wide',
-            footerActionLink: 'text-[#C9FF47] hover:text-[#b8ee36] font-syne',
+              'bg-[#008cff] text-[#090909] hover:bg-[#0077dd] rounded-none font-syne font-bold tracking-wide',
+            footerActionLink: 'text-[#008cff] hover:text-[#0077dd] font-syne',
             footerActionText: 'text-[#6B6860] font-syne',
             identityPreviewText: 'text-[#EDE8DE] font-syne',
-            identityPreviewEditButton: 'text-[#C9FF47] font-syne',
+            identityPreviewEditButton: 'text-[#008cff] font-syne',
             alertText: 'text-[#FF4747] font-syne',
             formFieldErrorText: 'text-[#FF4747] font-syne',
           },

@@ -81,7 +81,7 @@ export function ReachBarChart({ data, height = 260 }: Props) {
           )}
         />
 
-        <Bar dataKey="tiktok" name="tiktok" fill="#C9FF47" radius={0} maxBarSize={40} />
+        <Bar dataKey="tiktok" name="tiktok" fill="#008cff" radius={0} maxBarSize={40} />
         <Bar dataKey="instagram" name="instagram" fill="rgba(237,232,222,0.4)" radius={0} maxBarSize={40} />
       </BarChart>
     </ResponsiveContainer>

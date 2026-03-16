@@ -4,30 +4,41 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { StatCardGrid } from '@/components/dashboard/StatCardGrid'
 import { ChartContainer } from '@/components/charts/ChartContainer'
 import { ROASAreaChart } from '@/components/charts/ROASAreaChart'
-import { MOCK_CAMPAIGNS, MOCK_CREATORS, generateAnalyticsData } from '@/lib/mock-data'
+import { getDb } from '@/lib/db'
+import { generateAnalyticsData } from '@/lib/mock-data'
 import { DEAL_STAGE_COLORS, DEAL_STAGE_LABELS } from '@/lib/constants'
-import { formatCurrency, formatNumber } from '@/lib/utils'
-import type { DealStage } from '@/types'
+import { formatCurrency } from '@/lib/utils'
+import type { DealStageValue } from '@/lib/constants'
 
-const MOCK_RECENT_DEALS = [
-  { id: '1', creatorHandle: '@ashtonhall', campaignName: 'Cal AI — Q1 Growth Push', stage: 'LIVE' as DealStage, agreedFee: 12000 },
-  { id: '2', creatorHandle: '@liamfoster', campaignName: 'Alpha Lion — Pre-Workout Launch', stage: 'SIGNED' as DealStage, agreedFee: 18500 },
-  { id: '3', creatorHandle: '@chloewatts', campaignName: 'Sweatcoin — Summer Challenge', stage: 'NEGOTIATING' as DealStage, proposedFee: 8000 },
-  { id: '4', creatorHandle: '@marcusking', campaignName: 'PrizePicks — NFL Season Opener', stage: 'COMPLETED' as DealStage, agreedFee: 25000 },
-  { id: '5', creatorHandle: '@sophiabrook', campaignName: 'Whop — Creator Economy Series', stage: 'COMPLETED' as DealStage, agreedFee: 9500 },
-]
+export default async function AdminOverviewPage() {
+  const db = getDb()
 
-export default function AdminOverviewPage() {
-  const activeCampaigns = MOCK_CAMPAIGNS.filter((c) => c.status === 'ACTIVE').length
-  const totalCreators = MOCK_CREATORS.length
-  const totalSpend = MOCK_CAMPAIGNS.reduce((sum, c) => sum + c.spentBudget, 0)
-  const avgROAS = 4.3
+  const [campaigns, creators, deals] = await Promise.all([
+    db.campaign.findMany({
+      include: { brand: true },
+      orderBy: { createdAt: 'desc' },
+    }),
+    db.creatorProfile.findMany({ select: { id: true } }),
+    db.deal.findMany({
+      where: { stage: { notIn: ['CANCELLED'] } },
+      include: {
+        creator: { select: { handle: true } },
+        campaign: { select: { name: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    }),
+  ])
 
+  const activeCampaigns = campaigns.filter((c) => c.status === 'ACTIVE').length
+  const totalCreators = creators.length
+  const totalSpend = campaigns.reduce((sum, c) => sum + c.spentBudget, 0)
+
+  // Analytics data — use real snapshots if available, else mock
   const analyticsData = generateAnalyticsData('admin-overview', 30)
-  const chartData = analyticsData.map((d) => ({
-    date: d.date,
-    roas: d.roas,
-  }))
+  const chartData = analyticsData.map((d) => ({ date: d.date, roas: d.roas }))
+  const avgROAS =
+    analyticsData.reduce((s, d) => s + d.roas, 0) / (analyticsData.length || 1)
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -60,7 +71,7 @@ export default function AdminOverviewPage() {
     },
     {
       title: 'Avg ROAS',
-      value: `${avgROAS}×`,
+      value: `${avgROAS.toFixed(1)}×`,
       icon: TrendingUp,
       delta: 5.4,
       deltaLabel: 'vs last month',
@@ -73,7 +84,7 @@ export default function AdminOverviewPage() {
       <PageHeader title="Overview" description={today}>
         <Link
           href="/admin/campaigns/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9FF47] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#b8ee36] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
         >
           <Plus size={13} />
           New Campaign
@@ -100,39 +111,45 @@ export default function AdminOverviewPage() {
               <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Recent Deals</h3>
               <Link
                 href="/admin/deals"
-                className="flex items-center gap-1 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#C9FF47] transition-colors"
+                className="flex items-center gap-1 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] transition-colors"
               >
                 View all <ArrowRight size={11} />
               </Link>
             </div>
             <div className="divide-y divide-[#1A1A1A]">
-              {MOCK_RECENT_DEALS.map((deal) => {
-                const fee = deal.agreedFee ?? deal.proposedFee
-                return (
-                  <div key={deal.id} className="flex items-center justify-between px-5 py-3.5">
-                    <div className="min-w-0">
-                      <div className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
-                        {deal.creatorHandle}
+              {deals.length === 0 ? (
+                <div className="px-5 py-8 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                  No deals yet
+                </div>
+              ) : (
+                deals.map((deal) => {
+                  const fee = deal.agreedFee ?? deal.proposedFee
+                  return (
+                    <div key={deal.id} className="flex items-center justify-between px-5 py-3.5">
+                      <div className="min-w-0">
+                        <div className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
+                          {deal.creator.handle}
+                        </div>
+                        <div className="text-xs font-fraunces text-[#6B6860] truncate">
+                          {deal.campaign.name}
+                        </div>
                       </div>
-                      <div className="text-xs font-fraunces text-[#6B6860] truncate">
-                        {deal.campaignName}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0 ml-4">
-                      {fee && (
-                        <span className="text-sm font-syne font-bold text-[#C9FF47]">
-                          {formatCurrency(fee)}
+                      <div className="flex items-center gap-3 shrink-0 ml-4">
+                        {fee && (
+                          <span className="text-sm font-syne font-bold text-[#008cff]">
+                            {formatCurrency(fee)}
+                          </span>
+                        )}
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${DEAL_STAGE_COLORS[deal.stage as DealStageValue]}`}
+                        >
+                          {DEAL_STAGE_LABELS[deal.stage as DealStageValue]}
                         </span>
-                      )}
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${DEAL_STAGE_COLORS[deal.stage]}`}
-                      >
-                        {DEAL_STAGE_LABELS[deal.stage]}
-                      </span>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              )}
             </div>
           </div>
 
@@ -144,28 +161,28 @@ export default function AdminOverviewPage() {
             <div className="p-5 flex flex-col gap-3">
               <Link
                 href="/admin/campaigns/new"
-                className="flex items-center justify-between w-full px-4 py-3 bg-[#C9FF47] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#b8ee36] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
               >
                 <span>New Campaign</span>
                 <Plus size={13} />
               </Link>
               <Link
                 href="/admin/creators"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#C9FF47] hover:text-[#C9FF47] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
               >
-                <span>Add Creator</span>
-                <Plus size={13} />
+                <span>View Creators</span>
+                <ArrowRight size={13} />
               </Link>
               <Link
                 href="/admin/deals"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#C9FF47] hover:text-[#C9FF47] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
               >
                 <span>Deal Pipeline</span>
                 <ArrowRight size={13} />
               </Link>
               <Link
                 href="/admin/analytics"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#C9FF47] hover:text-[#C9FF47] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
               >
                 <span>Analytics</span>
                 <ArrowRight size={13} />

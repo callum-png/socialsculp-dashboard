@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import type { UserRole } from '@/types'
@@ -10,9 +10,11 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks/(.*)',
+  '/api/debug/(.*)',
 ])
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
+const isAgentRoute = createRouteMatcher(['/agent(.*)'])
 const isCreatorRoute = createRouteMatcher(['/creator(.*)'])
 const isBrandRoute = createRouteMatcher(['/brand(.*)'])
 
@@ -20,30 +22,36 @@ const isBrandRoute = createRouteMatcher(['/brand(.*)'])
 
 const ROLE_HOME: Record<UserRole, string> = {
   ADMIN: '/admin',
+  AGENT: '/agent',
   CREATOR: '/creator',
   BRAND: '/brand',
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+async function getRoleForUser(userId: string): Promise<UserRole | null> {
+  try {
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId)
+    return (user.publicMetadata?.role as UserRole) ?? null
+  } catch {
+    return null
+  }
 }
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
-  const { userId, sessionClaims, redirectToSignIn } = await auth()
+  const { userId, redirectToSignIn } = await auth()
 
   // Allow all public routes through without any checks
   if (isPublicRoute(req)) {
     // If authenticated user hits '/', redirect them to their role home
     if (req.nextUrl.pathname === '/' && userId) {
-      const role = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role
+      const role = await getRoleForUser(userId)
       const home = role ? ROLE_HOME[role] : null
-
-      if (home) {
-        return NextResponse.redirect(new URL(home, req.url))
-      }
-
-      // Authenticated but no role assigned yet — send to sign-in to re-auth
-      return NextResponse.redirect(new URL('/sign-in', req.url))
+      if (home) return NextResponse.redirect(new URL(home, req.url))
     }
-
     return NextResponse.next()
   }
 
@@ -52,18 +60,21 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
     return redirectToSignIn({ returnBackUrl: req.url })
   }
 
-  // ── Authenticated: enforce role-based access ─────────────────────────────
-  const role = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role
+  // ── Authenticated: fetch role from Clerk ─────────────────────────────────
+  const role = await getRoleForUser(userId)
 
   if (!role) {
-    // User exists in Clerk but has no role — redirect to sign-in
-    return NextResponse.redirect(new URL('/sign-in', req.url))
+    return redirectToSignIn({ returnBackUrl: req.url })
   }
 
   const home = ROLE_HOME[role]
 
   // Block cross-role access and redirect to the user's actual home
   if (isAdminRoute(req) && role !== 'ADMIN') {
+    return NextResponse.redirect(new URL(home, req.url))
+  }
+
+  if (isAgentRoute(req) && role !== 'AGENT') {
     return NextResponse.redirect(new URL(home, req.url))
   }
 
@@ -82,13 +93,6 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths EXCEPT:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico
-     * - Files with extensions (images, fonts, etc.)
-     */
     '/((?!_next|.*\\..*|favicon.ico).*)',
   ],
 }

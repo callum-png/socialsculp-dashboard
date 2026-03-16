@@ -1,6 +1,6 @@
 // ─── Enums ────────────────────────────────────────────────────────────────────
 
-export type UserRole = 'ADMIN' | 'CREATOR' | 'BRAND'
+export type UserRole = 'ADMIN' | 'AGENT' | 'CREATOR' | 'BRAND'
 
 export type CampaignStatus = 'DRAFT' | 'ACTIVE' | 'PAUSED' | 'COMPLETED' | 'CANCELLED'
 

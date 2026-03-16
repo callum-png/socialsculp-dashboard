@@ -45,7 +45,7 @@ export function SearchInput({
         placeholder={placeholder}
         className={cn(
           'w-full pl-9 pr-8 py-2 bg-[#1A1A1A] border border-[#222222] text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860]',
-          'focus:outline-none focus:border-[#C9FF47] transition-colors'
+          'focus:outline-none focus:border-[#008cff] transition-colors'
         )}
       />
       {value && (

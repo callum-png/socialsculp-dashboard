@@ -20,7 +20,7 @@ interface Props {
   height?: number
 }
 
-const COLORS = ['#C9FF47', '#EDE8DE', '#6B6860']
+const COLORS = ['#008cff', '#EDE8DE', '#6B6860']
 
 function CustomTooltip({ active, payload }: { active?: boolean; payload?: any[] }) {
   if (!active || !payload || payload.length === 0) return null
@@ -31,7 +31,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: any[] 
       <div className="flex items-center gap-2">
         <span
           className="inline-block w-2 h-2 shrink-0"
-          style={{ backgroundColor: entry.payload?.fill ?? '#C9FF47' }}
+          style={{ backgroundColor: entry.payload?.fill ?? '#008cff' }}
         />
         <span className="text-[#6B6860]">{entry.name}:</span>
         <span className="text-[#EDE8DE] font-bold">
