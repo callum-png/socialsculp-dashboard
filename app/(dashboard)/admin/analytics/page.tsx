@@ -25,36 +25,39 @@ export default async function AdminAnalyticsPage() {
     }),
   ])
 
+  type Snap = typeof snapshots[number]
+  type Mock = ReturnType<typeof generateAnalyticsData>[number]
+
   const hasRealData = snapshots.length >= 7
 
   // Aggregate snapshot totals
   const totalReach = hasRealData
-    ? snapshots.reduce((s: number, d: typeof snapshots[number]) => s + d.reach, 0)
+    ? snapshots.reduce((s: number, d: Snap) => s + d.reach, 0)
     : 12_400_000
   const totalImpressions = hasRealData
-    ? snapshots.reduce((s: number, d: typeof snapshots[number]) => s + d.impressions, 0)
+    ? snapshots.reduce((s: number, d: Snap) => s + d.impressions, 0)
     : 28_100_000
   const totalSpend = hasRealData
-    ? snapshots.reduce((s: number, d: typeof snapshots[number]) => s + d.spend, 0)
+    ? snapshots.reduce((s: number, d: Snap) => s + d.spend, 0)
     : 267_000
   const avgROAS = hasRealData
-    ? snapshots.reduce((s: number, d: typeof snapshots[number]) => s + d.roas, 0) / snapshots.length
+    ? snapshots.reduce((s: number, d: Snap) => s + d.roas, 0) / snapshots.length
     : 4.3
 
   // Chart data — use real snapshots or fall back to mock
   const mockAnalytics = generateAnalyticsData('admin-analytics', 30)
 
   const roasData = hasRealData
-    ? snapshots.map((d) => ({ date: d.date.toISOString(), roas: d.roas }))
-    : mockAnalytics.map((d) => ({ date: d.date, roas: d.roas }))
+    ? snapshots.map((d: Snap) => ({ date: d.date.toISOString(), roas: d.roas }))
+    : mockAnalytics.map((d: Mock) => ({ date: d.date, roas: d.roas }))
 
   const engData = hasRealData
-    ? snapshots.map((d) => ({
+    ? snapshots.map((d: Snap) => ({
         date: d.date.toISOString(),
         tiktok: parseFloat((d.engagementRate * 1.25).toFixed(2)),
         instagram: parseFloat((d.engagementRate * 0.7).toFixed(2)),
       }))
-    : mockAnalytics.map((d) => ({
+    : mockAnalytics.map((d: Mock) => ({
         date: d.date,
         tiktok: parseFloat((d.engagementRate * 1.25).toFixed(2)),
         instagram: parseFloat((d.engagementRate * 0.7).toFixed(2)),
@@ -63,9 +66,9 @@ export default async function AdminAnalyticsPage() {
   // Per-campaign reach bar data
   const campaignReachData = campaigns.slice(0, 6).map((c) => {
     const cSnaps = hasRealData
-      ? snapshots.filter((s) => s.campaignId === c.id)
+      ? snapshots.filter((s: Snap) => s.campaignId === c.id)
       : generateAnalyticsData(c.id, 30)
-    const total = cSnaps.reduce((s, d) => s + d.reach, 0)
+    const total = cSnaps.reduce((s: number, d: Snap | Mock) => s + d.reach, 0)
     return {
       name: c.name.split('—')[0].trim().slice(0, 12),
       tiktok: Math.round(total * 0.58),
@@ -74,10 +77,10 @@ export default async function AdminAnalyticsPage() {
   })
 
   const tiktokReach = hasRealData
-    ? snapshots.filter((s) => s.platform === 'TIKTOK' || s.platform === 'BOTH').reduce((s, d) => s + d.reach, 0)
+    ? snapshots.filter((s: Snap) => s.platform === 'TIKTOK' || s.platform === 'BOTH').reduce((s: number, d: Snap) => s + d.reach, 0)
     : 7_200_000
   const igReach = hasRealData
-    ? snapshots.filter((s) => s.platform === 'INSTAGRAM' || s.platform === 'BOTH').reduce((s, d) => s + d.reach, 0)
+    ? snapshots.filter((s: Snap) => s.platform === 'INSTAGRAM' || s.platform === 'BOTH').reduce((s: number, d: Snap) => s + d.reach, 0)
     : 5_200_000
 
   const platformPieData = [
