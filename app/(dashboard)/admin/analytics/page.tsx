@@ -29,16 +29,16 @@ export default async function AdminAnalyticsPage() {
 
   // Aggregate snapshot totals
   const totalReach = hasRealData
-    ? snapshots.reduce((s, d) => s + d.reach, 0)
+    ? snapshots.reduce((s: number, d) => s + d.reach, 0)
     : 12_400_000
   const totalImpressions = hasRealData
-    ? snapshots.reduce((s, d) => s + d.impressions, 0)
+    ? snapshots.reduce((s: number, d) => s + d.impressions, 0)
     : 28_100_000
   const totalSpend = hasRealData
-    ? snapshots.reduce((s, d) => s + d.spend, 0)
+    ? snapshots.reduce((s: number, d) => s + d.spend, 0)
     : 267_000
   const avgROAS = hasRealData
-    ? snapshots.reduce((s, d) => s + d.roas, 0) / snapshots.length
+    ? snapshots.reduce((s: number, d) => s + d.roas, 0) / snapshots.length
     : 4.3
 
   // Chart data — use real snapshots or fall back to mock
