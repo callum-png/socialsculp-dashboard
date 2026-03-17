@@ -1,17 +1,11 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const isPublicRoute = createRouteMatcher([
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks/(.*)',
-  '/api/debug/(.*)',
-])
-
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect()
-  }
-})
+// Auth is enforced server-side in each layout and page via Clerk's auth()
+// This middleware is a no-op pass-through required by Next.js routing
+export function middleware(_req: NextRequest) {
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: [
