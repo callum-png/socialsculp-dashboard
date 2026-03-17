@@ -27,6 +27,7 @@ export default async function AdminAnalyticsPage() {
 
   type Snap = typeof snapshots[number]
   type Mock = ReturnType<typeof generateAnalyticsData>[number]
+  type Campaign = typeof campaigns[number]
 
   const hasRealData = snapshots.length >= 7
 
@@ -64,7 +65,7 @@ export default async function AdminAnalyticsPage() {
       }))
 
   // Per-campaign reach bar data
-  const campaignReachData = campaigns.slice(0, 6).map((c) => {
+  const campaignReachData = campaigns.slice(0, 6).map((c: Campaign) => {
     const cSnaps = hasRealData
       ? snapshots.filter((s: Snap) => s.campaignId === c.id)
       : generateAnalyticsData(c.id, 30)
