@@ -7,6 +7,9 @@ export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { userId } = await auth()
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const { id } = await params
   const db = getDb()
   const deal = await db.deal.findUnique({

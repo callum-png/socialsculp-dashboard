@@ -3,6 +3,9 @@ import { auth } from '@clerk/nextjs/server'
 import { getDb } from '@/lib/db'
 
 export async function GET() {
+  const { userId } = await auth()
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const db = getDb()
   const campaigns = await db.campaign.findMany({
     include: { brand: true },
