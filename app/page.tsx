@@ -1,865 +1,681 @@
+import './landing.css'
 import { auth, clerkClient } from '@clerk/nextjs/server'
-import Link from 'next/link'
-import type { UserRole } from '@/types'
+import { redirect } from 'next/navigation'
+import Script from 'next/script'
 
-const ROLE_HOME: Record<UserRole, string> = {
-  ADMIN: '/admin',
-  AGENT: '/agent',
-  CREATOR: '/creator',
-  BRAND: '/brand',
-}
-
-export default async function RootPage() {
-  // If already signed in, redirect straight to their portal
+export default async function Home() {
   const { userId } = await auth()
   if (userId) {
-    try {
-      const client = await clerkClient()
-      const user = await client.users.getUser(userId)
-      const role = user.publicMetadata?.role as UserRole | undefined
-      if (role && ROLE_HOME[role]) {
-        const { redirect } = await import('next/navigation')
-        redirect(ROLE_HOME[role])
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId)
+    const role = user.publicMetadata?.role as string | undefined
+    const status = user.publicMetadata?.status as string | undefined
+    if (role && status !== 'PENDING') {
+      switch (role) {
+        case 'ADMIN': redirect('/admin')
+        case 'AGENT': redirect('/agent')
+        case 'CREATOR': redirect('/creator')
+        case 'BRAND': redirect('/brand')
       }
-    } catch { /* fall through to landing */ }
+    }
   }
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        :root {
-          --blue: #008cff;
-          --blue-dim: #0055a0;
-          --bg: #080808;
-          --bg2: #0d0d0d;
-          --border: #1a1a1a;
-          --muted: #333333;
-          --dim: #555555;
-          --text: #ede8de;
-          --text-muted: #6b6860;
-        }
+      {/* Fonts */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-        html { scroll-behavior: smooth; }
+      {/* ==========================================
+           PREMIUM BACKGROUND (canvas-based)
+           ========================================== */}
+      <canvas id="bg-canvas" aria-hidden="true"></canvas>
+      <div className="bg-dots" aria-hidden="true"></div>
+      <div className="bg-grain" aria-hidden="true"></div>
 
-        body {
-          background: var(--bg);
-          color: var(--text);
-          font-family: 'Syne', sans-serif;
-          overflow-x: hidden;
-          -webkit-font-smoothing: antialiased;
-        }
+      <main>
 
-        /* ── Grid background ── */
-        .grid-bg {
-          position: fixed;
-          inset: 0;
-          background-image:
-            linear-gradient(rgba(0,140,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,140,255,0.03) 1px, transparent 1px);
-          background-size: 80px 80px;
-          pointer-events: none;
-          z-index: 0;
-        }
-        .grid-bg::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,140,255,0.08) 0%, transparent 70%);
-        }
-
-        /* ── Nav ── */
-        nav {
-          position: fixed;
-          top: 0; left: 0; right: 0;
-          z-index: 100;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20px 40px;
-          border-bottom: 1px solid var(--border);
-          background: rgba(8,8,8,0.85);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-        }
-
-        .nav-logo {
-          display: flex;
-          align-items: baseline;
-          gap: 0;
-          text-decoration: none;
-        }
-        .nav-logo-main {
-          font-size: 18px;
-          font-weight: 800;
-          color: var(--text);
-          letter-spacing: -0.02em;
-          line-height: 1;
-        }
-        .nav-logo-dot { color: var(--blue); font-size: 18px; font-weight: 800; }
-
-        .nav-right { display: flex; align-items: center; gap: 12px; }
-
-        .nav-tag {
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--dim);
-          border: 1px solid var(--border);
-          padding: 4px 10px;
-        }
-
-        .btn-sign-in {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 20px;
-          background: var(--blue);
-          color: #fff;
-          font-family: 'Syne', sans-serif;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.15s;
-        }
-        .btn-sign-in:hover { background: #0070cc; }
-
-        /* ── Hero ── */
-        .hero {
-          position: relative;
-          z-index: 1;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 140px 40px 80px;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-
-        .hero-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 32px;
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.1s forwards;
-        }
-        .eyebrow-line { width: 32px; height: 1px; background: var(--blue); }
-        .eyebrow-text {
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: var(--blue);
-        }
-
-        .hero-headline {
-          font-size: clamp(52px, 8vw, 120px);
-          font-weight: 800;
-          line-height: 0.92;
-          letter-spacing: -0.03em;
-          color: var(--text);
-          margin-bottom: 0;
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.2s forwards;
-        }
-        .hero-headline em {
-          font-style: normal;
-          color: transparent;
-          -webkit-text-stroke: 1px rgba(237,232,222,0.25);
-        }
-        .hero-headline .blue { color: var(--blue); -webkit-text-stroke: 0; }
-
-        .hero-sub {
-          margin-top: 40px;
-          max-width: 520px;
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.35s forwards;
-        }
-        .hero-sub p {
-          font-family: 'Fraunces', serif;
-          font-size: 18px;
-          line-height: 1.6;
-          color: var(--text-muted);
-          font-style: italic;
-        }
-
-        .hero-cta {
-          margin-top: 48px;
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          flex-wrap: wrap;
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.5s forwards;
-        }
-
-        .btn-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 16px 32px;
-          background: var(--blue);
-          color: #fff;
-          font-family: 'Syne', sans-serif;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: all 0.15s;
-          position: relative;
-          overflow: hidden;
-        }
-        .btn-primary::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: rgba(255,255,255,0.1);
-          opacity: 0;
-          transition: opacity 0.15s;
-        }
-        .btn-primary:hover::after { opacity: 1; }
-        .btn-primary svg { width: 14px; height: 14px; }
-
-        .btn-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-family: 'Syne', sans-serif;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: var(--text-muted);
-          text-decoration: none;
-          transition: color 0.15s;
-        }
-        .btn-secondary:hover { color: var(--text); }
-        .btn-secondary svg { width: 12px; height: 12px; }
-
-        /* ── Metrics ticker ── */
-        .metrics {
-          display: flex;
-          align-items: center;
-          gap: 0;
-          margin-top: 80px;
-          border-top: 1px solid var(--border);
-          padding-top: 40px;
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.7s forwards;
-        }
-
-        .metric {
-          flex: 1;
-          padding-right: 40px;
-          border-right: 1px solid var(--border);
-        }
-        .metric:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
-        .metric:not(:first-child):not(:last-child) { padding: 0 40px; }
-        .metric-value {
-          font-size: clamp(28px, 3.5vw, 44px);
-          font-weight: 800;
-          color: var(--text);
-          letter-spacing: -0.03em;
-          line-height: 1;
-          display: flex;
-          align-items: baseline;
-          gap: 4px;
-        }
-        .metric-value sup { font-size: 50%; color: var(--blue); }
-        .metric-label {
-          margin-top: 6px;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--text-muted);
-        }
-
-        /* ── Feature section ── */
-        .features {
-          position: relative;
-          z-index: 1;
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 120px 40px;
-          border-top: 1px solid var(--border);
-        }
-
-        .section-label {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 64px;
-        }
-        .section-label-line { width: 24px; height: 1px; background: var(--blue); }
-        .section-label-text {
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: var(--blue);
-        }
-
-        .features-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1px;
-          background: var(--border);
-        }
-
-        .feature-card {
-          background: var(--bg);
-          padding: 40px;
-          position: relative;
-          overflow: hidden;
-          transition: background 0.2s;
-        }
-        .feature-card:hover { background: var(--bg2); }
-        .feature-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: var(--blue);
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.3s ease;
-        }
-        .feature-card:hover::before { transform: scaleX(1); }
-
-        .feature-num {
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          color: var(--muted);
-          margin-bottom: 28px;
-        }
-
-        .feature-icon {
-          width: 40px;
-          height: 40px;
-          background: var(--bg2);
-          border: 1px solid var(--border);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 20px;
-          color: var(--blue);
-        }
-        .feature-icon svg { width: 18px; height: 18px; }
-
-        .feature-title {
-          font-size: 16px;
-          font-weight: 800;
-          color: var(--text);
-          letter-spacing: -0.01em;
-          margin-bottom: 12px;
-        }
-
-        .feature-desc {
-          font-family: 'Fraunces', serif;
-          font-size: 14px;
-          line-height: 1.7;
-          color: var(--text-muted);
-          font-style: italic;
-        }
-
-        /* ── Roles section ── */
-        .roles {
-          position: relative;
-          z-index: 1;
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 40px 120px;
-        }
-
-        .roles-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1px;
-          background: var(--border);
-        }
-
-        .role-card {
-          background: var(--bg);
-          padding: 32px;
-          transition: background 0.2s;
-          text-decoration: none;
-        }
-        .role-card:hover { background: var(--bg2); }
-
-        .role-badge {
-          display: inline-block;
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          padding: 3px 8px;
-          border: 1px solid;
-          margin-bottom: 20px;
-        }
-        .role-badge.admin { color: var(--blue); border-color: #003366; background: #001a33; }
-        .role-badge.agent { color: #34D399; border-color: #004d2e; background: #001a0e; }
-        .role-badge.brand { color: #FFB547; border-color: #4d3200; background: #1f1200; }
-        .role-badge.creator { color: #A78BFA; border-color: #2d1f55; background: #1a1033; }
-
-        .role-title {
-          font-size: 20px;
-          font-weight: 800;
-          color: var(--text);
-          letter-spacing: -0.02em;
-          margin-bottom: 10px;
-        }
-        .role-desc {
-          font-family: 'Fraunces', serif;
-          font-size: 13px;
-          line-height: 1.6;
-          color: var(--text-muted);
-          font-style: italic;
-        }
-
-        /* ── CTA band ── */
-        .cta-band {
-          position: relative;
-          z-index: 1;
-          border-top: 1px solid var(--border);
-          border-bottom: 1px solid var(--border);
-          background: var(--bg2);
-          overflow: hidden;
-        }
-        .cta-band-inner {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 80px 40px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 40px;
-        }
-        .cta-band::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: radial-gradient(ellipse 50% 100% at 0% 50%, rgba(0,140,255,0.06) 0%, transparent 70%);
-          pointer-events: none;
-        }
-
-        .cta-headline {
-          font-size: clamp(28px, 3.5vw, 48px);
-          font-weight: 800;
-          color: var(--text);
-          letter-spacing: -0.03em;
-          line-height: 1.05;
-        }
-        .cta-headline span { color: var(--blue); }
-
-        .cta-right { flex-shrink: 0; }
-
-        /* ── Footer ── */
-        footer {
-          position: relative;
-          z-index: 1;
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 20px;
-        }
-
-        .footer-logo {
-          font-size: 13px;
-          font-weight: 800;
-          color: var(--text-muted);
-          letter-spacing: -0.01em;
-        }
-        .footer-logo span { color: var(--blue); }
-
-        .footer-copy {
-          font-size: 11px;
-          color: var(--muted);
-          letter-spacing: 0.05em;
-        }
-
-        /* ── Scan line ── */
-        .scanline {
-          position: fixed;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent 0%, var(--blue) 50%, transparent 100%);
-          opacity: 0.4;
-          animation: scan 4s linear infinite;
-          pointer-events: none;
-          z-index: 999;
-        }
-
-        /* ── Ticker tape ── */
-        .ticker {
-          position: relative;
-          z-index: 1;
-          border-top: 1px solid var(--border);
-          border-bottom: 1px solid var(--border);
-          background: var(--bg2);
-          overflow: hidden;
-          height: 36px;
-          display: flex;
-          align-items: center;
-        }
-        .ticker-inner {
-          display: flex;
-          gap: 0;
-          animation: ticker 25s linear infinite;
-          white-space: nowrap;
-        }
-        .ticker-item {
-          display: inline-flex;
-          align-items: center;
-          gap: 12px;
-          padding: 0 32px;
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--muted);
-          border-right: 1px solid var(--border);
-        }
-        .ticker-item .dot { width: 4px; height: 4px; background: var(--blue); display: inline-block; }
-        .ticker-item.active { color: var(--blue); }
-
-        /* ── Status bar ── */
-        .status-bar {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #34D399;
-          animation: pulse 2s ease infinite;
-        }
-        .status-text {
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: #34D399;
-        }
-
-        /* ── Animations ── */
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes scan {
-          0% { top: -2px; }
-          100% { top: 100%; }
-        }
-
-        @keyframes ticker {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-          nav { padding: 16px 20px; }
-          .nav-tag { display: none; }
-          .hero { padding: 120px 20px 60px; }
-          .hero-headline { font-size: clamp(40px, 12vw, 80px); }
-          .metrics { flex-wrap: wrap; gap: 24px; }
-          .metric { flex: 0 0 calc(50% - 12px); border-right: none; padding: 0; }
-          .features { padding: 60px 20px; }
-          .features-grid { grid-template-columns: 1fr; }
-          .roles { padding: 0 20px 60px; }
-          .roles-grid { grid-template-columns: repeat(2, 1fr); }
-          .cta-band-inner { flex-direction: column; text-align: center; padding: 60px 20px; }
-          footer { padding: 24px 20px; flex-direction: column; text-align: center; }
-        }
-
-        @media (max-width: 600px) {
-          .hero-headline em { display: none; }
-          .roles-grid { grid-template-columns: 1fr; }
-          .metrics { flex-direction: column; }
-          .metric { flex: 1 1 auto; width: 100%; }
-        }
-      `}</style>
-
-      <div className="grid-bg" />
-      <div className="scanline" />
-
-      {/* Nav */}
-      <nav>
-        <a href="/" className="nav-logo">
-          <span className="nav-logo-main">SocialSculp</span>
-          <span className="nav-logo-dot">.</span>
-        </a>
-        <div className="nav-right">
-          <div className="status-bar">
-            <div className="status-dot" />
-            <span className="status-text">All Systems Live</span>
+        {/* ==========================================
+             NAVIGATION
+             ========================================== */}
+        <nav id="nav">
+          <a href="#" className="nav-logo">SOCIAL<span>SCULP</span></a>
+          <ul className="nav-links">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#creators">Talent</a></li>
+            <li><a href="#proof">Clients</a></li>
+          </ul>
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+            <a href="/sign-in" className="btn btn-portal" style={{padding:'9px 18px',fontSize:'10.5px'}}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Sign In
+            </a>
+            <a href="/sign-up" className="btn btn-ghost" style={{padding:'9px 18px',fontSize:'10.5px'}}>Get Started</a>
           </div>
-          <span className="nav-tag">Campaign Intelligence</span>
-          <Link href="/sign-in" className="btn-sign-in">
-            Sign In
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="12" height="12">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </Link>
-        </div>
-      </nav>
+        </nav>
 
-      {/* Ticker */}
-      <div className="ticker" style={{ marginTop: 61 }}>
-        <div className="ticker-inner">
-          {[
-            { label: 'Campaigns', val: 'Active', active: true },
-            { label: 'Creator Network', val: 'Global' },
-            { label: 'Deal Pipeline', val: 'Live' },
-            { label: 'Analytics', val: 'Real-time', active: true },
-            { label: 'CRM', val: 'Multi-role' },
-            { label: 'Brand Portal', val: 'Access' },
-            { label: 'Agent CRM', val: 'Isolated' },
-            { label: 'CSV Import', val: 'Enabled' },
-            { label: 'Campaigns', val: 'Active', active: true },
-            { label: 'Creator Network', val: 'Global' },
-            { label: 'Deal Pipeline', val: 'Live' },
-            { label: 'Analytics', val: 'Real-time', active: true },
-            { label: 'CRM', val: 'Multi-role' },
-            { label: 'Brand Portal', val: 'Access' },
-            { label: 'Agent CRM', val: 'Isolated' },
-            { label: 'CSV Import', val: 'Enabled' },
-          ].map((item, i) => (
-            <div key={i} className={`ticker-item${item.active ? ' active' : ''}`}>
-              <span className="dot" />
-              {item.label} — {item.val}
+        {/* ==========================================
+             HERO
+             ========================================== */}
+        <section id="hero" style={{position:'relative'}}>
+          <div style={{maxWidth:'460px',marginLeft:'auto',marginRight:'auto'}}>
+            <div className="hero-eyebrow">
+              <div className="live-dot"></div>
+              <span className="t-label">Social Media Sculptors</span>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Hero */}
-      <section className="hero">
-        <div className="hero-eyebrow">
-          <span className="eyebrow-line" />
-          <span className="eyebrow-text">Influencer Marketing Intelligence</span>
-        </div>
+            <h1 className="hero-headline">
+              We Engineer Narratives.<br />
+              We Seed <span className="accent">Creators.</span><br />
+              We Move Culture at Scale.
+            </h1>
 
-        <h1 className="hero-headline">
-          Campaign<br />
-          <em>Intelligence</em><br />
-          <span className="blue">Platform.</span>
-        </h1>
+            <p className="hero-sub">
+              SocialSculp is a data-driven narrative engineering agency. We turn consumer psychology into viral reach through strategic creator seeding - influencer marketing, elevated. We empower brands and consumer apps to grow at scale.
+            </p>
 
-        <div className="hero-sub">
-          <p>
-            End-to-end campaign management for brands, creators, and the agents who connect them. Built for scale. Designed for clarity.
-          </p>
-        </div>
-
-        <div className="hero-cta">
-          <Link href="/sign-in" className="btn-primary">
-            Access Platform
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </Link>
-          <a href="#portals" className="btn-secondary">
-            View Portals
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-          </a>
-        </div>
-
-        <div className="metrics">
-          <div className="metric">
-            <div className="metric-value">4<sup>×</sup></div>
-            <div className="metric-label">Avg Campaign ROAS</div>
-          </div>
-          <div className="metric">
-            <div className="metric-value">12M<sup>+</sup></div>
-            <div className="metric-label">Creator Reach Tracked</div>
-          </div>
-          <div className="metric">
-            <div className="metric-value">6</div>
-            <div className="metric-label">Pipeline Stages</div>
-          </div>
-          <div className="metric">
-            <div className="metric-value">4</div>
-            <div className="metric-label">Role-Based Portals</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="features">
-        <div className="section-label">
-          <span className="section-label-line" />
-          <span className="section-label-text">Platform Capabilities</span>
-        </div>
-
-        <div className="features-grid">
-          {[
-            {
-              num: '01',
-              title: 'Campaign Management',
-              desc: 'Full campaign lifecycle from brief to close. Track status, budgets, creators, and performance in one view.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/>
-                </svg>
-              ),
-            },
-            {
-              num: '02',
-              title: 'Deal Pipeline',
-              desc: 'Kanban-style deal tracking across 6 stages. Move deals from appointment set through to closed won.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="3" width="5" height="18" rx="1"/><rect x="9.5" y="3" width="5" height="14" rx="1"/><rect x="17" y="3" width="5" height="10" rx="1"/>
-                </svg>
-              ),
-            },
-            {
-              num: '03',
-              title: 'Creator & Brand Roster',
-              desc: 'Manage your full network of creators and brand partners. Stats, niches, contact info — all structured.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-              ),
-            },
-            {
-              num: '04',
-              title: 'Master CRM',
-              desc: 'Admin-level visibility across all agent activity. Filter by agent, export leads as CSV, track every contact.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-              ),
-            },
-            {
-              num: '05',
-              title: 'Analytics Dashboard',
-              desc: 'ROAS trends, reach breakdowns, platform splits, engagement rates. Real data or seeded mock views.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-              ),
-            },
-            {
-              num: '06',
-              title: 'CSV Import / Export',
-              desc: 'Import lead lists from spreadsheets with flexible header mapping. Export filtered data instantly.',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-              ),
-            },
-          ].map((f) => (
-            <div key={f.num} className="feature-card">
-              <div className="feature-num">{f.num}</div>
-              <div className="feature-icon">{f.icon}</div>
-              <div className="feature-title">{f.title}</div>
-              <div className="feature-desc">{f.desc}</div>
+            <div className="hero-ctas">
+              <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="btn btn-primary">Book a Call</a>
+              <a href="#work" className="btn btn-ghost">View Case Studies</a>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Portals */}
-      <section className="roles" id="portals">
-        <div className="section-label">
-          <span className="section-label-line" />
-          <span className="section-label-text">Role-Based Access</span>
-        </div>
-
-        <div className="roles-grid">
-          {[
-            {
-              badge: 'admin',
-              label: 'Admin',
-              title: 'Operations Hub',
-              desc: 'Full platform access. Manage campaigns, deals, creators, brands, and all agent activity from one master view.',
-            },
-            {
-              badge: 'agent',
-              label: 'Agent',
-              title: 'Procurement CRM',
-              desc: 'Dedicated pipeline for procurement agents. Log leads, move deals, import contacts. Feeds directly into master CRM.',
-            },
-            {
-              badge: 'brand',
-              label: 'Brand',
-              title: 'Brand Portal',
-              desc: 'Campaign visibility and reporting for brand partners. See active campaigns, creator performance, and results.',
-            },
-            {
-              badge: 'creator',
-              label: 'Creator',
-              title: 'Creator Portal',
-              desc: 'Manage your campaigns, review deals, and track analytics. Everything you need to run your creator business.',
-            },
-          ].map((r) => (
-            <div key={r.badge} className="role-card">
-              <div className={`role-badge ${r.badge}`}>{r.label}</div>
-              <div className="role-title">{r.title}</div>
-              <div className="role-desc">{r.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA Band */}
-      <div className="cta-band">
-        <div className="cta-band-inner">
-          <div className="cta-headline">
-            Ready to run your<br />
-            <span>campaigns smarter?</span>
           </div>
-          <div className="cta-right">
-            <Link href="/sign-in" className="btn-primary" style={{ padding: '18px 40px', fontSize: '13px' }}>
-              Sign In to Platform
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+
+          {/* Campaign explosion visual */}
+          <div className="hero-visual">
+            <div className="hero-visual-glow" aria-hidden="true"></div>
+            <div className="explosion-hub">
+              {/* Ripple rings */}
+              <div className="ripple r1"></div>
+              <div className="ripple r2"></div>
+              <div className="ripple r3"></div>
+
+              {/* SVG connector lines hub to orbs */}
+              <svg className="hub-lines" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <line x1="140" y1="140" x2="262" y2="28"  stroke="rgba(0,140,255,0.15)" strokeWidth="1" strokeDasharray="3 5"/>
+                <line x1="140" y1="140" x2="268" y2="248" stroke="rgba(0,140,255,0.12)" strokeWidth="1" strokeDasharray="3 5"/>
+                <line x1="140" y1="140" x2="18"  y2="46"  stroke="rgba(0,140,255,0.15)" strokeWidth="1" strokeDasharray="3 5"/>
+                <line x1="140" y1="140" x2="14"  y2="242" stroke="rgba(0,140,255,0.12)" strokeWidth="1" strokeDasharray="3 5"/>
               </svg>
-            </Link>
+
+              {/* Mini content tiles (floating video posts) */}
+              <div className="content-tile ct1"><div className="ct-thumb"></div><div className="ct-engage">2.1M</div></div>
+              <div className="content-tile ct2"><div className="ct-thumb"></div><div className="ct-engage">890K</div></div>
+              <div className="content-tile ct3"><div className="ct-thumb"></div><div className="ct-engage">3.7M</div></div>
+
+              {/* Rotating orbit dot */}
+              <div className="hub-orbit" aria-hidden="true"></div>
+
+              {/* Core stat sphere */}
+              <div className="hub-core">
+                <div className="hub-val"><span id="hub-counter">1.9</span><span className="hub-suffix">B+</span></div>
+                <div className="hub-lbl">All-Time Views</div>
+              </div>
+
+              {/* Floating stat chips */}
+              <div className="orb orb-cpm"><div className="orb-val">$2</div><div className="orb-lbl">Blended CPM</div></div>
+              <div className="orb orb-creators"><div className="orb-val">50+</div><div className="orb-lbl">Creators</div></div>
+              <div className="orb orb-reach"><div className="orb-val">20+</div><div className="orb-lbl">Brands Served</div></div>
+              <div className="orb orb-brands"><div className="orb-val">&#8734;</div><div className="orb-lbl">Scale</div></div>
+
+              {/* Live indicator */}
+              <div className="exp-live">
+                <div className="live-badge-dot"></div>
+                Live Campaigns
+              </div>
+            </div>
+          </div>
+
+          <div className="scroll-hint">
+            <div className="scroll-line"></div>
+            <span className="t-label" style={{fontSize:'8.5px'}}>Scroll</span>
+          </div>
+        </section>
+
+        {/* Brand marquee — directly below hero */}
+        <div className="brands-marquee-wrap" style={{marginTop:'48px'}}>
+          <div className="brands-marquee">
+            <span className="brand-item">Whop</span>
+            <span className="brand-item">BKFC</span>
+            <span className="brand-item">Snapchat</span>
+            <span className="brand-item">TikTok</span>
+            <span className="brand-item">Cal AI</span>
+            <span className="brand-item">Block Blast</span>
+            <span className="brand-item">StealthGPT</span>
+            <span className="brand-item">Quizard</span>
+            <span className="brand-item">Unstuck</span>
+            <span className="brand-item">Haven</span>
+            <span className="brand-item">Alpha Lion</span>
+            <span className="brand-item">Bucked Up</span>
+            <span className="brand-item">C4</span>
+            <span className="brand-item">Based Body Works</span>
+            <span className="brand-item">Sweatcoin</span>
+            <span className="brand-item">GoWish</span>
+            <span className="brand-item">Fitbod</span>
+            <span className="brand-item">PrizePicks</span>
+            <span className="brand-item">Olive</span>
+            <span className="brand-item">MenuFit</span>
+            <span className="brand-item">1st Phorm</span>
+            {/* Duplicate for seamless loop */}
+            <span className="brand-item">Whop</span>
+            <span className="brand-item">BKFC</span>
+            <span className="brand-item">Snapchat</span>
+            <span className="brand-item">TikTok</span>
+            <span className="brand-item">Cal AI</span>
+            <span className="brand-item">Block Blast</span>
+            <span className="brand-item">StealthGPT</span>
+            <span className="brand-item">Quizard</span>
+            <span className="brand-item">Unstuck</span>
+            <span className="brand-item">Haven</span>
+            <span className="brand-item">Alpha Lion</span>
+            <span className="brand-item">Bucked Up</span>
+            <span className="brand-item">C4</span>
+            <span className="brand-item">Based Body Works</span>
+            <span className="brand-item">Sweatcoin</span>
+            <span className="brand-item">GoWish</span>
+            <span className="brand-item">Fitbod</span>
+            <span className="brand-item">PrizePicks</span>
+            <span className="brand-item">Olive</span>
+            <span className="brand-item">MenuFit</span>
+            <span className="brand-item">1st Phorm</span>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
+        {/* ==========================================
+             SERVICES
+             ========================================== */}
+        <section id="services">
+          <div className="svc-header reveal">
+            <div>
+              <div className="eyebrow"><span className="t-label">What We Offer</span></div>
+              <h2 className="section-title">Strategy. Seeding.<br />Results.</h2>
+            </div>
+            <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">Work With Us</a>
+          </div>
+
+          <div className="svc-big-grid reveal d1">
+            {/* Influencer Marketing (primary) — Creator Network Visualization */}
+            <div className="svc-big">
+              <div className="svc-art">
+                <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="cg1" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.32"/>
+                      <stop offset="70%" stopColor="#008CFF" stopOpacity="0.08"/>
+                      <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
+                    </radialGradient>
+                    <radialGradient id="cg1b" cx="50%" cy="50%" r="40%">
+                      <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.18"/>
+                      <stop offset="100%" stopColor="#00D4FF" stopOpacity="0"/>
+                    </radialGradient>
+                    <filter id="glow1">
+                      <feGaussianBlur stdDeviation="3" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <rect width="560" height="280" fill="#060C1C"/>
+                  <ellipse cx="280" cy="140" rx="220" ry="150" fill="url(#cg1)"/>
+                  <ellipse cx="280" cy="140" rx="120" ry="90" fill="url(#cg1b)"/>
+                  <circle cx="280" cy="140" r="100" fill="none" stroke="#008CFF" strokeOpacity="0.18" strokeWidth="1" strokeDasharray="4 8"/>
+                  <circle cx="280" cy="140" r="65"  fill="none" stroke="#008CFF" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="2 6"/>
+                  <line x1="298" y1="124" x2="428" y2="60" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.75" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="-22" dur="0.9s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="308" y1="140" x2="464" y2="140" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.68" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="-22" dur="1.2s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="298" y1="156" x2="428" y2="220" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.75" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="-22" dur="1.0s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="262" y1="124" x2="138" y2="60" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.5" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="22" dur="1.3s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="252" y1="140" x2="100" y2="140" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="22" dur="1.6s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="262" y1="156" x2="138" y2="220" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.5" strokeDasharray="6 5">
+                    <animate attributeName="stroke-dashoffset" from="0" to="22" dur="1.1s" repeatCount="indefinite"/>
+                  </line>
+                  <circle cx="280" cy="140" r="44" fill="none" stroke="#008CFF" strokeOpacity="0.22" strokeWidth="1.5">
+                    <animate attributeName="r" values="44;58;44" dur="3s" repeatCount="indefinite"/>
+                    <animate attributeName="stroke-opacity" values="0.22;0;0.22" dur="3s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="280" cy="140" r="30" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.8" strokeWidth="1.5"/>
+                  <circle cx="280" cy="140" r="20" fill="#008CFF" opacity="0.95" filter="url(#glow1)"/>
+                  <text x="280" y="144" fontFamily="Syne" fontWeight="800" fontSize="9" fill="white" textAnchor="middle">SS</text>
+                  <circle cx="440" cy="60"  r="24" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.75" strokeWidth="1.5"/>
+                  <circle cx="440" cy="52"  r="10" fill="#1E3558"/>
+                  <path d="M424 65 Q440 75 456 65" stroke="#1E3558" strokeWidth="2.5" fill="none"/>
+                  <circle cx="457" cy="44" r="8" fill="#008CFF" opacity="0.95">
+                    <animate attributeName="opacity" values="0.95;0.5;0.95" dur="2.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <path d="M453 44 L456 47 L463 40" stroke="white" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
+                  <circle cx="475" cy="140" r="22" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
+                  <circle cx="475" cy="132" r="9"  fill="#1E3558"/>
+                  <path d="M461 145 Q475 155 489 145" stroke="#1E3558" strokeWidth="2" fill="none"/>
+                  <circle cx="440" cy="220" r="24" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.75" strokeWidth="1.5"/>
+                  <circle cx="440" cy="212" r="10" fill="#1E3558"/>
+                  <path d="M424 225 Q440 235 456 225" stroke="#1E3558" strokeWidth="2.5" fill="none"/>
+                  <circle cx="120" cy="60"  r="20" fill="#0A1828" stroke="#00D4FF" strokeOpacity="0.55" strokeWidth="1.2"/>
+                  <circle cx="120" cy="53"  r="8"  fill="#142434"/>
+                  <circle cx="85"  cy="140" r="18" fill="#0A1828" stroke="#00D4FF" strokeOpacity="0.45" strokeWidth="1.2"/>
+                  <circle cx="120" cy="220" r="20" fill="#0A1828" stroke="#00D4FF" strokeOpacity="0.55" strokeWidth="1.2"/>
+                  <circle cx="120" cy="213" r="8"  fill="#142434"/>
+                  <circle r="4" fill="#008CFF" opacity="0.95" filter="url(#glow1)">
+                    <animateMotion path="M280,140 m-100,0 a100,100 0 1,0 200,0 a100,100 0 1,0 -200,0" dur="6s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle r="2.5" fill="#00D4FF" opacity="0.75">
+                    <animateMotion path="M280,140 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" dur="9s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle r="2" fill="#ffffff" opacity="0.5">
+                    <animateMotion path="M280,140 m-65,0 a65,65 0 1,0 130,0 a65,65 0 1,0 -130,0" dur="4s" repeatCount="indefinite"/>
+                  </circle>
+                  <rect x="168" y="228" width="136" height="38" rx="6" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.55" strokeWidth="1"/>
+                  <text x="236" y="245" fontFamily="Syne" fontWeight="700" fontSize="13" fill="#008CFF" textAnchor="middle">50+ Creators</text>
+                  <text x="236" y="258" fontFamily="Syne" fontWeight="600" fontSize="8.5" fill="#6A8FA8" textAnchor="middle">ACTIVE NETWORK</text>
+                </svg>
+                <div className="svc-fade"></div>
+              </div>
+              <div className="svc-body">
+                <div className="svc-num">01 - Core Service</div>
+                <div className="svc-name">Influencer<br />Marketing</div>
+                <p className="svc-desc">Connect with verified creators aligned with your brand values. End-to-end from discovery to delivery.</p>
+                <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
+              </div>
+            </div>
+
+            {/* Media Buying (primary) — Omnichannel Media Grid */}
+            <div className="svc-big">
+              <div className="svc-art">
+                <svg viewBox="0 0 560 240" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="mg2" cx="50%" cy="46%" r="52%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.28"/>
+                      <stop offset="65%" stopColor="#008CFF" stopOpacity="0.07"/>
+                      <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
+                    </radialGradient>
+                    <radialGradient id="mg2b" cx="50%" cy="50%" r="35%">
+                      <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.15"/>
+                      <stop offset="100%" stopColor="#00D4FF" stopOpacity="0"/>
+                    </radialGradient>
+                    <filter id="glow2">
+                      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <rect width="560" height="240" fill="#050A16"/>
+                  <ellipse cx="280" cy="120" rx="240" ry="130" fill="url(#mg2)"/>
+                  <ellipse cx="280" cy="108" rx="140" ry="80" fill="url(#mg2b)"/>
+                  <line x1="280" y1="182" x2="0"   y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <line x1="280" y1="182" x2="120" y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <line x1="280" y1="182" x2="220" y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <line x1="280" y1="182" x2="340" y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <line x1="280" y1="182" x2="440" y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <line x1="280" y1="182" x2="560" y2="240" stroke="#008CFF" strokeOpacity="0.1" strokeWidth="1"/>
+                  <rect x="192" y="42" width="176" height="122" rx="10" fill="none" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="12"/>
+                  <rect x="200" y="48" width="160" height="110" rx="6" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.88" strokeWidth="2"/>
+                  <rect x="208" y="56" width="144" height="80" rx="3" fill="#060E1E"/>
+                  <rect x="215" y="84" width="12" height="52" rx="2" fill="#008CFF" opacity="0.45">
+                    <animate attributeName="height" values="52;36;60;52" dur="2.2s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="84;100;76;84" dur="2.2s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="231" y="74" width="12" height="62" rx="2" fill="#008CFF" opacity="0.62">
+                    <animate attributeName="height" values="62;78;46;62" dur="1.9s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="74;58;90;74" dur="1.9s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="247" y="62" width="12" height="74" rx="2" fill="#008CFF" opacity="0.80">
+                    <animate attributeName="height" values="74;56;82;74" dur="2.5s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="62;80;54;62" dur="2.5s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="263" y="56" width="12" height="80" rx="2" fill="#008CFF" opacity="1" filter="url(#glow2)">
+                    <animate attributeName="height" values="80;62;86;80" dur="2.0s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="56;74;50;56" dur="2.0s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="279" y="64" width="12" height="72" rx="2" fill="#008CFF" opacity="0.88">
+                    <animate attributeName="height" values="72;54;80;72" dur="1.7s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="64;82;56;64" dur="1.7s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="295" y="72" width="12" height="64" rx="2" fill="#008CFF" opacity="0.72">
+                    <animate attributeName="height" values="64;80;50;64" dur="2.7s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="72;56;86;72" dur="2.7s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="311" y="80" width="12" height="56" rx="2" fill="#008CFF" opacity="0.55">
+                    <animate attributeName="height" values="56;40;64;56" dur="2.3s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="80;96;72;80" dur="2.3s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="327" y="88" width="12" height="48" rx="2" fill="#008CFF" opacity="0.40">
+                    <animate attributeName="height" values="48;64;36;48" dur="2.1s" repeatCount="indefinite"/>
+                    <animate attributeName="y" values="88;72;100;88" dur="2.1s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="272" y="158" width="16" height="8"  rx="2" fill="#0C1E36" stroke="#1A3050"/>
+                  <rect x="256" y="165" width="48" height="3"  rx="2" fill="#1A3050"/>
+                  <rect x="406" y="72" width="88" height="52" rx="4" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
+                  <rect x="412" y="78" width="76" height="38" rx="3" fill="#060E1E"/>
+                  <text x="450" y="95"  fontFamily="Syne" fontWeight="600" fontSize="6.5" fill="#5A8FBB" textAnchor="middle" letterSpacing="1">SOCIAL</text>
+                  <text x="450" y="106" fontFamily="Syne" fontWeight="800" fontSize="8"   fill="#008CFF" textAnchor="middle" letterSpacing="0.5">PR</text>
+                  <line x1="432" y1="124" x2="426" y2="168" stroke="#1A3050" strokeWidth="2"/>
+                  <line x1="468" y1="124" x2="474" y2="168" stroke="#1A3050" strokeWidth="2"/>
+                  <line x1="426" y1="148" x2="474" y2="148" stroke="#1A3050" strokeWidth="1.5"/>
+                  <line x1="406" y1="100" x2="360" y2="104" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.6" strokeDasharray="4 4">
+                    <animate attributeName="stroke-dashoffset" from="0" to="16" dur="1.1s" repeatCount="indefinite"/>
+                  </line>
+                  <circle r="2.5" fill="#00D4FF" opacity="0.9" filter="url(#glow2)">
+                    <animateMotion path="M406,100 L360,104" dur="1.1s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+                <div className="svc-fade" style={{background: 'linear-gradient(to top, var(--clr-bg) 6%, rgba(4,6,14,0.03) 38%, transparent 100%)'}}></div>
+              </div>
+              <div className="svc-body">
+                <div className="svc-num">02 - Core Service</div>
+                <div className="svc-name">Media<br />Buying</div>
+                <p className="svc-desc">Strategic media buying and PPV/CPM campaigns optimized for ROI. Billboard to digital, every channel connected.</p>
+                <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="svc-sm-grid reveal d2">
+            <div className="svc-sm">
+              <div className="sm-num">03</div>
+              <div className="sm-name">Creative Production</div>
+              <p className="sm-desc">End-to-end content creation from concept to distribution. We engineer narratives that align with consumer sentiment and brand ICP for maximum organic integration.</p>
+            </div>
+            <div className="svc-sm">
+              <div className="sm-num">04</div>
+              <div className="sm-name">Performance Marketing</div>
+              <p className="sm-desc">PPV and CPM-based campaigns optimized for ROI. We use data-driven targeting and conversion mechanics to turn reach into measurable revenue.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ==========================================
+             STATS
+             ========================================== */}
+        <section id="stats">
+          <div className="stats-grid">
+            <div className="stat-col reveal">
+              <span className="stat-val"><span className="cnt" data-target="50">0</span><span className="stat-sfx">M+</span></span>
+              <div className="stat-lbl">Engaged Customers</div>
+            </div>
+            <div className="stat-col reveal d1">
+              <span className="stat-val">4.3<span className="stat-sfx">x</span></span>
+              <div className="stat-lbl">Avg ROAS Increase</div>
+            </div>
+            <div className="stat-col reveal d2">
+              <span className="stat-val"><span className="cnt" data-target="50">0</span><span className="stat-sfx">+</span></span>
+              <div className="stat-lbl">Creators</div>
+            </div>
+            <div className="stat-col reveal d3">
+              <span className="stat-val"><span className="cnt" data-target="20">0</span><span className="stat-sfx">+</span></span>
+              <div className="stat-lbl">Brands</div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==========================================
+             CASE STUDIES
+             ========================================== */}
+        <section id="work">
+          <div className="work-header reveal">
+            <div>
+              <div className="eyebrow"><span className="t-label">Case Studies</span></div>
+              <h2 className="section-title">Campaigns That<br />Moved the Needle</h2>
+            </div>
+            <a href="#" className="btn btn-ghost">View All Work</a>
+          </div>
+
+          <div className="cases-wrap reveal d1">
+
+            {/* Snapchat */}
+            <div className="case-card">
+              <div className="case-bg">
+                <img src="/1-snapchat.jpg" alt="Snapchat" />
+              </div>
+              <div className="case-layer">
+                <span className="case-tag">Talent Placement - Platform Partnership</span>
+                <div className="case-client">Snapchat</div>
+                <div className="case-desc">Delivered a creator network to Snapchat directly, facilitating monetization, verification, and town activations that strengthened the platform&apos;s creator economy.</div>
+                <div className="case-result">Dozens of<br /><span style={{fontSize:'16px',color:'var(--clr-muted)'}}>creators placed</span></div>
+                <div className="case-result-sub">Monetization + Verification - Direct Platform Partnership</div>
+              </div>
+            </div>
+
+            {/* StealthGPT */}
+            <div className="case-card">
+              <div className="case-bg">
+                <img src="/stealthgpt-logo.jpg" alt="StealthGPT" className="logo-dark" style={{objectPosition:'center'}} />
+              </div>
+              <div className="case-layer">
+                <span className="case-tag">Creator Seeding - AI Education</span>
+                <div className="case-client">StealthGPT</div>
+                <div className="case-desc">Activated nearly a dozen talking-head creators with engineered narratives in the AI-in-education sector, aligned with consumer sentiment and brand ICP.</div>
+                <div className="case-result">10.1M <span style={{fontSize:'16px',color:'var(--clr-muted)'}}>views</span></div>
+                <div className="case-result-sub">$1.50 blended CPM across all creators</div>
+              </div>
+            </div>
+
+            {/* Quizard */}
+            <div className="case-card">
+              <div className="case-bg">
+                <img src="/quizard-bg.png" alt="Quizard" style={{objectFit:'contain', objectPosition:'center', background:'#2a1a5e'}} />
+              </div>
+              <div className="case-layer">
+                <span className="case-tag">Creator Seeding - AI Education</span>
+                <div className="case-client">Quizard AI</div>
+                <div className="case-desc">Narrative-driven creator campaign for an AI school app. Engineered emotional consumer stories to drive traffic, app downloads, and conversions at scale.</div>
+                <div className="case-result">8M <span style={{fontSize:'16px',color:'var(--clr-muted)'}}>views</span></div>
+                <div className="case-result-sub">$3.00 blended CPM - conversion-optimized</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ==========================================
+             CREATOR ROSTER
+             ========================================== */}
+        <section id="creators">
+          <div className="roster-grid reveal">
+            {/* Tall left: @carterfolian */}
+            <div className="roster-card">
+              <img src="/creators/carterfolian.png" alt="@carterfolian" />
+              <div className="roster-overlay"></div>
+              <div className="roster-handle">@carterfolian</div>
+            </div>
+            {/* Top right: @prestonjacoobs */}
+            <div className="roster-card preston-card">
+              <img src="/creators/creator2.jpg" alt="@prestonjacoobs" />
+              <div className="roster-overlay"></div>
+              <div className="roster-handle">@prestonjacoobs</div>
+            </div>
+            {/* Mid right: @ishowspeed */}
+            <div className="roster-card speed-card">
+              <img src="/creators/creator3.jpg" alt="@ishowspeed" />
+              <div className="roster-overlay"></div>
+              <div className="roster-handle">@ishowspeed</div>
+            </div>
+            {/* Wide bottom: @ashtonhall */}
+            <div className="roster-card ashton-card">
+              <img src="/hq720.jpg" alt="@ashtonhall" />
+              <div className="roster-overlay"></div>
+              <div className="roster-handle">@ashtonhall</div>
+            </div>
+          </div>
+
+          <div className="roster-copy reveal d2">
+            <div className="eyebrow"><span className="t-label">For Creators</span></div>
+            <h2 className="section-title">Are You a<br /><span style={{color:'var(--clr-accent)'}}>Creator?</span></h2>
+            <p className="roster-sub">Join a roster built on performance, not follower counts. We match creators with brands that fit their voice and negotiate deals that reflect their real value.</p>
+            <ul className="roster-perks">
+              <li>Brand partnership matching and negotiation</li>
+              <li>Platform monetization and verification support</li>
+              <li>Contract handling and payment management</li>
+              <li>Access to exclusive campaign opportunities</li>
+              <li>Direct partnerships with Snapchat, TikTok, and more</li>
+            </ul>
+            <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="btn btn-primary">Join the Roster</a>
+          </div>
+        </section>
+
+        {/* ==========================================
+             TRUSTED BY (animated marquee)
+             ========================================== */}
+        <section id="proof">
+          <div className="testimonial reveal d2">
+            <span className="q-mark">&#8220;</span>
+            <p className="q-text">&#8220;SocialSculp actually got results - which is very rare in this space. We were extremely pleased with the CPM and the overall quality of influencer performance across the campaign.&#8221;</p>
+            <div className="q-by">
+              <div className="q-line"></div>
+              <span>Brand Partner - Consumer Tech</span>
+              <div className="q-line"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==========================================
+             CTA
+             ========================================== */}
+        <section id="cta">
+          <div className="cta-word-bg" aria-hidden="true">SCALE</div>
+          <div className="eyebrow cta-eye reveal"><span className="t-label">Ready to Scale?</span></div>
+          <h2 className="cta-headline reveal d1">
+            Work with the agency<br />that <span>moves culture.</span>
+          </h2>
+          <div className="cta-chips reveal d1">
+            <div className="cta-chip">50M+ <span>Engaged</span></div>
+            <div className="cta-chip">4.3x <span>Avg ROAS</span></div>
+            <div className="cta-chip">50+ <span>Creators</span></div>
+            <div className="cta-chip">20+ <span>Brands</span></div>
+          </div>
+          <div className="cta-btns reveal d2">
+            <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{padding:'14px 36px',fontSize:'12px'}}>Book a Call</a>
+            <a href="#work" className="btn btn-ghost" style={{padding:'14px 36px',fontSize:'12px'}}>View Case Studies</a>
+          </div>
+        </section>
+
+      </main>
+
+      {/* ==========================================
+           FOOTER
+           ========================================== */}
       <footer>
-        <div className="footer-logo">
-          SocialSculp<span>.</span>
-          <span style={{ marginLeft: 12, fontSize: 10, fontWeight: 400, letterSpacing: '0.1em', color: 'var(--muted)' }}>
-            © {new Date().getFullYear()} S23 Operations Ltd
-          </span>
+        <a href="#" className="footer-logo">SOCIAL<span>SCULP</span></a>
+        <ul className="footer-nav">
+          <li><a href="#">Home</a></li>
+          <li><a href="#work">Case Studies</a></li>
+          <li><a href="#creators">Talent</a></li>
+          <li><a href="mailto:business@socialsculp.io">Contact</a></li>
+          <li><a href="/terms">Terms</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+        </ul>
+        <div className="footer-right">
+          <span>2026 SocialSculp LLC</span>
+          <span className="footer-sep">-</span>
+          <span>All Rights Reserved</span>
         </div>
-        <div className="footer-copy">Campaign Intelligence Platform</div>
       </footer>
+
+      {/* ==========================================
+           JAVASCRIPT
+           ========================================== */}
+      <Script strategy="afterInteractive">{`
+        /* ---- Always start at top ---- */
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+
+        /* ---- Nav scroll ---- */
+        const nav = document.getElementById('nav');
+        addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 48), { passive: true });
+
+        /* ---- Premium canvas background ---- */
+        (function() {
+          const canvas = document.getElementById('bg-canvas');
+          const ctx = canvas.getContext('2d');
+          let W, H, t = 0;
+
+          const blobs = [
+            { x: 0.72, y: 0.18, r: 0.42, vx:  0.00012, vy:  0.00008, color: [0, 80, 210]  },
+            { x: 0.18, y: 0.72, r: 0.36, vx: -0.00009, vy: -0.00012, color: [0, 40, 170]  },
+            { x: 0.50, y: 0.50, r: 0.28, vx:  0.00006, vy:  0.00015, color: [0, 110, 230] },
+            { x: 0.85, y: 0.65, r: 0.22, vx: -0.00014, vy:  0.00006, color: [0, 60, 190]  },
+          ];
+
+          function resize() {
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+          }
+          resize();
+          addEventListener('resize', resize);
+
+          function draw() {
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = '#04060E';
+            ctx.fillRect(0, 0, W, H);
+
+            blobs.forEach(b => {
+              const ox = Math.sin(t * b.vx * 6000 + b.r * 10) * 0.08;
+              const oy = Math.cos(t * b.vy * 6000 + b.r * 7)  * 0.08;
+              const cx = (b.x + ox) * W;
+              const cy = (b.y + oy) * H;
+              const radius = b.r * Math.min(W, H);
+
+              const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+              grad.addColorStop(0,   'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.18)');
+              grad.addColorStop(0.5, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.07)');
+              grad.addColorStop(1,   'rgba(0,0,0,0)');
+
+              ctx.beginPath();
+              ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+              ctx.fillStyle = grad;
+              ctx.fill();
+            });
+
+            t += 0.016;
+            requestAnimationFrame(draw);
+          }
+          draw();
+        })();
+
+        /* ---- Scroll reveal + count-up ---- */
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('in');
+            e.target.querySelectorAll('.cnt').forEach(el => {
+              const target = +el.dataset.target;
+              const step = target / (1600 / 16);
+              let cur = 0;
+              const timer = setInterval(() => {
+                cur = Math.min(cur + step, target);
+                el.textContent = Math.floor(cur);
+                if (cur >= target) clearInterval(timer);
+              }, 16);
+            });
+          });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        /* Count-up animation for hub counter */
+        (function() {
+          const el = document.getElementById('hub-counter');
+          if (!el) return;
+          const target = 1.9;
+          const duration = 1800;
+          const start = performance.now();
+          el.textContent = '0.0';
+          function tick(now) {
+            const p = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - p, 3);
+            const val = (ease * target).toFixed(1);
+            el.textContent = val;
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          setTimeout(() => requestAnimationFrame(tick), 400);
+        })();
+      `}</Script>
     </>
   )
 }
