@@ -10,6 +10,7 @@ export async function GET(req: Request) {
   const user = await db.user.findUnique({ where: { clerkId: userId } })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
+  // AGENT role is intentionally excluded from reports; only ADMIN and BRAND have access
   if (user.role !== 'ADMIN' && user.role !== 'BRAND') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -33,7 +34,7 @@ export async function GET(req: Request) {
 
   const reports = await db.campaignReport.findMany({
     where: { campaignId },
-    include: { publishedBy: true },
+    include: { publishedBy: { select: { name: true } } },
     orderBy: { publishedAt: 'desc' },
   })
 
@@ -52,7 +53,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden: ADMIN only' }, { status: 403 })
   }
 
-  const body = await req.json()
+  let body: { campaignId: string; title: string; notes?: string }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
   const { campaignId, title, notes } = body
 
   if (!campaignId || !title) {
@@ -62,6 +68,10 @@ export async function POST(req: Request) {
   const campaign = await db.campaign.findUnique({ where: { id: campaignId } })
   if (!campaign) {
     return NextResponse.json({ error: 'Campaign not found' }, { status: 404 })
+  }
+
+  if (campaign.status === 'CANCELLED') {
+    return NextResponse.json({ error: 'Cannot publish report for a cancelled campaign' }, { status: 422 })
   }
 
   const report = await db.campaignReport.create({

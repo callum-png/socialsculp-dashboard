@@ -18,8 +18,20 @@ export async function PATCH(
   }
 
   const { id } = await params
-  const body = await req.json()
+  let body: { liveUrl?: string; views?: number; likes?: number; comments?: number; shares?: number; engagementRate?: number; postedAt?: string }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
   const { liveUrl, views, likes, comments, shares, engagementRate, postedAt } = body
+
+  if (postedAt !== undefined) {
+    const parsedPostedAt = new Date(postedAt)
+    if (isNaN(parsedPostedAt.getTime())) {
+      return NextResponse.json({ error: 'postedAt is not a valid ISO date string' }, { status: 400 })
+    }
+  }
 
   const existing = await db.post.findUnique({ where: { id } })
   if (!existing) {

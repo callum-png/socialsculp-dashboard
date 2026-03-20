@@ -13,6 +13,7 @@ export async function GET(
   const user = await db.user.findUnique({ where: { clerkId: userId } })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
+  // Report is brand/admin-facing only; creators use the posts feed instead
   if (user.role !== 'ADMIN' && user.role !== 'BRAND') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -103,9 +104,9 @@ export async function GET(
     .slice(0, 5)
 
   // Platform breakdown
-  const platformBreakdown = {
-    tiktok: posts.filter((p) => p.platform === 'TIKTOK').length,
-    instagram: posts.filter((p) => p.platform === 'INSTAGRAM').length,
+  const platformBreakdown: Record<string, number> = {}
+  for (const post of posts) {
+    platformBreakdown[post.platform] = (platformBreakdown[post.platform] ?? 0) + 1
   }
 
   // Latest ROAS from AnalyticsSnapshot

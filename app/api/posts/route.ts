@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { getDb } from '@/lib/db'
+import { Prisma, Platform } from '@prisma/client'
 
 export async function GET(req: Request) {
   const { userId } = await auth()
@@ -39,6 +40,7 @@ export async function GET(req: Request) {
     }
   }
   // ADMIN and AGENT can see any
+  // Creators see all posts for the campaign (shared feed, intentional)
 
   const posts = await db.post.findMany({
     where: { campaignId },
@@ -72,7 +74,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const body = await req.json()
+  let body: { deliverableId: string; liveUrl: string; platform: Platform; postedAt: string; views?: number; likes?: number; comments?: number; shares?: number; engagementRate?: number }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
   const { deliverableId, liveUrl, platform, postedAt, views, likes, comments, shares, engagementRate } = body
 
   if (!deliverableId || !liveUrl || !platform || !postedAt) {
@@ -80,6 +87,11 @@ export async function POST(req: Request) {
       { error: 'deliverableId, liveUrl, platform, and postedAt are required' },
       { status: 400 }
     )
+  }
+
+  const parsedPostedAt = new Date(postedAt)
+  if (isNaN(parsedPostedAt.getTime())) {
+    return NextResponse.json({ error: 'postedAt is not a valid ISO date string' }, { status: 400 })
   }
 
   // Fetch deliverable with deal to verify ownership and get campaignId
@@ -101,37 +113,45 @@ export async function POST(req: Request) {
   }
 
   // Create the post and update the deliverable in a transaction
-  const [post] = await db.$transaction([
-    db.post.create({
-      data: {
-        deliverableId,
-        campaignId: deliverable.deal.campaignId,
-        liveUrl,
-        platform,
-        postedAt: new Date(postedAt),
-        views: views ?? 0,
-        likes: likes ?? 0,
-        comments: comments ?? 0,
-        shares: shares ?? 0,
-        engagementRate: engagementRate ?? 0,
-        submittedById: user.id,
-      },
-      include: {
-        deliverable: {
-          include: {
-            deal: {
-              include: { creator: true },
+  let post: Awaited<ReturnType<typeof db.post.create>>
+  try {
+    ;[post] = await db.$transaction([
+      db.post.create({
+        data: {
+          deliverableId,
+          campaignId: deliverable.deal.campaignId,
+          liveUrl,
+          platform,
+          postedAt: parsedPostedAt,
+          views: views ?? 0,
+          likes: likes ?? 0,
+          comments: comments ?? 0,
+          shares: shares ?? 0,
+          engagementRate: engagementRate ?? 0,
+          submittedById: user.id,
+        },
+        include: {
+          deliverable: {
+            include: {
+              deal: {
+                include: { creator: true },
+              },
             },
           },
+          submittedBy: true,
         },
-        submittedBy: true,
-      },
-    }),
-    db.deliverable.update({
-      where: { id: deliverableId },
-      data: { submitted: true, liveUrl },
-    }),
-  ])
+      }),
+      db.deliverable.update({
+        where: { id: deliverableId },
+        data: { submitted: true, liveUrl },
+      }),
+    ])
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
+      return NextResponse.json({ error: 'A post already exists for this deliverable' }, { status: 409 })
+    }
+    throw e
+  }
 
   return NextResponse.json(post, { status: 201 })
 }
