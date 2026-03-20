@@ -83,8 +83,10 @@ model User {
 
   creatorProfile CreatorProfile?
   brandProfile   BrandProfile?
-  leads          Lead[]
-  salesDeals     SalesDeal[]
+  leads            Lead[]
+  salesDeals       SalesDeal[]
+  submittedPosts   Post[]
+  publishedReports CampaignReport[]
 
   @@map("users")
 }
@@ -173,6 +175,8 @@ model Campaign {
   deals               Deal[]
   campaignCreators    CampaignCreator[]
   analyticsSnapshots  AnalyticsSnapshot[]
+  posts               Post[]
+  campaignReports     CampaignReport[]
 
   @@map("campaigns")
 }
@@ -234,6 +238,8 @@ model Deliverable {
   dueDate   DateTime?
   submitted Boolean   @default(false)
   liveUrl   String?
+
+  post Post?
 
   @@map("deliverables")
 }
@@ -338,4 +344,42 @@ model SalesDeal {
   updatedAt DateTime @updatedAt
 
   @@map("sales_deals")
+}
+
+// ─── Posts & Reports ──────────────────────────────────────────────────────────
+
+model Post {
+  id            String      @id @default(cuid())
+  deliverableId String      @unique
+  deliverable   Deliverable @relation(fields: [deliverableId], references: [id])
+  campaignId    String
+  campaign      Campaign    @relation(fields: [campaignId], references: [id])
+  liveUrl       String
+  platform      Platform
+  postedAt      DateTime
+  views         Int         @default(0)
+  likes         Int         @default(0)
+  comments      Int         @default(0)
+  shares        Int         @default(0)
+  engagementRate Float      @default(0)
+  submittedById String
+  submittedBy   User        @relation(fields: [submittedById], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("posts")
+}
+
+model CampaignReport {
+  id            String   @id @default(cuid())
+  campaignId    String
+  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  title         String
+  notes         String?
+  publishedAt   DateTime @default(now())
+  publishedById String
+  publishedBy   User     @relation(fields: [publishedById], references: [id])
+  createdAt     DateTime @default(now())
+
+  @@map("campaign_reports")
 }

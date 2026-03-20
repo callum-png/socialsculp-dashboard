@@ -8,4 +8,10 @@ export default defineConfig({
   datasource: {
     url: process.env.DIRECT_URL ?? process.env.DATABASE_URL,
   },
+  experimental: {
+    externalTables: true,
+  },
+  tables: {
+    external: ['public.playing_with_neon'],
+  },
 })
