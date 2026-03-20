@@ -1,6 +1,5 @@
 import { ExternalLink, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react'
-import { formatNumber, formatDate } from '@/lib/utils'
-import { cn } from '@/lib/utils'
+import { cn, formatNumber, formatDate } from '@/lib/utils'
 import type { Post } from './PostsTab'
 
 interface Props {
@@ -25,12 +24,6 @@ function platformLabel(platform: string): string {
   if (platform === 'TIKTOK') return 'TikTok'
   if (platform === 'INSTAGRAM') return 'Instagram'
   return platform
-}
-
-const SORT_COLS: Record<string, string> = {
-  views: 'views',
-  engagement: 'engagement',
-  latest: 'latest',
 }
 
 interface SortHeaderProps {

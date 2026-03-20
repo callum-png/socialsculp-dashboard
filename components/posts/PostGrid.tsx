@@ -1,6 +1,5 @@
-import { ExternalLink, Play, Image } from 'lucide-react'
-import { formatNumber, formatDate } from '@/lib/utils'
-import { cn } from '@/lib/utils'
+import { ExternalLink, Play, Image as ImageIcon } from 'lucide-react'
+import { cn, formatNumber, formatDate } from '@/lib/utils'
 import type { Post } from './PostsTab'
 
 interface Props {
@@ -45,6 +44,7 @@ export function PostGrid({ posts }: Props) {
           >
             {/* Thumbnail */}
             <div className={cn('relative h-36 bg-gradient-to-br flex items-center justify-center', platformGradient(post.platform))}>
+              {/* "Live" = published on platform — not a live stream indicator */}
               {/* LIVE badge */}
               <span className="absolute top-2 left-2 inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-syne font-bold uppercase tracking-widest bg-[#0A1F0A] text-[#4ADE80] border border-[#1A4A1A]">
                 <span className="w-1.5 h-1.5 bg-[#4ADE80] rounded-full animate-pulse" />
@@ -60,7 +60,7 @@ export function PostGrid({ posts }: Props) {
               {post.platform === 'TIKTOK' || post.platform === 'INSTAGRAM' ? (
                 <Play size={28} className="text-white/30" />
               ) : (
-                <Image size={28} className="text-white/30" />
+                <ImageIcon size={28} className="text-white/30" />
               )}
             </div>
 
