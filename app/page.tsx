@@ -2,6 +2,7 @@ import './landing.css'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Script from 'next/script'
+import { CanvasBackground } from '@/app/components/CanvasBackground'
 
 export default async function Home() {
   const { userId } = await auth()
@@ -133,6 +134,8 @@ export default async function Home() {
             <div className="scroll-line"></div>
             <span className="t-label" style={{fontSize:'8.5px'}}>Scroll</span>
           </div>
+
+          <CanvasBackground />
         </section>
 
         {/* Brand marquee — directly below hero */}
@@ -281,8 +284,8 @@ export default async function Home() {
               </div>
               <div className="svc-body">
                 <div className="svc-num">01 - Core Service</div>
-                <div className="svc-name">Influencer<br />Marketing</div>
-                <p className="svc-desc">Connect with verified creators aligned with your brand values. End-to-end from discovery to delivery.</p>
+                <div className="svc-name">Creator<br />Seeding</div>
+                <p className="svc-desc">We don&apos;t just connect you with creators — we engineer the narrative. Our data-driven seeding strategy matches your brand with the right creators at the right moment, turning consumer psychology into measurable viral reach. Influencer marketing, elevated.</p>
                 <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
               </div>
             </div>
