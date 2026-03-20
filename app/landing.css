@@ -862,6 +862,11 @@
 
         @media (max-width: 768px) {
           :root { --section-x: 20px; --section-y: 64px; }
+          /* Revert split card to stacked (graphic behind text) on mobile */
+          .svc-big--split { flex-direction: column; justify-content: flex-end; padding: 24px 26px 26px; }
+          .svc-big--split .svc-body { padding: 0; flex: unset; }
+          .svc-big--split .svc-art { position: absolute; inset: 0; flex: unset; }
+          .svc-big--split .svc-fade { background: linear-gradient(to top, var(--clr-bg) 10%, rgba(4,6,14,0.05) 55%, transparent 100%); }
           #nav { padding: 0 20px; }
           .nav-links { display: none; }
           #hero { text-align: center; }
