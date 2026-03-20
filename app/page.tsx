@@ -200,8 +200,8 @@ export default async function Home() {
           </div>
 
           <div className="svc-big-grid reveal d1">
-            {/* Influencer Marketing (primary) — Creator Network Visualization */}
-            <div className="svc-big">
+            {/* Creator Seeding (primary) — Creator Network Visualization */}
+            <div className="svc-big svc-big--split">
               <div className="svc-art">
                 <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <defs>
@@ -284,7 +284,7 @@ export default async function Home() {
               </div>
               <div className="svc-body">
                 <div className="svc-num">01 - Core Service</div>
-                <div className="svc-name">Creator<br />Seeding</div>
+                <div className="svc-name">Creator Seeding</div>
                 <p className="svc-desc">We don&apos;t just connect you with creators — we engineer the narrative. Our data-driven seeding strategy matches your brand with the right creators at the right moment, turning consumer psychology into measurable viral reach. Influencer marketing, elevated.</p>
                 <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
               </div>

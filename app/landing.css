@@ -10,8 +10,8 @@
           --clr-card:       #0B0F22;
           --clr-border:     #141A32;
           --clr-border-hi:  #1E2A48;
-          --clr-text:       #E6EBF8;
-          --clr-muted:      #4A607A;
+          --clr-text:       #F0F4FF;
+          --clr-muted:      #7A98B8;
           --clr-dim:        #1A2440;
           --clr-accent:     #008CFF;
           --clr-a08:        rgba(0,140,255,0.08);
@@ -107,10 +107,10 @@
         .t-label {
           font-family: var(--font-body);
           font-weight: 600;
-          font-size: 10px;
+          font-size: 10.5px;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: var(--clr-muted);
+          color: rgba(160,185,215,0.85);
         }
 
         .eyebrow {
@@ -236,7 +236,7 @@
         .hero-headline {
           font-family: var(--font-display);
           font-weight: 700;
-          font-size: clamp(26px, 3vw, 38px);
+          font-size: clamp(32px, 3.8vw, 48px);
           line-height: 1.16;
           letter-spacing: -0.01em;
           color: var(--clr-text);
@@ -247,8 +247,8 @@
         .hero-sub {
           font-family: var(--font-body);
           font-weight: 400;
-          font-size: 14px;
-          color: var(--clr-muted);
+          font-size: 15.5px;
+          color: rgba(200,215,240,0.85);
           max-width: 400px;
           line-height: 1.72;
           margin-bottom: 30px;
@@ -500,7 +500,7 @@
         .section-title {
           font-family: var(--font-display);
           font-weight: 700;
-          font-size: clamp(28px, 3.2vw, 42px);
+          font-size: clamp(32px, 3.6vw, 50px);
           letter-spacing: -0.01em;
           line-height: 1.14;
           color: var(--clr-text);
@@ -534,9 +534,16 @@
         .svc-fade { position: absolute; inset: 0; background: linear-gradient(to top, var(--clr-bg) 10%, rgba(4,6,14,0.05) 55%, transparent 100%); }
         .svc-body { position: relative; z-index: 1; }
         .svc-num { font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: 8px; }
-        .svc-name { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: var(--clr-text); line-height: 1.25; margin-bottom: 7px; padding-bottom: 2px; }
-        .svc-desc { font-size: 12px; color: rgba(230,235,248,0.48); line-height: 1.6; margin-bottom: 14px; max-width: 280px; }
+        .svc-name { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--clr-text); line-height: 1.25; margin-bottom: 7px; padding-bottom: 2px; }
+        .svc-desc { font-size: 13px; color: rgba(200,215,240,0.72); line-height: 1.6; margin-bottom: 14px; max-width: 280px; }
         .svc-arr { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--clr-accent); transition: transform 0.2s; }
+
+        /* Split layout: text left, art right */
+        .svc-big--split { flex-direction: row; align-items: stretch; padding: 0; justify-content: flex-start; }
+        .svc-big--split .svc-body { padding: 26px 28px; display: flex; flex-direction: column; justify-content: center; flex: 0 0 52%; position: relative; z-index: 1; }
+        .svc-big--split .svc-art { position: relative; flex: 0 0 48%; inset: auto; overflow: hidden; }
+        .svc-big--split .svc-art svg { width: 100%; height: 100%; }
+        .svc-big--split .svc-fade { background: linear-gradient(to right, var(--clr-bg) 0%, transparent 60%); }
 
         /* Two secondary small cards */
         .svc-sm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -848,6 +855,11 @@
           .footer-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; justify-items: center; }
           .footer-nav a { font-size: 10px; letter-spacing: 0.07em; white-space: nowrap; }
         }
+        /* Hide canvas on touch/mobile devices */
+        @media (hover: none), (pointer: coarse) {
+          .canvas-desktop-only { display: none; }
+        }
+
         @media (max-width: 768px) {
           :root { --section-x: 20px; --section-y: 64px; }
           #nav { padding: 0 20px; }
