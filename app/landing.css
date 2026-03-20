@@ -543,7 +543,7 @@
         .svc-big--split .svc-body { padding: 26px 28px; display: flex; flex-direction: column; justify-content: center; flex: 0 0 52%; position: relative; z-index: 1; }
         .svc-big--split .svc-art { position: relative; flex: 0 0 48%; inset: auto; overflow: hidden; }
         .svc-big--split .svc-art svg { width: 100%; height: 100%; }
-        .svc-big--split .svc-fade { background: linear-gradient(to right, var(--clr-bg) 0%, transparent 60%); }
+        .svc-big--split .svc-fade { background: none; }
 
         /* Two secondary small cards */
         .svc-sm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
