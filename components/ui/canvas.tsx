@@ -122,6 +122,7 @@ function onMousemove(e) {
   function o() {
     lines = [];
     for (let e = 0; e < E.trails; e++)
+      // @ts-ignore
       lines.push(new Line({ spring: 0.45 + (e / E.trails) * 0.025 }));
   }
   // @ts-ignore
@@ -208,6 +209,7 @@ export const renderCanvas = function () {
   ctx = document.getElementById("canvas").getContext("2d");
   ctx.running = true;
   ctx.frame = 1;
+  // @ts-ignore
   f = new n({
     phase: Math.random() * 2 * Math.PI,
     amplitude: 85,
