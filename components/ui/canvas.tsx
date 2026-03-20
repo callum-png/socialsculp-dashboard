@@ -1,4 +1,5 @@
-// @ts-ignore
+/* eslint-disable */
+// @ts-nocheck
 function n(e) {
   // @ts-ignore
   this.init(e || {});
