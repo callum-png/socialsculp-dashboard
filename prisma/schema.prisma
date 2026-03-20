@@ -351,9 +351,9 @@ model SalesDeal {
 model Post {
   id            String      @id @default(cuid())
   deliverableId String      @unique
-  deliverable   Deliverable @relation(fields: [deliverableId], references: [id])
+  deliverable   Deliverable @relation(fields: [deliverableId], references: [id], onDelete: Cascade)
   campaignId    String
-  campaign      Campaign    @relation(fields: [campaignId], references: [id])
+  campaign      Campaign    @relation(fields: [campaignId], references: [id], onDelete: Restrict)
   liveUrl       String
   platform      Platform
   postedAt      DateTime
@@ -363,23 +363,26 @@ model Post {
   shares        Int         @default(0)
   engagementRate Float      @default(0)
   submittedById String
-  submittedBy   User        @relation(fields: [submittedById], references: [id])
+  submittedBy   User        @relation(fields: [submittedById], references: [id], onDelete: Restrict)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
+  @@index([campaignId])
   @@map("posts")
 }
 
 model CampaignReport {
   id            String   @id @default(cuid())
   campaignId    String
-  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  campaign      Campaign @relation(fields: [campaignId], references: [id], onDelete: Restrict)
   title         String
   notes         String?
   publishedAt   DateTime @default(now())
   publishedById String
-  publishedBy   User     @relation(fields: [publishedById], references: [id])
+  publishedBy   User     @relation(fields: [publishedById], references: [id], onDelete: Restrict)
   createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
+  @@index([campaignId])
   @@map("campaign_reports")
 }
