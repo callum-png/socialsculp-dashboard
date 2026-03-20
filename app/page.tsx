@@ -3,6 +3,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Script from 'next/script'
 import { CanvasBackground } from '@/app/components/CanvasBackground'
+import { ServiceModal } from '@/app/components/ServiceModal'
 
 export default async function Home() {
   const { userId } = await auth()
@@ -285,8 +286,7 @@ export default async function Home() {
               <div className="svc-body">
                 <div className="svc-num">01 - Core Service</div>
                 <div className="svc-name">Creator Seeding</div>
-                <p className="svc-desc">We don&apos;t just connect you with creators — we engineer the narrative. Our data-driven seeding strategy matches your brand with the right creators at the right moment, turning consumer psychology into measurable viral reach. Influencer marketing, elevated.</p>
-                <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
+                <ServiceModal num="01 — Creator Seeding" name="Creator Seeding" description="We don't just connect you with creators — we engineer the narrative. Our data-driven seeding strategy matches your brand with the right creators at the right moment, turning consumer psychology into measurable viral reach. Influencer marketing, elevated." />
               </div>
             </div>
 
@@ -373,23 +373,147 @@ export default async function Home() {
               </div>
               <div className="svc-body">
                 <div className="svc-num">02 - Core Service</div>
-                <div className="svc-name">Media<br />Buying</div>
-                <p className="svc-desc">Strategic media buying and PPV/CPM campaigns optimized for ROI. Billboard to digital, every channel connected.</p>
-                <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="svc-arr">Learn More -&gt;</a>
+                <div className="svc-name">Media Buying</div>
+                <ServiceModal num="02 — Media Buying" name="Media Buying" description="Strategic media buying and PPV/CPM campaigns optimized for ROI. We connect every channel — from social to billboard — with data-driven targeting and conversion mechanics that turn reach into measurable revenue." />
               </div>
             </div>
           </div>
 
-          <div className="svc-sm-grid reveal d2">
-            <div className="svc-sm">
-              <div className="sm-num">03</div>
-              <div className="sm-name">Creative Production</div>
-              <p className="sm-desc">End-to-end content creation from concept to distribution. We engineer narratives that align with consumer sentiment and brand ICP for maximum organic integration.</p>
+          <div className="svc-big-grid reveal d2">
+            {/* Creative Production */}
+            <div className="svc-big">
+              <div className="svc-art">
+                <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="cg3" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.25"/>
+                      <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
+                    </radialGradient>
+                    <filter id="glow3">
+                      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <rect width="560" height="280" fill="#060C1C"/>
+                  <ellipse cx="280" cy="140" rx="220" ry="150" fill="url(#cg3)"/>
+                  {/* Frame 1 */}
+                  <rect x="78" y="78" width="92" height="62" rx="4" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1.5"/>
+                  <rect x="84" y="84" width="80" height="50" rx="2" fill="#060E1E"/>
+                  <rect x="85" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1"/>
+                  <rect x="100" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1"/>
+                  <rect x="115" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1"/>
+                  <rect x="130" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1"/>
+                  <rect x="145" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1"/>
+                  <circle cx="124" cy="101" r="13" fill="#0F2040"/>
+                  <path d="M106 126 Q124 114 142 126" stroke="#008CFF" strokeWidth="1.5" fill="none" strokeOpacity="0.6"/>
+                  {/* Frame 2 — active */}
+                  <rect x="192" y="68" width="104" height="70" rx="4" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="1" strokeWidth="2"/>
+                  <rect x="198" y="74" width="92" height="58" rx="2" fill="#060E1E"/>
+                  <rect x="192" y="68" width="104" height="70" rx="4" fill="none" stroke="#008CFF" strokeOpacity="0.25" strokeWidth="10"/>
+                  <rect x="199" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <rect x="214" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <rect x="229" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <rect x="244" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <rect x="259" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <rect x="274" y="64" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.6" strokeWidth="1"/>
+                  <polyline points="206,122 220,106 234,112 248,96 262,100 276,86 286,92" stroke="#008CFF" strokeWidth="1.8" fill="none" filter="url(#glow3)"/>
+                  <circle cx="286" cy="92" r="3" fill="#008CFF" filter="url(#glow3)"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
+                  {/* Frame 3 */}
+                  <rect x="320" y="78" width="92" height="62" rx="4" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1.5"/>
+                  <rect x="326" y="84" width="80" height="50" rx="2" fill="#060E1E"/>
+                  <rect x="327" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="342" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="357" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="372" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="387" y="74" width="9" height="7" rx="1" fill="#060E1E" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="335" y="104" width="11" height="24" rx="1" fill="#008CFF" opacity="0.45"/>
+                  <rect x="351" y="96" width="11" height="32" rx="1" fill="#008CFF" opacity="0.62"/>
+                  <rect x="367" y="108" width="11" height="20" rx="1" fill="#008CFF" opacity="0.38"/>
+                  {/* Timeline */}
+                  <rect x="78" y="164" width="334" height="3" rx="2" fill="#0F1E34"/>
+                  <rect x="78" y="164" width="190" height="3" rx="2" fill="#008CFF" opacity="0.65"/>
+                  <circle cx="268" cy="165" r="6" fill="#008CFF" filter="url(#glow3)"><animate attributeName="cx" values="268;290;245;268" dur="4s" repeatCount="indefinite"/></circle>
+                  <rect x="78"  y="172" width="62"  height="8" rx="1" fill="#008CFF" opacity="0.16"/>
+                  <rect x="144" y="172" width="82"  height="8" rx="1" fill="#00D4FF" opacity="0.12"/>
+                  <rect x="230" y="172" width="52"  height="8" rx="1" fill="#008CFF" opacity="0.20"/>
+                  <rect x="286" y="172" width="72"  height="8" rx="1" fill="#00D4FF" opacity="0.14"/>
+                  {/* Stat chips */}
+                  <rect x="78"  y="200" width="100" height="32" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.55" strokeWidth="1"/>
+                  <text x="128" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">20+ FORMATS</text>
+                  <text x="128" y="225" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">CONTENT TYPES</text>
+                  <rect x="192" y="200" width="112" height="32" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
+                  <text x="248" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">CONCEPT → LIVE</text>
+                  <text x="248" y="225" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">END-TO-END</text>
+                  <rect x="318" y="200" width="94" height="32" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
+                  <text x="365" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">NARRATIVE-LED</text>
+                  <text x="365" y="225" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">STORYTELLING</text>
+                </svg>
+                <div className="svc-fade"></div>
+              </div>
+              <div className="svc-body">
+                <div className="svc-num">03 - Service</div>
+                <div className="svc-name">Creative Production</div>
+                <ServiceModal num="03 — Creative Production" name="Creative Production" description="End-to-end content creation from concept to distribution. We engineer narratives that align with consumer sentiment and brand ICP for maximum organic integration across 20+ content formats." />
+              </div>
             </div>
-            <div className="svc-sm">
-              <div className="sm-num">04</div>
-              <div className="sm-name">Performance Marketing</div>
-              <p className="sm-desc">PPV and CPM-based campaigns optimized for ROI. We use data-driven targeting and conversion mechanics to turn reach into measurable revenue.</p>
+
+            {/* Performance Marketing */}
+            <div className="svc-big">
+              <div className="svc-art">
+                <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="cg4" cx="50%" cy="42%" r="55%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.28"/>
+                      <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
+                    </radialGradient>
+                    <filter id="glow4">
+                      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <rect width="560" height="280" fill="#060C1C"/>
+                  <ellipse cx="280" cy="130" rx="210" ry="145" fill="url(#cg4)"/>
+                  {/* Funnel layers */}
+                  <path d="M120,46 L440,46 L376,96 L184,96 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
+                  <text x="280" y="76" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" letterSpacing="2">REACH</text>
+                  <path d="M184,102 L376,102 L332,150 L228,150 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.52" strokeWidth="1.5"/>
+                  <text x="280" y="130" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" letterSpacing="2">ENGAGE</text>
+                  <path d="M228,156 L332,156 L308,200 L252,200 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.88" strokeWidth="2"/>
+                  <text x="280" y="182" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" filter="url(#glow4)" letterSpacing="2">CONVERT</text>
+                  {/* Animated particles */}
+                  <circle r="3" fill="#008CFF" opacity="0.9" filter="url(#glow4)"><animateMotion path="M280,46 L280,200" dur="2s" repeatCount="indefinite"/></circle>
+                  <circle r="2" fill="#00D4FF" opacity="0.7"><animateMotion path="M260,46 L267,200" dur="2.6s" repeatCount="indefinite" begin="0.8s"/></circle>
+                  <circle r="2" fill="#008CFF" opacity="0.55"><animateMotion path="M300,46 L293,200" dur="2.3s" repeatCount="indefinite" begin="1.4s"/></circle>
+                  {/* Left metrics */}
+                  <rect x="28" y="56" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
+                  <text x="68" y="70"  fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">$2</text>
+                  <text x="68" y="82"  fontFamily="Syne" fontWeight="600" fontSize="7.5" fill="#6A8FA8" textAnchor="middle">BLENDED CPM</text>
+                  <line x1="108" y1="73" x2="120" y2="73" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1" strokeDasharray="3 3"/>
+                  <rect x="28" y="106" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
+                  <text x="68" y="120" fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">3.2×</text>
+                  <text x="68" y="132" fontFamily="Syne" fontWeight="600" fontSize="7.5" fill="#6A8FA8" textAnchor="middle">AVG ROAS</text>
+                  <line x1="108" y1="123" x2="184" y2="126" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3"/>
+                  {/* Right metrics */}
+                  <rect x="452" y="56" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
+                  <text x="492" y="70"  fontFamily="Syne" fontWeight="800" fontSize="12" fill="#008CFF" textAnchor="middle">1.9B+</text>
+                  <text x="492" y="82"  fontFamily="Syne" fontWeight="600" fontSize="7.5" fill="#6A8FA8" textAnchor="middle">VIEWS</text>
+                  <line x1="440" y1="73" x2="452" y2="73" stroke="#008CFF" strokeOpacity="0.35" strokeWidth="1" strokeDasharray="3 3"/>
+                  <rect x="452" y="106" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
+                  <text x="492" y="120" fontFamily="Syne" fontWeight="800" fontSize="10" fill="#008CFF" textAnchor="middle">DATA-LED</text>
+                  <text x="492" y="132" fontFamily="Syne" fontWeight="600" fontSize="7.5" fill="#6A8FA8" textAnchor="middle">TARGETING</text>
+                  <line x1="376" y1="126" x2="452" y2="123" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3"/>
+                  {/* Bottom stat bar */}
+                  <rect x="170" y="224" width="220" height="34" rx="6" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.55" strokeWidth="1"/>
+                  <text x="280" y="238" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">PPV · CPM · PERFORMANCE</text>
+                  <text x="280" y="250" fontFamily="Syne" fontWeight="600" fontSize="7.5" fill="#6A8FA8" textAnchor="middle">EVERY CHANNEL CONNECTED</text>
+                </svg>
+                <div className="svc-fade"></div>
+              </div>
+              <div className="svc-body">
+                <div className="svc-num">04 - Service</div>
+                <div className="svc-name">Performance Marketing</div>
+                <ServiceModal num="04 — Performance Marketing" name="Performance Marketing" description="PPV and CPM-based campaigns optimized for ROI. We use data-driven targeting and conversion mechanics to turn reach into measurable revenue — from first impression to conversion, every channel connected." />
+              </div>
             </div>
           </div>
         </section>

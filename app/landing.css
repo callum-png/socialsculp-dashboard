@@ -740,6 +740,30 @@
         /* =============================================
            LOGIN / PORTAL BUTTON
            ============================================= */
+        /* Service modal overlay */
+        .svc-modal-content {
+          background: var(--clr-card) !important;
+          border: 1px solid var(--clr-border-hi) !important;
+          border-radius: var(--r-lg) !important;
+          max-width: 480px !important;
+          padding: 32px !important;
+        }
+        .svc-modal-title {
+          font-family: var(--font-display) !important;
+          font-weight: 700 !important;
+          font-size: 22px !important;
+          letter-spacing: -0.01em !important;
+          color: var(--clr-text) !important;
+          line-height: 1.2 !important;
+          margin-bottom: 12px !important;
+        }
+        .svc-modal-desc {
+          font-size: 14px !important;
+          color: rgba(200,215,240,0.78) !important;
+          line-height: 1.72 !important;
+          margin-bottom: 0 !important;
+        }
+
         .btn-portal {
           background: transparent;
           color: rgba(230,235,248,0.5);
