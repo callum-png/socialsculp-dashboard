@@ -74,7 +74,7 @@ export async function GET(
   // Top 5 creators by total views
   const creatorViewMap = new Map<
     string,
-    { handle: string; totalViews: number; engRateSum: number; postCount: number }
+    { creatorId: string; handle: string; totalViews: number; engRateSum: number; postCount: number }
   >()
 
   for (const post of posts) {
@@ -86,6 +86,7 @@ export async function GET(
       existing.postCount += 1
     } else {
       creatorViewMap.set(creator.id, {
+        creatorId: creator.id,
         handle: creator.handle,
         totalViews: post.views,
         engRateSum: post.engagementRate,
@@ -95,7 +96,8 @@ export async function GET(
   }
 
   const topCreators = Array.from(creatorViewMap.values())
-    .map(({ handle, totalViews, engRateSum, postCount }) => ({
+    .map(({ creatorId, handle, totalViews, engRateSum, postCount }) => ({
+      creatorId,
       handle,
       totalViews,
       avgEngagementRate: postCount > 0 ? engRateSum / postCount : 0,

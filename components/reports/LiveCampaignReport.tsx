@@ -104,7 +104,7 @@ export function LiveCampaignReport({ campaignId }: Props) {
       {/* Error */}
       {!loading && error && (
         <div className="py-10 text-center text-[#FF4747] text-sm font-syne">
-          Failed to load report data
+          {error ?? 'Failed to load report data'}
         </div>
       )}
 

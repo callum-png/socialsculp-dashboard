@@ -65,7 +65,10 @@ export function ReportSnapshot({ report }: ReportSnapshotProps) {
 
       {/* View button */}
       <button
-        onClick={() => console.log('View report:', report.id)}
+        onClick={() => {
+          // TODO: open snapshot detail modal (Step 10 — admin report publishing)
+          // For now this is a view stub; full modal added when admin publish flow is built
+        }}
         className="shrink-0 px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest text-[#008cff] border border-[#008cff] hover:bg-[#001a33] transition-colors"
       >
         View →
