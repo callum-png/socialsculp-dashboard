@@ -13,6 +13,8 @@ import { PLATFORM_LABELS } from '@/lib/constants'
 import type { CampaignStatusValue, PlatformValue } from '@/lib/constants'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DollarSign, TrendingUp, Users, Eye, MapPin } from 'lucide-react'
+import { SubmitPostButton } from '@/components/creator/SubmitPostButton'
+import { PublishReportModal } from '@/components/admin/PublishReportModal'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -28,7 +30,7 @@ export default async function CampaignDetailPage({ params }: PageProps) {
       brand: true,
       deals: {
         where: { stage: { not: 'CANCELLED' } },
-        include: { creator: true, deliverables: true },
+        include: { creator: true, deliverables: { include: { post: true } } },
         orderBy: { createdAt: 'desc' },
       },
       campaignCreators: {
@@ -106,6 +108,7 @@ export default async function CampaignDetailPage({ params }: PageProps) {
         ]}
       >
         <CampaignStatusBadge status={campaign.status as CampaignStatusValue} />
+        <PublishReportModal campaignId={campaign.id} />
       </PageHeader>
 
       <div className="p-6 space-y-6">
@@ -257,9 +260,11 @@ export default async function CampaignDetailPage({ params }: PageProps) {
                     deal.deliverables.map((d) => ({
                       id: d.id,
                       type: `${d.contentType.replace('_', ' ')}`,
+                      platform: d.platform as string,
                       creator: deal.creator.handle,
                       due: d.dueDate ? new Date(d.dueDate).toLocaleDateString() : '—',
                       submitted: d.submitted,
+                      post: d.post,
                     }))
                   ).map((d) => (
                     <div key={d.id} className="flex items-center justify-between px-5 py-3.5">
@@ -269,15 +274,18 @@ export default async function CampaignDetailPage({ params }: PageProps) {
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-xs font-syne text-[#6B6860]">Due {d.due}</div>
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border ${
-                            d.submitted
-                              ? 'bg-[#0A1F0A] text-[#4ADE80] border-[#1A4A1A]'
-                              : 'bg-[#1A1A1A] text-[#6B6860] border-[#2A2A2A]'
-                          }`}
-                        >
-                          {d.submitted ? 'Submitted' : 'Pending'}
-                        </span>
+                        {d.post ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#0A1F0A] text-[#4ADE80] border-[#1A4A1A]">
+                            Live ✓
+                            {d.post.views > 0 && (
+                              <span className="text-[#4ADE80] font-fraunces normal-case tracking-normal">
+                                {formatNumber(d.post.views)}
+                              </span>
+                            )}
+                          </span>
+                        ) : (
+                          <SubmitPostButton deliverableId={d.id} platform={d.platform} />
+                        )}
                       </div>
                     </div>
                   ))}
