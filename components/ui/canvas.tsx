@@ -161,7 +161,8 @@ function render() {
     // @ts-ignore
     ctx.globalCompositeOperation = "lighter";
     // @ts-ignore
-    ctx.strokeStyle = "hsla(" + Math.round(f.update()) + ",100%,50%,0.025)";
+    f.update(); // keep oscillator ticking (unused for color now)
+    ctx.strokeStyle = "rgba(0,140,255,0.032)";
     // @ts-ignore
     ctx.lineWidth = 10;
     for (var e, t = 0; t < E.trails; t++) {

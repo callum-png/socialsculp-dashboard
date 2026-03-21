@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Portal Preview — SocialSculp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0A0A0A; color: #EDE8DE; font-family: 'Syne', sans-serif; min-height: 100vh; display: flex; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 220px; min-height: 100vh; background: #111111;
+      border-right: 1px solid #222222; display: flex; flex-direction: column;
+      flex-shrink: 0; position: fixed; top: 0; left: 0; bottom: 0;
+    }
+    .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid #222222; }
+    .sidebar-logo-text { font-size: 18px; font-weight: 800; color: #EDE8DE; letter-spacing: -0.02em; }
+    .sidebar-logo-text span { color: #008cff; }
+    .sidebar-sub { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #3A3A3A; margin-top: 4px; }
+
+    .sidebar-section { padding: 16px 12px 8px; }
+    .sidebar-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #3A3A3A; padding: 0 12px; margin-bottom: 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #6B6860; text-decoration: none; position: relative; transition: all 0.15s;
+      border-radius: 0;
+    }
+    .nav-item.active { color: #008cff; background: #1A1A1A; }
+    .nav-item.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #008cff; }
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .sidebar-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid #222222; }
+    .sidebar-role { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #3A3A3A; margin-bottom: 4px; }
+    .sidebar-user { font-size: 12px; font-weight: 700; color: #EDE8DE; }
+    .sidebar-email { font-size: 11px; color: #6B6860; margin-top: 2px; }
+    .role-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: #001a33; border: 1px solid #003366; color: #008cff; padding: 2px 6px; margin-top: 6px; }
+
+    /* ── Main ── */
+    .main { margin-left: 220px; flex: 1; min-height: 100vh; }
+
+    /* ── Top bar ── */
+    .topbar {
+      height: 56px; border-bottom: 1px solid #222222; display: flex; align-items: center;
+      padding: 0 24px; gap: 12px; justify-content: space-between; background: #0D0D0D;
+    }
+    .topbar-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #EDE8DE; }
+    .topbar-right { display: flex; align-items: center; gap: 8px; }
+    .avatar { width: 30px; height: 30px; background: #1A1A1A; border: 1px solid #222222; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #008cff; }
+
+    /* ── Page Header ── */
+    .page-header { padding: 24px 24px 20px; border-bottom: 1px solid #222222; display: flex; align-items: flex-start; justify-content: space-between; }
+    .page-header-left h1 { font-size: 20px; font-weight: 800; color: #EDE8DE; letter-spacing: -0.01em; }
+    .page-header-left p { font-size: 11px; color: #6B6860; margin-top: 4px; letter-spacing: 0.05em; }
+    .btn-group { display: flex; align-items: center; gap: 8px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: all 0.15s; border: none; }
+    .btn-ghost { background: transparent; border: 1px solid #222222; color: #6B6860; }
+    .btn-ghost:hover { border-color: #008cff; color: #008cff; }
+    .btn-primary { background: #008cff; color: white; }
+    .btn-primary:hover { background: #0077dd; }
+    .btn svg { width: 12px; height: 12px; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; border-bottom: 1px solid #222222; padding: 0 24px; }
+    .tab { padding: 12px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; background: none; border-left: none; border-right: none; border-top: none; font-family: 'Syne', sans-serif; }
+    .tab.active { border-bottom-color: #008cff; color: #008cff; }
+    .tab:not(.active) { color: #6B6860; }
+
+    /* ── Lead type toggle ── */
+    .lead-type-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .lead-type-btns { display: flex; gap: 8px; }
+    .lead-type-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; border: 1px solid; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.15s; }
+    .lead-type-btn.active { background: #001a33; border-color: #008cff; color: #008cff; }
+    .lead-type-btn:not(.active) { background: #1A1A1A; border-color: #222222; color: #6B6860; }
+    .lead-type-btn svg { width: 11px; height: 11px; }
+
+    /* ── Table ── */
+    .table-wrap { background: #111111; border: 1px solid #222222; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid #1A1A1A; }
+    th { text-align: left; padding: 12px 16px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #6B6860; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #1A1A1A; transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #0D0D0D; }
+    td { padding: 12px 16px; font-size: 13px; color: #6B6860; }
+    td.name { font-weight: 700; color: #EDE8DE; }
+    td.source { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── Pipeline ── */
+    .pipeline { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 16px; min-height: 500px; }
+    .pipeline-col { display: flex; flex-direction: column; flex-shrink: 0; width: 220px; background: #0D0D0D; border: 1px solid #222222; }
+    .pipeline-col-header { padding: 12px 14px; border-bottom: 1px solid #222222; }
+    .stage-badge { display: inline-flex; align-items: center; padding: 2px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border: 1px solid; }
+    .stage-count { font-size: 10px; font-weight: 700; background: #1A1A1A; border: 1px solid #222222; padding: 1px 6px; color: #6B6860; }
+    .stage-desc { font-size: 10px; color: #3A3A3A; margin-top: 4px; }
+    .pipeline-body { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+    .deal-card { background: #111111; border: 1px solid #222222; padding: 12px; }
+    .deal-title { font-size: 12px; font-weight: 700; color: #EDE8DE; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .deal-meta { font-size: 11px; color: #6B6860; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .deal-value { font-size: 11px; font-weight: 700; color: #008cff; margin-bottom: 8px; }
+    .deal-actions { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 8px; border-top: 1px solid #1A1A1A; }
+    .deal-action { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #6B6860; border: 1px solid #1A1A1A; padding: 2px 6px; cursor: pointer; background: none; font-family: 'Syne', sans-serif; transition: all 0.15s; }
+    .deal-action:hover { color: #008cff; border-color: #008cff; }
+    .empty-col { display: flex; align-items: center; justify-content: center; padding: 32px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #3A3A3A; }
+
+    /* stage colors */
+    .s-appt { color: #6B6860; background: #1A1A1A; border-color: #222222; }
+    .s-qual { color: #008cff; background: #001a33; border-color: #003366; }
+    .s-dm { color: #FFB547; background: #1F1200; border-color: #3D2400; }
+    .s-prop { color: #A78BFA; background: #1A1033; border-color: #2D1F55; }
+    .s-won { color: #34D399; background: #001A0E; border-color: #00331B; }
+    .s-lost { color: #FF4747; background: #1F0A0A; border-color: #4A1A1A; }
+
+    .content { padding: 24px; }
+
+    /* ── Notice bar ── */
+    .notice { background: #001a33; border: 1px solid #003366; padding: 10px 16px; font-size: 11px; color: #008cff; letter-spacing: 0.05em; margin-bottom: 24px; }
+    .notice strong { font-weight: 800; }
+
+    /* Pipeline hidden label */
+    .hidden-section { display: none; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">SocialSculp<span>.</span></div>
+      <div class="sidebar-sub">Campaign Intelligence</div>
+    </div>
+
+    <nav class="sidebar-section">
+      <div class="sidebar-label">Agent</div>
+      <a class="nav-item active" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        My CRM
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-role">Signed in as</div>
+      <div class="sidebar-user">Jamie Thornton</div>
+      <div class="sidebar-email">jamie@socialsculp.io</div>
+      <div class="role-badge">Agent</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-title">My CRM</div>
+      <div class="topbar-right">
+        <div class="avatar">JT</div>
+      </div>
+    </header>
+
+    <!-- Page header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>My CRM</h1>
+        <p>7 leads</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import CSV
+        </button>
+        <button class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="btn btn-primary" id="newLeadBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Lead
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('leads', this)" id="tab-leads">Leads</button>
+      <button class="tab" onclick="switchTab('pipeline', this)" id="tab-pipeline">Pipeline</button>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- LEADS TAB -->
+      <div id="section-leads" class="tab-content active">
+        <div class="lead-type-bar">
+          <div class="lead-type-btns">
+            <button class="lead-type-btn active" onclick="switchLeadType('brand', this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Brands (4)
+            </button>
+            <button class="lead-type-btn" onclick="switchLeadType('creator', this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Creators (3)
+            </button>
+          </div>
+          <!-- No agent filter — agents can't see other agents' leads -->
+        </div>
+
+        <!-- Brands table -->
+        <div class="table-wrap" id="brand-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Source</th>
+                <th>Notes</th>
+                <!-- No "Agent" column — agents only see their own leads -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">Sarah Mitchell</td>
+                <td>Luminary Apparel</td>
+                <td>s.mitchell@luminary.co</td>
+                <td>+44 7700 900123</td>
+                <td class="source">Instagram</td>
+                <td>Interested in Q3 collab</td>
+              </tr>
+              <tr>
+                <td class="name">Daniel Park</td>
+                <td>Revel Energy Drinks</td>
+                <td>d.park@reveldrinks.com</td>
+                <td>—</td>
+                <td class="source">Referral</td>
+                <td>Budget ~£15k</td>
+              </tr>
+              <tr>
+                <td class="name">Priya Sharma</td>
+                <td>Nova Beauty</td>
+                <td>priya@novabeauty.io</td>
+                <td>+44 7900 441200</td>
+                <td class="source">LinkedIn</td>
+                <td>Looking for micro-influencers</td>
+              </tr>
+              <tr>
+                <td class="name">Chris Owen</td>
+                <td>Bolt Sportswear</td>
+                <td>—</td>
+                <td>—</td>
+                <td class="source">Cold Outreach</td>
+                <td>Follow up Monday</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Creators table (hidden by default) -->
+        <div class="table-wrap" id="creator-table" style="display:none;">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Handle</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Source</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">Lena Moreau</td>
+                <td>@lenamoreau</td>
+                <td>lena@creator.io</td>
+                <td>—</td>
+                <td class="source">Instagram DM</td>
+                <td>850k TikTok, fashion niche</td>
+              </tr>
+              <tr>
+                <td class="name">Marcus Webb</td>
+                <td>@marcuswebb_fit</td>
+                <td>marcuswebb@gmail.com</td>
+                <td>+44 7810 334455</td>
+                <td class="source">Referral</td>
+                <td>Fitness — 1.2M IG followers</td>
+              </tr>
+              <tr>
+                <td class="name">Aisha Kamara</td>
+                <td>@aishakamara</td>
+                <td>—</td>
+                <td>—</td>
+                <td class="source">TikTok</td>
+                <td>Beauty creator, 400k TikTok</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PIPELINE TAB -->
+      <div id="section-pipeline" class="tab-content">
+        <div class="pipeline">
+          <!-- Appointment Set -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-appt">Appointment Set</span>
+                <span class="stage-count">2</span>
+              </div>
+              <div class="stage-desc">Initial meeting booked</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="deal-card">
+                <div class="deal-title">Luminary Apparel — Q3</div>
+                <div class="deal-meta">Sarah Mitchell — Luminary Apparel</div>
+                <div class="deal-value">£8,000</div>
+                <div class="deal-actions">
+                  <button class="deal-action">→ Qualified</button>
+                  <button class="deal-action">→ Lost</button>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-title">Bolt Sportswear Intro</div>
+                <div class="deal-meta">Chris Owen</div>
+                <div class="deal-actions">
+                  <button class="deal-action">→ Qualified</button>
+                  <button class="deal-action">→ Lost</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Qualified -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-qual">Qualified</span>
+                <span class="stage-count">1</span>
+              </div>
+              <div class="stage-desc">Budget confirmed</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="deal-card">
+                <div class="deal-title">Revel Energy — Summer</div>
+                <div class="deal-meta">Daniel Park — Revel Energy Drinks</div>
+                <div class="deal-value">£15,000</div>
+                <div class="deal-actions">
+                  <button class="deal-action">→ Decision</button>
+                  <button class="deal-action">→ Proposal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decision Maker -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-dm">Decision Maker</span>
+                <span class="stage-count">0</span>
+              </div>
+              <div class="stage-desc">Key person bought in</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="empty-col">Empty</div>
+            </div>
+          </div>
+
+          <!-- Proposal Sent -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-prop">Proposal Sent</span>
+                <span class="stage-count">1</span>
+              </div>
+              <div class="stage-desc">Campaign proposal sent</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="deal-card">
+                <div class="deal-title">Nova Beauty — Micro Campaign</div>
+                <div class="deal-meta">Priya Sharma — Nova Beauty</div>
+                <div class="deal-value">£22,500</div>
+                <div class="deal-actions">
+                  <button class="deal-action">→ Won</button>
+                  <button class="deal-action">→ Lost</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Closed Won -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-won">Closed Won</span>
+                <span class="stage-count">0</span>
+              </div>
+              <div class="stage-desc">Signed ✓</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="empty-col">Empty</div>
+            </div>
+          </div>
+
+          <!-- Closed Lost -->
+          <div class="pipeline-col">
+            <div class="pipeline-col-header">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="stage-badge s-lost">Closed Lost</span>
+                <span class="stage-count">0</span>
+              </div>
+              <div class="stage-desc">Not moving forward</div>
+            </div>
+            <div class="pipeline-body">
+              <div class="empty-col">Empty</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <script>
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-' + name).classList.add('active');
+
+      const newLeadBtn = document.getElementById('newLeadBtn');
+      newLeadBtn.textContent = name === 'leads' ? '+ New Lead' : '+ New Deal';
+    }
+
+    function switchLeadType(type, btn) {
+      document.querySelectorAll('.lead-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('brand-table').style.display = type === 'brand' ? '' : 'none';
+      document.getElementById('creator-table').style.display = type === 'creator' ? '' : 'none';
+    }
+  </script>
+
+</body>
+</html>

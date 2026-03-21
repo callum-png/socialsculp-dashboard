@@ -1,0 +1,118 @@
+<h2>Client Portal — Campaign View Layout</h2>
+<p class="subtitle">When a client opens a campaign, which layout feels right for a seeding campaign? Choose the approach that fits best.</p>
+
+<div class="cards" style="gap: 24px; display: flex; flex-direction: column;">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>A — Tab-Driven Campaign Hub</h3>
+      <p>Campaign header with KPI strip, then tabs: <strong>Overview · Posts · Analytics · Creators · Reports</strong>. Posts tab shows a live feed of content as it goes live.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="background:#1a1a24; border-radius:8px; padding:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1px;">Campaign</div>
+          <div style="font-size:18px; font-weight:700; color:#fff;">GymShark Spring Drop 🏋️</div>
+          <div style="font-size:11px; color:#aaa; margin-top:2px;">Active · 24 creators · TikTok + Instagram</div>
+        </div>
+        <div style="text-align:right; font-size:11px; color:#aaa;">Mar 1 – Apr 30 · $48,000 budget</div>
+      </div>
+      <div style="display:flex; gap:12px; margin-bottom:10px;">
+        <div style="background:#1a1a24;border-radius:8px;padding:10px 14px;flex:1;text-align:center;"><div style="color:#888;font-size:10px;">REACH</div><div style="color:#fff;font-size:16px;font-weight:700;">2.4M</div></div>
+        <div style="background:#1a1a24;border-radius:8px;padding:10px 14px;flex:1;text-align:center;"><div style="color:#888;font-size:10px;">POSTS LIVE</div><div style="color:#a78bfa;font-size:16px;font-weight:700;">38</div></div>
+        <div style="background:#1a1a24;border-radius:8px;padding:10px 14px;flex:1;text-align:center;"><div style="color:#888;font-size:10px;">AVG ENG</div><div style="color:#34d399;font-size:16px;font-weight:700;">6.2%</div></div>
+        <div style="background:#1a1a24;border-radius:8px;padding:10px 14px;flex:1;text-align:center;"><div style="color:#888;font-size:10px;">ROAS</div><div style="color:#fbbf24;font-size:16px;font-weight:700;">4.1x</div></div>
+      </div>
+      <div style="display:flex; gap:0; border-bottom:1px solid #2a2a3a; margin-bottom:10px;">
+        <div style="padding:8px 14px;border-bottom:2px solid #a78bfa;color:#a78bfa;font-size:11px;font-weight:600;">OVERVIEW</div>
+        <div style="padding:8px 14px;color:#666;font-size:11px;">POSTS <span style="background:#a78bfa;color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;margin-left:4px;">38</span></div>
+        <div style="padding:8px 14px;color:#666;font-size:11px;">ANALYTICS</div>
+        <div style="padding:8px 14px;color:#666;font-size:11px;">CREATORS</div>
+        <div style="padding:8px 14px;color:#666;font-size:11px;">REPORTS</div>
+      </div>
+      <div style="color:#888;font-size:11px;text-align:center;padding:8px;">↑ Tab content area (charts, post grid, creator list...)</div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>B — Split View (Posts + Metrics Side by Side)</h3>
+      <p>Two-panel layout: live post feed on the left, real-time metrics panel on the right. No tabs — everything visible at once for quick monitoring.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="display:flex; gap:12px; height:130px;">
+        <div style="flex:1.4; background:#1a1a24; border-radius:8px; padding:12px; overflow:hidden;">
+          <div style="color:#888;font-size:10px;margin-bottom:6px;">LIVE POSTS FEED</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;gap:8px;align-items:center;background:#252535;border-radius:5px;padding:6px 8px;">
+              <div style="width:28px;height:28px;background:#2a2a3a;border-radius:4px;flex-shrink:0;"></div>
+              <div><div style="color:#fff;font-size:10px;">@alexfitness • TikTok</div><div style="color:#888;font-size:9px;">2.1M views · 8.4% eng · Just now</div></div>
+              <div style="margin-left:auto;background:#34d399;color:#000;font-size:9px;padding:2px 6px;border-radius:10px;">LIVE</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;background:#252535;border-radius:5px;padding:6px 8px;">
+              <div style="width:28px;height:28px;background:#2a2a3a;border-radius:4px;flex-shrink:0;"></div>
+              <div><div style="color:#fff;font-size:10px;">@janegains • Instagram</div><div style="color:#888;font-size:9px;">340K views · 5.1% eng · 2h ago</div></div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;background:#252535;border-radius:5px;padding:6px 8px;">
+              <div style="width:28px;height:28px;background:#2a2a3a;border-radius:4px;flex-shrink:0;"></div>
+              <div><div style="color:#fff;font-size:10px;">@miketok • TikTok</div><div style="color:#888;font-size:9px;">890K views · 7.2% eng · 4h ago</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1; background:#1a1a24; border-radius:8px; padding:12px; display:flex;flex-direction:column;gap:6px;">
+          <div style="color:#888;font-size:10px;margin-bottom:2px;">CAMPAIGN METRICS</div>
+          <div><div style="color:#aaa;font-size:9px;">TOTAL REACH</div><div style="color:#fff;font-size:16px;font-weight:700;">2.4M</div></div>
+          <div><div style="color:#aaa;font-size:9px;">ENG RATE</div><div style="color:#34d399;font-size:16px;font-weight:700;">6.2%</div></div>
+          <div><div style="color:#aaa;font-size:9px;">ROAS</div><div style="color:#fbbf24;font-size:16px;font-weight:700;">4.1x</div></div>
+          <div style="background:#a78bfa;color:#0f0f13;border-radius:5px;padding:4px 8px;font-size:10px;font-weight:700;text-align:center;margin-top:auto;">EXPORT REPORT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>C — Timeline-First (Chronological Campaign View)</h3>
+      <p>Campaign unfolds as a timeline. Posts appear in date order. Metrics update alongside each post batch. Feels like a live campaign story — great for client presentations.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="position:relative; padding-left:20px; border-left:2px solid #2a2a3a;">
+        <div style="margin-bottom:10px;">
+          <div style="position:absolute;left:-5px;width:8px;height:8px;background:#a78bfa;border-radius:50%;top:3px;"></div>
+          <div style="color:#888;font-size:9px;text-transform:uppercase;">Mar 15 — Batch 1 · 8 posts</div>
+          <div style="background:#1a1a24;border-radius:6px;padding:8px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:10px;color:#fff;">8 posts live · 1.2M combined reach</div>
+            <div style="display:flex;gap:6px;">
+              <div style="background:#2a2a3a;border-radius:4px;padding:3px 7px;font-size:9px;color:#aaa;">Avg 6.8% eng</div>
+              <div style="background:#2a2a3a;border-radius:4px;padding:3px 7px;font-size:9px;color:#aaa;">View posts →</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div style="position:absolute;left:-5px;width:8px;height:8px;background:#34d399;border-radius:50%;top:60px;"></div>
+          <div style="color:#888;font-size:9px;text-transform:uppercase;">Mar 22 — Batch 2 · 12 posts</div>
+          <div style="background:#1a1a24;border-radius:6px;padding:8px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:10px;color:#fff;">12 posts live · 2.1M combined reach</div>
+            <div style="display:flex;gap:6px;">
+              <div style="background:#2a2a3a;border-radius:4px;padding:3px 7px;font-size:9px;color:#aaa;">Avg 5.9% eng</div>
+              <div style="background:#2a2a3a;border-radius:4px;padding:3px 7px;font-size:9px;color:#aaa;">View posts →</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="position:absolute;left:-5px;width:8px;height:8px;background:#3b82f6;border-radius:50%;top:117px;border:2px solid #555;"></div>
+          <div style="color:#888;font-size:9px;text-transform:uppercase;">Mar 29 — Batch 3 · Scheduled</div>
+          <div style="background:#1a1a24;border-radius:6px;padding:8px;margin-top:4px;border:1px dashed #333;">
+            <div style="font-size:10px;color:#555;">14 posts scheduled · Est. reach 1.8M</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 20px; text-align: center;">Click to select — or tell me in the terminal what feels right.</p>

@@ -4,18 +4,19 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#090909] px-4">
       <div className="mb-8 flex flex-col items-center gap-2">
-        <div className="flex items-center gap-1">
+        <a href="https://www.socialsculp.io" className="flex items-center gap-1 no-underline mb-1">
           <span className="font-syne text-4xl font-bold text-[#EDE8DE] tracking-tight">
             SocialSculp
           </span>
           <span className="text-4xl font-bold text-[#008cff]">.</span>
-        </div>
+        </a>
         <p className="text-sm font-syne tracking-[0.2em] uppercase text-[#6B6860]">
           Campaign Intelligence Platform
         </p>
       </div>
 
       <SignUp
+        forceRedirectUrl="/pending"
         appearance={{
           variables: {
             colorBackground: '#111111',

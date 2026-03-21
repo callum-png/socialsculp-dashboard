@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Script from 'next/script'
 import { CanvasBackground } from '@/app/components/CanvasBackground'
 import { ServiceModal } from '@/app/components/ServiceModal'
+import { LoadingScreen } from '@/app/components/LoadingScreen'
+import { HeroSparkles } from '@/app/components/HeroSparkles'
 
 export default async function Home() {
   const { userId } = await auth()
@@ -24,7 +26,7 @@ export default async function Home() {
 
   return (
     <>
-
+      <LoadingScreen />
 
       {/* Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,6 +66,7 @@ export default async function Home() {
              HERO
              ========================================== */}
         <section id="hero" style={{position:'relative'}}>
+          <HeroSparkles />
           <div style={{maxWidth:'460px',marginLeft:'auto',marginRight:'auto'}}>
             <div className="hero-eyebrow">
               <div className="live-dot"></div>
@@ -202,7 +205,7 @@ export default async function Home() {
 
           <div className="svc-big-grid reveal d1">
             {/* Creator Seeding (primary) — Creator Network Visualization */}
-            <div className="svc-big svc-big--split">
+            <div className="svc-big">
               <div className="svc-art">
                 <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <defs>
@@ -284,7 +287,7 @@ export default async function Home() {
                 <div className="svc-fade"></div>
               </div>
               <div className="svc-body">
-                <div className="svc-num">01 - Core Service</div>
+                <div className="svc-num">01 - Service</div>
                 <div className="svc-name">Creator Seeding</div>
                 <ServiceModal num="01 — Creator Seeding" name="Creator Seeding" description="We don't just connect you with creators — we engineer the narrative. Our data-driven seeding strategy matches your brand with the right creators at the right moment, turning consumer psychology into measurable viral reach. Influencer marketing, elevated." />
               </div>
@@ -372,7 +375,7 @@ export default async function Home() {
                 <div className="svc-fade" style={{background: 'linear-gradient(to top, var(--clr-bg) 6%, rgba(4,6,14,0.03) 38%, transparent 100%)'}}></div>
               </div>
               <div className="svc-body">
-                <div className="svc-num">02 - Core Service</div>
+                <div className="svc-num">02 - Service</div>
                 <div className="svc-name">Media Buying</div>
                 <ServiceModal num="02 — Media Buying" name="Media Buying" description="Strategic media buying and PPV/CPM campaigns optimized for ROI. We connect every channel — from social to billboard — with data-driven targeting and conversion mechanics that turn reach into measurable revenue." />
               </div>
@@ -385,92 +388,80 @@ export default async function Home() {
               <div className="svc-art">
                 <svg viewBox="0 0 560 280" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <radialGradient id="cg3" cx="50%" cy="46%" r="58%">
-                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.26"/>
+                    <radialGradient id="cg3" cx="50%" cy="45%" r="60%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.18"/>
                       <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
                     </radialGradient>
                     <filter id="glow3">
-                      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                      <feGaussianBlur stdDeviation="3" result="blur"/>
                       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                     </filter>
+                    <pattern id="cp-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+                      <circle cx="12" cy="12" r="0.75" fill="#008CFF" fillOpacity="0.18"/>
+                    </pattern>
                   </defs>
                   <rect width="560" height="280" fill="#060C1C"/>
-                  <ellipse cx="280" cy="128" rx="210" ry="140" fill="url(#cg3)"/>
-                  {/* Connection lines from BRIEF card to each format tile */}
-                  <line x1="252" y1="103" x2="124" y2="80" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.72" strokeDasharray="6 5">
-                    <animate attributeName="stroke-dashoffset" from="0" to="22" dur="1.0s" repeatCount="indefinite"/>
+                  <rect width="560" height="280" fill="url(#cp-dots)"/>
+                  <ellipse cx="280" cy="120" rx="230" ry="140" fill="url(#cg3)"/>
+                  {/* Circuit traces */}
+                  <line x1="38" y1="55" x2="38" y2="195" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="1"/>
+                  <line x1="38" y1="55" x2="80" y2="55" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="1"/>
+                  <circle cx="38" cy="55" r="2" fill="#008CFF" fillOpacity="0.14"/>
+                  <line x1="522" y1="75" x2="522" y2="200" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="1"/>
+                  <line x1="480" y1="75" x2="522" y2="75" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="1"/>
+                  <circle cx="522" cy="75" r="2" fill="#008CFF" fillOpacity="0.14"/>
+                  <line x1="65" y1="205" x2="200" y2="205" stroke="#008CFF" strokeOpacity="0.05" strokeWidth="1"/>
+                  <line x1="360" y1="205" x2="495" y2="205" stroke="#008CFF" strokeOpacity="0.05" strokeWidth="1"/>
+                  {/* Animated connection line: Briefcase → Camera */}
+                  <line x1="162" y1="116" x2="236" y2="116" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.65" strokeDasharray="5 4">
+                    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1.1s" repeatCount="indefinite"/>
                   </line>
-                  <circle r="3.5" fill="#008CFF" opacity="0.92" filter="url(#glow3)">
-                    <animateMotion path="M252,103 L124,80" dur="1.0s" repeatCount="indefinite"/>
+                  <circle r="3.5" fill="#008CFF" opacity="0.9" filter="url(#glow3)">
+                    <animateMotion path="M162,116 L236,116" dur="1.1s" repeatCount="indefinite"/>
                   </circle>
-                  <line x1="308" y1="103" x2="438" y2="72" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.72" strokeDasharray="6 5">
-                    <animate attributeName="stroke-dashoffset" from="0" to="-22" dur="1.2s" repeatCount="indefinite"/>
+                  {/* Animated connection line: Camera → Sparkle */}
+                  <line x1="326" y1="116" x2="398" y2="116" stroke="#008CFF" strokeWidth="1.5" strokeOpacity="0.65" strokeDasharray="5 4">
+                    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1.0s" repeatCount="indefinite"/>
                   </line>
-                  <circle r="3.5" fill="#008CFF" opacity="0.92" filter="url(#glow3)">
-                    <animateMotion path="M308,103 L438,72" dur="1.2s" repeatCount="indefinite"/>
+                  <circle r="3.5" fill="#008CFF" opacity="0.9" filter="url(#glow3)">
+                    <animateMotion path="M326,116 L398,116" dur="1.0s" repeatCount="indefinite"/>
                   </circle>
-                  <line x1="252" y1="150" x2="148" y2="184" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.60" strokeDasharray="6 5">
-                    <animate attributeName="stroke-dashoffset" from="0" to="22" dur="1.3s" repeatCount="indefinite"/>
-                  </line>
-                  <circle r="2.5" fill="#00D4FF" opacity="0.85">
-                    <animateMotion path="M252,150 L148,184" dur="1.3s" repeatCount="indefinite"/>
+                  {/* === BRIEFCASE ICON === */}
+                  <circle cx="128" cy="116" r="38" fill="#008CFF" fillOpacity="0.05"/>
+                  <rect x="104" y="100" width="50" height="36" rx="3" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.75" strokeWidth="1.5"/>
+                  <path d="M118 100 L118 96 Q129 92 140 96 L140 100" stroke="#008CFF" strokeOpacity="0.7" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+                  <line x1="104" y1="116" x2="154" y2="116" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1"/>
+                  <rect x="123" y="112" width="12" height="8" rx="1" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
+                  <text x="129" y="153" fontFamily="Syne" fontWeight="700" fontSize="7.5" fill="#008CFF" textAnchor="middle" letterSpacing="1">BRIEF</text>
+                  {/* === VIDEO CAMERA ICON === */}
+                  <circle cx="281" cy="116" r="40" fill="#008CFF" fillOpacity="0.06"/>
+                  <rect x="236" y="100" width="66" height="40" rx="3" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.75" strokeWidth="1.5"/>
+                  <circle cx="260" cy="120" r="12" fill="#080F1E" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
+                  <circle cx="260" cy="120" r="6" fill="#008CFF" opacity="0.35" filter="url(#glow3)"/>
+                  <circle cx="260" cy="120" r="2.5" fill="#008CFF" opacity="0.8"/>
+                  <circle cx="260" cy="120" r="9" fill="none" stroke="#008CFF" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="3 3"/>
+                  <path d="M302 105 L326 116 L302 127 Z" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
+                  <text x="281" y="157" fontFamily="Syne" fontWeight="700" fontSize="7.5" fill="#008CFF" textAnchor="middle" letterSpacing="1">PRODUCE</text>
+                  {/* === SPARKLE / DEPLOY ICON === */}
+                  <circle cx="432" cy="116" r="38" fill="#008CFF" fillOpacity="0.05"/>
+                  <path d="M432 92 L437 110 L456 116 L437 122 L432 140 L427 122 L408 116 L427 110 Z" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.75" strokeWidth="1.5"/>
+                  <circle cx="432" cy="116" r="8" fill="#008CFF" opacity="0.4" filter="url(#glow3)">
+                    <animate attributeName="opacity" values="0.4;0.75;0.4" dur="2s" repeatCount="indefinite"/>
                   </circle>
-                  <line x1="308" y1="150" x2="430" y2="183" stroke="#00D4FF" strokeWidth="1.2" strokeOpacity="0.60" strokeDasharray="6 5">
-                    <animate attributeName="stroke-dashoffset" from="0" to="-22" dur="1.1s" repeatCount="indefinite"/>
-                  </line>
-                  <circle r="2.5" fill="#00D4FF" opacity="0.85">
-                    <animateMotion path="M308,150 L430,183" dur="1.1s" repeatCount="indefinite"/>
-                  </circle>
-                  {/* === CENTER: BRIEF DOCUMENT CARD === */}
-                  <rect x="242" y="88" width="76" height="68" rx="5" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.9" strokeWidth="1.5"/>
-                  <rect x="251" y="98" width="58" height="4" rx="1" fill="#008CFF" opacity="0.65"/>
-                  <rect x="251" y="107" width="44" height="3" rx="1" fill="#1A3050"/>
-                  <rect x="251" y="113" width="54" height="3" rx="1" fill="#1A3050"/>
-                  <rect x="251" y="119" width="36" height="3" rx="1" fill="#1A3050"/>
-                  <rect x="251" y="125" width="50" height="3" rx="1" fill="#1A3050"/>
-                  <rect x="251" y="133" width="36" height="14" rx="2" fill="#008CFF" opacity="0.88"/>
-                  <text x="269" y="144" fontFamily="Syne" fontWeight="800" fontSize="7.5" fill="white" textAnchor="middle">BRIEF</text>
-                  {/* === TOP-LEFT: TikTok / Reels — vertical phone frame === */}
-                  <rect x="82" y="44" width="46" height="78" rx="6" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.72" strokeWidth="1.5"/>
-                  <rect x="88" y="50" width="34" height="62" rx="3" fill="#060E1E"/>
-                  <rect x="88" y="50" width="34" height="44" rx="1" fill="#0A1E34"/>
-                  <path d="M100,68 L100,78 L110,73 Z" fill="#008CFF" opacity="0.9"/>
-                  <rect x="89" y="98" width="32" height="11" rx="2" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5"/>
-                  <text x="105" y="107" fontFamily="Syne" fontWeight="700" fontSize="6.5" fill="#008CFF" textAnchor="middle">2.1M</text>
-                  <text x="105" y="134" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle" letterSpacing="0.3">TIKTOK/REELS</text>
-                  {/* === TOP-RIGHT: Instagram — square grid === */}
-                  <rect x="438" y="44" width="68" height="68" rx="6" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.62" strokeWidth="1.5"/>
-                  <rect x="444" y="50" width="18" height="18" rx="1" fill="#008CFF" opacity="0.42"/>
-                  <rect x="465" y="50" width="18" height="18" rx="1" fill="#008CFF" opacity="0.28"/>
-                  <rect x="481" y="50" width="20" height="18" rx="1" fill="#00D4FF" opacity="0.20"/>
-                  <rect x="444" y="71" width="18" height="18" rx="1" fill="#008CFF" opacity="0.22"/>
-                  <rect x="465" y="71" width="18" height="18" rx="1" fill="#008CFF" opacity="0.50"/>
-                  <rect x="481" y="71" width="20" height="18" rx="1" fill="#008CFF" opacity="0.32"/>
-                  <text x="472" y="126" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle" letterSpacing="0.3">INSTAGRAM</text>
-                  {/* === BOTTOM-LEFT: YouTube — wide horizontal with progress bar === */}
-                  <rect x="58" y="160" width="90" height="56" rx="4" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.58" strokeWidth="1.5"/>
-                  <rect x="64" y="165" width="78" height="40" rx="2" fill="#060E1E"/>
-                  <circle cx="103" cy="185" r="11" fill="#008CFF" opacity="0.12"/>
-                  <path d="M98,181 L98,189 L108,185 Z" fill="#008CFF" opacity="0.85"/>
-                  <rect x="64" y="209" width="78" height="3" rx="1" fill="#0F1E34"/>
-                  <rect x="64" y="209" width="52" height="3" rx="1" fill="#008CFF" opacity="0.7">
-                    <animate attributeName="width" values="52;68;44;52" dur="3.5s" repeatCount="indefinite"/>
-                  </rect>
-                  <text x="103" y="228" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle" letterSpacing="0.3">YOUTUBE</text>
-                  {/* === BOTTOM-RIGHT: Story — tall narrow with countdown ring === */}
-                  <rect x="432" y="150" width="46" height="86" rx="6" fill="#0C1E36" stroke="#008CFF" strokeOpacity="0.62" strokeWidth="1.5"/>
-                  <rect x="438" y="156" width="34" height="72" rx="3" fill="#060E1E"/>
-                  <circle cx="455" cy="192" r="16" fill="none" stroke="#0F1E34" strokeWidth="3"/>
-                  <circle cx="455" cy="192" r="16" fill="none" stroke="#008CFF" strokeWidth="3" strokeDasharray="72 29" strokeOpacity="0.9" strokeLinecap="round"/>
-                  <text x="455" y="196" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">3s</text>
-                  <text x="455" y="248" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle" letterSpacing="0.3">STORY</text>
-                  {/* Bottom stat chips */}
-                  <rect x="68" y="252" width="112" height="22" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.52" strokeWidth="1"/>
-                  <text x="124" y="267" fontFamily="Syne" fontWeight="700" fontSize="8" fill="#008CFF" textAnchor="middle">20+ FORMATS</text>
-                  <rect x="194" y="252" width="120" height="22" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
-                  <text x="254" y="267" fontFamily="Syne" fontWeight="700" fontSize="8" fill="#008CFF" textAnchor="middle">CONCEPT → LIVE</text>
-                  <rect x="328" y="252" width="136" height="22" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
-                  <text x="396" y="267" fontFamily="Syne" fontWeight="700" fontSize="8" fill="#008CFF" textAnchor="middle">SCRIPT TO SCREEN</text>
+                  <circle cx="432" cy="116" r="3" fill="#008CFF" opacity="0.9"/>
+                  <circle cx="416" cy="102" r="1.5" fill="#00D4FF" opacity="0.6"/>
+                  <circle cx="448" cy="130" r="1.5" fill="#00D4FF" opacity="0.6"/>
+                  <text x="432" y="157" fontFamily="Syne" fontWeight="700" fontSize="7.5" fill="#008CFF" textAnchor="middle" letterSpacing="1">DEPLOY</text>
+                  {/* Stat chips */}
+                  <rect x="74" y="200" width="118" height="28" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.52" strokeWidth="1"/>
+                  <text x="133" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">20+ FORMATS</text>
+                  <text x="133" y="223" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">CONTENT TYPES</text>
+                  <rect x="207" y="200" width="128" height="28" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
+                  <text x="271" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">CONCEPT → LIVE</text>
+                  <text x="271" y="223" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">END-TO-END</text>
+                  <rect x="350" y="200" width="122" height="28" rx="5" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
+                  <text x="411" y="213" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">NARRATIVE-LED</text>
+                  <text x="411" y="223" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">STORYTELLING</text>
                 </svg>
                 <div className="svc-fade"></div>
               </div>
@@ -486,45 +477,63 @@ export default async function Home() {
               <div className="svc-art">
                 <svg viewBox="0 0 560 260" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <radialGradient id="cg4" cx="50%" cy="42%" r="55%">
-                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.28"/>
+                    <radialGradient id="cg4" cx="50%" cy="42%" r="60%">
+                      <stop offset="0%" stopColor="#008CFF" stopOpacity="0.18"/>
                       <stop offset="100%" stopColor="#008CFF" stopOpacity="0"/>
                     </radialGradient>
                     <filter id="glow4">
                       <feGaussianBlur stdDeviation="2.5" result="blur"/>
                       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                     </filter>
+                    <pattern id="pm-diag" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                      <line x1="0" y1="0" x2="0" y2="28" stroke="#008CFF" strokeOpacity="0.07" strokeWidth="1"/>
+                    </pattern>
                   </defs>
                   <rect width="560" height="260" fill="#060C1C"/>
-                  <ellipse cx="280" cy="120" rx="210" ry="135" fill="url(#cg4)"/>
-                  {/* Funnel layers — shifted up 10px */}
-                  <path d="M120,36 L440,36 L376,86 L184,86 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.65" strokeWidth="1.5"/>
-                  <text x="280" y="66" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" letterSpacing="2">REACH</text>
-                  <path d="M184,92 L376,92 L332,140 L228,140 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.52" strokeWidth="1.5"/>
-                  <text x="280" y="120" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" letterSpacing="2">ENGAGE</text>
-                  <path d="M228,146 L332,146 L308,190 L252,190 Z" fill="#0B1A2E" stroke="#008CFF" strokeOpacity="0.88" strokeWidth="2"/>
-                  <text x="280" y="172" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle" filter="url(#glow4)" letterSpacing="2">CONVERT</text>
-                  {/* Animated particles */}
-                  <circle r="3" fill="#008CFF" opacity="0.9" filter="url(#glow4)"><animateMotion path="M280,36 L280,190" dur="2s" repeatCount="indefinite"/></circle>
-                  <circle r="2" fill="#00D4FF" opacity="0.7"><animateMotion path="M260,36 L267,190" dur="2.6s" repeatCount="indefinite" begin="0.8s"/></circle>
-                  <circle r="2" fill="#008CFF" opacity="0.55"><animateMotion path="M300,36 L293,190" dur="2.3s" repeatCount="indefinite" begin="1.4s"/></circle>
-                  {/* Left metrics — x: 28→44, y shifted -10 */}
-                  <rect x="44" y="46" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
-                  <text x="84" y="60" fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">$2</text>
-                  <text x="84" y="72" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">BLENDED CPM</text>
-                  <rect x="44" y="96" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
-                  <text x="84" y="110" fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">3.2×</text>
-                  <text x="84" y="122" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">AVG ROAS</text>
-                  <line x1="124" y1="113" x2="184" y2="116" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3"/>
-                  {/* Right metrics — x: 452→436, y shifted -10 */}
-                  <rect x="436" y="46" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
-                  <text x="476" y="60" fontFamily="Syne" fontWeight="800" fontSize="12" fill="#008CFF" textAnchor="middle">1.9B+</text>
-                  <text x="476" y="72" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">VIEWS</text>
-                  <rect x="436" y="96" width="80" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.45" strokeWidth="1"/>
-                  <text x="476" y="110" fontFamily="Syne" fontWeight="800" fontSize="10" fill="#008CFF" textAnchor="middle">DATA-LED</text>
-                  <text x="476" y="122" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">TARGETING</text>
-                  <line x1="376" y1="116" x2="436" y2="113" stroke="#008CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3"/>
-                  {/* Bottom stat bar — y: 224→210 */}
+                  <rect width="560" height="260" fill="url(#pm-diag)"/>
+                  <ellipse cx="280" cy="118" rx="210" ry="130" fill="url(#cg4)"/>
+                  {/* Chart axes */}
+                  <line x1="118" y1="30" x2="118" y2="192" stroke="#008CFF" strokeOpacity="0.18" strokeWidth="1"/>
+                  <line x1="118" y1="192" x2="448" y2="192" stroke="#008CFF" strokeOpacity="0.15" strokeWidth="1"/>
+                  {/* Ascending bars */}
+                  <rect x="128" y="158" width="28" height="34" rx="2" fill="#008CFF" opacity="0.22"/>
+                  <rect x="168" y="140" width="28" height="52" rx="2" fill="#008CFF" opacity="0.30"/>
+                  <rect x="208" y="120" width="28" height="72" rx="2" fill="#008CFF" opacity="0.40"/>
+                  <rect x="248" y="104" width="28" height="88" rx="2" fill="#008CFF" opacity="0.52"/>
+                  <rect x="288" y="84" width="28" height="108" rx="2" fill="#008CFF" opacity="0.64"/>
+                  <rect x="328" y="66" width="28" height="126" rx="2" fill="#008CFF" opacity="0.78"/>
+                  <rect x="368" y="50" width="28" height="142" rx="2" fill="#008CFF" opacity="0.90"/>
+                  <rect x="408" y="36" width="28" height="156" rx="2" fill="#008CFF" opacity="1" filter="url(#glow4)"/>
+                  {/* Cyan trend line overlay */}
+                  <polyline points="142,154 182,136 222,116 262,100 302,80 342,62 382,46 422,32" stroke="#00D4FF" strokeWidth="2" fill="none" filter="url(#glow4)"/>
+                  <circle cx="142" cy="154" r="2.5" fill="#00D4FF"/>
+                  <circle cx="182" cy="136" r="2.5" fill="#00D4FF"/>
+                  <circle cx="222" cy="116" r="2.5" fill="#00D4FF"/>
+                  <circle cx="262" cy="100" r="2.5" fill="#00D4FF"/>
+                  <circle cx="302" cy="80" r="2.5" fill="#00D4FF"/>
+                  <circle cx="342" cy="62" r="2.5" fill="#00D4FF"/>
+                  <circle cx="382" cy="46" r="3" fill="#00D4FF"/>
+                  <circle cx="422" cy="32" r="4" fill="#00D4FF" filter="url(#glow4)">
+                    <animate attributeName="r" values="4;6;4" dur="1.8s" repeatCount="indefinite"/>
+                  </circle>
+                  {/* Connection nodes on left */}
+                  <circle cx="50" cy="72" r="3" fill="#008CFF" opacity="0.5"/>
+                  <line x1="53" y1="72" x2="72" y2="72" stroke="#008CFF" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="3 3"/>
+                  <circle cx="50" cy="118" r="2.5" fill="#008CFF" opacity="0.4"/>
+                  <line x1="53" y1="118" x2="72" y2="118" stroke="#008CFF" strokeOpacity="0.15" strokeWidth="1" strokeDasharray="3 3"/>
+                  <circle cx="50" cy="158" r="2" fill="#008CFF" opacity="0.35"/>
+                  <line x1="53" y1="158" x2="72" y2="158" stroke="#008CFF" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="3 3"/>
+                  {/* Floating metric chips */}
+                  <rect x="58" y="54" width="78" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
+                  <text x="97" y="68" fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">3.2×</text>
+                  <text x="97" y="80" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">AVG ROAS</text>
+                  <rect x="58" y="100" width="78" height="28" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
+                  <text x="97" y="112" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle">REACH</text>
+                  <text x="97" y="122" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">1.9B+ VIEWS</text>
+                  <rect x="58" y="142" width="78" height="28" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.38" strokeWidth="1"/>
+                  <text x="97" y="154" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle">ENGAGE</text>
+                  <text x="97" y="164" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">DATA-LED</text>
+                  {/* Bottom stat bar */}
                   <rect x="170" y="210" width="220" height="34" rx="6" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.55" strokeWidth="1"/>
                   <text x="280" y="224" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">PPV · CPM · PERFORMANCE</text>
                   <text x="280" y="236" fontFamily="Syne" fontWeight="600" fontSize="7" fill="#6A8FA8" textAnchor="middle">EVERY CHANNEL CONNECTED</text>

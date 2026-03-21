@@ -729,6 +729,14 @@
         .footer-sep { color: var(--clr-border-hi); }
 
         /* =============================================
+           LOADING SCREEN
+           ============================================= */
+        @keyframes ls-bar {
+          0%   { width: 0%; }
+          100% { width: 100%; }
+        }
+
+        /* =============================================
            SCROLL REVEAL
            ============================================= */
         .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }

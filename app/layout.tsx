@@ -20,30 +20,53 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: {
-    default: 'SocialSculp Dashboard',
+    default: 'SocialSculp — Creator Seeding & Narrative Engineering',
     template: '%s | SocialSculp',
   },
   description:
-    'The all-in-one influencer marketing platform for brands and creators. Manage campaigns, track deals, and measure performance.',
-  keywords: ['influencer marketing', 'creator campaigns', 'brand deals', 'social media analytics'],
+    'SocialSculp is a Louisiana-based influencer marketing and narrative engineering agency. We drive viral reach through strategic creator seeding, media buying, and performance campaigns. 1.9B+ views managed.',
+  keywords: [
+    'influencer marketing',
+    'creator seeding',
+    'narrative engineering',
+    'social media agency',
+    'TikTok marketing',
+    'Instagram influencers',
+    'media buying',
+    'performance marketing',
+    'Louisiana agency',
+    'creator management',
+  ],
   authors: [{ name: 'SocialSculp' }],
   creator: 'SocialSculp',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.socialsculp.io'),
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'SocialSculp Dashboard',
-    description: 'The all-in-one influencer marketing platform for brands and creators.',
+    url: 'https://www.socialsculp.io',
+    title: 'SocialSculp — Creator Seeding & Narrative Engineering',
+    description:
+      'We engineer narratives. We seed creators. We move culture at scale. 1.9B+ views managed, $2 blended CPM, 50+ creators, 20+ brands.',
     siteName: 'SocialSculp',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SocialSculp Dashboard',
-    description: 'The all-in-one influencer marketing platform for brands and creators.',
+    title: 'SocialSculp — Creator Seeding & Narrative Engineering',
+    description:
+      'We engineer narratives. We seed creators. We move culture at scale. 1.9B+ views, $2 CPM.',
+    site: '@socialsculp',
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 }
 

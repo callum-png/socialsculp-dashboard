@@ -1,0 +1,121 @@
+<h2>Reports Tab — What Does the Client See?</h2>
+<p class="subtitle">The client wants proactive performance reporting. How should this work?</p>
+
+<div class="cards" style="gap: 24px; display: flex; flex-direction: column;">
+
+  <!-- Option A: Live Dashboard Report -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>A — Live Campaign Report (always up to date)</h3>
+      <p>A polished, always-live summary page that looks like a PDF but is interactive. Charts, creator leaderboard, key numbers. Client can export to PDF at any time.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">GymShark Spring Drop — Campaign Report</div>
+          <div style="font-size:10px;color:#888;">Mar 1 – Apr 30, 2025 · Auto-updated</div>
+        </div>
+        <div style="background:#a78bfa;color:#000;border-radius:6px;padding:5px 12px;font-size:10px;font-weight:700;">⬇ Export PDF</div>
+      </div>
+      <!-- KPI row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;">
+        <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center;"><div style="color:#888;font-size:9px;">TOTAL REACH</div><div style="color:#fff;font-size:15px;font-weight:700;">4.8M</div><div style="color:#34d399;font-size:9px;">↑ +12% vs target</div></div>
+        <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center;"><div style="color:#888;font-size:9px;">AVG ENGAGEMENT</div><div style="color:#fff;font-size:15px;font-weight:700;">6.8%</div><div style="color:#34d399;font-size:9px;">↑ Above benchmark</div></div>
+        <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center;"><div style="color:#888;font-size:9px;">POSTS LIVE</div><div style="color:#a78bfa;font-size:15px;font-weight:700;">38 / 48</div><div style="color:#888;font-size:9px;">10 pending</div></div>
+        <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center;"><div style="color:#888;font-size:9px;">ROAS</div><div style="color:#fbbf24;font-size:15px;font-weight:700;">4.1x</div><div style="color:#34d399;font-size:9px;">↑ vs 3.5x target</div></div>
+      </div>
+      <!-- Creator leaderboard mini -->
+      <div style="background:#1a1a24;border-radius:6px;padding:10px;">
+        <div style="color:#888;font-size:9px;text-transform:uppercase;margin-bottom:6px;">Top Creators by Reach</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:#fff;font-size:10px;">#1 @alexfitness</div>
+            <div style="display:flex;gap:12px;font-size:10px;"><span style="color:#aaa;">2.1M</span><span style="color:#34d399;">8.4%</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:#fff;font-size:10px;">#2 @sarahlifts</div>
+            <div style="display:flex;gap:12px;font-size:10px;"><span style="color:#aaa;">1.4M</span><span style="color:#34d399;">9.1%</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:#fff;font-size:10px;">#3 @miketok</div>
+            <div style="display:flex;gap:12px;font-size:10px;"><span style="color:#aaa;">890K</span><span style="color:#fbbf24;">7.2%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Snapshot Reports (versioned) -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>B — Snapshot Reports (versioned, like invoices)</h3>
+      <p>Admin generates and publishes reports manually (e.g. weekly, mid-campaign, final). Each report is a saved snapshot the client can re-read. Less automation, more control.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:#1a1a24;border-radius:6px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">Week 4 Report</div>
+            <div style="color:#888;font-size:9px;">Published by SocialSculp · Mar 29, 2025</div>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <div style="background:#34d399;color:#000;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700;">NEW</div>
+            <div style="background:#2a2a3a;color:#aaa;border-radius:5px;padding:3px 8px;font-size:9px;">View →</div>
+          </div>
+        </div>
+        <div style="background:#1a1a24;border-radius:6px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">Mid-Campaign Report</div>
+            <div style="color:#888;font-size:9px;">Published by SocialSculp · Mar 15, 2025</div>
+          </div>
+          <div style="background:#2a2a3a;color:#aaa;border-radius:5px;padding:3px 8px;font-size:9px;">View →</div>
+        </div>
+        <div style="background:#1a1a24;border-radius:6px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">Campaign Kickoff Report</div>
+            <div style="color:#888;font-size:9px;">Published by SocialSculp · Mar 1, 2025</div>
+          </div>
+          <div style="background:#2a2a3a;color:#aaa;border-radius:5px;padding:3px 8px;font-size:9px;">View →</div>
+        </div>
+      </div>
+      <div style="color:#555;font-size:10px;text-align:center;margin-top:8px;">Reports published by admin — client can't self-generate</div>
+    </div>
+  </div>
+
+  <!-- Option C: Both -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>C — Live Dashboard + Archived Snapshots</h3>
+      <p>Always-live report at the top. Below it, a list of admin-published snapshot reports (weekly, mid-campaign, final). Client self-serves daily, but also gets curated milestones.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="color:#a78bfa;font-size:10px;font-weight:700;text-transform:uppercase;">Live Performance</div>
+          <div style="background:#a78bfa;color:#000;border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;">⬇ Export PDF</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <div style="background:#1a1a24;border-radius:5px;padding:7px;text-align:center;"><div style="color:#888;font-size:8px;">REACH</div><div style="color:#fff;font-size:13px;font-weight:700;">4.8M</div></div>
+          <div style="background:#1a1a24;border-radius:5px;padding:7px;text-align:center;"><div style="color:#888;font-size:8px;">ENG</div><div style="color:#34d399;font-size:13px;font-weight:700;">6.8%</div></div>
+          <div style="background:#1a1a24;border-radius:5px;padding:7px;text-align:center;"><div style="color:#888;font-size:8px;">ROAS</div><div style="color:#fbbf24;font-size:13px;font-weight:700;">4.1x</div></div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #2a2a3a;padding-top:10px;">
+        <div style="color:#888;font-size:9px;text-transform:uppercase;margin-bottom:6px;">Published Reports</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#1a1a24;border-radius:5px;padding:7px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:#fff;font-size:10px;">Week 4 Report <span style="background:#34d399;color:#000;border-radius:10px;padding:1px 5px;font-size:8px;margin-left:4px;">NEW</span></div>
+            <div style="color:#a78bfa;font-size:9px;">View →</div>
+          </div>
+          <div style="background:#1a1a24;border-radius:5px;padding:7px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="color:#aaa;font-size:10px;">Mid-Campaign Report</div>
+            <div style="color:#a78bfa;font-size:9px;">View →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 20px; text-align: center;">This affects the Reports tab and whether we need a CampaignReport model in Prisma.</p>

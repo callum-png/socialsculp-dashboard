@@ -19,7 +19,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
       </button>
 
       <div className="flex items-baseline gap-0.5">
-        <span className="font-syne text-lg font-bold text-[#EDE8DE] tracking-tight">S23</span>
+        <span className="font-syne text-lg font-bold text-[#EDE8DE] tracking-tight">SocialSculp</span>
         <span className="font-syne text-lg font-bold text-[#008cff]">.</span>
       </div>
 

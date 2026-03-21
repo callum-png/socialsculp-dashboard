@@ -1,0 +1,162 @@
+<h2>Posts Tab — Layout Options</h2>
+<p class="subtitle">When a batch of posts goes live, this is what the client sees. Which view works best?</p>
+
+<div class="cards" style="gap: 24px; display: flex; flex-direction: column;">
+
+  <!-- Option A: Card Grid -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>A — Post Card Grid</h3>
+      <p>Visual grid of post cards, each showing thumbnail placeholder, creator handle, platform icon, and key metrics. Best for clients who want to <em>see</em> the content.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <!-- Filter bar -->
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+        <div style="background:#a78bfa;color:#000;border-radius:16px;padding:3px 10px;font-size:10px;font-weight:700;">All (38)</div>
+        <div style="background:#1a1a24;border-radius:16px;padding:3px 10px;font-size:10px;color:#888;">TikTok (24)</div>
+        <div style="background:#1a1a24;border-radius:16px;padding:3px 10px;font-size:10px;color:#888;">Instagram (14)</div>
+        <div style="margin-left:auto;background:#1a1a24;border-radius:6px;padding:3px 10px;font-size:10px;color:#888;">Sort: Latest ▾</div>
+      </div>
+      <!-- Grid -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <!-- Post card 1 -->
+        <div style="background:#1a1a24;border-radius:8px;overflow:hidden;">
+          <div style="height:60px;background:linear-gradient(135deg,#2a2a3a,#1a1a2e);display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="font-size:18px;">🎥</div>
+            <div style="position:absolute;top:4px;right:4px;background:#000;border-radius:3px;padding:1px 4px;font-size:8px;color:#fff;">TikTok</div>
+            <div style="position:absolute;bottom:4px;left:4px;background:#34d399;border-radius:10px;padding:1px 5px;font-size:8px;color:#000;font-weight:700;">LIVE</div>
+          </div>
+          <div style="padding:6px;">
+            <div style="font-size:10px;color:#fff;font-weight:600;">@alexfitness</div>
+            <div style="font-size:9px;color:#888;margin-top:2px;">2.1M views</div>
+            <div style="font-size:9px;color:#34d399;">8.4% eng</div>
+          </div>
+        </div>
+        <!-- Post card 2 -->
+        <div style="background:#1a1a24;border-radius:8px;overflow:hidden;">
+          <div style="height:60px;background:linear-gradient(135deg,#3a2a3a,#2a1a2e);display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="font-size:18px;">📸</div>
+            <div style="position:absolute;top:4px;right:4px;background:#000;border-radius:3px;padding:1px 4px;font-size:8px;color:#fff;">Insta</div>
+          </div>
+          <div style="padding:6px;">
+            <div style="font-size:10px;color:#fff;font-weight:600;">@janegains</div>
+            <div style="font-size:9px;color:#888;margin-top:2px;">340K views</div>
+            <div style="font-size:9px;color:#34d399;">5.1% eng</div>
+          </div>
+        </div>
+        <!-- Post card 3 -->
+        <div style="background:#1a1a24;border-radius:8px;overflow:hidden;">
+          <div style="height:60px;background:linear-gradient(135deg,#2a3a2a,#1a2e1a);display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="font-size:18px;">🎥</div>
+            <div style="position:absolute;top:4px;right:4px;background:#000;border-radius:3px;padding:1px 4px;font-size:8px;color:#fff;">TikTok</div>
+          </div>
+          <div style="padding:6px;">
+            <div style="font-size:10px;color:#fff;font-weight:600;">@miketok</div>
+            <div style="font-size:9px;color:#888;margin-top:2px;">890K views</div>
+            <div style="font-size:9px;color:#fbbf24;">7.2% eng</div>
+          </div>
+        </div>
+        <!-- Post card 4 -->
+        <div style="background:#1a1a24;border-radius:8px;overflow:hidden;">
+          <div style="height:60px;background:linear-gradient(135deg,#3a3a2a,#2e2e1a);display:flex;align-items:center;justify-content:center;position:relative;">
+            <div style="font-size:18px;">🎥</div>
+            <div style="position:absolute;top:4px;right:4px;background:#000;border-radius:3px;padding:1px 4px;font-size:8px;color:#fff;">TikTok</div>
+          </div>
+          <div style="padding:6px;">
+            <div style="font-size:10px;color:#fff;font-weight:600;">@sarahlifts</div>
+            <div style="font-size:9px;color:#888;margin-top:2px;">1.4M views</div>
+            <div style="font-size:9px;color:#34d399;">9.1% eng</div>
+          </div>
+        </div>
+      </div>
+      <div style="color:#555;font-size:10px;text-align:center;margin-top:8px;">+34 more posts · Load more</div>
+    </div>
+  </div>
+
+  <!-- Option B: Table/List -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>B — Sortable Data Table</h3>
+      <p>Spreadsheet-style with all metrics in columns. Clients can sort by views, engagement, date. Best for performance-focused clients who want to rank creators.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 11px; color: #fff;">
+      <div style="display:grid;grid-template-columns:140px 70px 70px 70px 70px 80px 60px;gap:0;border-bottom:1px solid #2a2a3a;padding-bottom:6px;margin-bottom:6px;">
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Creator</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Platform</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Views ↓</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Likes</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Eng %</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Live Date</div>
+        <div style="color:#888;font-size:9px;text-transform:uppercase;">Link</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:grid;grid-template-columns:140px 70px 70px 70px 70px 80px 60px;background:#1a1a24;border-radius:5px;padding:6px 0;">
+          <div style="padding:0 8px;color:#fff;font-size:10px;">@alexfitness</div>
+          <div style="padding:0 8px;color:#888;font-size:10px;">TikTok</div>
+          <div style="padding:0 8px;color:#fff;font-size:10px;font-weight:700;">2.1M</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">187K</div>
+          <div style="padding:0 8px;color:#34d399;font-size:10px;font-weight:700;">8.4%</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">Mar 15</div>
+          <div style="padding:0 8px;color:#a78bfa;font-size:10px;">View →</div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 70px 70px 70px 70px 80px 60px;background:#1a1a24;border-radius:5px;padding:6px 0;">
+          <div style="padding:0 8px;color:#fff;font-size:10px;">@sarahlifts</div>
+          <div style="padding:0 8px;color:#888;font-size:10px;">TikTok</div>
+          <div style="padding:0 8px;color:#fff;font-size:10px;font-weight:700;">1.4M</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">127K</div>
+          <div style="padding:0 8px;color:#34d399;font-size:10px;font-weight:700;">9.1%</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">Mar 15</div>
+          <div style="padding:0 8px;color:#a78bfa;font-size:10px;">View →</div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 70px 70px 70px 70px 80px 60px;background:#1a1a24;border-radius:5px;padding:6px 0;">
+          <div style="padding:0 8px;color:#fff;font-size:10px;">@miketok</div>
+          <div style="padding:0 8px;color:#888;font-size:10px;">TikTok</div>
+          <div style="padding:0 8px;color:#fff;font-size:10px;font-weight:700;">890K</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">64K</div>
+          <div style="padding:0 8px;color:#fbbf24;font-size:10px;font-weight:700;">7.2%</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">Mar 22</div>
+          <div style="padding:0 8px;color:#a78bfa;font-size:10px;">View →</div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 70px 70px 70px 70px 80px 60px;background:#1a1a24;border-radius:5px;padding:6px 0;">
+          <div style="padding:0 8px;color:#fff;font-size:10px;">@janegains</div>
+          <div style="padding:0 8px;color:#888;font-size:10px;">Insta</div>
+          <div style="padding:0 8px;color:#fff;font-size:10px;font-weight:700;">340K</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">17K</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;font-weight:700;">5.1%</div>
+          <div style="padding:0 8px;color:#aaa;font-size:10px;">Mar 22</div>
+          <div style="padding:0 8px;color:#a78bfa;font-size:10px;">View →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Hybrid -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding: 0; overflow: hidden; border-radius: 12px;">
+    <div class="card-body" style="padding: 16px 20px 8px;">
+      <h3>C — Hybrid: Grid toggle + Table toggle</h3>
+      <p>Client can switch between grid and table view. Grid for visual browsing, table for deep analysis. Best UX — clients get both modes.</p>
+    </div>
+    <div class="mockup" style="margin: 0 16px 16px; background: #0f0f13; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #fff;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+        <div style="background:#a78bfa;color:#000;border-radius:16px;padding:3px 10px;font-size:10px;font-weight:700;">All (38)</div>
+        <div style="background:#1a1a24;border-radius:16px;padding:3px 10px;font-size:10px;color:#888;">TikTok (24)</div>
+        <div style="background:#1a1a24;border-radius:16px;padding:3px 10px;font-size:10px;color:#888;">Instagram (14)</div>
+        <div style="margin-left:auto;display:flex;gap:4px;">
+          <div style="background:#a78bfa;border-radius:5px;padding:3px 8px;font-size:10px;color:#000;font-weight:700;">⊞ Grid</div>
+          <div style="background:#1a1a24;border-radius:5px;padding:3px 8px;font-size:10px;color:#555;">≡ Table</div>
+        </div>
+      </div>
+      <!-- Mini grid preview -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;">
+        <div style="background:#1a1a24;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎥</div>
+        <div style="background:#1a1a24;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:14px;">📸</div>
+        <div style="background:#1a1a24;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎥</div>
+        <div style="background:#1a1a24;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎥</div>
+      </div>
+      <div style="text-align:center;color:#555;font-size:10px;">↕ Toggle to table for full stats</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 20px; text-align: center;">This drives the Posts tab data model — pick what matters most to your clients.</p>

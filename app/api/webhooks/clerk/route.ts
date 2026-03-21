@@ -47,7 +47,8 @@ export async function POST(req: Request) {
 
     const email = email_addresses?.[0]?.email_address ?? ''
     const name = [first_name, last_name].filter(Boolean).join(' ') || username || 'Unknown'
-    const role = (public_metadata?.role as string) ?? 'CREATOR'
+    // New signups start as PENDING — admin must approve and set role in Clerk dashboard
+    const existingRole = public_metadata?.role as string | undefined
 
     try {
       const user = await db.user.create({
@@ -55,33 +56,38 @@ export async function POST(req: Request) {
           clerkId: id,
           email,
           name,
-          role: role as 'ADMIN' | 'CREATOR' | 'BRAND',
+          // Store as CREATOR by default in DB; actual access gated by Clerk metadata status
+          role: (existingRole as 'ADMIN' | 'AGENT' | 'CREATOR' | 'BRAND') ?? 'CREATOR',
         },
       })
 
-      if (role === 'CREATOR') {
-        await db.creatorProfile.create({
-          data: {
-            userId: user.id,
-            handle: username ? `@${username}` : `@${id.slice(0, 8)}`,
-          },
-        })
-      }
-
-      if (role === 'BRAND') {
-        await db.brandProfile.create({
-          data: {
-            userId: user.id,
-            companyName: first_name ?? 'Unnamed Brand',
-          },
-        })
-      }
-
-      // Write role back to Clerk publicMetadata so it appears in session JWT claims
+      // Mark user as PENDING in Clerk — admin approves by setting role + status: APPROVED
       const client = await clerkClient()
-      await client.users.updateUser(id, { publicMetadata: { role } })
+      if (!existingRole) {
+        await client.users.updateUser(id, {
+          publicMetadata: { status: 'PENDING' },
+        })
+      } else {
+        // Pre-seeded role (e.g. admin invite flow)
+        if (existingRole === 'CREATOR') {
+          await db.creatorProfile.create({
+            data: {
+              userId: user.id,
+              handle: username ? `@${username}` : `@${id.slice(0, 8)}`,
+            },
+          })
+        }
+        if (existingRole === 'BRAND') {
+          await db.brandProfile.create({
+            data: {
+              userId: user.id,
+              companyName: first_name ?? 'Unnamed Brand',
+            },
+          })
+        }
+      }
 
-      console.log(`[webhook] user.created: ${user.id} (${role})`)
+      console.log(`[webhook] user.created: ${user.id} (${existingRole ?? 'PENDING'})`)
     } catch (err) {
       console.error('[webhook] user.created error:', err)
       return new Response('DB error', { status: 500 })
