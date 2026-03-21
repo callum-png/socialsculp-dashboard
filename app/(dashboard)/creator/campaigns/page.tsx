@@ -1,5 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { CampaignStatusBadge } from '@/components/campaigns/CampaignStatusBadge'
 import { getDb } from '@/lib/db'
@@ -86,7 +87,7 @@ export default async function CreatorCampaignsPage() {
             </div>
           ) : (
             myCampaigns.map((campaign) => (
-              <div key={campaign.id} className="px-5 py-5">
+              <Link key={campaign.id} href={`/creator/campaigns/${campaign.id}`} className="block px-5 py-5 hover:bg-[#141414] transition-colors">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div>
                     <div className="font-syne font-bold text-[#EDE8DE] mb-1">{campaign.name}</div>
@@ -119,7 +120,7 @@ export default async function CreatorCampaignsPage() {
                     </div>
                   )}
                 </div>
-              </div>
+              </Link>
             ))
           )}
         </div>
