@@ -14,6 +14,8 @@ import { PLATFORM_LABELS } from '@/lib/constants'
 import type { CampaignStatusValue, PlatformValue } from '@/lib/constants'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DollarSign, TrendingUp, Users, Eye } from 'lucide-react'
+import { PostsTab } from '@/components/posts/PostsTab'
+import { ReportsTab } from '@/components/reports/ReportsTab'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -127,7 +129,7 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
         {/* Tabs */}
         <Tabs defaultValue="overview">
           <TabsList className="bg-[#111111] border border-[#222222] p-0 h-auto rounded-none gap-0">
-            {['overview', 'analytics', 'creators'].map((tab) => (
+            {['overview', 'analytics', 'creators', 'posts', 'reports'].map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
@@ -183,6 +185,14 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
                 ))
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="posts" className="mt-5">
+            <PostsTab campaignId={campaign.id} />
+          </TabsContent>
+
+          <TabsContent value="reports" className="mt-5">
+            <ReportsTab campaignId={campaign.id} />
           </TabsContent>
         </Tabs>
       </div>
