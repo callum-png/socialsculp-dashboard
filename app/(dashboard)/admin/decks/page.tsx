@@ -4,11 +4,12 @@ import { CopyButton } from '@/components/shared/CopyButton'
 import { DECKS } from '@/lib/decks'
 
 function formatDate(iso: string): string {
+  const [year, month, day] = iso.split('-').map(Number)
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
-  }).format(new Date(iso))
+  }).format(new Date(year, month - 1, day))
 }
 
 export default function AdminDecksPage() {
