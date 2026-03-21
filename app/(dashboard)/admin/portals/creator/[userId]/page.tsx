@@ -42,20 +42,20 @@ export default async function CreatorPortalPreviewPage({ params }: PageProps) {
     },
   })
 
-  if (!targetUser || targetUser.role !== 'CREATOR' || !targetUser.creatorProfile) notFound()
+  if (!targetUser || targetUser.role !== 'CREATOR') notFound()
 
   const creator = targetUser.creatorProfile
-  const tiktokFollowers = creator.tiktokFollowers ?? 0
-  const instagramFollowers = creator.instagramFollowers ?? 0
+  const tiktokFollowers = creator?.tiktokFollowers ?? 0
+  const instagramFollowers = creator?.instagramFollowers ?? 0
   const totalFollowers = tiktokFollowers + instagramFollowers
-  const avgEng = ((creator.tiktokEngRate ?? 0) + (creator.instagramEngRate ?? 0)) / 2
+  const avgEng = (((creator?.tiktokEngRate ?? 0) + (creator?.instagramEngRate ?? 0)) / 2)
 
   return (
     <>
       <PreviewBanner userName={targetUser.name} role="Creator" />
       <div className="p-6">
         <PageHeader
-          title={creator.handle ? `@${creator.handle}` : targetUser.name}
+          title={creator?.handle ? `@${creator.handle}` : targetUser.name}
           description="Creator portal"
         />
         <StatCardGrid
@@ -70,12 +70,12 @@ export default async function CreatorPortalPreviewPage({ params }: PageProps) {
           <div className="px-5 py-4 border-b border-[#222222]">
             <h2 className="text-base font-syne font-semibold text-white">Active Campaigns</h2>
           </div>
-          {creator.campaignCreators.length === 0 ? (
+          {(creator?.campaignCreators?.length ?? 0) === 0 ? (
             <p className="px-5 py-8 text-sm text-[#6B6860] font-syne text-center">No campaigns assigned.</p>
           ) : (
             <table className="w-full text-sm">
               <tbody>
-                {creator.campaignCreators.map(cc => (
+                {(creator?.campaignCreators ?? []).map(cc => (
                   <tr key={cc.id} className="border-b border-[#1a1a1a] last:border-0">
                     <td className="px-5 py-3 text-white font-syne">{cc.campaign.name}</td>
                     <td className="px-5 py-3 text-[#6B6860] font-syne hidden sm:table-cell">{cc.campaign.brand.companyName}</td>

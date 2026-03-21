@@ -37,10 +37,10 @@ export default async function BrandPortalPreviewPage({ params }: PageProps) {
     },
   })
 
-  if (!targetUser || targetUser.role !== 'BRAND' || !targetUser.brandProfile) notFound()
+  if (!targetUser || targetUser.role !== 'BRAND') notFound()
 
   const brand = targetUser.brandProfile
-  const campaigns = brand.campaigns
+  const campaigns = brand?.campaigns ?? []
 
   const totalReach = campaigns.reduce((s, c) => s + (c.analyticsSnapshots[0]?.reach ?? 0), 0)
   const totalSpend = campaigns.reduce((s, c) => s + (c.analyticsSnapshots[0]?.spend ?? 0), 0)
@@ -54,7 +54,7 @@ export default async function BrandPortalPreviewPage({ params }: PageProps) {
       <PreviewBanner userName={targetUser.name} role="Brand" />
       <div className="p-6">
         <PageHeader
-          title={brand.companyName}
+          title={brand?.companyName ?? targetUser.name}
           description="Brand dashboard"
         />
         <StatCardGrid
