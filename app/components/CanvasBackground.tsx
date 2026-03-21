@@ -14,6 +14,7 @@ export function CanvasBackground() {
     <canvas
       className="pointer-events-none absolute inset-0 mx-auto canvas-desktop-only"
       id="canvas"
+      style={{ zIndex: -1 }}
     />
   );
 }

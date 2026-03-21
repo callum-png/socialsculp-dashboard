@@ -194,10 +194,10 @@ var ctx,
   E = {
     debug: true,
     friction: 0.5,
-    trails: 80,
-    size: 50,
+    trails: 25,
+    size: 20,
     dampening: 0.025,
-    tension: 0.99,
+    tension: 0.98,
   };
 function Node() {
   this.x = 0;
