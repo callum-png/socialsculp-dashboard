@@ -14,6 +14,9 @@ import {
   User,
   FileText,
   ContactRound,
+  LayoutTemplate,
+  Eye,
+  CheckSquare,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { UserRole } from '@/types'
@@ -35,6 +38,9 @@ const ICON_MAP = {
   User,
   FileText,
   ContactRound,
+  LayoutTemplate,
+  Eye,
+  CheckSquare,
 }
 
 const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof typeof ICON_MAP }[]> = {
@@ -49,6 +55,9 @@ const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof type
     { label: 'Brands', href: '/admin/brands', icon: 'Building2' },
     { label: 'CRM', href: '/admin/crm', icon: 'ContactRound' },
     { label: 'Analytics', href: '/admin/analytics', icon: 'BarChart3' },
+    { label: 'Decks', href: '/admin/decks', icon: 'LayoutTemplate' },
+    { label: 'Portals', href: '/admin/portals', icon: 'Eye' },
+    { label: 'Tasks', href: '/admin/tasks', icon: 'CheckSquare' },
     { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
   ],
   CREATOR: [
