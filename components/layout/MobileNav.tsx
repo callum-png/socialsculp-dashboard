@@ -73,14 +73,14 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="left"
-        className="w-72 bg-[#111111] border-r border-[#222222] p-0"
+        className="w-72 bg-card border-r border-border p-0"
       >
-        <div className="px-5 py-6 border-b border-[#222222]">
+        <div className="px-5 py-6 border-b border-border">
           <div className="flex items-baseline gap-0.5">
-            <span className="font-syne text-xl font-bold text-[#EDE8DE] tracking-tight">SocialSculp</span>
+            <span className="font-syne text-xl font-bold text-foreground tracking-tight">SocialSculp</span>
             <span className="font-syne text-xl font-bold text-[#008cff]">.</span>
           </div>
-          <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-[#6B6860]">
+          <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-muted-foreground">
             Campaign Intelligence
           </span>
         </div>
@@ -102,8 +102,8 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
                     className={cn(
                       'flex items-center gap-3 px-3 py-3 text-sm font-syne font-medium transition-all relative',
                       isActive
-                        ? 'text-[#008cff] bg-[#1A1A1A]'
-                        : 'text-[#6B6860] hover:text-[#EDE8DE] hover:bg-[#1A1A1A]'
+                        ? 'text-[#008cff] bg-muted'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                     )}
                   >
                     {isActive && (
@@ -113,7 +113,7 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
                       size={16}
                       className={cn(
                         'shrink-0',
-                        isActive ? 'text-[#008cff]' : 'text-[#6B6860]'
+                        isActive ? 'text-[#008cff]' : 'text-muted-foreground'
                       )}
                     />
                     {item.label}

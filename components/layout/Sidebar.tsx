@@ -92,17 +92,17 @@ export function Sidebar({ role }: SidebarProps) {
 
   return (
     <TooltipProvider>
-      <aside className="fixed left-0 top-0 h-full w-60 md:w-60 bg-[#111111] border-r border-[#222222] flex flex-col z-30 hidden md:flex">
+      <aside className="fixed left-0 top-0 h-full w-60 bg-card border-r border-border flex flex-col z-30 hidden md:flex">
         {/* Logo */}
-        <div className="px-5 py-6 border-b border-[#222222]">
+        <div className="px-5 py-6 border-b border-border">
           <Link href="/" className="flex flex-col gap-0.5">
             <div className="flex items-baseline gap-0.5">
-              <span className="font-syne text-xl font-bold text-[#EDE8DE] tracking-tight">
+              <span className="font-syne text-xl font-bold text-foreground tracking-tight">
                 SocialSculp
               </span>
               <span className="font-syne text-xl font-bold text-[#008cff]">.</span>
             </div>
-            <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-[#6B6860]">
+            <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-muted-foreground">
               Campaign Intelligence
             </span>
           </Link>
@@ -127,8 +127,8 @@ export function Sidebar({ role }: SidebarProps) {
                         className={cn(
                           'flex items-center gap-3 px-3 py-2.5 text-sm font-syne font-medium transition-all relative group',
                           isActive
-                            ? 'text-[#008cff] bg-[#1A1A1A]'
-                            : 'text-[#6B6860] hover:text-[#EDE8DE] hover:bg-[#1A1A1A]'
+                            ? 'text-[#008cff] bg-muted'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                         )}
                       >
                         {isActive && (
@@ -138,7 +138,7 @@ export function Sidebar({ role }: SidebarProps) {
                           size={16}
                           className={cn(
                             'shrink-0',
-                            isActive ? 'text-[#008cff]' : 'text-[#6B6860] group-hover:text-[#EDE8DE]'
+                            isActive ? 'text-[#008cff]' : 'text-muted-foreground group-hover:text-foreground'
                           )}
                         />
                         <span className="truncate">{item.label}</span>
@@ -155,15 +155,15 @@ export function Sidebar({ role }: SidebarProps) {
         </nav>
 
         {/* Bottom: UserButton + Role Badge */}
-        <div className="border-t border-[#222222] px-4 py-4">
+        <div className="border-t border-border px-4 py-4">
           <div className="flex items-center gap-3">
             <UserButton
               appearance={{
                 elements: {
                   avatarBox: 'w-8 h-8',
-                  userButtonPopoverCard: 'bg-[#111111] border border-[#222222]',
-                  userButtonPopoverActionButton: 'text-[#EDE8DE] hover:bg-[#1A1A1A]',
-                  userButtonPopoverActionButtonText: 'text-[#EDE8DE] font-syne',
+                  userButtonPopoverCard: 'bg-card border border-border',
+                  userButtonPopoverActionButton: 'text-foreground hover:bg-muted',
+                  userButtonPopoverActionButtonText: 'text-foreground font-syne',
                   userButtonPopoverFooter: 'hidden',
                 },
               }}
