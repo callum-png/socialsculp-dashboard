@@ -14,9 +14,9 @@
           --clr-muted:      #7A98B8;
           --clr-dim:        #1A2440;
           --clr-accent:     #008CFF;
-          --clr-a08:        rgba(0,140,255,0.08);
-          --clr-a15:        rgba(0,140,255,0.15);
-          --clr-a25:        rgba(0,140,255,0.25);
+          --clr-a08:        rgba(0,140,255,0.05);
+          --clr-a15:        rgba(0,140,255,0.09);
+          --clr-a25:        rgba(0,140,255,0.15);
 
           /* Typography — swap font stacks here */
           --font-display:   'Syne', sans-serif;
@@ -74,7 +74,7 @@
           inset: 0;
           pointer-events: none;
           z-index: 1;
-          background-image: radial-gradient(rgba(0,140,255,0.08) 1px, transparent 1px);
+          background-image: radial-gradient(rgba(0,140,255,0.04) 1px, transparent 1px);
           background-size: 40px 40px;
         }
 
@@ -307,7 +307,7 @@
           border-radius: 50%;
           background: radial-gradient(circle at 38% 36%, rgba(0,140,255,0.22), rgba(0,140,255,0.04) 70%);
           border: 1px solid rgba(0,140,255,0.3);
-          box-shadow: 0 0 60px rgba(0,140,255,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+          box-shadow: 0 0 60px rgba(0,140,255,0.10), inset 0 1px 0 rgba(255,255,255,0.06);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -342,8 +342,8 @@
           30%  { left: 140%; opacity: 1; }
         }
         @keyframes hub-pulse {
-          0%,100% { box-shadow: 0 0 60px rgba(0,140,255,0.18), inset 0 1px 0 rgba(255,255,255,0.06); }
-          50%      { box-shadow: 0 0 96px rgba(0,140,255,0.32), inset 0 1px 0 rgba(255,255,255,0.06); }
+          0%,100% { box-shadow: 0 0 60px rgba(0,140,255,0.10), inset 0 1px 0 rgba(255,255,255,0.06); }
+          50%      { box-shadow: 0 0 96px rgba(0,140,255,0.20), inset 0 1px 0 rgba(255,255,255,0.06); }
         }
         .hub-val {
           font-family: var(--font-display);
@@ -794,7 +794,7 @@
           position: absolute; top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           width: 320px; height: 320px; pointer-events: none; z-index: 0;
-          background: radial-gradient(ellipse at center, rgba(0,140,255,0.12) 0%, transparent 65%);
+          background: radial-gradient(ellipse at center, rgba(0,140,255,0.07) 0%, transparent 65%);
           animation: glow-breathe 4s ease-in-out infinite;
         }
         @keyframes glow-breathe {

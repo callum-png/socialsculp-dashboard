@@ -781,8 +781,8 @@ export default async function Home() {
               const radius = b.r * Math.min(W, H);
 
               const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-              grad.addColorStop(0,   'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.18)');
-              grad.addColorStop(0.5, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.07)');
+              grad.addColorStop(0,   'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.10)');
+              grad.addColorStop(0.5, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0.04)');
               grad.addColorStop(1,   'rgba(0,0,0,0)');
 
               ctx.beginPath();
