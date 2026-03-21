@@ -525,14 +525,14 @@ export default async function Home() {
                   <line x1="53" y1="158" x2="72" y2="158" stroke="#008CFF" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="3 3"/>
                   {/* Floating metric chips */}
                   <rect x="58" y="54" width="78" height="34" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.5" strokeWidth="1"/>
-                  <text x="97" y="68" fontFamily="Syne" fontWeight="800" fontSize="13" fill="#008CFF" textAnchor="middle">3.2×</text>
-                  <text x="97" y="80" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">AVG ROAS</text>
+                  <text x="97" y="67" fontFamily="Syne" fontWeight="800" fontSize="9" fill="#008CFF" textAnchor="middle">3.2×</text>
+                  <text x="97" y="79" fontFamily="Syne" fontWeight="600" fontSize="5.5" fill="#6A8FA8" textAnchor="middle">AVG ROAS</text>
                   <rect x="58" y="100" width="78" height="28" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.42" strokeWidth="1"/>
-                  <text x="97" y="112" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle">REACH</text>
-                  <text x="97" y="122" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">1.9B+ VIEWS</text>
+                  <text x="97" y="112" fontFamily="Syne" fontWeight="700" fontSize="7" fill="#008CFF" textAnchor="middle">REACH</text>
+                  <text x="97" y="122" fontFamily="Syne" fontWeight="600" fontSize="5" fill="#6A8FA8" textAnchor="middle">1.9B+ VIEWS</text>
                   <rect x="58" y="142" width="78" height="28" rx="4" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.38" strokeWidth="1"/>
-                  <text x="97" y="154" fontFamily="Syne" fontWeight="700" fontSize="10" fill="#008CFF" textAnchor="middle">ENGAGE</text>
-                  <text x="97" y="164" fontFamily="Syne" fontWeight="600" fontSize="6" fill="#6A8FA8" textAnchor="middle">DATA-LED</text>
+                  <text x="97" y="154" fontFamily="Syne" fontWeight="700" fontSize="7" fill="#008CFF" textAnchor="middle">ENGAGE</text>
+                  <text x="97" y="164" fontFamily="Syne" fontWeight="600" fontSize="5" fill="#6A8FA8" textAnchor="middle">DATA-LED</text>
                   {/* Bottom stat bar */}
                   <rect x="170" y="210" width="220" height="34" rx="6" fill="#0D1E38" stroke="#008CFF" strokeOpacity="0.55" strokeWidth="1"/>
                   <text x="280" y="224" fontFamily="Syne" fontWeight="700" fontSize="9" fill="#008CFF" textAnchor="middle">PPV · CPM · PERFORMANCE</text>

@@ -65,10 +65,10 @@ export function LoadingScreen() {
       <div
         style={{
           fontFamily: "'Syne', sans-serif",
-          fontWeight: 800,
-          fontSize: "24px",
+          fontWeight: 700,
+          fontSize: "18px",
           color: "#F0F4FF",
-          letterSpacing: "0.08em",
+          letterSpacing: "0.02em",
         }}
       >
         SOCIAL<span style={{ color: "#008CFF" }}>SCULP</span>
