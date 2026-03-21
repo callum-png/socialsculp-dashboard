@@ -70,6 +70,36 @@ enum LeadType {
 
 // ─── Models ───────────────────────────────────────────────────────────────────
 
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model AdminTask {
+  id          String        @id @default(cuid())
+  title       String
+  notes       String?
+  status      TaskStatus    @default(TODO)
+  priority    TaskPriority  @default(MEDIUM)
+  campaignId  String?
+  campaign    Campaign?     @relation(fields: [campaignId], references: [id])
+  assigneeId  String?
+  assignee    User?         @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  dueDate     DateTime?
+  createdById String
+  createdBy   User          @relation("TaskCreator", fields: [createdById], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
 model User {
   id        String   @id @default(cuid())
   clerkId   String   @unique
@@ -87,6 +117,8 @@ model User {
   salesDeals       SalesDeal[]
   submittedPosts   Post[]
   publishedReports CampaignReport[]
+  tasksCreated     AdminTask[] @relation("TaskCreator")
+  tasksAssigned    AdminTask[] @relation("TaskAssignee")
 
   @@map("users")
 }
@@ -177,6 +209,7 @@ model Campaign {
   analyticsSnapshots  AnalyticsSnapshot[]
   posts               Post[]
   campaignReports     CampaignReport[]
+  adminTasks          AdminTask[]
 
   @@map("campaigns")
 }
