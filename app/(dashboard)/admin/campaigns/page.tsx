@@ -43,7 +43,7 @@ export default async function AdminCampaignsPage() {
       >
         <Link
           href="/admin/campaigns/new"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors"
         >
           <Plus size={13} />
           New Campaign

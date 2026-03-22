@@ -47,7 +47,7 @@ const STEPS = ['Details', 'Setup', 'Goals', 'Review']
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
       {children}
     </label>
   )
@@ -55,14 +55,14 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
-  return <p className="mt-1 text-[11px] font-syne text-[#FF4747]">{message}</p>
+  return <p className="mt-1 text-[11px] font-syne text-danger">{message}</p>
 }
 
 function inputCls(hasError?: boolean) {
   return cn(
-    'w-full px-3 py-2.5 bg-[#1A1A1A] border text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860]',
+    'w-full px-3 py-2.5 bg-surface-2 border text-sm font-syne text-text placeholder-muted',
     'focus:outline-none transition-colors',
-    hasError ? 'border-[#FF4747] focus:border-[#FF4747]' : 'border-[#222222] focus:border-[#008cff]'
+    hasError ? 'border-danger focus:border-danger' : 'border-border focus:border-accent'
   )
 }
 
@@ -154,10 +154,10 @@ export function NewCampaignForm({ brands }: Props) {
                 className={cn(
                   'w-7 h-7 flex items-center justify-center text-xs font-syne font-bold border',
                   i < step
-                    ? 'bg-[#008cff] border-[#008cff] text-[#090909]'
+                    ? 'bg-accent border-accent text-bg'
                     : i === step
-                      ? 'bg-[#1A1A1A] border-[#008cff] text-[#008cff]'
-                      : 'bg-[#1A1A1A] border-[#222222] text-[#6B6860]'
+                      ? 'bg-surface-2 border-accent text-accent'
+                      : 'bg-surface-2 border-border text-muted'
                 )}
               >
                 {i < step ? <Check size={12} /> : i + 1}
@@ -165,7 +165,7 @@ export function NewCampaignForm({ brands }: Props) {
               <span
                 className={cn(
                   'text-[10px] font-syne uppercase tracking-widest hidden sm:block',
-                  i === step ? 'text-[#EDE8DE]' : 'text-[#6B6860]'
+                  i === step ? 'text-text' : 'text-muted'
                 )}
               >
                 {label}
@@ -175,7 +175,7 @@ export function NewCampaignForm({ brands }: Props) {
               <div
                 className={cn(
                   'flex-1 h-px mx-3',
-                  i < step ? 'bg-[#008cff]' : 'bg-[#222222]'
+                  i < step ? 'bg-accent' : 'bg-border'
                 )}
               />
             )}
@@ -186,7 +186,7 @@ export function NewCampaignForm({ brands }: Props) {
       {/* Step 1: Name + Brand */}
       {step === 0 && (
         <form onSubmit={form1.handleSubmit(handleStep1)} className="space-y-5">
-          <div className="bg-[#111111] border border-[#222222] p-6 space-y-5">
+          <div className="bg-surface border border-border rounded-xl p-6 space-y-5">
             <div>
               <Label>Campaign Name</Label>
               <input
@@ -211,7 +211,7 @@ export function NewCampaignForm({ brands }: Props) {
             <div>
               <Label>Brand</Label>
               {brands.length === 0 ? (
-                <p className="text-xs font-syne text-[#FFB547]">
+                <p className="text-xs font-syne text-warning">
                   No brands yet. Add a brand account first.
                 </p>
               ) : (
@@ -237,7 +237,7 @@ export function NewCampaignForm({ brands }: Props) {
             <button
               type="submit"
               disabled={brands.length === 0}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Next <ChevronRight size={13} />
             </button>
@@ -248,7 +248,7 @@ export function NewCampaignForm({ brands }: Props) {
       {/* Step 2: Platform + Budget */}
       {step === 1 && (
         <form onSubmit={form2.handleSubmit(handleStep2)} className="space-y-5">
-          <div className="bg-[#111111] border border-[#222222] p-6 space-y-5">
+          <div className="bg-surface border border-border rounded-xl p-6 space-y-5">
             <div>
               <Label>Platform</Label>
               <div className="grid grid-cols-3 gap-2">
@@ -264,8 +264,8 @@ export function NewCampaignForm({ brands }: Props) {
                       className={cn(
                         'px-3 py-2.5 border text-center text-xs font-syne font-bold uppercase tracking-widest transition-colors',
                         form2.watch('platform') === p
-                          ? 'border-[#008cff] text-[#008cff] bg-[#001a33]'
-                          : 'border-[#222222] text-[#6B6860] hover:border-[#333333]'
+                          ? 'border-accent text-accent bg-[#001a33]'
+                          : 'border-border text-muted hover:border-[#333333]'
                       )}
                     >
                       {PLATFORM_LABELS[p]}
@@ -293,13 +293,13 @@ export function NewCampaignForm({ brands }: Props) {
                         className={cn(
                           'w-4 h-4 border flex items-center justify-center shrink-0',
                           checked
-                            ? 'bg-[#008cff] border-[#008cff]'
-                            : 'bg-[#1A1A1A] border-[#222222]'
+                            ? 'bg-accent border-accent'
+                            : 'bg-surface-2 border-border'
                         )}
                       >
-                        {checked && <Check size={10} className="text-[#090909]" />}
+                        {checked && <Check size={10} className="text-bg" />}
                       </div>
-                      <span className="text-xs font-syne text-[#EDE8DE]">
+                      <span className="text-xs font-syne text-text">
                         {CONTENT_TYPE_LABELS[ct]}
                       </span>
                     </label>
@@ -346,13 +346,13 @@ export function NewCampaignForm({ brands }: Props) {
             <button
               type="button"
               onClick={() => setStep(0)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
             >
               <ChevronLeft size={13} /> Back
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors"
             >
               Next <ChevronRight size={13} />
             </button>
@@ -363,7 +363,7 @@ export function NewCampaignForm({ brands }: Props) {
       {/* Step 3: Goals */}
       {step === 2 && (
         <form onSubmit={form3.handleSubmit(handleStep3)} className="space-y-5">
-          <div className="bg-[#111111] border border-[#222222] p-6 space-y-5">
+          <div className="bg-surface border border-border rounded-xl p-6 space-y-5">
             <div>
               <Label>Target ROAS</Label>
               <input
@@ -373,7 +373,7 @@ export function NewCampaignForm({ brands }: Props) {
                 placeholder="e.g. 4.0"
                 className={inputCls(!!form3.formState.errors.targetROAS)}
               />
-              <p className="mt-1 text-[11px] font-syne text-[#6B6860]">
+              <p className="mt-1 text-[11px] font-syne text-muted">
                 Return on ad spend target (e.g. 4.0 = $4 revenue per $1 spent)
               </p>
               <FieldError message={form3.formState.errors.targetROAS?.message} />
@@ -387,7 +387,7 @@ export function NewCampaignForm({ brands }: Props) {
                 placeholder="e.g. 5000000"
                 className={inputCls(!!form3.formState.errors.targetReach)}
               />
-              <p className="mt-1 text-[11px] font-syne text-[#6B6860]">
+              <p className="mt-1 text-[11px] font-syne text-muted">
                 Total unique accounts you aim to reach
               </p>
               <FieldError message={form3.formState.errors.targetReach?.message} />
@@ -398,13 +398,13 @@ export function NewCampaignForm({ brands }: Props) {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
             >
               <ChevronLeft size={13} /> Back
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors"
             >
               Review <ChevronRight size={13} />
             </button>
@@ -415,8 +415,8 @@ export function NewCampaignForm({ brands }: Props) {
       {/* Step 4: Review */}
       {step === 3 && (
         <div className="space-y-5">
-          <div className="bg-[#111111] border border-[#222222] p-6 space-y-4">
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE] mb-4">Review Campaign</h3>
+          <div className="bg-surface border border-border rounded-xl p-6 space-y-4">
+            <h3 className="text-sm font-syne font-bold text-text mb-4">Review Campaign</h3>
 
             <div className="space-y-3">
               {[
@@ -429,26 +429,26 @@ export function NewCampaignForm({ brands }: Props) {
                 { label: 'Target ROAS', value: formData.targetROAS ? `${formData.targetROAS}×` : '—' },
                 { label: 'Target Reach', value: formData.targetReach ? Number(formData.targetReach).toLocaleString() : '—' },
               ].map((row) => (
-                <div key={row.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                  <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+                <div key={row.label} className="flex justify-between py-2 border-b border-surface-2">
+                  <span className="text-[10px] font-syne uppercase tracking-widest text-muted">
                     {row.label}
                   </span>
-                  <span className="text-sm font-syne font-bold text-[#EDE8DE]">{row.value}</span>
+                  <span className="text-sm font-syne font-bold text-text">{row.value}</span>
                 </div>
               ))}
             </div>
 
             {formData.description && (
               <div className="pt-2">
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-2">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted mb-2">
                   Description
                 </div>
-                <p className="text-sm font-fraunces text-[#EDE8DE]">{formData.description}</p>
+                <p className="text-sm font-fraunces text-text">{formData.description}</p>
               </div>
             )}
 
             {submitError && (
-              <p className="text-xs font-syne text-[#FF4747] bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+              <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
                 {submitError}
               </p>
             )}
@@ -459,7 +459,7 @@ export function NewCampaignForm({ brands }: Props) {
               type="button"
               onClick={() => setStep(2)}
               disabled={submitting}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
             >
               <ChevronLeft size={13} /> Back
             </button>
@@ -467,7 +467,7 @@ export function NewCampaignForm({ brands }: Props) {
               type="button"
               onClick={handleCreate}
               disabled={submitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-60 disabled:cursor-wait"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors disabled:opacity-60 disabled:cursor-wait"
             >
               {submitting ? 'Creating…' : <><Check size={13} /> Create Campaign</>}
             </button>

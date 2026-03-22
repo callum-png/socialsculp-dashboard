@@ -26,7 +26,7 @@ type FormData = z.infer<typeof schema>
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
       {children}
     </label>
   )
@@ -34,14 +34,14 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
-  return <p className="mt-1 text-[11px] font-syne text-[#FF4747]">{message}</p>
+  return <p className="mt-1 text-[11px] font-syne text-danger">{message}</p>
 }
 
 function inputCls(hasError?: boolean) {
   return cn(
-    'w-full px-3 py-2.5 bg-[#1A1A1A] border text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860]',
+    'w-full px-3 py-2.5 bg-surface-2 border text-sm font-syne text-text placeholder-muted',
     'focus:outline-none transition-colors',
-    hasError ? 'border-[#FF4747] focus:border-[#FF4747]' : 'border-[#222222] focus:border-[#008cff]'
+    hasError ? 'border-danger focus:border-danger' : 'border-border focus:border-accent'
   )
 }
 
@@ -126,12 +126,12 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
     <>
       <div className="fixed inset-0 bg-black/70 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-lg bg-[#0D0D0D] border border-[#222222] shadow-2xl max-h-[90vh] flex flex-col">
+        <div className="w-full max-w-lg bg-[#0D0D0D] border border-border shadow-2xl max-h-[90vh] flex flex-col">
 
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222] shrink-0">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
             <div className="flex items-center gap-4">
-              <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">
+              <h2 className="text-sm font-syne font-bold text-text uppercase tracking-widest">
                 New Creator
               </h2>
               <div className="flex items-center gap-1">
@@ -142,17 +142,17 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                       onClick={() => setStep(s)}
                       className={cn(
                         'text-[10px] font-syne font-bold uppercase tracking-widest px-2 py-0.5 transition-colors',
-                        step === s ? 'text-[#008cff]' : 'text-[#3A3A3A]'
+                        step === s ? 'text-accent' : 'text-muted/40'
                       )}
                     >
                       {i + 1}. {s}
                     </button>
-                    {i === 0 && <span className="text-[#3A3A3A]">/</span>}
+                    {i === 0 && <span className="text-muted/40">/</span>}
                   </div>
                 ))}
               </div>
             </div>
-            <button onClick={onClose} className="text-[#6B6860] hover:text-[#EDE8DE] transition-colors">
+            <button onClick={onClose} className="text-muted hover:text-text transition-colors">
               <X size={16} />
             </button>
           </div>
@@ -198,8 +198,8 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                           className={cn(
                             'px-2.5 py-1 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors',
                             selectedNiches.includes(n)
-                              ? 'bg-[#001a33] border-[#008cff] text-[#008cff]'
-                              : 'bg-[#1A1A1A] border-[#222222] text-[#6B6860] hover:border-[#333333]'
+                              ? 'bg-[#001a33] border-accent text-accent'
+                              : 'bg-surface-2 border-border text-muted hover:border-[#333333]'
                           )}
                         >
                           {n}
@@ -215,7 +215,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                 <>
                   {/* TikTok */}
                   <div>
-                    <div className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#008cff] mb-3">
+                    <div className="text-[10px] font-syne font-bold uppercase tracking-widest text-accent mb-3">
                       TikTok
                     </div>
                     <div className="grid grid-cols-3 gap-3">
@@ -236,7 +236,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
 
                   {/* Instagram */}
                   <div>
-                    <div className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#008cff] mb-3">
+                    <div className="text-[10px] font-syne font-bold uppercase tracking-widest text-accent mb-3">
                       Instagram
                     </div>
                     <div className="grid grid-cols-3 gap-3">
@@ -258,19 +258,19 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
               )}
 
               {submitError && (
-                <p className="text-xs font-syne text-[#FF4747] bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+                <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
                   {submitError}
                 </p>
               )}
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-5 py-4 border-t border-[#222222] shrink-0">
+            <div className="flex items-center justify-between px-5 py-4 border-t border-border shrink-0">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={submitting}
-                className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors disabled:opacity-40"
+                className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
               >
                 Cancel
               </button>
@@ -279,7 +279,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                   <button
                     type="button"
                     onClick={() => setStep('stats')}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors"
                   >
                     Next: Stats
                   </button>
@@ -289,14 +289,14 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                     <button
                       type="button"
                       onClick={() => setStep('details')}
-                      className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors"
+                      className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
                     >
                       Back
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       {submitting ? 'Adding…' : <><Check size={12} /> Add Creator</>}
                     </button>

@@ -37,7 +37,7 @@ type FormData = z.infer<typeof schema>
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
       {children}
     </label>
   )
@@ -45,14 +45,14 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
-  return <p className="mt-1 text-[11px] font-syne text-[#FF4747]">{message}</p>
+  return <p className="mt-1 text-[11px] font-syne text-danger">{message}</p>
 }
 
 function inputCls(hasError?: boolean) {
   return cn(
-    'w-full px-3 py-2.5 bg-[#1A1A1A] border text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860]',
+    'w-full px-3 py-2.5 bg-surface-2 border text-sm font-syne text-text placeholder-muted',
     'focus:outline-none transition-colors',
-    hasError ? 'border-[#FF4747] focus:border-[#FF4747]' : 'border-[#222222] focus:border-[#008cff]'
+    hasError ? 'border-danger focus:border-danger' : 'border-border focus:border-accent'
   )
 }
 
@@ -137,15 +137,15 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
+        <div className="w-full max-w-md bg-[#0D0D0D] border border-border shadow-2xl rounded-md">
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-            <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <h2 className="text-sm font-syne font-bold text-text uppercase tracking-widest">
               New Deal
             </h2>
             <button
               onClick={onClose}
-              className="text-[#6B6860] hover:text-[#EDE8DE] transition-colors"
+              className="text-muted hover:text-text transition-colors"
             >
               <X size={16} />
             </button>
@@ -157,7 +157,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
             <div>
               <Label>Campaign</Label>
               {campaigns.length === 0 ? (
-                <p className="text-xs font-syne text-[#FFB547]">
+                <p className="text-xs font-syne text-warning">
                   No campaigns yet. Create a campaign first.
                 </p>
               ) : (
@@ -179,7 +179,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
             <div>
               <Label>Creator</Label>
               {creators.length === 0 ? (
-                <p className="text-xs font-syne text-[#FFB547]">
+                <p className="text-xs font-syne text-warning">
                   No creators yet. Add creator accounts first.
                 </p>
               ) : (
@@ -236,7 +236,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
             </div>
 
             {submitError && (
-              <p className="text-xs font-syne text-[#FF4747] bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+              <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
                 {submitError}
               </p>
             )}
@@ -247,14 +247,14 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
                 type="button"
                 onClick={onClose}
                 disabled={submitting}
-                className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors disabled:opacity-40"
+                className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting || campaigns.length === 0 || creators.length === 0}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {submitting ? 'Creating…' : <><Check size={12} /> Create Deal</>}
               </button>
