@@ -42,37 +42,37 @@ export function DealKanbanCard({ deal }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-[#111111] border border-[#222222] p-3.5 relative select-none"
+      className="bg-surface border border-border rounded-md p-3.5 relative select-none"
     >
       {/* Drag handle */}
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-3 right-3 cursor-grab active:cursor-grabbing text-[#3A3A3A] hover:text-[#6B6860] transition-colors"
+        className="absolute top-3 right-3 cursor-grab active:cursor-grabbing text-muted/40 hover:text-muted transition-colors"
       >
         <GripVertical size={14} />
       </div>
 
       <div className="pr-5">
         {/* Creator handle */}
-        <div className="font-syne font-bold text-sm text-[#EDE8DE] mb-1 truncate">
+        <div className="font-syne font-bold text-sm text-text mb-1 truncate">
           {deal.creatorHandle}
         </div>
 
         {/* Campaign name */}
-        <div className="font-fraunces text-xs text-[#6B6860] truncate mb-3">
+        <div className="font-fraunces text-xs text-muted truncate mb-3">
           {deal.campaignName}
         </div>
 
         {/* Fee */}
         {displayFee != null && (
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+            <span className="text-[10px] font-syne uppercase tracking-widest text-muted">
               {deal.agreedFee != null ? 'Agreed' : 'Proposed'}
             </span>
             <span
               className={`text-xs font-syne font-bold ${
-                deal.agreedFee != null ? 'text-[#008cff]' : 'text-[#6B6860]'
+                deal.agreedFee != null ? 'text-accent' : 'text-muted'
               }`}
             >
               {formatCurrency(displayFee)}

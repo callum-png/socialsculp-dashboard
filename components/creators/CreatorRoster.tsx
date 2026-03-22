@@ -34,16 +34,16 @@ export function CreatorRoster({ initialCreators }: Props) {
         {/* Toolbar */}
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mr-2">
+            <span className="text-[10px] font-syne uppercase tracking-widest text-muted mr-2">
               Filter:
             </span>
-            <button className="px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-[#008cff] text-white">
+            <button className="px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-accent text-white">
               All
             </button>
           </div>
           <button
             onClick={() => setShowModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-accent/90 transition-colors"
           >
             <Plus size={13} />
             New Creator
@@ -52,8 +52,8 @@ export function CreatorRoster({ initialCreators }: Props) {
 
         {/* Grid */}
         {creators.length === 0 ? (
-          <div className="bg-[#111111] border border-[#222222] px-5 py-16 text-center">
-            <p className="text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+          <div className="bg-surface border border-border rounded-xl px-5 py-16 text-center">
+            <p className="text-muted/50 font-syne text-xs uppercase tracking-widest">
               No creators yet
             </p>
           </div>
