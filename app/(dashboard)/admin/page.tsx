@@ -54,6 +54,7 @@ export default async function AdminOverviewPage() {
       icon: Megaphone,
       delta: 12.5,
       deltaLabel: 'vs last month',
+      color: 'blue' as const,
     },
     {
       title: 'Total Creators',
@@ -68,6 +69,7 @@ export default async function AdminOverviewPage() {
       icon: DollarSign,
       delta: -3.1,
       deltaLabel: 'vs last month',
+      color: 'emerald' as const,
     },
     {
       title: 'Avg ROAS',
@@ -75,7 +77,7 @@ export default async function AdminOverviewPage() {
       icon: TrendingUp,
       delta: 5.4,
       deltaLabel: 'vs last month',
-      accent: true,
+      color: 'amber' as const,
     },
   ]
 
@@ -84,14 +86,14 @@ export default async function AdminOverviewPage() {
       <PageHeader title="Overview" description={today}>
         <Link
           href="/admin/campaigns/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
         >
           <Plus size={13} />
           New Campaign
         </Link>
       </PageHeader>
 
-      <div className="p-6 space-y-6">
+      <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
         {/* Stat cards */}
         <StatCardGrid stats={stats} />
 
@@ -104,44 +106,44 @@ export default async function AdminOverviewPage() {
         </ChartContainer>
 
         {/* Bottom row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Recent Deals */}
-          <div className="lg:col-span-2 bg-[#111111] border border-[#222222]">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-              <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Recent Deals</h3>
+          <div className="lg:col-span-2 rounded-xl bg-card border border-border">
+            <div className="flex items-center justify-between px-5 min-h-14 border-b border-border">
+              <h3 className="text-base font-semibold text-foreground">Recent Deals</h3>
               <Link
                 href="/admin/deals"
-                className="flex items-center gap-1 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] transition-colors"
+                className="flex items-center gap-1 text-xs font-syne text-muted-foreground hover:text-[#008cff] transition-colors"
               >
-                View all <ArrowRight size={11} />
+                View all <ArrowRight size={12} />
               </Link>
             </div>
-            <div className="divide-y divide-[#1A1A1A]">
+            <div className="p-4 space-y-1">
               {deals.length === 0 ? (
-                <div className="px-5 py-8 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                <div className="py-8 text-center text-muted-foreground font-syne text-xs uppercase tracking-widest">
                   No deals yet
                 </div>
               ) : (
                 deals.map((deal) => {
                   const fee = deal.agreedFee ?? deal.proposedFee
                   return (
-                    <div key={deal.id} className="flex items-center justify-between px-5 py-3.5">
-                      <div className="min-w-0">
-                        <div className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
+                    <div key={deal.id} className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-semibold text-foreground truncate">
                           {deal.creator.handle}
                         </div>
-                        <div className="text-xs font-fraunces text-[#6B6860] truncate">
+                        <div className="text-xs text-muted-foreground truncate">
                           {deal.campaign.name}
                         </div>
                       </div>
                       <div className="flex items-center gap-3 shrink-0 ml-4">
                         {fee && (
-                          <span className="text-sm font-syne font-bold text-[#008cff]">
+                          <span className="text-sm font-bold text-[#008cff]">
                             {formatCurrency(fee)}
                           </span>
                         )}
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${DEAL_STAGE_COLORS[deal.stage as DealStageValue]}`}
+                          className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest rounded-md ${DEAL_STAGE_COLORS[deal.stage as DealStageValue]}`}
                         >
                           {DEAL_STAGE_LABELS[deal.stage as DealStageValue]}
                         </span>
@@ -154,56 +156,56 @@ export default async function AdminOverviewPage() {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-[#111111] border border-[#222222]">
-            <div className="px-5 py-4 border-b border-[#222222]">
-              <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Quick Actions</h3>
+          <div className="rounded-xl bg-card border border-border">
+            <div className="px-5 min-h-14 border-b border-border flex items-center">
+              <h3 className="text-base font-semibold text-foreground">Quick Actions</h3>
             </div>
-            <div className="p-5 flex flex-col gap-3">
+            <div className="p-4 flex flex-col gap-2">
               <Link
                 href="/admin/campaigns/new"
-                className="flex items-center justify-between w-full px-4 py-3 bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"
               >
                 <span>New Campaign</span>
                 <Plus size={13} />
               </Link>
               <Link
                 href="/admin/creators"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors group"
               >
                 <span>View Creators</span>
-                <ArrowRight size={13} />
+                <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
               <Link
                 href="/admin/deals"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors group"
               >
                 <span>Deal Pipeline</span>
-                <ArrowRight size={13} />
+                <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
               <Link
                 href="/admin/analytics"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors group"
               >
                 <span>Analytics</span>
-                <ArrowRight size={13} />
+                <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
 
-              <div className="pt-3 border-t border-[#1A1A1A]">
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-2">
+              <div className="pt-3 mt-1 border-t border-border">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-2">
                   At a Glance
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-xs font-syne text-[#6B6860]">Total Creators</span>
-                    <span className="text-xs font-syne font-bold text-[#EDE8DE]">{totalCreators}</span>
+                    <span className="text-xs text-muted-foreground">Total Creators</span>
+                    <span className="text-xs font-semibold text-foreground">{totalCreators}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs font-syne text-[#6B6860]">Active Campaigns</span>
-                    <span className="text-xs font-syne font-bold text-[#EDE8DE]">{activeCampaigns}</span>
+                    <span className="text-xs text-muted-foreground">Active Campaigns</span>
+                    <span className="text-xs font-semibold text-foreground">{activeCampaigns}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs font-syne text-[#6B6860]">Total Spend</span>
-                    <span className="text-xs font-syne font-bold text-[#EDE8DE]">
+                    <span className="text-xs text-muted-foreground">Total Spend</span>
+                    <span className="text-xs font-semibold text-foreground">
                       {formatCurrency(totalSpend)}
                     </span>
                   </div>

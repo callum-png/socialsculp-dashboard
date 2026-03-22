@@ -10,6 +10,7 @@ interface StatCardProps {
   formatter?: (v: number) => string
   loading?: boolean
   accent?: boolean
+  color?: 'default' | 'blue' | 'emerald' | 'amber' | 'purple'
 }
 
 interface StatCardGridProps {
@@ -18,7 +19,7 @@ interface StatCardGridProps {
 
 export function StatCardGrid({ stats }: StatCardGridProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#222222] border border-[#222222]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, i) => (
         <StatCard key={i} {...stat} />
       ))}

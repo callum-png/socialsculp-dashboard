@@ -30,7 +30,7 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
       <div className="flex-1 flex flex-col md:ml-60 min-h-screen">
         {/* Topbar — shown on both mobile and desktop */}
         <div className="sticky top-0 z-40">
-          <Topbar onMenuClick={() => setMobileNavOpen(true)} />
+          <Topbar onMenuClick={() => setMobileNavOpen(true)} role={role} />
         </div>
 
         {/* Main content */}

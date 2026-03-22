@@ -13,6 +13,9 @@ import {
   User,
   FileText,
   ContactRound,
+  LayoutTemplate,
+  Eye,
+  CheckSquare,
 } from 'lucide-react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
@@ -29,33 +32,81 @@ const ICON_MAP = {
   User,
   FileText,
   ContactRound,
+  LayoutTemplate,
+  Eye,
+  CheckSquare,
 }
 
-const ROLE_NAV: Record<UserRole, { label: string; href: string; icon: keyof typeof ICON_MAP }[]> = {
-  AGENT: [
-    { label: 'My CRM', href: '/agent/crm', icon: 'ContactRound' },
-  ],
+type NavItem = { label: string; href: string; icon: keyof typeof ICON_MAP }
+type NavGroup = { label: string; items: NavItem[] }
+
+const ROLE_NAV: Record<UserRole, NavGroup[]> = {
   ADMIN: [
-    { label: 'Overview', href: '/admin', icon: 'LayoutDashboard' },
-    { label: 'Campaigns', href: '/admin/campaigns', icon: 'Megaphone' },
-    { label: 'Creators', href: '/admin/creators', icon: 'Users' },
-    { label: 'Deals', href: '/admin/deals', icon: 'Handshake' },
-    { label: 'Brands', href: '/admin/brands', icon: 'Building2' },
-    { label: 'Analytics', href: '/admin/analytics', icon: 'BarChart3' },
-    { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
+    {
+      label: 'Overview',
+      items: [
+        { label: 'Overview', href: '/admin', icon: 'LayoutDashboard' },
+        { label: 'Analytics', href: '/admin/analytics', icon: 'BarChart3' },
+      ],
+    },
+    {
+      label: 'Management',
+      items: [
+        { label: 'Campaigns', href: '/admin/campaigns', icon: 'Megaphone' },
+        { label: 'Creators', href: '/admin/creators', icon: 'Users' },
+        { label: 'Brands', href: '/admin/brands', icon: 'Building2' },
+        { label: 'Deals', href: '/admin/deals', icon: 'Handshake' },
+      ],
+    },
+    {
+      label: 'Operations',
+      items: [
+        { label: 'CRM', href: '/admin/crm', icon: 'ContactRound' },
+        { label: 'Decks', href: '/admin/decks', icon: 'LayoutTemplate' },
+        { label: 'Portals', href: '/admin/portals', icon: 'Eye' },
+        { label: 'Tasks', href: '/admin/tasks', icon: 'CheckSquare' },
+        { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
+      ],
+    },
+  ],
+  AGENT: [
+    {
+      label: 'Overview',
+      items: [{ label: 'My CRM', href: '/agent/crm', icon: 'ContactRound' }],
+    },
   ],
   CREATOR: [
-    { label: 'Dashboard', href: '/creator', icon: 'LayoutDashboard' },
-    { label: 'My Campaigns', href: '/creator/campaigns', icon: 'Megaphone' },
-    { label: 'My Deals', href: '/creator/deals', icon: 'Handshake' },
-    { label: 'Analytics', href: '/creator/analytics', icon: 'BarChart3' },
-    { label: 'Profile', href: '/creator/profile', icon: 'User' },
+    {
+      label: 'Overview',
+      items: [
+        { label: 'Dashboard', href: '/creator', icon: 'LayoutDashboard' },
+        { label: 'Analytics', href: '/creator/analytics', icon: 'BarChart3' },
+      ],
+    },
+    {
+      label: 'My Work',
+      items: [
+        { label: 'My Campaigns', href: '/creator/campaigns', icon: 'Megaphone' },
+        { label: 'My Deals', href: '/creator/deals', icon: 'Handshake' },
+        { label: 'Profile', href: '/creator/profile', icon: 'User' },
+      ],
+    },
   ],
   BRAND: [
-    { label: 'Dashboard', href: '/brand', icon: 'LayoutDashboard' },
-    { label: 'Campaigns', href: '/brand/campaigns', icon: 'Megaphone' },
-    { label: 'Creators', href: '/brand/creators', icon: 'Users' },
-    { label: 'Reports', href: '/brand/reports', icon: 'FileText' },
+    {
+      label: 'Overview',
+      items: [
+        { label: 'Dashboard', href: '/brand', icon: 'LayoutDashboard' },
+      ],
+    },
+    {
+      label: 'Campaigns',
+      items: [
+        { label: 'Campaigns', href: '/brand/campaigns', icon: 'Megaphone' },
+        { label: 'Creators', href: '/brand/creators', icon: 'Users' },
+        { label: 'Reports', href: '/brand/reports', icon: 'FileText' },
+      ],
+    },
   ],
 }
 
@@ -67,61 +118,62 @@ interface MobileNavProps {
 
 export function MobileNav({ role, open, onClose }: MobileNavProps) {
   const pathname = usePathname()
-  const navItems = ROLE_NAV[role]
+  const groups = ROLE_NAV[role]
+
+  function isActive(href: string) {
+    const roots = ['/admin', '/creator', '/brand']
+    return roots.includes(href) ? pathname === href : pathname.startsWith(href)
+  }
 
   return (
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
-      <SheetContent
-        side="left"
-        className="w-72 bg-card border-r border-border p-0"
-      >
-        <div className="px-5 py-6 border-b border-border">
-          <div className="flex items-baseline gap-0.5">
-            <span className="font-syne text-xl font-bold text-foreground tracking-tight">SocialSculp</span>
-            <span className="font-syne text-xl font-bold text-[#008cff]">.</span>
+      <SheetContent side="left" className="w-72 bg-card border-r border-border p-0">
+        <div className="px-4 py-3 border-b border-border">
+          <div className="px-2 py-2.5">
+            <div className="flex items-baseline gap-0.5">
+              <span className="font-syne text-lg font-bold text-foreground tracking-tight">SocialSculp</span>
+              <span className="font-syne text-lg font-bold text-[#008cff]">.</span>
+            </div>
+            <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-muted-foreground">
+              Campaign Intelligence
+            </span>
           </div>
-          <span className="text-[10px] font-syne uppercase tracking-[0.2em] text-muted-foreground">
-            Campaign Intelligence
-          </span>
         </div>
 
-        <nav className="px-3 py-4">
-          <ul className="space-y-0.5">
-            {navItems.map((item) => {
-              const Icon = ICON_MAP[item.icon]
-              const isActive =
-                item.href === '/admin' || item.href === '/creator' || item.href === '/brand'
-                  ? pathname === item.href
-                  : pathname.startsWith(item.href)
-
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={onClose}
-                    className={cn(
-                      'flex items-center gap-3 px-3 py-3 text-sm font-syne font-medium transition-all relative',
-                      isActive
-                        ? 'text-[#008cff] bg-muted'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    )}
-                  >
-                    {isActive && (
-                      <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#008cff]" />
-                    )}
-                    <Icon
-                      size={16}
-                      className={cn(
-                        'shrink-0',
-                        isActive ? 'text-[#008cff]' : 'text-muted-foreground'
-                      )}
-                    />
-                    {item.label}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+        <nav className="px-2 py-3 space-y-4 overflow-y-auto">
+          {groups.map((group) => (
+            <div key={group.label}>
+              <p className="px-2 mb-1 text-[11px] font-semibold tracking-wider text-muted-foreground/60 uppercase">
+                {group.label}
+              </p>
+              <ul className="space-y-0.5">
+                {group.items.map((item) => {
+                  const Icon = ICON_MAP[item.icon]
+                  const active = isActive(item.href)
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        onClick={onClose}
+                        className={cn(
+                          'flex items-center gap-2.5 px-2.5 h-10 text-sm font-medium rounded-md transition-colors',
+                          active
+                            ? 'bg-muted text-[#008cff]'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                        )}
+                      >
+                        <Icon
+                          size={18}
+                          className={cn('shrink-0', active ? 'text-[#008cff]' : 'text-muted-foreground')}
+                        />
+                        {item.label}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
         </nav>
       </SheetContent>
     </Sheet>
