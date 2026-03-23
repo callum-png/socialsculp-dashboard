@@ -13,6 +13,7 @@ interface PageHeaderProps {
   children?: React.ReactNode
   breadcrumb?: BreadcrumbItem[]
   className?: string
+  eyebrow?: string
 }
 
 export function PageHeader({
@@ -21,6 +22,7 @@ export function PageHeader({
   children,
   breadcrumb,
   className,
+  eyebrow,
 }: PageHeaderProps) {
   return (
     <section className={cn('bg-background px-6 py-5', className)}>
@@ -47,10 +49,15 @@ export function PageHeader({
       )}
 
       <div className="flex items-start justify-between gap-4">
-        <div className="space-y-1 min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+        <div className="min-w-0">
+          {eyebrow && (
+            <p className="font-syne text-[9px] font-bold uppercase tracking-[0.12em] text-accent mb-1">
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="font-fraunces text-2xl font-bold leading-none text-foreground">{title}</h1>
           {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p className="font-fraunces text-sm italic text-muted mt-1">{description}</p>
           )}
         </div>
         {children && (

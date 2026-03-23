@@ -61,13 +61,13 @@ export function CampaignTable({ campaigns }: Props) {
                 <td className="px-5 py-4 text-text font-medium max-w-[200px]">
                   <span className="block truncate">{campaign.name}</span>
                 </td>
-                <td className="px-5 py-4 text-muted">
+                <td className="px-5 py-4 font-fraunces italic text-muted">
                   {campaign.brandName}
                 </td>
                 <td className="px-5 py-4">
                   <CampaignStatusBadge status={campaign.status as CampaignStatusValue} />
                 </td>
-                <td className="px-5 py-4 text-muted">
+                <td className="px-5 py-4 font-fraunces italic text-muted">
                   {PLATFORM_LABELS[campaign.platform as PlatformValue] ?? campaign.platform}
                 </td>
                 <td className="px-5 py-4 text-text">
