@@ -9,7 +9,7 @@ interface SectionEditorShellProps {
   patchUrl: string
   sections: Section[]
   extraFields?: React.ReactNode
-  extraData?: Record<string, string>
+  extraData?: Record<string, string | null | undefined>
 }
 
 export function SectionEditorShell({

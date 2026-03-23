@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation'
 import { Plus, Trash2, Loader2 } from 'lucide-react'
 import type { Section } from '@/types/sales'
 
+type EditingSection = { _key: string; title: string; body: string }
+
 interface SectionEditorProps {
   patchUrl: string
   initialSections: Section[]
   extraFields?: React.ReactNode
-  extraData?: Record<string, string>
+  extraData?: Record<string, string | null | undefined>
   onCancel: () => void
 }
 
@@ -21,10 +23,14 @@ export function SectionEditor({
   onCancel,
 }: SectionEditorProps) {
   const router = useRouter()
-  const [sections, setSections] = useState<Section[]>(
-    initialSections.length > 0 ? initialSections : [{ title: '', body: '' }]
+  const [sections, setSections] = useState<EditingSection[]>(
+    (initialSections.length > 0 ? initialSections : [{ title: '', body: '' }]).map(s => ({
+      ...s,
+      _key: crypto.randomUUID(),
+    }))
   )
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   function updateSection(index: number, field: keyof Section, value: string) {
     setSections(prev =>
@@ -33,7 +39,7 @@ export function SectionEditor({
   }
 
   function addSection() {
-    setSections(prev => [...prev, { title: '', body: '' }])
+    setSections(prev => [...prev, { title: '', body: '', _key: crypto.randomUUID() }])
   }
 
   function removeSection(index: number) {
@@ -42,15 +48,19 @@ export function SectionEditor({
 
   async function handleSave() {
     setSaving(true)
+    setError(null)
+    const payload = sections.map(({ _key: _, ...rest }) => rest)
     const res = await fetch(patchUrl, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sections, ...extraData }),
+      body: JSON.stringify({ sections: payload, ...extraData }),
     })
     setSaving(false)
     if (res.ok) {
       router.refresh()
       onCancel()
+    } else {
+      setError('Failed to save. Please try again.')
     }
   }
 
@@ -60,7 +70,7 @@ export function SectionEditor({
 
       {sections.map((section, i) => (
         <div
-          key={i}
+          key={section._key}
           className="bg-[#111111] border border-[#222222] rounded-lg p-5 flex flex-col gap-3"
         >
           <div className="flex items-center justify-between gap-3">
@@ -113,6 +123,10 @@ export function SectionEditor({
           Cancel
         </button>
       </div>
+
+      {error && (
+        <p className="text-sm font-syne text-red-400">{error}</p>
+      )}
     </div>
   )
 }
