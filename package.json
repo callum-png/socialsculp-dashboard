@@ -8,7 +8,10 @@
     "dev:creator": "next dev -p 3002",
     "dev:agent": "next dev -p 3003",
     "build": "prisma generate && next build",
-    "start": "next start"
+    "start": "next start",
+    "seed:stealth": "npx tsx prisma/seed-stealth.ts",
+    "seed:fitbod": "npx tsx prisma/seed-fitbod.ts",
+    "seed:quizard": "npx tsx prisma/seed-quizard.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
