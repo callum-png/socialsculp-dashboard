@@ -39,6 +39,36 @@ const CREATOR_SEED = [
   { handle: '@isabellaross', name: 'Isabella Ross', niche: ['Fashion', 'Travel'], tiktokFollowers: 950_000, tiktokAvgViews: 185_000, tiktokEngRate: 4.6, instagramFollowers: 1_450_000, instagramAvgLikes: 48_000, instagramEngRate: 3.3, totalReach: 2_400_000, avgEngagement: 3.95, location: 'Paris, France' },
 ]
 
+const LEAD_SEED: Array<{
+  name: string
+  company: string
+  website?: string
+  notes: string
+  stage: 'APPOINTMENT_SET' | 'QUALIFIED' | 'DECISION_MAKER' | 'PROPOSAL_SENT' | 'CLOSED_WON' | 'CLOSED_LOST'
+}> = [
+  {
+    name: 'GoWish',
+    company: 'GoWish',
+    website: 'https://gowish.com',
+    notes: 'Had a meeting. Deck sent — waiting for them to express interest.',
+    stage: 'PROPOSAL_SENT',
+  },
+  {
+    name: 'Cal AI',
+    company: 'Cal AI',
+    website: 'https://cal.ai',
+    notes: 'Had a meeting. Deck sent — waiting for them to express interest.',
+    stage: 'PROPOSAL_SENT',
+  },
+  {
+    name: 'Plutus Gaming',
+    company: 'Plutus Gaming',
+    website: 'https://plutus.gg',
+    notes: 'Potential client. Need to book a meeting this week.',
+    stage: 'APPOINTMENT_SET',
+  },
+]
+
 const CAMPAIGN_SEED = [
   { brandName: 'Cal AI', name: 'Cal AI — Q1 Growth Push', status: 'ACTIVE' as const, platform: 'BOTH' as const, contentTypes: ['TIKTOK_VIDEO', 'REEL'] as const, totalBudget: 85_000, spentBudget: 52_000, targetROAS: 4.0, description: 'Drive app installs and paid upgrades for Cal AI calorie tracking app via TikTok and Instagram.' },
   { brandName: 'Alpha Lion', name: 'Alpha Lion — Pre-Workout Launch', status: 'ACTIVE' as const, platform: 'TIKTOK' as const, contentTypes: ['TIKTOK_VIDEO'] as const, totalBudget: 120_000, spentBudget: 78_000, targetROAS: 5.5, description: 'Launch campaign for new SUPERHUMAN pre-workout formula targeting fitness creators.' },
@@ -216,6 +246,35 @@ async function main() {
       console.log(`  ✓ Deal: ${def.handle} × ${def.campaign.split('—')[0].trim()} [${def.stage}]`)
     } else {
       console.log(`  · Deal already exists: ${def.handle} × ${def.campaign.split('—')[0].trim()}`)
+    }
+  }
+
+  // ── 6. CRM Leads & Sales Deals ────────────────────────────────────────────
+  for (const l of LEAD_SEED) {
+    const existing = await db.lead.findFirst({ where: { company: l.company } })
+    if (!existing) {
+      const lead = await db.lead.create({
+        data: {
+          type: 'BRAND',
+          name: l.name,
+          company: l.company,
+          notes: l.notes,
+          source: 'Outbound',
+          createdById: adminUser.id,
+        },
+      })
+      await db.salesDeal.create({
+        data: {
+          title: `${l.company} — Influencer Marketing`,
+          stage: l.stage,
+          notes: l.notes,
+          leadId: lead.id,
+          createdById: adminUser.id,
+        },
+      })
+      console.log(`  ✓ Lead + SalesDeal: ${l.company} [${l.stage}]`)
+    } else {
+      console.log(`  · Lead already exists: ${l.company}`)
     }
   }
 
