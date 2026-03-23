@@ -115,6 +115,7 @@ model User {
   brandProfile   BrandProfile?
   leads            Lead[]
   salesDeals       SalesDeal[]
+  callPreps        CallPrep[]
   submittedPosts   Post[]
   publishedReports CampaignReport[]
   tasksCreated     AdminTask[] @relation("TaskCreator")
@@ -377,6 +378,34 @@ model SalesDeal {
   updatedAt DateTime @updatedAt
 
   @@map("sales_deals")
+}
+
+// ─── Sales ────────────────────────────────────────────────────────────────────
+
+model CallPrep {
+  id          String    @id @default(cuid())
+  prospect    String
+  company     String?
+  callType    String
+  scheduledAt DateTime?
+  sections    Json      @default("[]")
+  createdById String
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("call_preps")
+}
+
+model Playbook {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  sections    Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("playbooks")
 }
 
 // ─── Posts & Reports ──────────────────────────────────────────────────────────
