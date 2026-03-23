@@ -26,16 +26,16 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   if (!active || !payload || payload.length === 0) return null
 
   return (
-    <div className="bg-[#1A1A1A] border border-[#222222] px-3 py-2.5 text-xs font-syne">
-      <p className="text-[#6B6860] mb-1.5">{label}</p>
+    <div className="bg-white border border-[#e4e7ed] shadow-sm px-3 py-2.5 text-xs font-syne rounded-md">
+      <p className="text-[#6b7280] mb-1.5">{label}</p>
       {payload.map((entry) => (
         <div key={entry.dataKey} className="flex items-center gap-2">
           <span
-            className="inline-block w-2 h-2"
+            className="inline-block w-2 h-2 rounded-full"
             style={{ backgroundColor: entry.color }}
           />
-          <span className="text-[#6B6860] capitalize">{entry.dataKey}:</span>
-          <span className="text-[#EDE8DE] font-bold">
+          <span className="text-[#6b7280] capitalize">{entry.dataKey}:</span>
+          <span className="text-[#111827] font-bold">
             {typeof entry.value === 'number' ? `${entry.value.toFixed(2)}x` : entry.value}
           </span>
         </div>
@@ -64,14 +64,14 @@ export function ROASAreaChart({ data }: ROASAreaChartProps) {
 
         <CartesianGrid
           vertical={false}
-          stroke="#222222"
+          stroke="#e4e7ed"
           strokeDasharray="0"
         />
 
         <XAxis
           dataKey="date"
           tickFormatter={formatDate}
-          tick={{ fill: '#6B6860', fontSize: 11, fontFamily: 'Syne' }}
+          tick={{ fill: '#6b7280', fontSize: 11, fontFamily: 'Syne' }}
           axisLine={false}
           tickLine={false}
           interval="preserveStartEnd"
@@ -79,7 +79,7 @@ export function ROASAreaChart({ data }: ROASAreaChartProps) {
 
         <YAxis
           tickFormatter={(v) => `${v.toFixed(1)}x`}
-          tick={{ fill: '#6B6860', fontSize: 11, fontFamily: 'Syne' }}
+          tick={{ fill: '#6b7280', fontSize: 11, fontFamily: 'Syne' }}
           axisLine={false}
           tickLine={false}
         />
@@ -100,7 +100,7 @@ export function ROASAreaChart({ data }: ROASAreaChartProps) {
           <Area
             type="monotone"
             dataKey="target"
-            stroke="#6B6860"
+            stroke="#9ca3af"
             strokeWidth={1.5}
             strokeDasharray="4 4"
             fill="none"

@@ -79,7 +79,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`dark ${syne.variable} ${fraunces.variable}`}
+        className={`${syne.variable} ${fraunces.variable}`}
         suppressHydrationWarning
       >
         <body

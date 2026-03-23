@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editorial Typography Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #060606;
+  color: #ede8de;
+  font-family: 'Syne', sans-serif;
+  padding: 28px 24px;
+}
+.page-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: #4a4946; margin-bottom: 20px;
+}
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.panel-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  margin-bottom: 10px;
+}
+.panel-label.before { color: #4a4946; }
+.panel-label.after { color: #008cff; }
+
+/* ── SHELL ── */
+.shell {
+  background: #0d0d0d;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Topbar */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(13,13,13,0.85);
+  border-bottom: 1px solid #1a1a1a;
+  backdrop-filter: blur(8px);
+}
+.topbar-logo { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; color: #ede8de; }
+.topbar-logo span { color: #008cff; }
+.topbar-nav { display: flex; gap: 16px; }
+.topbar-nav a {
+  font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em; color: #6b6860;
+  text-decoration: none;
+}
+.topbar-nav a.active { color: #ede8de; }
+
+/* Page header */
+.page-header {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid #181818;
+}
+.header-inner { display: flex; align-items: flex-start; justify-content: space-between; }
+.header-left {}
+
+/* BEFORE header */
+.before-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: #ede8de; letter-spacing: -0.01em; line-height: 1;
+}
+.before-desc {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; color: #6b6860; margin-top: 4px;
+}
+
+/* AFTER header */
+.after-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: #008cff; margin-bottom: 3px;
+}
+.after-title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px; font-weight: 700;
+  color: #ede8de; letter-spacing: -0.01em; line-height: 1;
+}
+.after-desc {
+  font-family: 'Fraunces', serif;
+  font-size: 12px; font-style: italic;
+  color: #6b6860; margin-top: 4px;
+}
+
+/* CTA button */
+.cta {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  background: #008cff; color: #090909;
+  padding: 7px 14px; border: none;
+  cursor: pointer; white-space: nowrap;
+  border-radius: 3px;
+}
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 14px 20px; }
+.stat-card {
+  background: #141414; border: 1px solid #1e1e1e; border-radius: 8px;
+  padding: 10px 12px; display: flex; align-items: center; gap: 10px;
+}
+.stat-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.stat-icon.blue { background: #008cff15; }
+.stat-icon.green { background: #22d3aa15; }
+.stat-icon.amber { background: #f59e0b15; }
+.stat-icon.muted { background: #6b686015; }
+
+/* BEFORE stat values */
+.before-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px; font-weight: 700; line-height: 1;
+  color: #ede8de;
+}
+.before-stat-val.ac { color: #008cff; }
+.before-stat-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; color: #6b6860; margin-top: 2px;
+}
+
+/* AFTER stat values */
+.after-stat-val {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 700; line-height: 1;
+  color: #ede8de;
+}
+.after-stat-val.ac { color: #008cff; }
+.after-stat-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; color: #6b6860; margin-top: 2px;
+}
+
+/* Table */
+.table-wrap { padding: 0 20px 16px; }
+.table-section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 8px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: #4a4946; margin-bottom: 8px; padding-top: 2px;
+}
+.table { background: #111; border: 1px solid #1e1e1e; border-radius: 8px; overflow: hidden; }
+.thead { border-bottom: 1px solid #1e1e1e; display: grid; grid-template-columns: 2fr 1.2fr 0.8fr 1fr 0.7fr; }
+.thead-cell {
+  font-family: 'Syne', sans-serif;
+  font-size: 8px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: #4a4946; padding: 8px 12px;
+}
+.trow { display: grid; grid-template-columns: 2fr 1.2fr 0.8fr 1fr 0.7fr; border-bottom: 1px solid #181818; }
+.trow:last-child { border-bottom: none; }
+.trow:hover { background: #141414; }
+.tcell { padding: 9px 12px; display: flex; align-items: center; }
+
+/* BEFORE table text */
+.before-tname { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; color: #ede8de; }
+.before-tmeta { font-family: 'Syne', sans-serif; font-size: 10px; color: #6b6860; }
+
+/* AFTER table text */
+.after-tname { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; color: #ede8de; }
+.after-tmeta { font-family: 'Fraunces', serif; font-size: 11px; font-style: italic; color: #6b6860; }
+
+.badge {
+  font-family: 'Syne', sans-serif; font-size: 8px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px;
+}
+.badge-active { background: #008cff15; color: #008cff; border: 1px solid #008cff35; }
+.badge-draft { background: #6b686015; color: #6b6860; border: 1px solid #6b686035; }
+.badge-live { background: #22d3aa15; color: #22d3aa; border: 1px solid #22d3aa35; }
+
+.budget-bar { display: flex; align-items: center; gap: 6px; }
+.bar-track { flex: 1; height: 3px; background: #1e1e1e; border-radius: 2px; min-width: 40px; }
+.bar-fill { height: 100%; border-radius: 2px; background: #008cff; }
+.bar-pct { font-family: 'Syne', sans-serif; font-size: 9px; color: #6b6860; }
+
+/* Creator grid */
+.creator-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px 16px; }
+.creator-card { background: #111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 12px; }
+.creator-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+.creator-avatar {
+  width: 32px; height: 32px; background: #008cff15; border: 1px solid #008cff30;
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: #008cff; flex-shrink: 0;
+}
+
+/* BEFORE creator */
+.before-chandle { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; color: #ede8de; }
+.before-cname { font-family: 'Syne', sans-serif; font-size: 10px; color: #6b6860; margin-top: 1px; }
+.before-cstat { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: #ede8de; }
+
+/* AFTER creator */
+.after-chandle { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: #ede8de; }
+.after-cname { font-family: 'Fraunces', serif; font-size: 11px; font-style: italic; color: #6b6860; margin-top: 1px; }
+.after-cstat { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: #ede8de; }
+
+.creator-stats { display: flex; gap: 10px; }
+.cstat-item { display: flex; flex-direction: column; }
+.cstat-label { font-family: 'Syne', sans-serif; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #4a4946; }
+.cstat-sep { width: 1px; background: #1e1e1e; align-self: stretch; }
+</style>
+</head>
+<body>
+
+<div class="page-label">Editorial Typography — Before vs After</div>
+
+<div class="split">
+
+  <!-- ══════════════════ BEFORE ══════════════════ -->
+  <div>
+    <div class="panel-label before">Before — Current</div>
+    <div class="shell">
+      <div class="topbar">
+        <div class="topbar-logo">Social<span>Sculp</span></div>
+        <div class="topbar-nav">
+          <a href="#">Overview</a>
+          <a href="#" class="active">Campaigns</a>
+          <a href="#">Creators</a>
+          <a href="#">Deals</a>
+          <a href="#">CRM</a>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <div class="header-inner">
+          <div class="header-left">
+            <div class="before-title">Campaigns</div>
+            <div class="before-desc">12 campaigns total</div>
+          </div>
+          <button class="cta">+ New Campaign</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue">📣</div>
+          <div><div class="before-stat-val ac">4</div><div class="before-stat-label">Active</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon muted">📄</div>
+          <div><div class="before-stat-val">3</div><div class="before-stat-label">Draft</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✓</div>
+          <div><div class="before-stat-val">5</div><div class="before-stat-label">Completed</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">$</div>
+          <div><div class="before-stat-val" style="font-size:15px;">$240k</div><div class="before-stat-label">Total Budget</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table">
+          <div class="thead">
+            <div class="thead-cell">Campaign</div>
+            <div class="thead-cell">Brand</div>
+            <div class="thead-cell">Status</div>
+            <div class="thead-cell">Spent</div>
+            <div class="thead-cell">Platform</div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="before-tname">Cal AI — Q1 Push</div></div></div>
+            <div class="tcell"><div class="before-tmeta">Cal AI Brand</div></div>
+            <div class="tcell"><span class="badge badge-active">Active</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-pct">62%</span></div></div>
+            <div class="tcell"><div class="before-tmeta">TikTok</div></div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="before-tname">Bustem Spring Drop</div></div></div>
+            <div class="tcell"><div class="before-tmeta">Bustem</div></div>
+            <div class="tcell"><span class="badge badge-draft">Draft</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-pct">0%</span></div></div>
+            <div class="tcell"><div class="before-tmeta">Instagram</div></div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="before-tname">Plutus Gaming Collab</div></div></div>
+            <div class="tcell"><div class="before-tmeta">Plutus Gaming</div></div>
+            <div class="tcell"><span class="badge badge-live">Active</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-pct">38%</span></div></div>
+            <div class="tcell"><div class="before-tmeta">Both</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creator-grid">
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">JD</div>
+            <div><div class="before-chandle">@jadedmedia</div><div class="before-cname">Jade Davidson</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="before-cstat">2.1M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="before-cstat">840K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="before-cstat" style="color:#008cff">4.8%</div></div>
+          </div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">ML</div>
+            <div><div class="before-chandle">@maxlookz</div><div class="before-cname">Max Laurent</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="before-cstat">5.4M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="before-cstat">1.2M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="before-cstat" style="color:#008cff">6.2%</div></div>
+          </div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">SR</div>
+            <div><div class="before-chandle">@sofiarunz</div><div class="before-cname">Sofia Ruiz</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="before-cstat">980K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="before-cstat">420K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="before-cstat" style="color:#008cff">3.9%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ AFTER ══════════════════ -->
+  <div>
+    <div class="panel-label after">After — Editorial</div>
+    <div class="shell">
+      <div class="topbar">
+        <div class="topbar-logo">Social<span>Sculp</span></div>
+        <div class="topbar-nav">
+          <a href="#">Overview</a>
+          <a href="#" class="active">Campaigns</a>
+          <a href="#">Creators</a>
+          <a href="#">Deals</a>
+          <a href="#">CRM</a>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <div class="header-inner">
+          <div class="header-left">
+            <div class="after-eyebrow">Admin</div>
+            <div class="after-title">Campaigns</div>
+            <div class="after-desc">12 campaigns total</div>
+          </div>
+          <button class="cta">+ New Campaign</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue">📣</div>
+          <div><div class="after-stat-val ac">4</div><div class="after-stat-label">Active</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon muted">📄</div>
+          <div><div class="after-stat-val">3</div><div class="after-stat-label">Draft</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✓</div>
+          <div><div class="after-stat-val">5</div><div class="after-stat-label">Completed</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">$</div>
+          <div><div class="after-stat-val" style="font-size:17px;">$240k</div><div class="after-stat-label">Total Budget</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table">
+          <div class="thead">
+            <div class="thead-cell">Campaign</div>
+            <div class="thead-cell">Brand</div>
+            <div class="thead-cell">Status</div>
+            <div class="thead-cell">Spent</div>
+            <div class="thead-cell">Platform</div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="after-tname">Cal AI — Q1 Push</div></div></div>
+            <div class="tcell"><div class="after-tmeta">Cal AI Brand</div></div>
+            <div class="tcell"><span class="badge badge-active">Active</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="bar-pct">62%</span></div></div>
+            <div class="tcell"><div class="after-tmeta">TikTok</div></div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="after-tname">Bustem Spring Drop</div></div></div>
+            <div class="tcell"><div class="after-tmeta">Bustem</div></div>
+            <div class="tcell"><span class="badge badge-draft">Draft</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-pct">0%</span></div></div>
+            <div class="tcell"><div class="after-tmeta">Instagram</div></div>
+          </div>
+          <div class="trow">
+            <div class="tcell"><div><div class="after-tname">Plutus Gaming Collab</div></div></div>
+            <div class="tcell"><div class="after-tmeta">Plutus Gaming</div></div>
+            <div class="tcell"><span class="badge badge-live">Active</span></div>
+            <div class="tcell"><div class="budget-bar"><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-pct">38%</span></div></div>
+            <div class="tcell"><div class="after-tmeta">Both</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creator-grid">
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">JD</div>
+            <div><div class="after-chandle">@jadedmedia</div><div class="after-cname">Jade Davidson</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="after-cstat">2.1M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="after-cstat">840K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="after-cstat" style="color:#008cff">4.8%</div></div>
+          </div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">ML</div>
+            <div><div class="after-chandle">@maxlookz</div><div class="after-cname">Max Laurent</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="after-cstat">5.4M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="after-cstat">1.2M</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="after-cstat" style="color:#008cff">6.2%</div></div>
+          </div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar">SR</div>
+            <div><div class="after-chandle">@sofiarunz</div><div class="after-cname">Sofia Ruiz</div></div>
+          </div>
+          <div class="creator-stats">
+            <div class="cstat-item"><div class="cstat-label">TT</div><div class="after-cstat">980K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">IG</div><div class="after-cstat">420K</div></div>
+            <div class="cstat-sep"></div>
+            <div class="cstat-item"><div class="cstat-label">Eng</div><div class="after-cstat" style="color:#008cff">3.9%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

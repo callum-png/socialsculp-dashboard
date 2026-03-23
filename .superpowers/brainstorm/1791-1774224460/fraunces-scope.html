@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraunces Reach</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0a;
+    color: #ede8de;
+    font-family: 'Syne', sans-serif;
+    padding: 32px 24px;
+  }
+  .page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #6b6860;
+    margin-bottom: 6px;
+  }
+  .page-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: #6b6860;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .card {
+    background: #111;
+    border: 2px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .card:hover { border-color: #333; transform: translateY(-2px); }
+  .card.selected { border-color: #008cff; }
+  .card.selected::after {
+    content: '✓ SELECTED';
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #008cff;
+    color: #090909;
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .label-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 6px 14px;
+    background: #008cff;
+    color: #090909;
+    display: inline-block;
+  }
+  .shell { background: #0d0d0d; padding: 18px; }
+  .eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: #008cff; margin-bottom: 4px;
+  }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+  .stat { background: #141414; border: 1px solid #1e1e1e; border-radius: 8px; padding: 10px; }
+  .stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: #6b6860; margin-bottom: 3px;
+  }
+  .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid #181818;
+  }
+  .badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 2px 7px; border-radius: 2px;
+  }
+  .badge-active { background: #008cff18; color: #008cff; border: 1px solid #008cff40; }
+  .badge-draft { background: #6b686018; color: #6b6860; border: 1px solid #6b686040; }
+
+  /* Option 1 — Display only */
+  .o1-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: #ede8de; line-height: 1; letter-spacing: -0.01em; }
+  .o1-page-desc { font-family: 'Syne', sans-serif; font-size: 11px; color: #6b6860; margin-top: 4px; }
+  .o1-stat-val { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: #ede8de; line-height: 1; }
+  .o1-stat-val.ac { color: #008cff; }
+  .o1-row-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; color: #ede8de; }
+  .o1-row-meta { font-family: 'Syne', sans-serif; font-size: 10px; color: #6b6860; margin-top: 1px; }
+
+  /* Option 2 — Display + descriptions */
+  .o2-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: #ede8de; line-height: 1; letter-spacing: -0.01em; }
+  .o2-page-desc { font-family: 'Fraunces', serif; font-size: 13px; font-style: italic; color: #6b6860; margin-top: 4px; }
+  .o2-stat-val { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: #ede8de; line-height: 1; }
+  .o2-stat-val.ac { color: #008cff; }
+  .o2-row-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; color: #ede8de; }
+  .o2-row-meta { font-family: 'Fraunces', serif; font-size: 11px; font-style: italic; color: #6b6860; margin-top: 1px; }
+</style>
+<script>
+  function select(el) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    if (window.__superHelper) window.__superHelper.recordClick(el.dataset.choice, el.querySelector('.label-tag').textContent);
+  }
+</script>
+</head>
+<body>
+
+<div class="page-title">Editorial — How far should Fraunces reach?</div>
+<div class="page-sub">Both use Syne for labels and Fraunces for titles & numbers. The difference is in secondary text.</div>
+
+<div class="grid">
+
+  <!-- Option 1: Display only -->
+  <div class="card" data-choice="display-only" onclick="select(this)">
+    <div style="padding:14px 14px 0">
+      <span class="label-tag">1 — Display Only</span>
+      <p style="font-family:'Syne',sans-serif;font-size:10px;color:#6b6860;margin-top:8px;margin-bottom:12px;line-height:1.5;">Fraunces on page titles + big stat numbers only. All secondary text (descriptions, row metadata) stays Syne.</p>
+    </div>
+    <div class="shell">
+      <div style="border-bottom:1px solid #1e1e1e;padding-bottom:14px;margin-bottom:14px;">
+        <div class="eyebrow">Admin / Campaigns</div>
+        <div class="o1-title">Campaigns</div>
+        <div class="o1-page-desc">12 campaigns total</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Active</div><div class="o1-stat-val ac">4</div></div>
+        <div class="stat"><div class="stat-label">Draft</div><div class="o1-stat-val">3</div></div>
+        <div class="stat"><div class="stat-label">Budget</div><div class="o1-stat-val" style="font-size:17px;">$240k</div></div>
+      </div>
+      <div class="row">
+        <div><div class="o1-row-name">Cal AI — Q1 Push</div><div class="o1-row-meta">Cal AI Brand · TikTok</div></div>
+        <span class="badge badge-active">Active</span>
+      </div>
+      <div class="row">
+        <div><div class="o1-row-name">Bustem Spring Drop</div><div class="o1-row-meta">Bustem · Instagram</div></div>
+        <span class="badge badge-draft">Draft</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 2: Display + secondary text -->
+  <div class="card" data-choice="display-plus" onclick="select(this)">
+    <div style="padding:14px 14px 0">
+      <span class="label-tag">2 — Display + Descriptions</span>
+      <p style="font-family:'Syne',sans-serif;font-size:10px;color:#6b6860;margin-top:8px;margin-bottom:12px;line-height:1.5;">Fraunces on titles, numbers, AND secondary/italic text (page descriptions, row metadata). Richer mix.</p>
+    </div>
+    <div class="shell">
+      <div style="border-bottom:1px solid #1e1e1e;padding-bottom:14px;margin-bottom:14px;">
+        <div class="eyebrow">Admin / Campaigns</div>
+        <div class="o2-title">Campaigns</div>
+        <div class="o2-page-desc">12 campaigns total</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Active</div><div class="o2-stat-val ac">4</div></div>
+        <div class="stat"><div class="stat-label">Draft</div><div class="o2-stat-val">3</div></div>
+        <div class="stat"><div class="stat-label">Budget</div><div class="o2-stat-val" style="font-size:17px;">$240k</div></div>
+      </div>
+      <div class="row">
+        <div><div class="o2-row-name">Cal AI — Q1 Push</div><div class="o2-row-meta">Cal AI Brand · TikTok</div></div>
+        <span class="badge badge-active">Active</span>
+      </div>
+      <div class="row">
+        <div><div class="o2-row-name">Bustem Spring Drop</div><div class="o2-row-meta">Bustem · Instagram</div></div>
+        <span class="badge badge-draft">Draft</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -201,7 +201,7 @@ export function Sidebar({ role }: SidebarProps) {
             }}
           />
           <div className="flex-1 min-w-0">
-            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#001a33] text-[#008cff] border-[#003366] rounded-sm">
+            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#eff6ff] text-[#008cff] border-[#bfdbfe] rounded-sm">
               {ROLE_LABELS[role]}
             </span>
           </div>

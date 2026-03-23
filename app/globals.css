@@ -6,61 +6,69 @@
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg: #090909;
-  --surface: #111111;
-  --surface-2: #1a1a1a;
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --surface-2: #f0f2f7;
 
   /* Borders */
-  --border: #222222;
-  --border-light: #2a2a2a;
+  --border: #e4e7ed;
+  --border-light: #f0f2f7;
 
   /* Text */
-  --text: #ede8de;
-  --muted: #6b6860;
+  --text: #111827;
+  --muted: #6b7280;
 
   /* Brand Colors */
   --accent: #008cff;
-  --danger: #ff4747;
-  --warning: #ffb547;
+  --danger: #ef4444;
+  --warning: #f59e0b;
 
   /* shadcn/ui token compatibility */
-  --background: #090909;
-  --foreground: #ede8de;
-  --card: #111111;
-  --card-foreground: #ede8de;
-  --popover: #1a1a1a;
-  --popover-foreground: #ede8de;
-  --primary: #c9ff47;
-  --primary-foreground: #090909;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #ede8de;
-  --muted-bg: #1a1a1a;
-  --muted-foreground: #6b6860;
-  --accent-bg: #1a1a1a;
-  --accent-foreground: #ede8de;
-  --destructive: #ff4747;
-  --destructive-foreground: #ede8de;
-  --border-shadcn: #222222;
-  --input: #1a1a1a;
-  --ring: #c9ff47;
+  --background: #f5f7fa;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #008cff;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f2f7;
+  --secondary-foreground: #111827;
+  --muted-bg: #f5f7fa;
+  --muted-foreground: #6b7280;
+  --accent-bg: #eff6ff;
+  --accent-foreground: #1d4ed8;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border-shadcn: #e4e7ed;
+  --input: #ffffff;
+  --ring: #008cff;
   --radius: 0.5rem;
 
   /* Chart Colors */
-  --chart-1: #c9ff47;
-  --chart-2: #47c9ff;
-  --chart-3: #ff47c9;
-  --chart-4: #ffb547;
-  --chart-5: #ff4747;
+  --chart-1: #008cff;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #8b5cf6;
+  --chart-5: #ef4444;
 
   /* Sidebar */
-  --sidebar: #111111;
-  --sidebar-foreground: #ede8de;
-  --sidebar-primary: #c9ff47;
-  --sidebar-primary-foreground: #090909;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #ede8de;
-  --sidebar-border: #222222;
-  --sidebar-ring: #c9ff47;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #008cff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eff6ff;
+  --sidebar-accent-foreground: #008cff;
+  --sidebar-border: #e4e7ed;
+  --sidebar-ring: #008cff;
+
+  /* Status badge soft colors (used by shadcn badge variants) */
+  --color-success-soft: #dcfce7;
+  --color-success-accent: #166534;
+  --color-destructive-soft: #fee2e2;
+  --color-destructive-accent: #991b1b;
+  --color-warning-soft: #fef9c3;
+  --color-warning-accent: #854d0e;
 }
 
 /* ─── Tailwind Theme Mapping ─────────────────────────────────────────────── */
@@ -132,7 +140,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
@@ -167,7 +175,7 @@
 /* ─── Scrollbar Styling ──────────────────────────────────────────────────── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent) var(--surface);
+  scrollbar-color: #d1d5db #f5f7fa;
 }
 
 *::-webkit-scrollbar {
@@ -176,33 +184,33 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: #f5f7fa;
   border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
+  background-color: #d1d5db;
   border-radius: 999px;
-  border: 1px solid var(--surface);
+  border: 1px solid #f5f7fa;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(in srgb, var(--accent) 80%, white);
+  background-color: #9ca3af;
 }
 
 *::-webkit-scrollbar-corner {
-  background: var(--surface);
+  background: #f5f7fa;
 }
 
 /* ─── Text Selection ─────────────────────────────────────────────────────── */
 ::selection {
-  background-color: var(--accent);
-  color: #090909;
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--text);
 }
 
 ::-moz-selection {
-  background-color: var(--accent);
-  color: #090909;
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--text);
 }
 
 /* ─── Focus Ring ─────────────────────────────────────────────────────────── */

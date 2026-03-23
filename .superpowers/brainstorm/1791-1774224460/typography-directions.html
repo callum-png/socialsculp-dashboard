@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typography Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0a;
+    color: #ede8de;
+    font-family: 'Syne', sans-serif;
+    padding: 32px 24px;
+    min-height: 100vh;
+  }
+  .page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #6b6860;
+    margin-bottom: 8px;
+  }
+  .page-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    color: #6b6860;
+    font-style: italic;
+    margin-bottom: 32px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: #111;
+    border: 2px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .card:hover { border-color: #333; transform: translateY(-2px); }
+  .card.selected { border-color: #008cff; }
+  .card.selected::after {
+    content: '✓ SELECTED';
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #008cff;
+    color: #090909;
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .label-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 6px 14px;
+    background: #008cff;
+    color: #090909;
+    display: inline-block;
+  }
+
+  /* ── OPTION A: EDITORIAL ── */
+  .a-shell {
+    background: #0d0d0d;
+    padding: 20px;
+  }
+  .a-header {
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .a-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #008cff;
+    margin-bottom: 4px;
+  }
+  .a-page-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ede8de;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .a-desc {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #6b6860;
+    margin-top: 4px;
+  }
+  .a-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .a-stat {
+    background: #141414;
+    border: 1px solid #1e1e1e;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .a-stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #6b6860;
+    margin-bottom: 4px;
+  }
+  .a-stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ede8de;
+    line-height: 1;
+  }
+  .a-stat-value.accent { color: #008cff; }
+  .a-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #181818;
+  }
+  .a-row-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ede8de;
+  }
+  .a-row-meta {
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    color: #6b6860;
+    font-style: italic;
+  }
+  .a-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+  .badge-active { background: #008cff18; color: #008cff; border: 1px solid #008cff40; }
+  .badge-draft { background: #6b686018; color: #6b6860; border: 1px solid #6b686040; }
+
+  /* ── OPTION B: VIBRANT ── */
+  .b-shell {
+    background: #0d0d0d;
+    padding: 20px;
+  }
+  .b-header {
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .b-page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #ede8de;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .b-desc {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: #6b6860;
+    margin-top: 5px;
+    letter-spacing: 0.02em;
+  }
+  .b-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .b-stat {
+    background: #141414;
+    border: 1px solid #1e1e1e;
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .b-stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #008cff;
+    opacity: 0.6;
+  }
+  .b-stat.em::before { background: #22d3aa; }
+  .b-stat.am::before { background: #f59e0b; }
+  .b-stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #6b6860;
+    margin-bottom: 4px;
+  }
+  .b-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #ede8de;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .b-stat-delta {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #22d3aa;
+    margin-top: 2px;
+  }
+  .b-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #008cff;
+    margin-bottom: 10px;
+  }
+  .b-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #181818;
+  }
+  .b-row-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ede8de;
+  }
+  .b-row-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    color: #6b6860;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-top: 1px;
+  }
+  .b-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  /* ── OPTION C: EXPRESSIVE ── */
+  .c-shell {
+    background: #0d0d0d;
+    padding: 20px;
+  }
+  .c-header {
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 18px;
+    margin-bottom: 16px;
+  }
+  .c-page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, #ede8de 30%, #008cff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .c-desc {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: #4e4d4a;
+    margin-top: 5px;
+    letter-spacing: 0.03em;
+  }
+  .c-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .c-stat {
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+  }
+  .c-stat.blue { background: linear-gradient(135deg, #00244433, #001a2a55); border: 1px solid #008cff33; }
+  .c-stat.green { background: linear-gradient(135deg, #00241833, #00170f55); border: 1px solid #22d3aa33; }
+  .c-stat.neutral { background: #141414; border: 1px solid #1e1e1e; }
+  .c-stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #6b6860;
+    margin-bottom: 4px;
+  }
+  .c-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .c-stat.blue .c-stat-value { color: #56b4ff; }
+  .c-stat.green .c-stat-value { color: #22d3aa; }
+  .c-stat.neutral .c-stat-value { color: #ede8de; }
+  .c-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #4e4d4a;
+    margin-bottom: 10px;
+  }
+  .c-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #161616;
+  }
+  .c-row:hover { background: #111; }
+  .c-row-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ede8de;
+  }
+  .c-row-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    color: #4e4d4a;
+    margin-top: 1px;
+    letter-spacing: 0.04em;
+  }
+  .c-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+</style>
+<script>
+  function select(el) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    if (window.__superHelper) window.__superHelper.recordClick(el.dataset.choice, el.querySelector('.label-tag').textContent);
+  }
+</script>
+</head>
+<body>
+
+<div class="page-title">SocialSculp Dashboard — Typography Direction</div>
+<div class="page-sub">Three directions for making the UI more vibrant. Click a card to select.</div>
+
+<div class="grid">
+
+  <!-- OPTION A: EDITORIAL -->
+  <div class="card" data-choice="a" onclick="select(this)">
+    <div style="padding: 14px 14px 0;">
+      <span class="label-tag">A — Editorial</span>
+      <p style="font-family:'Syne',sans-serif;font-size:10px;color:#6b6860;margin-top:8px;margin-bottom:12px;line-height:1.5;">Fraunces serif for titles & numbers. Syne for labels. Big type contrast. Warm & editorial.</p>
+    </div>
+    <div class="a-shell">
+      <div class="a-header">
+        <div class="a-eyebrow">Admin / Campaigns</div>
+        <div class="a-page-title">Campaigns</div>
+        <div class="a-desc">12 campaigns total</div>
+      </div>
+      <div class="a-stats">
+        <div class="a-stat">
+          <div class="a-stat-label">Active</div>
+          <div class="a-stat-value accent">4</div>
+        </div>
+        <div class="a-stat">
+          <div class="a-stat-label">Draft</div>
+          <div class="a-stat-value">3</div>
+        </div>
+        <div class="a-stat">
+          <div class="a-stat-label">Budget</div>
+          <div class="a-stat-value" style="font-size:16px;">$240k</div>
+        </div>
+      </div>
+      <div class="a-row">
+        <div>
+          <div class="a-row-name">Cal AI — Q1 Push</div>
+          <div class="a-row-meta">Cal AI Brand · TikTok</div>
+        </div>
+        <span class="a-badge badge-active">Active</span>
+      </div>
+      <div class="a-row">
+        <div>
+          <div class="a-row-name">Bustem Spring Drop</div>
+          <div class="a-row-meta">Bustem · Instagram</div>
+        </div>
+        <span class="a-badge badge-draft">Draft</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B: VIBRANT -->
+  <div class="card" data-choice="b" onclick="select(this)">
+    <div style="padding: 14px 14px 0;">
+      <span class="label-tag">B — Vibrant</span>
+      <p style="font-family:'Syne',sans-serif;font-size:10px;color:#6b6860;margin-top:8px;margin-bottom:12px;line-height:1.5;">All Syne, bold 800 weight. Accent color on labels & top borders. Strong numeric contrast.</p>
+    </div>
+    <div class="b-shell">
+      <div class="b-header">
+        <div class="b-page-title">Campaigns</div>
+        <div class="b-desc">12 campaigns across all stages</div>
+      </div>
+      <div class="b-stats">
+        <div class="b-stat">
+          <div class="b-stat-label">Active</div>
+          <div class="b-stat-value">4</div>
+          <div class="b-stat-delta">↑ 12.5%</div>
+        </div>
+        <div class="b-stat em">
+          <div class="b-stat-label">Draft</div>
+          <div class="b-stat-value">3</div>
+        </div>
+        <div class="b-stat am">
+          <div class="b-stat-label">Budget</div>
+          <div class="b-stat-value" style="font-size:18px;">$240k</div>
+        </div>
+      </div>
+      <div class="b-section-label">All Campaigns</div>
+      <div class="b-row">
+        <div>
+          <div class="b-row-name">Cal AI — Q1 Push</div>
+          <div class="b-row-sub">Cal AI Brand · TikTok · $80,000</div>
+        </div>
+        <span class="b-badge badge-active">Active</span>
+      </div>
+      <div class="b-row">
+        <div>
+          <div class="b-row-name">Bustem Spring Drop</div>
+          <div class="b-row-sub">Bustem · Instagram · $35,000</div>
+        </div>
+        <span class="b-badge badge-draft">Draft</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION C: EXPRESSIVE -->
+  <div class="card" data-choice="c" onclick="select(this)">
+    <div style="padding: 14px 14px 0;">
+      <span class="label-tag">C — Expressive</span>
+      <p style="font-family:'Syne',sans-serif;font-size:10px;color:#6b6860;margin-top:8px;margin-bottom:12px;line-height:1.5;">Gradient text on page titles. Tinted stat cards per semantic color. More glow & depth.</p>
+    </div>
+    <div class="c-shell">
+      <div class="c-header">
+        <div class="c-page-title">Campaigns</div>
+        <div class="c-desc">12 campaigns across all stages</div>
+      </div>
+      <div class="c-stats">
+        <div class="c-stat blue">
+          <div class="c-stat-label">Active</div>
+          <div class="c-stat-value">4</div>
+        </div>
+        <div class="c-stat green">
+          <div class="c-stat-label">Completed</div>
+          <div class="c-stat-value">5</div>
+        </div>
+        <div class="c-stat neutral">
+          <div class="c-stat-label">Budget</div>
+          <div class="c-stat-value" style="font-size:18px;">$240k</div>
+        </div>
+      </div>
+      <div class="c-section-label">All Campaigns</div>
+      <div class="c-row">
+        <div>
+          <div class="c-row-name">Cal AI — Q1 Push</div>
+          <div class="c-row-sub">Cal AI Brand · TikTok</div>
+        </div>
+        <span class="c-badge badge-active">Active</span>
+      </div>
+      <div class="c-row">
+        <div>
+          <div class="c-row-name">Bustem Spring Drop</div>
+          <div class="c-row-sub">Bustem · Instagram</div>
+        </div>
+        <span class="c-badge badge-draft">Draft</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

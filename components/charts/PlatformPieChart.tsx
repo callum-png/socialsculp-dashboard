@@ -20,21 +20,21 @@ interface Props {
   height?: number
 }
 
-const COLORS = ['#008cff', '#EDE8DE', '#6B6860']
+const COLORS = ['#008cff', '#e1306c', '#6b7280']
 
 function CustomTooltip({ active, payload }: { active?: boolean; payload?: any[] }) {
   if (!active || !payload || payload.length === 0) return null
   const entry = payload[0]
 
   return (
-    <div className="bg-[#1A1A1A] border border-[#222222] px-3 py-2.5 text-xs font-syne">
+    <div className="bg-white border border-[#e4e7ed] shadow-sm px-3 py-2.5 text-xs font-syne rounded-md">
       <div className="flex items-center gap-2">
         <span
-          className="inline-block w-2 h-2 shrink-0"
+          className="inline-block w-2 h-2 shrink-0 rounded-full"
           style={{ backgroundColor: entry.payload?.fill ?? '#008cff' }}
         />
-        <span className="text-[#6B6860]">{entry.name}:</span>
-        <span className="text-[#EDE8DE] font-bold">
+        <span className="text-[#6b7280]">{entry.name}:</span>
+        <span className="text-[#111827] font-bold">
           {typeof entry.value === 'number' ? formatNumber(entry.value) : entry.value}
         </span>
       </div>
@@ -72,10 +72,10 @@ export function PlatformPieChart({ data, height = 260 }: Props) {
           className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
           style={{ top: 0 }}
         >
-          <span className="font-fraunces text-2xl font-light text-[#EDE8DE] leading-none">
+          <span className="font-fraunces text-2xl font-light text-[#111827] leading-none">
             {formatNumber(total)}
           </span>
-          <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mt-1">
+          <span className="text-[10px] font-syne uppercase tracking-widest text-[#6b7280] mt-1">
             Total
           </span>
         </div>
@@ -89,8 +89,8 @@ export function PlatformPieChart({ data, height = 260 }: Props) {
               className="inline-block w-2 h-2 shrink-0"
               style={{ backgroundColor: COLORS[i % COLORS.length] }}
             />
-            <span className="text-[11px] font-syne text-[#6B6860]">{entry.name}</span>
-            <span className="text-[11px] font-syne text-[#EDE8DE]">
+            <span className="text-[11px] font-syne text-[#6b7280]">{entry.name}</span>
+            <span className="text-[11px] font-syne text-[#111827]">
               {formatNumber(entry.value)}
             </span>
           </div>
