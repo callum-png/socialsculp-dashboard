@@ -26,4 +26,4 @@ CREATE TABLE "playbooks" (
 );
 
 -- AddForeignKey
-ALTER TABLE "call_preps" ADD CONSTRAINT "call_preps_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "call_preps" ADD CONSTRAINT "call_preps_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
