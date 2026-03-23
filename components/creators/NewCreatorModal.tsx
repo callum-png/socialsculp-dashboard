@@ -126,7 +126,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
     <>
       <div className="fixed inset-0 bg-black/70 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-lg bg-[#0D0D0D] border border-border shadow-2xl max-h-[90vh] flex flex-col">
+        <div className="w-full max-w-lg bg-background border border-border shadow-2xl max-h-[90vh] flex flex-col">
 
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
@@ -198,7 +198,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                           className={cn(
                             'px-2.5 py-1 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors',
                             selectedNiches.includes(n)
-                              ? 'bg-[#001a33] border-accent text-accent'
+                              ? 'bg-blue-50 border-accent text-accent'
                               : 'bg-surface-2 border-border text-muted hover:border-[#333333]'
                           )}
                         >
@@ -258,7 +258,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
               )}
 
               {submitError && (
-                <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+                <p className="text-xs font-syne text-danger bg-red-50 border border-red-200 px-3 py-2">
                   {submitError}
                 </p>
               )}

@@ -113,28 +113,28 @@ export default async function CampaignDetailPage({ params }: PageProps) {
 
       <div className="p-6 space-y-6">
         {/* Campaign meta bar */}
-        <div className="bg-[#111111] border border-[#222222] p-5">
+        <div className="bg-card border border-border p-5">
           <div className="flex flex-wrap gap-6 items-start mb-4">
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Brand</div>
-              <div className="text-sm font-syne font-bold text-[#EDE8DE]">{campaign.brand.companyName}</div>
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Brand</div>
+              <div className="text-sm font-syne font-bold text-foreground">{campaign.brand.companyName}</div>
             </div>
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Platform</div>
-              <div className="text-sm font-syne font-bold text-[#EDE8DE]">
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Platform</div>
+              <div className="text-sm font-syne font-bold text-foreground">
                 {PLATFORM_LABELS[campaign.platform as PlatformValue] ?? campaign.platform}
               </div>
             </div>
             {campaign.targetROAS && (
               <div>
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Target ROAS</div>
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Target ROAS</div>
                 <div className="text-sm font-syne font-bold text-[#008cff]">{campaign.targetROAS}×</div>
               </div>
             )}
             {campaign.startDate && (
               <div>
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Dates</div>
-                <div className="text-sm font-syne font-bold text-[#EDE8DE]">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Dates</div>
+                <div className="text-sm font-syne font-bold text-foreground">
                   {new Date(campaign.startDate).toLocaleDateString()} →{' '}
                   {campaign.endDate ? new Date(campaign.endDate).toLocaleDateString() : 'TBD'}
                 </div>
@@ -145,12 +145,12 @@ export default async function CampaignDetailPage({ params }: PageProps) {
           {/* Budget progress bar */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+              <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
                 Budget — {formatCurrency(campaign.spentBudget)} of {formatCurrency(campaign.totalBudget)}
               </span>
-              <span className="text-xs font-syne font-bold text-[#EDE8DE]">{pct}%</span>
+              <span className="text-xs font-syne font-bold text-foreground">{pct}%</span>
             </div>
-            <div className="h-1.5 bg-[#1A1A1A] w-full">
+            <div className="h-1.5 bg-background w-full">
               <div
                 className="h-full bg-[#008cff] transition-all"
                 style={{ width: `${pct}%` }}
@@ -161,12 +161,12 @@ export default async function CampaignDetailPage({ params }: PageProps) {
 
         {/* Tabs */}
         <Tabs defaultValue="overview">
-          <TabsList className="bg-[#111111] border border-[#222222] p-0 h-auto rounded-none gap-0">
+          <TabsList className="bg-card border border-border p-0 h-auto rounded-none gap-0">
             {['overview', 'analytics', 'creators', 'deliverables'].map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-[#6B6860] data-active:text-[#008cff] data-active:bg-[#001a33] data-active:shadow-none border-r border-[#222222] last:border-r-0"
+                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-muted-foreground data-active:text-[#008cff] data-active:bg-blue-50 data-active:shadow-none border-r border-border last:border-r-0"
               >
                 {tab}
               </TabsTrigger>
@@ -177,11 +177,11 @@ export default async function CampaignDetailPage({ params }: PageProps) {
           <TabsContent value="overview" className="mt-5 space-y-5">
             <StatCardGrid stats={stats} />
             {campaign.description && (
-              <div className="bg-[#111111] border border-[#222222] p-5">
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-3">
+              <div className="bg-card border border-border p-5">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-3">
                   Description
                 </div>
-                <p className="font-fraunces text-[#EDE8DE] leading-relaxed">{campaign.description}</p>
+                <p className="font-syne text-foreground leading-relaxed">{campaign.description}</p>
               </div>
             )}
           </TabsContent>
@@ -198,26 +198,26 @@ export default async function CampaignDetailPage({ params }: PageProps) {
 
           {/* Creators */}
           <TabsContent value="creators" className="mt-5">
-            <div className="bg-[#111111] border border-[#222222] divide-y divide-[#1A1A1A]">
+            <div className="bg-card border border-border divide-y divide-border">
               {assignedCreators.length === 0 ? (
-                <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
                   No creators assigned yet
                 </div>
               ) : (
                 assignedCreators.map((creator) => (
                   <div key={creator.id} className="flex items-center justify-between px-5 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 bg-background border border-border flex items-center justify-center shrink-0">
                         <span className="font-syne text-xs font-bold text-[#008cff]">
                           {creator.handle.replace('@', '').slice(0, 2).toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <div className="font-syne font-bold text-sm text-[#EDE8DE]">{creator.handle}</div>
+                        <div className="font-syne font-bold text-sm text-foreground">{creator.handle}</div>
                         {creator.location && (
-                          <div className="flex items-center gap-1 text-xs text-[#6B6860]">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <MapPin size={10} />
-                            <span className="font-fraunces">{creator.location}</span>
+                            <span className="font-syne">{creator.location}</span>
                           </div>
                         )}
                       </div>
@@ -225,15 +225,15 @@ export default async function CampaignDetailPage({ params }: PageProps) {
                     <div className="flex items-center gap-4">
                       {creator.tiktokFollowers && (
                         <div className="hidden sm:block text-right">
-                          <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">TikTok</div>
-                          <div className="text-sm font-syne font-bold text-[#EDE8DE]">
+                          <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">TikTok</div>
+                          <div className="text-sm font-syne font-bold text-foreground">
                             {formatNumber(creator.tiktokFollowers)}
                           </div>
                         </div>
                       )}
                       <Link
                         href={`/admin/creators/${creator.id}`}
-                        className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-[#222222] text-[#6B6860] hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                        className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-border text-muted-foreground hover:border-[#008cff] hover:text-[#008cff] transition-colors"
                       >
                         View
                       </Link>
@@ -246,16 +246,16 @@ export default async function CampaignDetailPage({ params }: PageProps) {
 
           {/* Deliverables */}
           <TabsContent value="deliverables" className="mt-5">
-            <div className="bg-[#111111] border border-[#222222]">
-              <div className="px-5 py-4 border-b border-[#222222]">
-                <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Content Deliverables</h3>
+            <div className="bg-card border border-border">
+              <div className="px-5 py-4 border-b border-border">
+                <h3 className="text-sm font-syne font-bold text-foreground">Content Deliverables</h3>
               </div>
               {campaign.deals.length === 0 ? (
-                <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
                   No deliverables yet
                 </div>
               ) : (
-                <div className="divide-y divide-[#1A1A1A]">
+                <div className="divide-y divide-border">
                   {campaign.deals.flatMap((deal) =>
                     deal.deliverables.map((d) => ({
                       id: d.id,
@@ -269,16 +269,16 @@ export default async function CampaignDetailPage({ params }: PageProps) {
                   ).map((d) => (
                     <div key={d.id} className="flex items-center justify-between px-5 py-3.5">
                       <div>
-                        <div className="text-sm font-syne font-bold text-[#EDE8DE]">{d.type}</div>
-                        <div className="text-xs font-fraunces text-[#6B6860]">{d.creator}</div>
+                        <div className="text-sm font-syne font-bold text-foreground">{d.type}</div>
+                        <div className="text-xs font-syne text-muted-foreground">{d.creator}</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="text-xs font-syne text-[#6B6860]">Due {d.due}</div>
+                        <div className="text-xs font-syne text-muted-foreground">Due {d.due}</div>
                         {d.post ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-[#0A1F0A] text-[#4ADE80] border-[#1A4A1A]">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border bg-emerald-50 text-emerald-600 border-emerald-200">
                             Live ✓
                             {d.post.views > 0 && (
-                              <span className="text-[#4ADE80] font-fraunces normal-case tracking-normal">
+                              <span className="text-emerald-600 font-syne normal-case tracking-normal">
                                 {formatNumber(d.post.views)}
                               </span>
                             )}

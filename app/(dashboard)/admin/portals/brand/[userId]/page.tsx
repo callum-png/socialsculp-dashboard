@@ -66,37 +66,37 @@ export default async function BrandPortalPreviewPage({ params }: PageProps) {
             { title: 'Avg ROAS', value: `${avgROAS.toFixed(1)}x`, icon: TrendingUp },
           ]}
         />
-        <div className="mt-8 bg-[#111111] border border-[#222222] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#222222]">
+        <div className="mt-8 bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
             <h2 className="text-base font-syne font-semibold text-white">Campaigns</h2>
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#1a1a1a]">
-                <th className="px-5 py-3 text-left text-xs text-[#6B6860] font-syne uppercase">Campaign</th>
-                <th className="px-5 py-3 text-left text-xs text-[#6B6860] font-syne uppercase hidden sm:table-cell">Status</th>
-                <th className="px-5 py-3 text-right text-xs text-[#6B6860] font-syne uppercase">Budget</th>
+              <tr className="border-b border-border">
+                <th className="px-5 py-3 text-left text-xs text-muted-foreground font-syne uppercase">Campaign</th>
+                <th className="px-5 py-3 text-left text-xs text-muted-foreground font-syne uppercase hidden sm:table-cell">Status</th>
+                <th className="px-5 py-3 text-right text-xs text-muted-foreground font-syne uppercase">Budget</th>
               </tr>
             </thead>
             <tbody>
               {campaigns.map(c => (
-                <tr key={c.id} className="border-b border-[#1a1a1a] last:border-0">
+                <tr key={c.id} className="border-b border-border last:border-0">
                   <td className="px-5 py-3 text-white font-syne">{c.name}</td>
                   <td className="px-5 py-3 hidden sm:table-cell">
                     <CampaignStatusBadge status={c.status as CampaignStatusValue} />
                   </td>
-                  <td className="px-5 py-3 text-right text-[#6B6860] font-syne">{formatCurrency(c.totalBudget)}</td>
+                  <td className="px-5 py-3 text-right text-muted-foreground font-syne">{formatCurrency(c.totalBudget)}</td>
                 </tr>
               ))}
               {/* Demo campaign — always visible as a placeholder */}
-              <tr className="border-b border-[#1a1a1a] last:border-0 group">
+              <tr className="border-b border-border last:border-0 group">
                 <td className="px-5 py-3">
                   <Link
                     href={`/admin/portals/brand/${userId}/campaign/demo`}
                     className="text-white font-syne hover:text-[#008cff] transition-colors flex items-center gap-2"
                   >
                     X Campaign
-                    <span className="text-[10px] font-syne font-bold uppercase tracking-widest px-1.5 py-0.5 bg-[#1a1a1a] text-[#6B6860] border border-[#2a2a2a]">
+                    <span className="text-[10px] font-syne font-bold uppercase tracking-widest px-1.5 py-0.5 bg-muted text-muted-foreground border border-border">
                       Demo
                     </span>
                   </Link>
@@ -104,7 +104,7 @@ export default async function BrandPortalPreviewPage({ params }: PageProps) {
                 <td className="px-5 py-3 hidden sm:table-cell">
                   <CampaignStatusBadge status="ACTIVE" />
                 </td>
-                <td className="px-5 py-3 text-right text-[#6B6860] font-syne">$12,500</td>
+                <td className="px-5 py-3 text-right text-muted-foreground font-syne">$12,500</td>
               </tr>
             </tbody>
           </table>

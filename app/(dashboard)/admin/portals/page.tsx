@@ -42,24 +42,24 @@ export default async function AdminPortalsPage() {
     subtitle?: string
   }) {
     return (
-      <div className="bg-[#111111] border border-[#222222] rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#222222]">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-border">
           <h2 className="text-base font-syne font-semibold text-white">{role} Portal</h2>
-          {subtitle && <p className="text-xs text-[#6B6860] font-syne mt-0.5">{subtitle}</p>}
+          {subtitle && <p className="text-xs text-muted-foreground font-syne mt-0.5">{subtitle}</p>}
         </div>
         {users.length === 0 ? (
-          <p className="px-5 py-6 text-sm text-[#6B6860] font-syne">No {role.toLowerCase()} users yet.</p>
+          <p className="px-5 py-6 text-sm text-muted-foreground font-syne">No {role.toLowerCase()} users yet.</p>
         ) : (
           <table className="w-full text-sm">
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-b border-[#1a1a1a] last:border-0 hover:bg-[#161616] transition-colors">
+                <tr key={u.id} className="border-b border-border last:border-0 hover:bg-muted transition-colors">
                   <td className="px-5 py-3 text-white font-syne">{u.name}</td>
-                  <td className="px-5 py-3 text-[#6B6860] font-syne hidden sm:table-cell">{u.email}</td>
+                  <td className="px-5 py-3 text-muted-foreground font-syne hidden sm:table-cell">{u.email}</td>
                   <td className="px-5 py-3 text-right">
                     <Link
                       href={`${previewBasePath}/${u.id}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-syne text-[#008cff] hover:text-white transition-colors px-3 py-1.5 border border-[#222222] rounded-md hover:border-[#008cff]"
+                      className="inline-flex items-center gap-1.5 text-xs font-syne text-[#008cff] hover:text-white transition-colors px-3 py-1.5 border border-border rounded-md hover:border-[#008cff]"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       Preview

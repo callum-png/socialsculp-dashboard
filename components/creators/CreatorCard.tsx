@@ -41,7 +41,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
           <div className="font-syne font-bold text-text text-sm group-hover:text-accent transition-colors truncate">
             {creator.handle}
           </div>
-          <div className="font-fraunces text-xs text-muted truncate">{creator.name}</div>
+          <div className="font-syne text-xs text-muted truncate">{creator.name}</div>
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
       {creator.location && (
         <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-surface-2">
           <MapPin size={11} className="text-muted shrink-0" />
-          <span className="text-[11px] font-fraunces text-muted truncate">
+          <span className="text-[11px] font-syne text-muted truncate">
             {creator.location}
           </span>
         </div>

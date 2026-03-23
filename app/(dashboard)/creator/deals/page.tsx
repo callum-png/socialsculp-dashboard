@@ -37,14 +37,14 @@ export default async function CreatorDealsPage() {
       />
 
       <div className="p-6">
-        <div className="bg-[#111111] border border-[#222222] overflow-x-auto">
+        <div className="bg-card border border-border overflow-x-auto">
           <table className="w-full text-sm font-syne">
             <thead>
-              <tr className="border-b border-[#222222]">
+              <tr className="border-b border-border">
                 {['Campaign', 'Brand', 'Stage', 'Proposed', 'Agreed', 'Notes'].map((col) => (
                   <th
                     key={col}
-                    className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-[#6B6860] font-bold"
+                    className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted-foreground font-bold"
                   >
                     {col}
                   </th>
@@ -54,17 +54,17 @@ export default async function CreatorDealsPage() {
             <tbody>
               {deals.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                  <td colSpan={6} className="px-5 py-12 text-center text-foreground font-syne text-xs uppercase tracking-widest">
                     No deals yet
                   </td>
                 </tr>
               ) : (
                 deals.map((deal) => (
-                  <tr key={deal.id} className="border-b border-[#1A1A1A] hover:bg-[#141414] transition-colors">
-                    <td className="px-5 py-4 text-[#EDE8DE] font-medium max-w-[200px]">
+                  <tr key={deal.id} className="border-b border-border hover:bg-muted transition-colors">
+                    <td className="px-5 py-4 text-foreground font-medium max-w-[200px]">
                       <span className="block truncate">{deal.campaign.name}</span>
                     </td>
-                    <td className="px-5 py-4 text-[#6B6860]">
+                    <td className="px-5 py-4 text-muted-foreground">
                       {deal.campaign.brand.companyName}
                     </td>
                     <td className="px-5 py-4">
@@ -72,17 +72,17 @@ export default async function CreatorDealsPage() {
                         {DEAL_STAGE_LABELS[deal.stage as DealStageValue]}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-[#6B6860]">
+                    <td className="px-5 py-4 text-muted-foreground">
                       {deal.proposedFee ? formatCurrency(deal.proposedFee) : '—'}
                     </td>
                     <td className="px-5 py-4">
                       {deal.agreedFee != null ? (
                         <span className="font-bold text-[#008cff]">{formatCurrency(deal.agreedFee)}</span>
                       ) : (
-                        <span className="text-[#6B6860]">—</span>
+                        <span className="text-muted-foreground">—</span>
                       )}
                     </td>
-                    <td className="px-5 py-4 text-[#6B6860] font-fraunces text-xs">
+                    <td className="px-5 py-4 text-muted-foreground font-syne text-xs">
                       {deal.notes ?? '—'}
                     </td>
                   </tr>

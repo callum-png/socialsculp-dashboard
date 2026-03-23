@@ -137,7 +137,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0D0D0D] border border-border shadow-2xl rounded-md">
+        <div className="w-full max-w-md bg-background border border-border shadow-2xl rounded-md">
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-border">
             <h2 className="text-sm font-syne font-bold text-text uppercase tracking-widest">
@@ -236,7 +236,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
             </div>
 
             {submitError && (
-              <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+              <p className="text-xs font-syne text-danger bg-red-50 border border-red-200 px-3 py-2">
                 {submitError}
               </p>
             )}

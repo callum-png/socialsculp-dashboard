@@ -36,7 +36,7 @@ export function SearchInput({
     <div className={cn('relative flex items-center', className)}>
       <Search
         size={15}
-        className="absolute left-3 text-[#6B6860] pointer-events-none"
+        className="absolute left-3 text-muted-foreground pointer-events-none"
       />
       <input
         type="text"
@@ -44,14 +44,14 @@ export function SearchInput({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         className={cn(
-          'w-full pl-9 pr-8 py-2 bg-[#1A1A1A] border border-[#222222] text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860]',
+          'w-full pl-9 pr-8 py-2 bg-background border border-border text-sm font-syne text-foreground placeholder-[#6B6860]',
           'focus:outline-none focus:border-[#008cff] transition-colors'
         )}
       />
       {value && (
         <button
           onClick={() => setValue('')}
-          className="absolute right-3 text-[#6B6860] hover:text-[#EDE8DE] transition-colors"
+          className="absolute right-3 text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Clear search"
         >
           <X size={13} />

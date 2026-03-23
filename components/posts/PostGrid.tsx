@@ -7,9 +7,9 @@ interface Props {
 }
 
 function engagementColor(rate: number): string {
-  if (rate > 7) return 'text-[#4ADE80]'
-  if (rate >= 5) return 'text-[#FFB547]'
-  return 'text-[#6B6860]'
+  if (rate > 7) return 'text-emerald-600'
+  if (rate >= 5) return 'text-amber-600'
+  return 'text-muted-foreground'
 }
 
 function platformGradient(platform: string): string {
@@ -19,9 +19,9 @@ function platformGradient(platform: string): string {
 }
 
 function platformBadgeStyle(platform: string): string {
-  if (platform === 'TIKTOK') return 'bg-[#1a0030] text-[#c47aff] border border-[#4a0080]'
+  if (platform === 'TIKTOK') return 'bg-violet-50 text-violet-600 border border-violet-200'
   if (platform === 'INSTAGRAM') return 'bg-[#3a0020] text-[#ff7ab8] border border-[#880040]'
-  return 'bg-[#001a33] text-[#008cff] border border-[#003366]'
+  return 'bg-blue-50 text-[#008cff] border border-blue-200'
 }
 
 function platformLabel(platform: string): string {
@@ -40,13 +40,13 @@ export function PostGrid({ posts }: Props) {
         return (
           <div
             key={post.id}
-            className="bg-[#111111] border border-[#222222] overflow-hidden flex flex-col hover:border-[#333333] transition-colors"
+            className="bg-card border border-border overflow-hidden flex flex-col hover:border-[#333333] transition-colors"
           >
             {/* Thumbnail */}
             <div className={cn('relative h-36 bg-gradient-to-br flex items-center justify-center', platformGradient(post.platform))}>
               {/* "Live" = published on platform — not a live stream indicator */}
               {/* LIVE badge */}
-              <span className="absolute top-2 left-2 inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-syne font-bold uppercase tracking-widest bg-[#0A1F0A] text-[#4ADE80] border border-[#1A4A1A]">
+              <span className="absolute top-2 left-2 inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-syne font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-200">
                 <span className="w-1.5 h-1.5 bg-[#4ADE80] rounded-full animate-pulse" />
                 Live
               </span>
@@ -67,25 +67,25 @@ export function PostGrid({ posts }: Props) {
             {/* Content */}
             <div className="p-3 flex flex-col gap-1.5 flex-1">
               <div className="flex items-start justify-between gap-1">
-                <span className="text-[#EDE8DE] font-syne font-bold text-xs truncate">@{handle}</span>
+                <span className="text-foreground font-syne font-bold text-xs truncate">@{handle}</span>
                 <a
                   href={post.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shrink-0 text-[#6B6860] hover:text-[#008cff] transition-colors"
+                  className="shrink-0 text-muted-foreground hover:text-[#008cff] transition-colors"
                 >
                   <ExternalLink size={12} />
                 </a>
               </div>
 
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-[#6B6860]">{formatNumber(post.views ?? 0)} views</span>
+                <span className="text-muted-foreground">{formatNumber(post.views ?? 0)} views</span>
                 <span className={cn('font-syne font-bold', engagementColor(engRate))}>
                   {engRate.toFixed(1)}%
                 </span>
               </div>
 
-              <div className="text-[10px] text-[#3A3A3A] font-syne uppercase tracking-wider">
+              <div className="text-[10px] text-foreground font-syne uppercase tracking-wider">
                 {post.postedAt ? formatDate(post.postedAt) : '—'}
               </div>
             </div>

@@ -55,9 +55,9 @@ export function PageHeader({
               {eyebrow}
             </p>
           )}
-          <h1 className="font-fraunces text-2xl font-bold leading-none text-foreground">{title}</h1>
+          <h1 className="font-syne text-2xl font-bold tracking-tight leading-none text-foreground">{title}</h1>
           {description && (
-            <p className="font-fraunces text-sm italic text-muted mt-1">{description}</p>
+            <p className="text-sm text-muted-foreground mt-1">{description}</p>
           )}
         </div>
         {children && (

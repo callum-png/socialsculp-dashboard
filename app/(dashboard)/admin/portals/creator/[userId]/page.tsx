@@ -66,19 +66,19 @@ export default async function CreatorPortalPreviewPage({ params }: PageProps) {
             { title: 'Avg Eng Rate', value: formatPercent(avgEng), icon: TrendingUp },
           ]}
         />
-        <div className="mt-8 bg-[#111111] border border-[#222222] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#222222]">
+        <div className="mt-8 bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
             <h2 className="text-base font-syne font-semibold text-white">Active Campaigns</h2>
           </div>
           {(creator?.campaignCreators?.length ?? 0) === 0 ? (
-            <p className="px-5 py-8 text-sm text-[#6B6860] font-syne text-center">No campaigns assigned.</p>
+            <p className="px-5 py-8 text-sm text-muted-foreground font-syne text-center">No campaigns assigned.</p>
           ) : (
             <table className="w-full text-sm">
               <tbody>
                 {(creator?.campaignCreators ?? []).map(cc => (
-                  <tr key={cc.id} className="border-b border-[#1a1a1a] last:border-0">
+                  <tr key={cc.id} className="border-b border-border last:border-0">
                     <td className="px-5 py-3 text-white font-syne">{cc.campaign.name}</td>
-                    <td className="px-5 py-3 text-[#6B6860] font-syne hidden sm:table-cell">{cc.campaign.brand.companyName}</td>
+                    <td className="px-5 py-3 text-muted-foreground font-syne hidden sm:table-cell">{cc.campaign.brand.companyName}</td>
                     <td className="px-5 py-3">
                       <CampaignStatusBadge status={cc.campaign.status as CampaignStatusValue} />
                     </td>

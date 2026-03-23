@@ -27,7 +27,7 @@ const STATUS_LABELS: Record<TaskStatus, string> = {
 }
 
 const PRIORITY_COLORS: Record<TaskPriority, string> = {
-  LOW: 'text-[#6B6860]',
+  LOW: 'text-muted-foreground',
   MEDIUM: 'text-[#fbbf24]',
   HIGH: 'text-orange-400',
   URGENT: 'text-red-400',
@@ -40,7 +40,7 @@ const STATUS_NEXT: Record<TaskStatus, TaskStatus> = {
 }
 
 const STATUS_ICON: Record<TaskStatus, React.ReactNode> = {
-  TODO: <Circle className="w-4 h-4 text-[#6B6860]" />,
+  TODO: <Circle className="w-4 h-4 text-muted-foreground" />,
   IN_PROGRESS: <Loader2 className="w-4 h-4 text-[#008cff] animate-spin" />,
   DONE: <CheckCircle2 className="w-4 h-4 text-emerald-400" />,
 }
@@ -127,7 +127,7 @@ export default function AdminTasksPage() {
           value={newTitle}
           onChange={e => setNewTitle(e.target.value)}
           placeholder="Add a task…"
-          className="flex-1 bg-[#111111] border border-[#222222] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+          className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
         />
         <button
           type="submit"
@@ -140,7 +140,7 @@ export default function AdminTasksPage() {
       </form>
 
       {/* Filter tabs */}
-      <div className="flex gap-1 mb-6 bg-[#111111] border border-[#222222] rounded-lg p-1 w-fit">
+      <div className="flex gap-1 mb-6 bg-card border border-border rounded-lg p-1 w-fit">
         {FILTERS.map(f => (
           <button
             key={f.value}
@@ -148,7 +148,7 @@ export default function AdminTasksPage() {
             className={`px-4 py-1.5 text-sm font-syne rounded-md transition-colors ${
               filter === f.value
                 ? 'bg-[#008cff] text-white'
-                : 'text-[#6B6860] hover:text-white'
+                : 'text-muted-foreground hover:text-white'
             }`}
           >
             {f.label}
@@ -159,9 +159,9 @@ export default function AdminTasksPage() {
 
       {/* Task list */}
       {loading ? (
-        <div className="text-[#6B6860] text-sm font-syne">Loading…</div>
+        <div className="text-muted-foreground text-sm font-syne">Loading…</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-[#6B6860] font-syne text-sm">
+        <div className="text-center py-16 text-muted-foreground font-syne text-sm">
           {filter === 'ALL' ? 'No tasks yet — add one above.' : `No ${STATUS_LABELS[filter as TaskStatus]} tasks.`}
         </div>
       ) : (
@@ -169,7 +169,7 @@ export default function AdminTasksPage() {
           {filtered.map(task => (
             <div
               key={task.id}
-              className={`flex items-center gap-3 bg-[#111111] border border-[#222222] rounded-lg px-4 py-3 group transition-opacity ${
+              className={`flex items-center gap-3 bg-card border border-border rounded-lg px-4 py-3 group transition-opacity ${
                 task.status === 'DONE' ? 'opacity-50' : ''
               }`}
             >
@@ -184,7 +184,7 @@ export default function AdminTasksPage() {
 
               {/* Title + meta */}
               <div className="flex-1 min-w-0">
-                <span className={`text-sm font-syne ${task.status === 'DONE' ? 'line-through text-[#6B6860]' : 'text-white'}`}>
+                <span className={`text-sm font-syne ${task.status === 'DONE' ? 'line-through text-muted-foreground' : 'text-white'}`}>
                   {task.title}
                 </span>
                 <div className="flex items-center gap-3 mt-0.5">
@@ -192,17 +192,17 @@ export default function AdminTasksPage() {
                     {task.priority}
                   </span>
                   {task.campaign && (
-                    <span className="text-xs text-[#6B6860] font-syne">
+                    <span className="text-xs text-muted-foreground font-syne">
                       📌 {task.campaign.name}
                     </span>
                   )}
                   {task.assignee && (
-                    <span className="text-xs text-[#6B6860] font-syne">
+                    <span className="text-xs text-muted-foreground font-syne">
                       → {task.assignee.name}
                     </span>
                   )}
                   {task.dueDate && (
-                    <span className="text-xs text-[#6B6860] font-syne">
+                    <span className="text-xs text-muted-foreground font-syne">
                       Due {new Date(task.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                     </span>
                   )}
@@ -210,14 +210,14 @@ export default function AdminTasksPage() {
               </div>
 
               {/* Status badge */}
-              <span className="text-xs text-[#6B6860] font-syne hidden sm:block">
+              <span className="text-xs text-muted-foreground font-syne hidden sm:block">
                 {STATUS_LABELS[task.status]}
               </span>
 
               {/* Delete (admin only, shows on hover) */}
               <button
                 onClick={() => deleteTask(task.id)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-[#6B6860] hover:text-red-400"
+                className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-red-400"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

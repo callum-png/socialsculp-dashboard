@@ -72,7 +72,7 @@ export function PlatformPieChart({ data, height = 260 }: Props) {
           className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
           style={{ top: 0 }}
         >
-          <span className="font-fraunces text-2xl font-light text-[#111827] leading-none">
+          <span className="font-syne text-2xl font-semibold tracking-tight text-[#111827] leading-none">
             {formatNumber(total)}
           </span>
           <span className="text-[10px] font-syne uppercase tracking-widest text-[#6b7280] mt-1">

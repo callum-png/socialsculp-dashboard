@@ -63,13 +63,13 @@ export default function CreatorOnboardingPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-10">
-          <div className="w-12 h-12 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-center mb-6">
+          <div className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center mb-6">
             <AtSign className="w-5 h-5 text-[#008cff]" />
           </div>
           <h1 className="text-2xl font-syne font-bold text-white mb-2 tracking-tight">
             Set up your creator profile
           </h1>
-          <p className="text-[#6B6860] font-syne text-sm leading-relaxed">
+          <p className="text-muted-foreground font-syne text-sm leading-relaxed">
             Help us understand your audience so we can match you with the right campaigns.
           </p>
         </div>
@@ -77,17 +77,17 @@ export default function CreatorOnboardingPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Handle */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Your Handle <span className="text-[#008cff]">*</span>
             </label>
             <div className="relative">
-              <AtSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6860]" />
+              <AtSign className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 value={handle}
                 onChange={e => setHandle(e.target.value)}
                 placeholder="yourusername"
                 required
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+                className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
               />
             </div>
           </div>
@@ -95,49 +95,49 @@ export default function CreatorOnboardingPage() {
           {/* TikTok + Instagram */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+              <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
                 TikTok
               </label>
               <input
                 value={tiktokHandle}
                 onChange={e => setTiktokHandle(e.target.value)}
                 placeholder="@handle"
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg px-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+              <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
                 Instagram
               </label>
               <input
                 value={instagramHandle}
                 onChange={e => setInstagramHandle(e.target.value)}
                 placeholder="@handle"
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg px-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
               />
             </div>
           </div>
 
           {/* Bio */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Bio
             </label>
             <div className="relative">
-              <FileText className="absolute left-3.5 top-3.5 w-4 h-4 text-[#6B6860]" />
+              <FileText className="absolute left-3.5 top-3.5 w-4 h-4 text-muted-foreground" />
               <textarea
                 value={bio}
                 onChange={e => setBio(e.target.value)}
                 placeholder="Tell brands about yourself…"
                 rows={3}
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors resize-none"
+                className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors resize-none"
               />
             </div>
           </div>
 
           {/* Niches */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Your Niche
             </label>
             <div className="flex flex-wrap gap-2">
@@ -149,7 +149,7 @@ export default function CreatorOnboardingPage() {
                   className={`px-3 py-1.5 text-xs font-syne rounded-md border transition-colors ${
                     selectedNiches.includes(n)
                       ? 'bg-[#008cff]/10 border-[#008cff]/40 text-[#008cff]'
-                      : 'bg-[#111111] border-[#222222] text-[#6B6860] hover:border-[#333] hover:text-white'
+                      : 'bg-card border-border text-muted-foreground hover:border-[#333] hover:text-white'
                   }`}
                 >
                   {n}

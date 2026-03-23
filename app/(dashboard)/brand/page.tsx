@@ -25,7 +25,7 @@ export default async function BrandOverviewPage() {
   if (!user?.brandProfile) {
     return (
       <div className="p-6">
-        <p className="text-[#6B6860] font-syne text-sm">Brand profile not set up yet.</p>
+        <p className="text-muted-foreground font-syne text-sm">Brand profile not set up yet.</p>
       </div>
     )
   }
@@ -82,21 +82,21 @@ export default async function BrandOverviewPage() {
         )}
 
         {/* Campaign list */}
-        <div className="bg-[#111111] border border-[#222222]">
-          <div className="px-5 py-4 border-b border-[#222222]">
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Your Campaigns</h3>
+        <div className="bg-card border border-border">
+          <div className="px-5 py-4 border-b border-border">
+            <h3 className="text-sm font-syne font-bold text-foreground">Your Campaigns</h3>
           </div>
           {campaigns.length === 0 ? (
-            <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+            <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
               No campaigns yet
             </div>
           ) : (
-            <div className="divide-y divide-[#1A1A1A]">
+            <div className="divide-y divide-border">
               {campaigns.map((campaign) => (
                 <div key={campaign.id} className="flex items-center justify-between px-5 py-4">
                   <div>
-                    <div className="font-syne font-bold text-sm text-[#EDE8DE] mb-0.5">{campaign.name}</div>
-                    <div className="font-fraunces text-xs text-[#6B6860]">
+                    <div className="font-syne font-bold text-sm text-foreground mb-0.5">{campaign.name}</div>
+                    <div className="font-syne text-xs text-muted-foreground">
                       {PLATFORM_LABELS[campaign.platform as PlatformValue]} · {formatCurrency(campaign.totalBudget)}
                     </div>
                   </div>

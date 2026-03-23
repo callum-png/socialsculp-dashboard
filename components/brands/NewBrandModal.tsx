@@ -20,18 +20,18 @@ type FormData = z.infer<typeof schema>
 const INDUSTRIES = ['Fashion', 'Beauty', 'Tech', 'Food & Beverage', 'Fitness', 'Gaming', 'Finance', 'Travel', 'Entertainment', 'Retail', 'Healthcare', 'Other']
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-1.5">{children}</label>
+  return <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground mb-1.5">{children}</label>
 }
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
-  return <p className="mt-1 text-[11px] font-syne text-[#FF4747]">{message}</p>
+  return <p className="mt-1 text-[11px] font-syne text-red-600">{message}</p>
 }
 
 function inputCls(hasError?: boolean) {
   return cn(
-    'w-full px-3 py-2.5 bg-[#1A1A1A] border text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860] focus:outline-none transition-colors',
-    hasError ? 'border-[#FF4747]' : 'border-[#222222] focus:border-[#008cff]'
+    'w-full px-3 py-2.5 bg-background border text-sm font-syne text-foreground placeholder-muted-foreground focus:outline-none transition-colors',
+    hasError ? 'border-[#FF4747]' : 'border-border focus:border-[#008cff]'
   )
 }
 
@@ -80,10 +80,10 @@ export function NewBrandModal({ onClose, onCreated }: Props) {
     <>
       <div className="fixed inset-0 bg-black/70 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-            <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">New Brand</h2>
-            <button onClick={onClose} className="text-[#6B6860] hover:text-[#EDE8DE] transition-colors"><X size={16} /></button>
+        <div className="w-full max-w-md bg-background border border-border shadow-2xl">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <h2 className="text-sm font-syne font-bold text-foreground uppercase tracking-widest">New Brand</h2>
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors"><X size={16} /></button>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-5 space-y-4">
@@ -107,8 +107,8 @@ export function NewBrandModal({ onClose, onCreated }: Props) {
               </div>
             </div>
 
-            <div className="pt-1 border-t border-[#1A1A1A]">
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-3">Contact — optional</div>
+            <div className="pt-1 border-t border-border">
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-3">Contact — optional</div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Contact Name</Label>
@@ -123,11 +123,11 @@ export function NewBrandModal({ onClose, onCreated }: Props) {
             </div>
 
             {submitError && (
-              <p className="text-xs font-syne text-[#FF4747] bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">{submitError}</p>
+              <p className="text-xs font-syne text-red-600 bg-red-50 border border-red-200 px-3 py-2">{submitError}</p>
             )}
 
             <div className="flex items-center justify-end gap-3 pt-1">
-              <button type="button" onClick={onClose} disabled={submitting} className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors disabled:opacity-40">
+              <button type="button" onClick={onClose} disabled={submitting} className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-foreground transition-colors disabled:opacity-40">
                 Cancel
               </button>
               <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40">

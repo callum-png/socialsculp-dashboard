@@ -113,7 +113,7 @@ export function DealKanban({ initialDeals, campaigns, creators }: Props) {
           return (
             <div
               key={stage}
-              className="flex flex-col flex-shrink-0 w-64 bg-[#0D0D0D] border border-border rounded-md"
+              className="flex flex-col flex-shrink-0 w-64 bg-background border border-border rounded-md"
             >
               {/* Column header — also a drop target */}
               <div

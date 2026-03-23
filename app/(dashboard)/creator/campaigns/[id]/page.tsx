@@ -80,18 +80,18 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
       </PageHeader>
 
       {/* Campaign info row */}
-      <div className="px-6 py-5 border-b border-[#1A1A1A] bg-[#0A0A0A]">
+      <div className="px-6 py-5 border-b border-border bg-background">
         <div className="flex flex-wrap gap-6">
           <div>
-            <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">Platform</div>
-            <div className="text-xs font-syne text-[#EDE8DE]">
+            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Platform</div>
+            <div className="text-xs font-syne text-foreground">
               {PLATFORM_LABELS[campaign.platform as PlatformValue] ?? campaign.platform}
             </div>
           </div>
           {campaign.startDate && (
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">Start Date</div>
-              <div className="text-xs font-syne text-[#EDE8DE]">
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Start Date</div>
+              <div className="text-xs font-syne text-foreground">
                 {new Date(campaign.startDate).toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
@@ -102,8 +102,8 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
           )}
           {campaign.endDate && (
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">End Date</div>
-              <div className="text-xs font-syne text-[#EDE8DE]">
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">End Date</div>
+              <div className="text-xs font-syne text-foreground">
                 {new Date(campaign.endDate).toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
@@ -113,14 +113,14 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
             </div>
           )}
           <div>
-            <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">Status</div>
-            <div className="text-xs font-syne text-[#EDE8DE]">
+            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Status</div>
+            <div className="text-xs font-syne text-foreground">
               {CAMPAIGN_STATUS_LABELS[campaign.status as CampaignStatusValue] ?? campaign.status}
             </div>
           </div>
         </div>
         {campaign.description && (
-          <p className="mt-4 text-sm font-fraunces text-[#6B6860] max-w-2xl leading-relaxed">
+          <p className="mt-4 text-sm font-syne text-muted-foreground max-w-2xl leading-relaxed">
             {campaign.description}
           </p>
         )}
@@ -128,16 +128,16 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
 
       {/* Your Deliverables section */}
       <div className="p-6">
-        <h2 className="text-xs font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-4">
+        <h2 className="text-xs font-syne font-bold uppercase tracking-widest text-muted-foreground mb-4">
           Your Deliverables
         </h2>
 
         {deliverables.length === 0 ? (
-          <div className="bg-[#111111] border border-[#222222] px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+          <div className="bg-card border border-border px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
             No deliverables assigned yet
           </div>
         ) : (
-          <div className="bg-[#111111] border border-[#222222] divide-y divide-[#1A1A1A]">
+          <div className="bg-card border border-border divide-y divide-border">
             {deliverables.map((deliverable) => {
               const isLive = deliverable.submitted && deliverable.post != null
               const platformLabel =
@@ -151,23 +151,23 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
                   {/* Left: type + due date */}
                   <div className="flex items-center gap-4 min-w-0">
                     <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">
+                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
                         Platform
                       </div>
-                      <div className="text-xs font-syne text-[#EDE8DE]">{platformLabel}</div>
+                      <div className="text-xs font-syne text-foreground">{platformLabel}</div>
                     </div>
                     <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">
+                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
                         Type
                       </div>
-                      <div className="text-xs font-syne text-[#EDE8DE]">{contentTypeLabel}</div>
+                      <div className="text-xs font-syne text-foreground">{contentTypeLabel}</div>
                     </div>
                     {deliverable.dueDate && (
                       <div>
-                        <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">
+                        <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
                           Due
                         </div>
-                        <div className="text-xs font-syne text-[#EDE8DE]">
+                        <div className="text-xs font-syne text-foreground">
                           {new Date(deliverable.dueDate).toLocaleDateString('en-US', {
                             month: 'short',
                             day: 'numeric',
@@ -180,8 +180,8 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
                     <span
                       className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${
                         isLive
-                          ? 'bg-[#001a33] text-[#008cff] border border-[#003366]'
-                          : 'bg-[#1A1A1A] text-[#6B6860] border border-[#2A2A2A]'
+                          ? 'bg-blue-50 text-[#008cff] border border-blue-200'
+                          : 'bg-background text-muted-foreground border border-border'
                       }`}
                     >
                       {isLive ? 'Live' : 'Pending'}
@@ -194,20 +194,20 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
                       <>
                         {deliverable.post.views > 0 && (
                           <div className="text-right">
-                            <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">
+                            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
                               Views
                             </div>
-                            <div className="text-xs font-syne text-[#EDE8DE]">
+                            <div className="text-xs font-syne text-foreground">
                               {deliverable.post.views.toLocaleString()}
                             </div>
                           </div>
                         )}
                         {deliverable.post.engagementRate > 0 && (
                           <div className="text-right">
-                            <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">
+                            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
                               Eng. Rate
                             </div>
-                            <div className="text-xs font-syne text-[#EDE8DE]">
+                            <div className="text-xs font-syne text-foreground">
                               {deliverable.post.engagementRate.toFixed(2)}%
                             </div>
                           </div>

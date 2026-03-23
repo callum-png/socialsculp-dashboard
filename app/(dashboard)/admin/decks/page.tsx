@@ -18,11 +18,11 @@ export default function AdminDecksPage() {
       <PageHeader eyebrow="Admin" title="Decks" description="Client sales and campaign decks" />
 
       <div className="p-6">
-        <div className="bg-[#111111] border border-[#222222]">
+        <div className="bg-card border border-border">
           {/* Table header */}
-          <div className="grid grid-cols-[2fr_1.5fr_100px_120px_1fr_auto] gap-4 px-5 py-3 border-b border-[#222222]">
+          <div className="grid grid-cols-[2fr_1.5fr_100px_120px_1fr_auto] gap-4 px-5 py-3 border-b border-border">
             {['Client', 'Service', 'Status', 'Created', 'URL', 'Actions'].map((h) => (
-              <span key={h} className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860]">
+              <span key={h} className="text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground">
                 {h}
               </span>
             ))}
@@ -30,22 +30,22 @@ export default function AdminDecksPage() {
 
           {/* Rows */}
           {DECKS.length === 0 ? (
-            <div className="px-5 py-12 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+            <div className="px-5 py-12 text-center text-foreground font-syne text-xs uppercase tracking-widest">
               No decks yet
             </div>
           ) : (
             DECKS.map((deck) => (
               <div
                 key={deck.slug}
-                className="grid grid-cols-[2fr_1.5fr_100px_120px_1fr_auto] gap-4 px-5 py-4 items-center border-b border-[#1A1A1A] last:border-b-0"
+                className="grid grid-cols-[2fr_1.5fr_100px_120px_1fr_auto] gap-4 px-5 py-4 items-center border-b border-border last:border-b-0"
               >
                 {/* Client */}
-                <span className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
+                <span className="text-sm font-syne font-bold text-foreground truncate">
                   {deck.clientName}
                 </span>
 
                 {/* Service */}
-                <span className="text-xs font-syne text-[#6B6860] truncate">
+                <span className="text-xs font-syne text-muted-foreground truncate">
                   {deck.service}
                 </span>
 
@@ -53,20 +53,20 @@ export default function AdminDecksPage() {
                 <span
                   className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest w-fit ${
                     deck.status === 'live'
-                      ? 'bg-[#001a33] text-[#008cff] border border-[#003366]'
-                      : 'bg-[#1A1A1A] text-[#6B6860] border border-[#222222]'
+                      ? 'bg-blue-50 text-[#008cff] border border-blue-200'
+                      : 'bg-background text-muted-foreground border border-border'
                   }`}
                 >
                   {deck.status}
                 </span>
 
                 {/* Created */}
-                <span className="text-xs font-syne text-[#6B6860]">
+                <span className="text-xs font-syne text-muted-foreground">
                   {formatDate(deck.createdAt)}
                 </span>
 
                 {/* URL */}
-                <span className="text-xs font-syne text-[#6B6860] truncate">
+                <span className="text-xs font-syne text-muted-foreground truncate">
                   {deck.publicUrl}
                 </span>
 
@@ -77,7 +77,7 @@ export default function AdminDecksPage() {
                     href={deck.publicUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 text-[#6B6860] hover:text-[#008cff] transition-colors"
+                    className="p-1.5 text-muted-foreground hover:text-[#008cff] transition-colors"
                     title="Open deck"
                   >
                     <ExternalLink size={13} />

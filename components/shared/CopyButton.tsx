@@ -15,7 +15,7 @@ export function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="p-1.5 text-[#6B6860] hover:text-[#EDE8DE] transition-colors"
+      className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
       title="Copy URL"
     >
       {copied ? <Check size={13} className="text-[#008cff]" /> : <Copy size={13} />}

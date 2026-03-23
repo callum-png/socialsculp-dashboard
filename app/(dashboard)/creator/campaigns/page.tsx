@@ -81,41 +81,41 @@ export default async function CreatorCampaignsPage() {
       />
 
       <div className="p-6">
-        <div className="bg-[#111111] border border-[#222222] divide-y divide-[#1A1A1A]">
+        <div className="bg-card border border-border divide-y divide-border">
           {myCampaigns.length === 0 ? (
-            <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+            <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
               No campaign assignments yet
             </div>
           ) : (
             myCampaigns.map((campaign) => (
-              <Link key={campaign.id} href={`/creator/campaigns/${campaign.id}`} className="block px-5 py-5 hover:bg-[#141414] transition-colors">
+              <Link key={campaign.id} href={`/creator/campaigns/${campaign.id}`} className="block px-5 py-5 hover:bg-muted transition-colors">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div>
-                    <div className="font-syne font-bold text-[#EDE8DE] mb-1">{campaign.name}</div>
-                    <div className="font-fraunces text-sm text-[#6B6860]">{campaign.brandName}</div>
+                    <div className="font-syne font-bold text-foreground mb-1">{campaign.name}</div>
+                    <div className="font-syne text-sm text-muted-foreground">{campaign.brandName}</div>
                   </div>
                   <CampaignStatusBadge status={campaign.status as CampaignStatusValue} />
                 </div>
 
                 <div className="flex flex-wrap gap-4">
                   <div>
-                    <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">Platform</div>
-                    <div className="text-xs font-syne text-[#EDE8DE]">
+                    <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Platform</div>
+                    <div className="text-xs font-syne text-foreground">
                       {PLATFORM_LABELS[campaign.platform as PlatformValue]}
                     </div>
                   </div>
                   {campaign.startDate && (
                     <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">Start</div>
-                      <div className="text-xs font-syne text-[#EDE8DE]">
+                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Start</div>
+                      <div className="text-xs font-syne text-foreground">
                         {new Date(campaign.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </div>
                     </div>
                   )}
                   {campaign.endDate && (
                     <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-0.5">End</div>
-                      <div className="text-xs font-syne text-[#EDE8DE]">
+                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">End</div>
+                      <div className="text-xs font-syne text-foreground">
                         {new Date(campaign.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </div>
                     </div>

@@ -23,12 +23,12 @@ export function EmptyState({
         className
       )}
     >
-      <div className="mb-4 flex items-center justify-center w-14 h-14 bg-[#1A1A1A] border border-[#222222]">
-        <Icon size={24} className="text-[#6B6860]" />
+      <div className="mb-4 flex items-center justify-center w-14 h-14 bg-background border border-border">
+        <Icon size={24} className="text-muted-foreground" />
       </div>
-      <h3 className="text-base font-syne font-bold text-[#EDE8DE] mb-1">{title}</h3>
+      <h3 className="text-base font-syne font-bold text-foreground mb-1">{title}</h3>
       {description && (
-        <p className="text-sm font-fraunces text-[#6B6860] max-w-xs mb-6">{description}</p>
+        <p className="text-sm font-syne text-muted-foreground max-w-xs mb-6">{description}</p>
       )}
       {action && (
         <button

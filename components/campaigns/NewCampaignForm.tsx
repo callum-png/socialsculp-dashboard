@@ -264,7 +264,7 @@ export function NewCampaignForm({ brands }: Props) {
                       className={cn(
                         'px-3 py-2.5 border text-center text-xs font-syne font-bold uppercase tracking-widest transition-colors',
                         form2.watch('platform') === p
-                          ? 'border-accent text-accent bg-[#001a33]'
+                          ? 'border-accent text-accent bg-blue-50'
                           : 'border-border text-muted hover:border-[#333333]'
                       )}
                     >
@@ -443,12 +443,12 @@ export function NewCampaignForm({ brands }: Props) {
                 <div className="text-[10px] font-syne uppercase tracking-widest text-muted mb-2">
                   Description
                 </div>
-                <p className="text-sm font-fraunces text-text">{formData.description}</p>
+                <p className="text-sm font-syne text-text">{formData.description}</p>
               </div>
             )}
 
             {submitError && (
-              <p className="text-xs font-syne text-danger bg-[#1F0A0A] border border-[#4A1A1A] px-3 py-2">
+              <p className="text-xs font-syne text-danger bg-red-50 border border-red-200 px-3 py-2">
                 {submitError}
               </p>
             )}

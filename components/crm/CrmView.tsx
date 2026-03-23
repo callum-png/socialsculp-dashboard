@@ -24,16 +24,16 @@ const STAGES: { id: SalesDealStage; label: string; desc: string }[] = [
 ]
 
 const STAGE_COLORS: Record<SalesDealStage, string> = {
-  APPOINTMENT_SET: 'text-[#6B6860] bg-[#1A1A1A] border-[#222222]',
-  QUALIFIED: 'text-[#008cff] bg-[#001a33] border-[#003366]',
-  DECISION_MAKER: 'text-[#FFB547] bg-[#1F1200] border-[#3D2400]',
-  PROPOSAL_SENT: 'text-[#A78BFA] bg-[#1A1033] border-[#2D1F55]',
-  CLOSED_WON: 'text-[#34D399] bg-[#001A0E] border-[#00331B]',
-  CLOSED_LOST: 'text-[#FF4747] bg-[#1F0A0A] border-[#4A1A1A]',
+  APPOINTMENT_SET: 'text-muted-foreground bg-background border-border',
+  QUALIFIED: 'text-[#008cff] bg-blue-50 border-blue-200',
+  DECISION_MAKER: 'text-amber-600 bg-amber-50 border-amber-200',
+  PROPOSAL_SENT: 'text-violet-600 bg-violet-50 border-violet-200',
+  CLOSED_WON: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+  CLOSED_LOST: 'text-red-600 bg-red-50 border-red-200',
 }
 
-function inputCls() { return 'w-full px-3 py-2.5 bg-[#1A1A1A] border border-[#222222] text-sm font-syne text-[#EDE8DE] placeholder-[#6B6860] focus:outline-none focus:border-[#008cff] transition-colors' }
-function Label({ children }: { children: React.ReactNode }) { return <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860] mb-1.5">{children}</label> }
+function inputCls() { return 'w-full px-3 py-2.5 bg-background border border-border text-sm font-syne text-foreground placeholder-[#6B6860] focus:outline-none focus:border-[#008cff] transition-colors' }
+function Label({ children }: { children: React.ReactNode }) { return <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground mb-1.5">{children}</label> }
 
 // ─── Export helper ────────────────────────────────────────────────────────────
 
@@ -67,15 +67,15 @@ function NewLeadModal({ onClose, onCreated }: { onClose: () => void; onCreated: 
     <>
       <div className="fixed inset-0 bg-black/70 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-            <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">New Lead</h2>
-            <button onClick={onClose} className="text-[#6B6860] hover:text-[#EDE8DE]"><X size={16} /></button>
+        <div className="w-full max-w-md bg-background border border-border shadow-2xl">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <h2 className="text-sm font-syne font-bold text-foreground uppercase tracking-widest">New Lead</h2>
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground"><X size={16} /></button>
           </div>
           <div className="p-5 space-y-4">
             <div className="flex gap-2">
               {(['BRAND', 'CREATOR'] as LeadType[]).map(t => (
-                <button key={t} type="button" onClick={() => setType(t)} className={cn('px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', type === t ? 'bg-[#001a33] border-[#008cff] text-[#008cff]' : 'bg-[#1A1A1A] border-[#222222] text-[#6B6860]')}>{t}</button>
+                <button key={t} type="button" onClick={() => setType(t)} className={cn('px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', type === t ? 'bg-blue-50 border-[#008cff] text-[#008cff]' : 'bg-background border-border text-muted-foreground')}>{t}</button>
               ))}
             </div>
             <div><Label>Name</Label><input value={name} onChange={e => setName(e.target.value)} placeholder="Full name" className={inputCls()} /></div>
@@ -89,7 +89,7 @@ function NewLeadModal({ onClose, onCreated }: { onClose: () => void; onCreated: 
               <div><Label>Notes — optional</Label><input value={notes} onChange={e => setNotes(e.target.value)} placeholder="Context…" className={inputCls()} /></div>
             </div>
             <div className="flex justify-end gap-3 pt-1">
-              <button onClick={onClose} className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors">Cancel</button>
+              <button onClick={onClose} className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-border hover:text-foreground transition-colors">Cancel</button>
               <button onClick={submit} disabled={submitting || !name.trim()} className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40">
                 {submitting ? 'Adding…' : 'Add Lead'}
               </button>
@@ -118,10 +118,10 @@ function NewSalesDealModal({ leads, onClose, onCreated }: { leads: Lead[]; onClo
     <>
       <div className="fixed inset-0 bg-black/70 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-            <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">New Sales Deal</h2>
-            <button onClick={onClose} className="text-[#6B6860] hover:text-[#EDE8DE]"><X size={16} /></button>
+        <div className="w-full max-w-md bg-background border border-border shadow-2xl">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <h2 className="text-sm font-syne font-bold text-foreground uppercase tracking-widest">New Sales Deal</h2>
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground"><X size={16} /></button>
           </div>
           <div className="p-5 space-y-4">
             <div><Label>Deal Title</Label><input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Acme Brand — Q2 Campaign" className={inputCls()} /></div>
@@ -136,7 +136,7 @@ function NewSalesDealModal({ leads, onClose, onCreated }: { leads: Lead[]; onClo
             </div>
             <div><Label>Notes — optional</Label><textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2} className={cn(inputCls(), 'resize-none')} /></div>
             <div className="flex justify-end gap-3 pt-1">
-              <button onClick={onClose} className="px-4 py-2.5 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#EDE8DE] hover:text-[#EDE8DE] transition-colors">Cancel</button>
+              <button onClick={onClose} className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-border hover:text-foreground transition-colors">Cancel</button>
               <button onClick={submit} disabled={submitting || !title.trim()} className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors disabled:opacity-40">
                 {submitting ? 'Adding…' : 'Add Deal'}
               </button>
@@ -197,10 +197,10 @@ export function CrmView({ isAdmin = false, title = 'CRM', eyebrow }: Props) {
     <div>
       <PageHeader eyebrow={eyebrow} title={title} description={`${leads.length} lead${leads.length === 1 ? '' : 's'}`}>
         <div className="flex items-center gap-2">
-          <button onClick={() => setShowImport(true)} className="inline-flex items-center gap-2 px-3 py-2 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
+          <button onClick={() => setShowImport(true)} className="inline-flex items-center gap-2 px-3 py-2 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
             <Upload size={12} /> Import CSV
           </button>
-          <button onClick={() => exportCsv(leads, 'socialsculp-leads.csv')} className="inline-flex items-center gap-2 px-3 py-2 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
+          <button onClick={() => exportCsv(leads, 'socialsculp-leads.csv')} className="inline-flex items-center gap-2 px-3 py-2 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
             <Download size={12} /> Export CSV
           </button>
           {tab === 'leads' && <button onClick={() => setShowNewLead(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"><Plus size={13} /> New Lead</button>}
@@ -209,68 +209,68 @@ export function CrmView({ isAdmin = false, title = 'CRM', eyebrow }: Props) {
       </PageHeader>
 
       {/* Tabs */}
-      <div className="flex border-b border-[#222222] px-6">
+      <div className="flex border-b border-border px-6">
         {(['leads', 'pipeline'] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} className={cn('px-4 py-3 text-xs font-syne font-bold uppercase tracking-widest border-b-2 transition-colors -mb-px', tab === t ? 'border-[#008cff] text-[#008cff]' : 'border-transparent text-[#6B6860] hover:text-[#EDE8DE]')}>{t}</button>
+          <button key={t} onClick={() => setTab(t)} className={cn('px-4 py-3 text-xs font-syne font-bold uppercase tracking-widest border-b-2 transition-colors -mb-px', tab === t ? 'border-[#008cff] text-[#008cff]' : 'border-transparent text-muted-foreground hover:text-foreground')}>{t}</button>
         ))}
       </div>
 
       <div className="p-6">
         {loading ? (
-          <div className="text-center py-16 text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">Loading…</div>
+          <div className="text-center py-16 text-foreground font-syne text-xs uppercase tracking-widest">Loading…</div>
         ) : tab === 'leads' ? (
           <>
             <div className="flex items-center justify-between mb-5">
               <div className="flex gap-2">
-                <button onClick={() => setLeadTab('BRAND')} className={cn('inline-flex items-center gap-2 px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', leadTab === 'BRAND' ? 'bg-[#001a33] border-[#008cff] text-[#008cff]' : 'bg-[#1A1A1A] border-[#222222] text-[#6B6860]')}>
+                <button onClick={() => setLeadTab('BRAND')} className={cn('inline-flex items-center gap-2 px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', leadTab === 'BRAND' ? 'bg-blue-50 border-[#008cff] text-[#008cff]' : 'bg-background border-border text-muted-foreground')}>
                   <Building2 size={11} /> Brands ({leads.filter(l => l.type === 'BRAND').length})
                 </button>
-                <button onClick={() => setLeadTab('CREATOR')} className={cn('inline-flex items-center gap-2 px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', leadTab === 'CREATOR' ? 'bg-[#001a33] border-[#008cff] text-[#008cff]' : 'bg-[#1A1A1A] border-[#222222] text-[#6B6860]')}>
+                <button onClick={() => setLeadTab('CREATOR')} className={cn('inline-flex items-center gap-2 px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors', leadTab === 'CREATOR' ? 'bg-blue-50 border-[#008cff] text-[#008cff]' : 'bg-background border-border text-muted-foreground')}>
                   <Users size={11} /> Creators ({leads.filter(l => l.type === 'CREATOR').length})
                 </button>
               </div>
 
               {/* Agent filter — admin only */}
               {isAdmin && agents.length > 0 && (
-                <select value={agentFilter} onChange={e => setAgentFilter(e.target.value)} className="px-3 py-1.5 bg-[#1A1A1A] border border-[#222222] text-xs font-syne text-[#EDE8DE] focus:outline-none focus:border-[#008cff]">
+                <select value={agentFilter} onChange={e => setAgentFilter(e.target.value)} className="px-3 py-1.5 bg-background border border-border text-xs font-syne text-foreground focus:outline-none focus:border-[#008cff]">
                   <option value="all">All Agents</option>
                   {agents.map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
               )}
             </div>
 
-            <div className="bg-[#111111] border border-[#222222]">
+            <div className="bg-card border border-border">
               {filteredLeads.length === 0 ? (
-                <div className="px-5 py-14 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">No leads yet</div>
+                <div className="px-5 py-14 text-center text-foreground font-syne text-xs uppercase tracking-widest">No leads yet</div>
               ) : (
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-[#1A1A1A]">
+                    <tr className="border-b border-border">
                       {['Name', leadTab === 'BRAND' ? 'Company' : 'Handle', 'Email', 'Phone', 'Source', 'Notes', ...(isAdmin ? ['Agent'] : [])].map(h => (
-                        <th key={h} className="text-left px-4 py-3 text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860]">{h}</th>
+                        <th key={h} className="text-left px-4 py-3 text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground">{h}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#1A1A1A]">
+                  <tbody className="divide-y divide-border">
                     {filteredLeads.map(l => (
-                      <tr key={l.id} className="hover:bg-[#0D0D0D] transition-colors">
-                        <td className="px-4 py-3 text-sm font-syne font-bold text-[#EDE8DE]">{l.name}</td>
-                        <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.company || '—'}</td>
-                        <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.email || '—'}</td>
-                        <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.phone || '—'}</td>
-                        <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.source || '—'}</td>
+                      <tr key={l.id} className="hover:bg-background transition-colors">
+                        <td className="px-4 py-3 text-sm font-syne font-bold text-foreground">{l.name}</td>
+                        <td className="px-4 py-3 text-sm font-syne text-muted-foreground">{l.company || '—'}</td>
+                        <td className="px-4 py-3 text-sm font-syne text-muted-foreground">{l.email || '—'}</td>
+                        <td className="px-4 py-3 text-sm font-syne text-muted-foreground">{l.phone || '—'}</td>
+                        <td className="px-4 py-3 text-sm font-syne text-muted-foreground">{l.source || '—'}</td>
                         <td className="px-4 py-3 max-w-[180px]">
                           {l.notes ? (
                             <button
                               onClick={() => setNotesPopup({ name: l.name, notes: l.notes! })}
-                              className="text-sm font-fraunces text-[#6B6860] hover:text-[#EDE8DE] text-left truncate block w-full transition-colors"
+                              className="text-sm font-syne text-muted-foreground hover:text-foreground text-left truncate block w-full transition-colors"
                               title="Click to read full notes"
                             >
                               {l.notes}
                             </button>
-                          ) : <span className="text-sm font-fraunces text-[#6B6860]">—</span>}
+                          ) : <span className="text-sm font-syne text-muted-foreground">—</span>}
                         </td>
-                        {isAdmin && <td className="px-4 py-3"><span className="text-[10px] font-syne uppercase tracking-widest text-[#008cff] bg-[#001a33] border border-[#003366] px-1.5 py-0.5">{l.createdBy?.name || 'Admin'}</span></td>}
+                        {isAdmin && <td className="px-4 py-3"><span className="text-[10px] font-syne uppercase tracking-widest text-[#008cff] bg-blue-50 border border-blue-200 px-1.5 py-0.5">{l.createdBy?.name || 'Admin'}</span></td>}
                       </tr>
                     ))}
                   </tbody>
@@ -283,29 +283,29 @@ export function CrmView({ isAdmin = false, title = 'CRM', eyebrow }: Props) {
             {STAGES.map(stage => {
               const colDeals = deals.filter(d => d.stage === stage.id)
               return (
-                <div key={stage.id} className="flex flex-col flex-shrink-0 w-60 bg-[#0D0D0D] border border-[#222222]">
-                  <div className="px-3.5 py-3 border-b border-[#222222]">
+                <div key={stage.id} className="flex flex-col flex-shrink-0 w-60 bg-background border border-border">
+                  <div className="px-3.5 py-3 border-b border-border">
                     <div className="flex items-center justify-between mb-0.5">
                       <span className={cn('inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border', STAGE_COLORS[stage.id])}>{stage.label}</span>
-                      <span className="text-[11px] font-syne font-bold text-[#6B6860] bg-[#1A1A1A] border border-[#222222] px-1.5 py-0.5">{colDeals.length}</span>
+                      <span className="text-[11px] font-syne font-bold text-muted-foreground bg-background border border-border px-1.5 py-0.5">{colDeals.length}</span>
                     </div>
-                    <p className="text-[10px] font-fraunces text-[#3A3A3A] mt-1">{stage.desc}</p>
+                    <p className="text-[10px] font-syne text-foreground mt-1">{stage.desc}</p>
                   </div>
                   <div className="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
                     {colDeals.map(deal => (
-                      <div key={deal.id} className="bg-[#111111] border border-[#222222] p-3.5">
-                        <div className="font-syne font-bold text-sm text-[#EDE8DE] mb-1 truncate">{deal.title}</div>
-                        {deal.lead && <div className="font-fraunces text-xs text-[#6B6860] truncate mb-1">{deal.lead.name}{deal.lead.company ? ` — ${deal.lead.company}` : ''}</div>}
+                      <div key={deal.id} className="bg-card border border-border p-3.5">
+                        <div className="font-syne font-bold text-sm text-foreground mb-1 truncate">{deal.title}</div>
+                        {deal.lead && <div className="font-syne text-xs text-muted-foreground truncate mb-1">{deal.lead.name}{deal.lead.company ? ` — ${deal.lead.company}` : ''}</div>}
                         {isAdmin && deal.createdBy && <div className="text-[10px] font-syne text-[#008cff] mb-1">{deal.createdBy.name}</div>}
                         {deal.value && <div className="text-xs font-syne font-bold text-[#008cff] mb-2">£{Number(deal.value).toLocaleString()}</div>}
-                        <div className="flex flex-wrap gap-1 pt-2 border-t border-[#1A1A1A]">
+                        <div className="flex flex-wrap gap-1 pt-2 border-t border-border">
                           {STAGES.filter(s => s.id !== stage.id).slice(0, 2).map(s => (
-                            <button key={s.id} onClick={() => moveStage(deal.id, s.id)} className="text-[9px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] border border-[#1A1A1A] hover:border-[#008cff] px-1.5 py-0.5 transition-colors">→ {s.label.split(' ')[0]}</button>
+                            <button key={s.id} onClick={() => moveStage(deal.id, s.id)} className="text-[9px] font-syne uppercase tracking-widest text-muted-foreground hover:text-[#008cff] border border-border hover:border-[#008cff] px-1.5 py-0.5 transition-colors">→ {s.label.split(' ')[0]}</button>
                           ))}
                         </div>
                       </div>
                     ))}
-                    {colDeals.length === 0 && <div className="flex-1 flex items-center justify-center py-8"><span className="text-[11px] font-syne text-[#3A3A3A] uppercase tracking-widest">Empty</span></div>}
+                    {colDeals.length === 0 && <div className="flex-1 flex items-center justify-center py-8"><span className="text-[11px] font-syne text-foreground uppercase tracking-widest">Empty</span></div>}
                   </div>
                 </div>
               )
@@ -323,13 +323,13 @@ export function CrmView({ isAdmin = false, title = 'CRM', eyebrow }: Props) {
         <>
           <div className="fixed inset-0 bg-black/70 z-40" onClick={() => setNotesPopup(null)} />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-                <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">{notesPopup.name}</h2>
-                <button onClick={() => setNotesPopup(null)} className="text-[#6B6860] hover:text-[#EDE8DE]"><X size={16} /></button>
+            <div className="w-full max-w-md bg-background border border-border shadow-2xl">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <h2 className="text-sm font-syne font-bold text-foreground uppercase tracking-widest">{notesPopup.name}</h2>
+                <button onClick={() => setNotesPopup(null)} className="text-muted-foreground hover:text-foreground"><X size={16} /></button>
               </div>
               <div className="p-5">
-                <p className="font-fraunces text-[#EDE8DE] leading-relaxed whitespace-pre-wrap">{notesPopup.notes}</p>
+                <p className="font-syne text-foreground leading-relaxed whitespace-pre-wrap">{notesPopup.notes}</p>
               </div>
             </div>
           </div>

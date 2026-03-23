@@ -118,10 +118,10 @@ export default async function BrandReportsPage() {
         title="Reports"
         description={`Last 30 Days — ${user.brandProfile.companyName}`}
       >
-        <span className="inline-flex items-center px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-[#1A1A1A] border border-[#222222] text-[#6B6860]">
+        <span className="inline-flex items-center px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-background border border-border text-muted-foreground">
           Last 30 Days
         </span>
-        <button className="inline-flex items-center gap-2 px-4 py-2 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
+        <button className="inline-flex items-center gap-2 px-4 py-2 border border-border text-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
           <Download size={13} />
           Export Report
         </button>
@@ -131,12 +131,12 @@ export default async function BrandReportsPage() {
         <StatCardGrid stats={stats} />
 
         {!hasData ? (
-          <div className="bg-[#111111] border border-[#222222] p-12 flex flex-col items-center justify-center text-center gap-3">
-            <BarChart3 size={32} className="text-[#3A3A3A]" />
-            <p className="text-sm font-syne font-bold text-[#6B6860] uppercase tracking-widest">
+          <div className="bg-card border border-border p-12 flex flex-col items-center justify-center text-center gap-3">
+            <BarChart3 size={32} className="text-foreground" />
+            <p className="text-sm font-syne font-bold text-muted-foreground uppercase tracking-widest">
               No analytics data yet
             </p>
-            <p className="text-xs font-fraunces text-[#3A3A3A] max-w-xs">
+            <p className="text-xs font-syne text-foreground max-w-xs">
               Analytics snapshots will appear here once your campaigns are live and
               tracking data has been recorded.
             </p>
@@ -153,12 +153,12 @@ export default async function BrandReportsPage() {
         )}
 
         {/* Export notice */}
-        <div className="bg-[#111111] border border-[#222222] p-6 flex items-center justify-between">
+        <div className="bg-card border border-border p-6 flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE] mb-1">
+            <h3 className="text-sm font-syne font-bold text-foreground mb-1">
               Full Performance Report
             </h3>
-            <p className="text-xs font-fraunces text-[#6B6860]">
+            <p className="text-xs font-syne text-muted-foreground">
               Download a detailed PDF report with all campaign metrics, creator
               performance, and ROAS breakdown.
             </p>

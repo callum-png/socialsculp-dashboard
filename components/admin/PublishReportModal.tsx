@@ -67,18 +67,18 @@ export function PublishReportModal({ campaignId }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex shrink-0 items-center justify-center rounded-lg border border-[#003366] bg-clip-padding px-3 h-8 text-[0.8rem] font-medium font-syne text-[#008cff] whitespace-nowrap transition-all hover:bg-[#001a33] select-none">
+      <DialogTrigger className="inline-flex shrink-0 items-center justify-center rounded-lg border border-blue-200 bg-clip-padding px-3 h-8 text-[0.8rem] font-medium font-syne text-[#008cff] whitespace-nowrap transition-all hover:bg-blue-50 select-none">
         Publish Report
       </DialogTrigger>
 
-      <DialogContent className="bg-[#111111] border-[#222222] text-[#EDE8DE] sm:max-w-md">
+      <DialogContent className="bg-card border-border text-foreground sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-syne text-[#EDE8DE]">Publish Report</DialogTitle>
+          <DialogTitle className="font-syne text-foreground">Publish Report</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+            <label className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
               Title <span className="text-[#FF4747]">*</span>
             </label>
             <Input
@@ -87,12 +87,12 @@ export function PublishReportModal({ campaignId }: Props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="bg-[#0A0A0A] border-[#2A2A2A] text-[#EDE8DE] placeholder:text-[#3A3A3A]"
+              className="bg-background border-border text-foreground placeholder:text-foreground"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+            <label className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
               Notes (optional)
             </label>
             <Textarea
@@ -100,7 +100,7 @@ export function PublishReportModal({ campaignId }: Props) {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={4}
-              className="bg-[#0A0A0A] border-[#2A2A2A] text-[#EDE8DE] placeholder:text-[#3A3A3A] resize-none"
+              className="bg-background border-border text-foreground placeholder:text-foreground resize-none"
             />
           </div>
 

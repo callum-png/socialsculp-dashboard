@@ -169,12 +169,12 @@ export default async function AgentHomePage() {
         <StatCardGrid stats={stats} />
 
         {/* Pipeline stage bar */}
-        <div className="bg-[#111111] border border-[#222222]">
-          <div className="px-5 py-4 border-b border-[#222222]">
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">
+        <div className="bg-card border border-border">
+          <div className="px-5 py-4 border-b border-border">
+            <h3 className="text-sm font-syne font-bold text-foreground">
               Pipeline Stages
             </h3>
-            <p className="text-xs font-fraunces text-[#6B6860] mt-0.5">
+            <p className="text-xs font-syne text-muted-foreground mt-0.5">
               {totalPipelineDeals} active deal{totalPipelineDeals !== 1 ? 's' : ''} across stages
             </p>
           </div>
@@ -189,22 +189,22 @@ export default async function AgentHomePage() {
                     <div
                       className={`flex-1 min-w-0 px-3 py-3 border ${
                         isWon
-                          ? 'bg-[#0A1F0A] border-[#1A4A1A]'
+                          ? 'bg-emerald-50 border-emerald-200'
                           : count > 0
-                          ? 'bg-[#0D1820] border-[#1A3040]'
-                          : 'bg-[#0D0D0D] border-[#1A1A1A]'
+                          ? 'bg-blue-50 border-blue-200'
+                          : 'bg-background border-border'
                       }`}
                     >
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] truncate">
+                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground truncate">
                         {SALES_STAGE_LABELS[stage]}
                       </div>
                       <div
                         className={`text-xl font-syne font-bold mt-1 ${
                           isWon
-                            ? 'text-[#4ADE80]'
+                            ? 'text-emerald-600'
                             : count > 0
                             ? 'text-[#008cff]'
-                            : 'text-[#3A3A3A]'
+                            : 'text-foreground'
                         }`}
                       >
                         {count}
@@ -223,33 +223,33 @@ export default async function AgentHomePage() {
         {/* Bottom row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Activity */}
-          <div className="lg:col-span-2 bg-[#111111] border border-[#222222]">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
-              <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">
+          <div className="lg:col-span-2 bg-card border border-border">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+              <h3 className="text-sm font-syne font-bold text-foreground">
                 Recent Activity
               </h3>
               <Link
                 href="/agent/crm"
-                className="flex items-center gap-1 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] transition-colors"
+                className="flex items-center gap-1 text-[10px] font-syne uppercase tracking-widest text-muted-foreground hover:text-[#008cff] transition-colors"
               >
                 View CRM <ArrowRight size={11} />
               </Link>
             </div>
-            <div className="divide-y divide-[#1A1A1A]">
+            <div className="divide-y divide-border">
               {recentActivity.length === 0 ? (
-                <div className="px-5 py-8 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                <div className="px-5 py-8 text-center text-foreground font-syne text-xs uppercase tracking-widest">
                   No activity yet
                 </div>
               ) : (
                 recentActivity.map((event) => (
                   <div key={event.id} className="flex items-start justify-between px-5 py-3.5 gap-4">
                     <div className="min-w-0">
-                      <div className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
+                      <div className="text-sm font-syne font-bold text-foreground truncate">
                         {event.deal.title}
                       </div>
-                      <div className="text-xs font-fraunces text-[#6B6860] mt-0.5">
+                      <div className="text-xs font-syne text-muted-foreground mt-0.5">
                         moved from{' '}
-                        <span className="text-[#FFB547]">
+                        <span className="text-amber-600">
                           {event.fromStage
                             ? DEAL_STAGE_ACTIVITY_LABELS[event.fromStage]
                             : '—'}
@@ -260,7 +260,7 @@ export default async function AgentHomePage() {
                         </span>
                       </div>
                     </div>
-                    <div className="shrink-0 text-[11px] font-syne text-[#3A3A3A] whitespace-nowrap mt-0.5">
+                    <div className="shrink-0 text-[11px] font-syne text-foreground whitespace-nowrap mt-0.5">
                       {timeAgo(event.createdAt)}
                     </div>
                   </div>
@@ -270,9 +270,9 @@ export default async function AgentHomePage() {
           </div>
 
           {/* Quick Nav */}
-          <div className="bg-[#111111] border border-[#222222]">
-            <div className="px-5 py-4 border-b border-[#222222]">
-              <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Quick Nav</h3>
+          <div className="bg-card border border-border">
+            <div className="px-5 py-4 border-b border-border">
+              <h3 className="text-sm font-syne font-bold text-foreground">Quick Nav</h3>
             </div>
             <div className="p-5 flex flex-col gap-3">
               <Link
@@ -287,7 +287,7 @@ export default async function AgentHomePage() {
               </Link>
               <Link
                 href="/admin/campaigns"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 border border-border text-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
               >
                 <span className="flex items-center gap-2">
                   <TrendingUp size={13} />
@@ -297,7 +297,7 @@ export default async function AgentHomePage() {
               </Link>
               <Link
                 href="/admin/creators"
-                className="flex items-center justify-between w-full px-4 py-3 border border-[#222222] text-[#EDE8DE] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 border border-border text-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors"
               >
                 <span className="flex items-center gap-2">
                   <Users size={13} />

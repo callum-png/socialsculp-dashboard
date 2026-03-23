@@ -34,7 +34,7 @@ export default async function CreatorAnalyticsPage() {
   if (!user?.creatorProfile) {
     return (
       <div className="p-6">
-        <p className="text-[#6B6860] font-syne text-sm">Creator profile not set up yet.</p>
+        <p className="text-muted-foreground font-syne text-sm">Creator profile not set up yet.</p>
       </div>
     )
   }
@@ -87,7 +87,7 @@ export default async function CreatorAnalyticsPage() {
       <div className="p-6 space-y-6">
         {/* Follower totals banner */}
         {(creator.tiktokFollowers != null || creator.instagramFollowers != null) && (
-          <div className="bg-[#001a33] border border-[#003366] p-4 flex items-center gap-3">
+          <div className="bg-blue-50 border border-blue-200 p-4 flex items-center gap-3">
             <TrendingUp size={16} className="text-[#008cff] shrink-0" />
             <span className="text-sm font-syne font-bold text-[#008cff]">
               {formatNumber(
@@ -95,7 +95,7 @@ export default async function CreatorAnalyticsPage() {
               )}{' '}
               total followers
             </span>
-            <span className="text-xs font-fraunces text-[#6B6860]">
+            <span className="text-xs font-syne text-muted-foreground">
               Combined TikTok + Instagram
             </span>
           </div>
@@ -104,8 +104,8 @@ export default async function CreatorAnalyticsPage() {
         {/* Platform stats grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* TikTok */}
-          <div className="bg-[#111111] border border-[#222222] p-5">
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE] mb-4">TikTok</h3>
+          <div className="bg-card border border-border p-5">
+            <h3 className="text-sm font-syne font-bold text-foreground mb-4">TikTok</h3>
             <div className="space-y-3">
               {[
                 {
@@ -124,14 +124,14 @@ export default async function CreatorAnalyticsPage() {
               ].map((row) => (
                 <div
                   key={row.label}
-                  className="flex justify-between items-center py-2 border-b border-[#1A1A1A]"
+                  className="flex justify-between items-center py-2 border-b border-border"
                 >
-                  <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+                  <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
                     {row.label}
                   </span>
                   <span
                     className={`text-sm font-syne font-bold ${
-                      row.accent ? 'text-[#008cff]' : 'text-[#EDE8DE]'
+                      row.accent ? 'text-[#008cff]' : 'text-foreground'
                     }`}
                   >
                     {row.value}
@@ -142,8 +142,8 @@ export default async function CreatorAnalyticsPage() {
           </div>
 
           {/* Instagram */}
-          <div className="bg-[#111111] border border-[#222222] p-5">
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE] mb-4">Instagram</h3>
+          <div className="bg-card border border-border p-5">
+            <h3 className="text-sm font-syne font-bold text-foreground mb-4">Instagram</h3>
             <div className="space-y-3">
               {[
                 {
@@ -162,14 +162,14 @@ export default async function CreatorAnalyticsPage() {
               ].map((row) => (
                 <div
                   key={row.label}
-                  className="flex justify-between items-center py-2 border-b border-[#1A1A1A]"
+                  className="flex justify-between items-center py-2 border-b border-border"
                 >
-                  <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+                  <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
                     {row.label}
                   </span>
                   <span
                     className={`text-sm font-syne font-bold ${
-                      row.accent ? 'text-[#008cff]' : 'text-[#EDE8DE]'
+                      row.accent ? 'text-[#008cff]' : 'text-foreground'
                     }`}
                   >
                     {row.value}
@@ -189,7 +189,7 @@ export default async function CreatorAnalyticsPage() {
             <EngagementLineChart data={engData} />
           ) : (
             <div className="flex items-center justify-center h-[260px]">
-              <p className="text-sm font-syne text-[#3A3A3A] text-center">
+              <p className="text-sm font-syne text-foreground text-center">
                 No analytics data yet — stats will appear as your content performs
               </p>
             </div>

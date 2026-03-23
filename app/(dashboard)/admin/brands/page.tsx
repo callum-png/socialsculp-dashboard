@@ -43,10 +43,10 @@ export default function AdminBrandsPage() {
 
       <div className="p-6">
         {loading ? (
-          <div className="text-center py-16 text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">Loading…</div>
+          <div className="text-center py-16 text-foreground font-syne text-xs uppercase tracking-widest">Loading…</div>
         ) : brands.length === 0 ? (
-          <div className="bg-[#111111] border border-[#222222] px-5 py-16 text-center">
-            <p className="text-[#3A3A3A] font-syne text-xs uppercase tracking-widest mb-4">No brands yet</p>
+          <div className="bg-card border border-border px-5 py-16 text-center">
+            <p className="text-foreground font-syne text-xs uppercase tracking-widest mb-4">No brands yet</p>
             <button onClick={() => setShowModal(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-[#008cff] text-white text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors">
               <Plus size={13} /> Add First Brand
             </button>
@@ -57,28 +57,28 @@ export default function AdminBrandsPage() {
               const activeCampaigns = brand.campaigns.filter(c => c.status === 'ACTIVE').length
               const initials = brand.companyName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
               return (
-                <div key={brand.id} className="bg-[#111111] border border-[#222222] p-5 hover:border-[#333333] transition-colors">
+                <div key={brand.id} className="bg-card border border-border p-5 hover:border-[#333333] transition-colors">
                   <div className="flex items-start gap-3 mb-5">
-                    <div className="w-10 h-10 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 bg-background border border-border flex items-center justify-center shrink-0">
                       <span className="font-syne text-sm font-bold text-[#008cff]">{initials}</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="font-syne font-bold text-[#EDE8DE] text-sm truncate">{brand.companyName}</div>
-                      {brand.industry && <div className="font-fraunces text-xs text-[#6B6860]">{brand.industry}</div>}
+                      <div className="font-syne font-bold text-foreground text-sm truncate">{brand.companyName}</div>
+                      {brand.industry && <div className="font-syne text-xs text-muted-foreground">{brand.industry}</div>}
                     </div>
                   </div>
                   <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
-                      <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">Total Campaigns</span>
-                      <span className="text-sm font-syne font-bold text-[#EDE8DE]">{brand.campaigns.length}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-border">
+                      <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">Total Campaigns</span>
+                      <span className="text-sm font-syne font-bold text-foreground">{brand.campaigns.length}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-[#1A1A1A]">
-                      <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">Active</span>
-                      <span className={`text-sm font-syne font-bold ${activeCampaigns > 0 ? 'text-[#008cff]' : 'text-[#6B6860]'}`}>{activeCampaigns}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-border">
+                      <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">Active</span>
+                      <span className={`text-sm font-syne font-bold ${activeCampaigns > 0 ? 'text-[#008cff]' : 'text-muted-foreground'}`}>{activeCampaigns}</span>
                     </div>
                   </div>
                   {brand.website && (
-                    <a href={brand.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[10px] font-syne uppercase tracking-widest text-[#6B6860] hover:text-[#008cff] transition-colors">
+                    <a href={brand.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[10px] font-syne uppercase tracking-widest text-muted-foreground hover:text-[#008cff] transition-colors">
                       <ExternalLink size={11} /> {brand.website.replace(/^https?:\/\//, '')}
                     </a>
                   )}

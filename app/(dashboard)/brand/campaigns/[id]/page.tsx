@@ -93,21 +93,21 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
 
       <div className="p-6 space-y-6">
         {/* Meta bar */}
-        <div className="bg-[#111111] border border-[#222222] p-5">
+        <div className="bg-card border border-border p-5">
           <div className="flex flex-wrap gap-6 items-start mb-4">
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Brand</div>
-              <div className="text-sm font-syne font-bold text-[#EDE8DE]">{campaign.brand.companyName}</div>
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Brand</div>
+              <div className="text-sm font-syne font-bold text-foreground">{campaign.brand.companyName}</div>
             </div>
             <div>
-              <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Platform</div>
-              <div className="text-sm font-syne font-bold text-[#EDE8DE]">
+              <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Platform</div>
+              <div className="text-sm font-syne font-bold text-foreground">
                 {PLATFORM_LABELS[campaign.platform as PlatformValue]}
               </div>
             </div>
             {campaign.targetROAS && (
               <div>
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-1">Target ROAS</div>
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-1">Target ROAS</div>
                 <div className="text-sm font-syne font-bold text-[#008cff]">{campaign.targetROAS}×</div>
               </div>
             )}
@@ -115,12 +115,12 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860]">
+              <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
                 Budget — {formatCurrency(campaign.spentBudget)} of {formatCurrency(campaign.totalBudget)}
               </span>
-              <span className="text-xs font-syne font-bold text-[#EDE8DE]">{pct}%</span>
+              <span className="text-xs font-syne font-bold text-foreground">{pct}%</span>
             </div>
-            <div className="h-1.5 bg-[#1A1A1A] w-full">
+            <div className="h-1.5 bg-background w-full">
               <div className="h-full bg-[#008cff]" style={{ width: `${pct}%` }} />
             </div>
           </div>
@@ -128,12 +128,12 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
 
         {/* Tabs */}
         <Tabs defaultValue="overview">
-          <TabsList className="bg-[#111111] border border-[#222222] p-0 h-auto rounded-none gap-0">
+          <TabsList className="bg-card border border-border p-0 h-auto rounded-none gap-0">
             {['overview', 'analytics', 'creators', 'posts', 'reports'].map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-[#6B6860] data-active:text-[#008cff] data-active:bg-[#001a33] data-active:shadow-none border-r border-[#222222] last:border-r-0"
+                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-muted-foreground data-active:text-[#008cff] data-active:bg-blue-50 data-active:shadow-none border-r border-border last:border-r-0"
               >
                 {tab}
               </TabsTrigger>
@@ -143,9 +143,9 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
           <TabsContent value="overview" className="mt-5 space-y-5">
             <StatCardGrid stats={stats} />
             {campaign.description && (
-              <div className="bg-[#111111] border border-[#222222] p-5">
-                <div className="text-[10px] font-syne uppercase tracking-widest text-[#6B6860] mb-3">Description</div>
-                <p className="font-fraunces text-[#EDE8DE] leading-relaxed">{campaign.description}</p>
+              <div className="bg-card border border-border p-5">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-3">Description</div>
+                <p className="font-syne text-foreground leading-relaxed">{campaign.description}</p>
               </div>
             )}
           </TabsContent>
@@ -160,23 +160,23 @@ export default async function BrandCampaignDetailPage({ params }: PageProps) {
           </TabsContent>
 
           <TabsContent value="creators" className="mt-5">
-            <div className="bg-[#111111] border border-[#222222] divide-y divide-[#1A1A1A]">
+            <div className="bg-card border border-border divide-y divide-border">
               {campaign.campaignCreators.length === 0 ? (
-                <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+                <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
                   No creators assigned yet
                 </div>
               ) : (
                 campaign.campaignCreators.map((cc) => (
                   <div key={cc.id} className="flex items-center gap-3 px-5 py-4">
-                    <div className="w-9 h-9 bg-[#1A1A1A] border border-[#222222] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 bg-background border border-border flex items-center justify-center shrink-0">
                       <span className="font-syne text-xs font-bold text-[#008cff]">
                         {cc.creator.handle.replace('@', '').slice(0, 2).toUpperCase()}
                       </span>
                     </div>
                     <div>
-                      <div className="font-syne font-bold text-sm text-[#EDE8DE]">{cc.creator.handle}</div>
+                      <div className="font-syne font-bold text-sm text-foreground">{cc.creator.handle}</div>
                       {cc.creator.niche.length > 0 && (
-                        <div className="font-fraunces text-xs text-[#6B6860]">
+                        <div className="font-syne text-xs text-muted-foreground">
                           {cc.creator.niche.join(', ')}
                         </div>
                       )}

@@ -60,12 +60,12 @@ function PostGridSkeleton() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="bg-[#111111] border border-[#222222] overflow-hidden">
-          <div className="h-36 animate-pulse bg-[#1A1A1A]" />
+        <div key={i} className="bg-card border border-border overflow-hidden">
+          <div className="h-36 animate-pulse bg-background" />
           <div className="p-3 space-y-2">
-            <div className="h-3 w-24 animate-pulse bg-[#1A1A1A]" />
-            <div className="h-2.5 w-16 animate-pulse bg-[#1A1A1A]" />
-            <div className="h-2 w-12 animate-pulse bg-[#1A1A1A]" />
+            <div className="h-3 w-24 animate-pulse bg-background" />
+            <div className="h-2.5 w-16 animate-pulse bg-background" />
+            <div className="h-2 w-12 animate-pulse bg-background" />
           </div>
         </div>
       ))}
@@ -146,8 +146,8 @@ export function PostsTab({ campaignId }: Props) {
               className={cn(
                 'px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors',
                 platformFilter === key
-                  ? 'border-[#008cff] text-[#008cff] bg-[#001a33]'
-                  : 'border-[#222222] text-[#6B6860] bg-transparent hover:border-[#333333] hover:text-[#EDE8DE]'
+                  ? 'border-[#008cff] text-[#008cff] bg-blue-50'
+                  : 'border-border text-muted-foreground bg-transparent hover:border-[#333333] hover:text-foreground'
               )}
             >
               {label}
@@ -161,7 +161,7 @@ export function PostsTab({ campaignId }: Props) {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortBy)}
-            className="bg-[#111111] border border-[#222222] text-[#6B6860] text-[11px] font-syne px-2.5 py-1.5 focus:outline-none focus:border-[#008cff] hover:border-[#333333] transition-colors cursor-pointer"
+            className="bg-card border border-border text-muted-foreground text-[11px] font-syne px-2.5 py-1.5 focus:outline-none focus:border-[#008cff] hover:border-[#333333] transition-colors cursor-pointer"
           >
             <option value="latest">Latest</option>
             <option value="views">Most Views</option>
@@ -169,14 +169,14 @@ export function PostsTab({ campaignId }: Props) {
           </select>
 
           {/* View toggle */}
-          <div className="flex items-center border border-[#222222]">
+          <div className="flex items-center border border-border">
             <button
               onClick={() => setViewMode('grid')}
               className={cn(
                 'p-1.5 transition-colors',
                 viewMode === 'grid'
-                  ? 'bg-[#1A1A1A] text-[#EDE8DE]'
-                  : 'text-[#6B6860] hover:text-[#EDE8DE]'
+                  ? 'bg-background text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
               title="Grid view"
             >
@@ -187,8 +187,8 @@ export function PostsTab({ campaignId }: Props) {
               className={cn(
                 'p-1.5 transition-colors',
                 viewMode === 'table'
-                  ? 'bg-[#1A1A1A] text-[#EDE8DE]'
-                  : 'text-[#6B6860] hover:text-[#EDE8DE]'
+                  ? 'bg-background text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
               title="Table view"
             >

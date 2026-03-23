@@ -35,7 +35,7 @@ export default async function CreatorOverviewPage() {
   if (!user?.creatorProfile) {
     return (
       <div className="p-6">
-        <p className="text-[#6B6860] font-syne text-sm">Creator profile not set up yet.</p>
+        <p className="text-muted-foreground font-syne text-sm">Creator profile not set up yet.</p>
       </div>
     )
   }
@@ -125,30 +125,30 @@ export default async function CreatorOverviewPage() {
         </ChartContainer>
 
         {/* Upcoming deadlines */}
-        <div className="bg-[#111111] border border-[#222222]">
-          <div className="flex items-center gap-2 px-5 py-4 border-b border-[#222222]">
-            <Calendar size={14} className="text-[#6B6860]" />
-            <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">Upcoming Deadlines</h3>
+        <div className="bg-card border border-border">
+          <div className="flex items-center gap-2 px-5 py-4 border-b border-border">
+            <Calendar size={14} className="text-muted-foreground" />
+            <h3 className="text-sm font-syne font-bold text-foreground">Upcoming Deadlines</h3>
           </div>
           {upcomingDeliverables.length === 0 ? (
-            <div className="px-5 py-10 text-center text-[#3A3A3A] font-syne text-xs uppercase tracking-widest">
+            <div className="px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
               No upcoming deadlines
             </div>
           ) : (
-            <div className="divide-y divide-[#1A1A1A]">
+            <div className="divide-y divide-border">
               {upcomingDeliverables.map((d) => (
                 <div key={d.id} className="flex items-center justify-between px-5 py-4">
                   <div>
-                    <div className="text-sm font-syne font-bold text-[#EDE8DE]">{d.type}</div>
-                    <div className="text-xs font-fraunces text-[#6B6860]">{d.campaign}</div>
+                    <div className="text-sm font-syne font-bold text-foreground">{d.type}</div>
+                    <div className="text-xs font-syne text-muted-foreground">{d.campaign}</div>
                   </div>
                   <div className="flex items-center gap-3 shrink-0 ml-4">
-                    <span className="text-xs font-syne text-[#6B6860]">{d.due}</span>
+                    <span className="text-xs font-syne text-muted-foreground">{d.due}</span>
                     <span
                       className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest border ${
                         d.isDueSoon
-                          ? 'bg-[#1A1200] text-[#FFB547] border-[#3A2D00]'
-                          : 'bg-[#1A1A1A] text-[#6B6860] border-[#2A2A2A]'
+                          ? 'bg-amber-50 text-amber-600 border-amber-200'
+                          : 'bg-background text-muted-foreground border-border'
                       }`}
                     >
                       {d.isDueSoon ? 'Due Soon' : 'Pending'}
@@ -162,15 +162,15 @@ export default async function CreatorOverviewPage() {
 
         {/* Recent deals */}
         {deals.length > 0 && (
-          <div className="bg-[#111111] border border-[#222222]">
-            <div className="px-5 py-4 border-b border-[#222222]">
-              <h3 className="text-sm font-syne font-bold text-[#EDE8DE]">My Deals</h3>
+          <div className="bg-card border border-border">
+            <div className="px-5 py-4 border-b border-border">
+              <h3 className="text-sm font-syne font-bold text-foreground">My Deals</h3>
             </div>
-            <div className="divide-y divide-[#1A1A1A]">
+            <div className="divide-y divide-border">
               {deals.map((deal) => (
                 <div key={deal.id} className="flex items-center justify-between px-5 py-3.5">
                   <div className="min-w-0">
-                    <div className="text-sm font-syne font-bold text-[#EDE8DE] truncate">
+                    <div className="text-sm font-syne font-bold text-foreground truncate">
                       {deal.campaign.name}
                     </div>
                     {(deal.agreedFee ?? deal.proposedFee) && (

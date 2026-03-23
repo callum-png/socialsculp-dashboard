@@ -74,7 +74,7 @@ export function StatCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <p className={cn(
-              'font-fraunces text-2xl font-bold leading-none',
+              'font-syne text-2xl font-bold tracking-tight leading-none',
               (accent || color === 'blue') ? 'text-accent' : 'text-foreground'
             )}>
               {displayValue}

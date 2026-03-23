@@ -60,7 +60,7 @@ export function DealKanbanCard({ deal }: Props) {
         </div>
 
         {/* Campaign name */}
-        <div className="font-fraunces text-xs text-muted truncate mb-3">
+        <div className="font-syne text-xs text-muted truncate mb-3">
           {deal.campaignName}
         </div>
 

@@ -60,13 +60,13 @@ export default function BrandOnboardingPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-10">
-          <div className="w-12 h-12 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-center mb-6">
+          <div className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center mb-6">
             <Building2 className="w-5 h-5 text-[#008cff]" />
           </div>
           <h1 className="text-2xl font-syne font-bold text-white mb-2 tracking-tight">
             Set up your brand
           </h1>
-          <p className="text-[#6B6860] font-syne text-sm leading-relaxed">
+          <p className="text-muted-foreground font-syne text-sm leading-relaxed">
             Tell us a bit about your company so we can set up your portal correctly.
           </p>
         </div>
@@ -74,32 +74,32 @@ export default function BrandOnboardingPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Company name */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Company Name <span className="text-[#008cff]">*</span>
             </label>
             <div className="relative">
-              <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6860]" />
+              <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 value={companyName}
                 onChange={e => setCompanyName(e.target.value)}
                 placeholder="Acme Inc."
                 required
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+                className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
               />
             </div>
           </div>
 
           {/* Industry */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Industry
             </label>
             <div className="relative">
-              <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6860]" />
+              <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <select
                 value={industry}
                 onChange={e => setIndustry(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg pl-10 pr-4 py-3 text-sm text-white font-syne focus:outline-none focus:border-[#008cff] transition-colors appearance-none"
+                className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-3 text-sm text-white font-syne focus:outline-none focus:border-[#008cff] transition-colors appearance-none"
               >
                 <option value="">Select industry…</option>
                 {INDUSTRIES.map(i => (
@@ -111,17 +111,17 @@ export default function BrandOnboardingPage() {
 
           {/* Website */}
           <div>
-            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-[#6B6860] mb-2">
+            <label className="block text-xs font-syne font-semibold uppercase tracking-widest text-muted-foreground mb-2">
               Website
             </label>
             <div className="relative">
-              <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6860]" />
+              <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 value={website}
                 onChange={e => setWebsite(e.target.value)}
                 placeholder="https://yourcompany.com"
                 type="url"
-                className="w-full bg-[#111111] border border-[#222222] rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
+                className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-[#6B6860] font-syne focus:outline-none focus:border-[#008cff] transition-colors"
               />
             </div>
           </div>

@@ -68,20 +68,20 @@ export default async function AgentPortalPreviewPage({ params }: PageProps) {
             { title: 'Pipeline Value', value: formatCurrency(pipelineValue), icon: DollarSign },
           ]}
         />
-        <div className="mt-8 bg-[#111111] border border-[#222222] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#222222]">
+        <div className="mt-8 bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
             <h2 className="text-base font-syne font-semibold text-white">Recent Deals</h2>
           </div>
           {deals.length === 0 ? (
-            <p className="px-5 py-8 text-sm text-[#6B6860] font-syne text-center">No deals yet.</p>
+            <p className="px-5 py-8 text-sm text-muted-foreground font-syne text-center">No deals yet.</p>
           ) : (
             <table className="w-full text-sm">
               <tbody>
                 {deals.slice(0, 8).map(d => (
-                  <tr key={d.id} className="border-b border-[#1a1a1a] last:border-0">
+                  <tr key={d.id} className="border-b border-border last:border-0">
                     <td className="px-5 py-3 text-white font-syne">{d.title}</td>
-                    <td className="px-5 py-3 text-[#6B6860] font-syne hidden sm:table-cell">{STAGE_LABELS[d.stage]}</td>
-                    <td className="px-5 py-3 text-right text-[#6B6860] font-syne">{formatCurrency(d.value ?? 0)}</td>
+                    <td className="px-5 py-3 text-muted-foreground font-syne hidden sm:table-cell">{STAGE_LABELS[d.stage]}</td>
+                    <td className="px-5 py-3 text-right text-muted-foreground font-syne">{formatCurrency(d.value ?? 0)}</td>
                   </tr>
                 ))}
               </tbody>

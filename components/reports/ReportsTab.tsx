@@ -26,13 +26,13 @@ function SnapshotListSkeleton() {
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={i}
-          className="flex items-start justify-between gap-4 px-5 py-4 bg-[#111111] border border-[#222222]"
+          className="flex items-start justify-between gap-4 px-5 py-4 bg-card border border-border"
         >
           <div className="flex-1 space-y-2">
-            <div className="h-3 w-48 animate-pulse bg-[#1A1A1A] rounded" />
-            <div className="h-2.5 w-32 animate-pulse bg-[#1A1A1A] rounded" />
+            <div className="h-3 w-48 animate-pulse bg-background rounded" />
+            <div className="h-2.5 w-32 animate-pulse bg-background rounded" />
           </div>
-          <div className="shrink-0 h-7 w-16 animate-pulse bg-[#1A1A1A] rounded" />
+          <div className="shrink-0 h-7 w-16 animate-pulse bg-background rounded" />
         </div>
       ))}
     </div>
@@ -44,11 +44,11 @@ function SnapshotListSkeleton() {
 function SectionDivider({ label }: { label: string }) {
   return (
     <div className="relative flex items-center gap-4 py-2">
-      <div className="flex-1 h-px bg-[#222222]" />
-      <span className="shrink-0 text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860]">
+      <div className="flex-1 h-px bg-border" />
+      <span className="shrink-0 text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground">
         {label}
       </span>
-      <div className="flex-1 h-px bg-[#222222]" />
+      <div className="flex-1 h-px bg-border" />
     </div>
   )
 }
@@ -95,7 +95,7 @@ export function ReportsTab({ campaignId }: Props) {
       ) : error ? (
         <div className="py-10 text-center text-[#FF4747] text-sm font-syne">{error}</div>
       ) : snapshots.length === 0 ? (
-        <div className="py-10 text-center text-[#6B6860] text-sm font-syne">
+        <div className="py-10 text-center text-muted-foreground text-sm font-syne">
           No reports published yet. SocialSculp will publish milestone reports here.
         </div>
       ) : (
