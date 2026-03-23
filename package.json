@@ -11,7 +11,8 @@
     "start": "next start",
     "seed:stealth": "npx tsx prisma/seed-stealth.ts",
     "seed:fitbod": "npx tsx prisma/seed-fitbod.ts",
-    "seed:quizard": "npx tsx prisma/seed-quizard.ts"
+    "seed:quizard": "npx tsx prisma/seed-quizard.ts",
+    "seed:ryne": "npx tsx prisma/seed-ryne.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
