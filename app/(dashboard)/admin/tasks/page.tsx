@@ -118,6 +118,8 @@ export default function AdminTasksPage() {
         description="Internal team to-do list"
       />
 
+      <div className="p-6">
+
       {/* Quick-add form */}
       <form onSubmit={addTask} className="mb-6 flex gap-3">
         <input
@@ -222,6 +224,8 @@ export default function AdminTasksPage() {
           ))}
         </div>
       )}
+
+      </div>
     </div>
   )
 }

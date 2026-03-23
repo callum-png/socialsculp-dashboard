@@ -165,6 +165,7 @@ export function CrmView({ isAdmin = false, title = 'CRM' }: Props) {
   const [showNewDeal, setShowNewDeal] = useState(false)
   const [showImport, setShowImport] = useState(false)
   const [agentFilter, setAgentFilter] = useState<string>('all')
+  const [notesPopup, setNotesPopup] = useState<{ name: string; notes: string } | null>(null)
 
   useEffect(() => {
     Promise.all([
@@ -257,7 +258,17 @@ export function CrmView({ isAdmin = false, title = 'CRM' }: Props) {
                         <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.email || '—'}</td>
                         <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.phone || '—'}</td>
                         <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860]">{l.source || '—'}</td>
-                        <td className="px-4 py-3 text-sm font-fraunces text-[#6B6860] max-w-[160px] truncate">{l.notes || '—'}</td>
+                        <td className="px-4 py-3 max-w-[180px]">
+                          {l.notes ? (
+                            <button
+                              onClick={() => setNotesPopup({ name: l.name, notes: l.notes! })}
+                              className="text-sm font-fraunces text-[#6B6860] hover:text-[#EDE8DE] text-left truncate block w-full transition-colors"
+                              title="Click to read full notes"
+                            >
+                              {l.notes}
+                            </button>
+                          ) : <span className="text-sm font-fraunces text-[#6B6860]">—</span>}
+                        </td>
                         {isAdmin && <td className="px-4 py-3"><span className="text-[10px] font-syne uppercase tracking-widest text-[#008cff] bg-[#001a33] border border-[#003366] px-1.5 py-0.5">{l.createdBy?.name || 'Admin'}</span></td>}
                       </tr>
                     ))}
@@ -305,6 +316,24 @@ export function CrmView({ isAdmin = false, title = 'CRM' }: Props) {
       {showNewLead && <NewLeadModal onClose={() => setShowNewLead(false)} onCreated={l => setLeads(prev => [l, ...prev])} />}
       {showNewDeal && <NewSalesDealModal leads={leads} onClose={() => setShowNewDeal(false)} onCreated={d => setDeals(prev => [d, ...prev])} />}
       {showImport && <CsvImportModal onClose={() => setShowImport(false)} onImported={handleImported} />}
+
+      {/* Notes popup */}
+      {notesPopup && (
+        <>
+          <div className="fixed inset-0 bg-black/70 z-40" onClick={() => setNotesPopup(null)} />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="w-full max-w-md bg-[#0D0D0D] border border-[#222222] shadow-2xl">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-[#222222]">
+                <h2 className="text-sm font-syne font-bold text-[#EDE8DE] uppercase tracking-widest">{notesPopup.name}</h2>
+                <button onClick={() => setNotesPopup(null)} className="text-[#6B6860] hover:text-[#EDE8DE]"><X size={16} /></button>
+              </div>
+              <div className="p-5">
+                <p className="font-fraunces text-[#EDE8DE] leading-relaxed whitespace-pre-wrap">{notesPopup.notes}</p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
