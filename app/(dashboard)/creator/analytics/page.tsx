@@ -79,6 +79,7 @@ export default async function CreatorAnalyticsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Creator"
         title="My Analytics"
         description="Last 30 days performance overview"
       />

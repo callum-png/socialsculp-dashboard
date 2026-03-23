@@ -75,6 +75,7 @@ export default async function CreatorCampaignsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Creator"
         title="My Campaigns"
         description={`${myCampaigns.length} campaign assignment${myCampaigns.length === 1 ? '' : 's'}`}
       />

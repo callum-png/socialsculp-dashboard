@@ -109,6 +109,7 @@ export default async function CreatorOverviewPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Creator"
         title={`Welcome back, ${firstName}.`}
         description="Here's an overview of your creator activity"
       />

@@ -114,6 +114,7 @@ export default async function BrandReportsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Brand"
         title="Reports"
         description={`Last 30 Days — ${user.brandProfile.companyName}`}
       >

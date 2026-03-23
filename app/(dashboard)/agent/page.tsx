@@ -159,6 +159,7 @@ export default async function AgentHomePage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Agent"
         title={`Welcome back${clerkUser.firstName ? `, ${clerkUser.firstName}` : ''}`}
         description={today}
       />

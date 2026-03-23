@@ -43,6 +43,7 @@ export default async function AdminDealsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Deal Pipeline"
         description={`${deals.length} deal${deals.length === 1 ? '' : 's'} across all stages`}
       />

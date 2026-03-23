@@ -17,6 +17,13 @@ export default async function AuthRedirectPage() {
     redirect('/pending')
   }
 
+  const onboardingComplete = user.publicMetadata?.onboardingComplete as boolean | undefined
+
+  // Brand and Creator users need to complete onboarding on first login
+  if (!onboardingComplete && (role === 'BRAND' || role === 'CREATOR')) {
+    redirect(`/${role.toLowerCase()}/onboarding`)
+  }
+
   switch (role) {
     case 'ADMIN':
       redirect('/admin')

@@ -31,6 +31,7 @@ export default async function CreatorDealsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Creator"
         title="My Deals"
         description={`${deals.length} deal${deals.length === 1 ? '' : 's'}`}
       />

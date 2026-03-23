@@ -15,7 +15,7 @@ function formatDate(iso: string): string {
 export default function AdminDecksPage() {
   return (
     <div>
-      <PageHeader title="Decks" description="Client sales and campaign decks" />
+      <PageHeader eyebrow="Admin" title="Decks" description="Client sales and campaign decks" />
 
       <div className="p-6">
         <div className="bg-[#111111] border border-[#222222]">

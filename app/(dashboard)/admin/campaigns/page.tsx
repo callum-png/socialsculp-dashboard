@@ -38,6 +38,7 @@ export default async function AdminCampaignsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Campaigns"
         description={`${campaigns.length} campaigns total`}
       >

@@ -123,7 +123,7 @@ export default async function AdminAnalyticsPage() {
 
   return (
     <div>
-      <PageHeader title="Analytics" description="Last 30 Days">
+      <PageHeader eyebrow="Admin" title="Analytics" description="Last 30 Days">
         <span className="inline-flex items-center px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-[#1A1A1A] border border-[#222222] text-[#6B6860]">
           Last 30 Days
         </span>

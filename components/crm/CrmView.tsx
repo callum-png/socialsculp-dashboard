@@ -153,9 +153,10 @@ function NewSalesDealModal({ leads, onClose, onCreated }: { leads: Lead[]; onClo
 interface Props {
   isAdmin?: boolean
   title?: string
+  eyebrow?: string
 }
 
-export function CrmView({ isAdmin = false, title = 'CRM' }: Props) {
+export function CrmView({ isAdmin = false, title = 'CRM', eyebrow }: Props) {
   const [tab, setTab] = useState<'leads' | 'pipeline'>('leads')
   const [leadTab, setLeadTab] = useState<LeadType>('BRAND')
   const [leads, setLeads] = useState<Lead[]>([])
@@ -194,7 +195,7 @@ export function CrmView({ isAdmin = false, title = 'CRM' }: Props) {
 
   return (
     <div>
-      <PageHeader title={title} description={`${leads.length} lead${leads.length === 1 ? '' : 's'}`}>
+      <PageHeader eyebrow={eyebrow} title={title} description={`${leads.length} lead${leads.length === 1 ? '' : 's'}`}>
         <div className="flex items-center gap-2">
           <button onClick={() => setShowImport(true)} className="inline-flex items-center gap-2 px-3 py-2 border border-[#222222] text-[#6B6860] text-xs font-syne font-bold uppercase tracking-widest hover:border-[#008cff] hover:text-[#008cff] transition-colors">
             <Upload size={12} /> Import CSV

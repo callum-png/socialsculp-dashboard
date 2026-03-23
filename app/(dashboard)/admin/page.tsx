@@ -83,7 +83,7 @@ export default async function AdminOverviewPage() {
 
   return (
     <div>
-      <PageHeader title="Overview" description={today}>
+      <PageHeader eyebrow="Admin" title="Overview" description={today}>
         <Link
           href="/admin/campaigns/new"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#008cff] text-[#090909] text-xs font-syne font-bold uppercase tracking-widest hover:bg-[#0077dd] transition-colors"

@@ -77,6 +77,7 @@ export default async function AdminPortalsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Portal Previews"
         description="View any user's portal exactly as they see it"
       />

@@ -176,6 +176,7 @@ export const ADMIN_NAV_ITEMS = [
   { label: 'Brands', href: '/admin/brands', icon: 'Building2' },
   { label: 'Deals', href: '/admin/deals', icon: 'Handshake' },
   { label: 'Analytics', href: '/admin/analytics', icon: 'BarChart3' },
+  { label: 'Users', href: '/admin/users', icon: 'UserCheck' },
   { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
 ] as const
 

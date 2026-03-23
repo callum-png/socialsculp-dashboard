@@ -23,6 +23,7 @@ export default async function AdminCreatorsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Creator Roster"
         description={`${creators.length} creator${creators.length === 1 ? '' : 's'} in your network`}
       />

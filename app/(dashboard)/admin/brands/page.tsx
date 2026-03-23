@@ -29,6 +29,7 @@ export default function AdminBrandsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Brands"
         description={`${brands.length} brand${brands.length === 1 ? '' : 's'} in your network`}
       >

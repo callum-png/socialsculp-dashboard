@@ -36,6 +36,7 @@ export default async function BrandCampaignsPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Brand"
         title="My Campaigns"
         description={`${campaigns.length} campaign${campaigns.length === 1 ? '' : 's'} for ${brandName}`}
       />

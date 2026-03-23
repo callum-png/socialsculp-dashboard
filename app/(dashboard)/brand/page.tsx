@@ -64,6 +64,7 @@ export default async function BrandOverviewPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Brand"
         title={`Welcome, ${brand.companyName}.`}
         description="Your campaign performance at a glance"
       />

@@ -114,6 +114,7 @@ export default function AdminTasksPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="Admin"
         title="Tasks"
         description="Internal team to-do list"
       />

@@ -17,6 +17,7 @@ import {
   LayoutTemplate,
   Eye,
   CheckSquare,
+  UserCheck,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { UserRole } from '@/types'
@@ -35,6 +36,7 @@ const ICON_MAP = {
   LayoutTemplate,
   Eye,
   CheckSquare,
+  UserCheck,
 }
 
 type NavItem = { label: string; href: string; icon: keyof typeof ICON_MAP }
@@ -65,6 +67,7 @@ const ROLE_NAV: Record<UserRole, NavGroup[]> = {
         { label: 'Decks', href: '/admin/decks', icon: 'LayoutTemplate' },
         { label: 'Portals', href: '/admin/portals', icon: 'Eye' },
         { label: 'Tasks', href: '/admin/tasks', icon: 'CheckSquare' },
+        { label: 'Users', href: '/admin/users', icon: 'UserCheck' },
         { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
       ],
     },
