@@ -35,7 +35,7 @@ export function CreatorRoster({ initialCreators }: Props) {
         {/* Toolbar */}
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-syne uppercase tracking-widest text-muted mr-2">
+            <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mr-2">
               Filter:
             </span>
             <button className="px-3 py-1.5 text-[10px] font-syne font-bold uppercase tracking-widest bg-accent text-white">
@@ -54,7 +54,7 @@ export function CreatorRoster({ initialCreators }: Props) {
         {/* Grid */}
         {creators.length === 0 ? (
           <div className="bg-surface border border-border rounded-xl px-5 py-16 text-center">
-            <p className="text-muted/50 font-syne text-xs uppercase tracking-widest">
+            <p className="text-muted-foreground font-syne text-xs uppercase">
               No creators yet
             </p>
           </div>

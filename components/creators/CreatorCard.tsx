@@ -53,7 +53,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
           <div className="font-syne font-bold text-text text-sm group-hover:text-accent transition-colors truncate">
             {creator.handle}
           </div>
-          <div className="font-syne text-xs text-muted truncate">{creator.name}</div>
+          <div className="font-syne text-xs text-muted-foreground truncate">{creator.name}</div>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
         {creator.niche.map((n) => (
           <span
             key={n}
-            className="px-2 py-0.5 text-[10px] font-syne uppercase tracking-widest bg-surface-2 border border-border text-muted"
+            className="px-2 py-0.5 text-[10px] font-syne uppercase tracking-widest bg-surface-2 border border-border text-muted-foreground"
           >
             {n}
           </span>
@@ -72,14 +72,14 @@ export function CreatorCard({ creator }: CreatorCardProps) {
       {/* Stats row */}
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-syne uppercase tracking-widest text-muted">TT</span>
+          <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">TT</span>
           <span className="text-sm font-syne font-bold text-text">
             {creator.tiktokFollowers ? formatNumber(creator.tiktokFollowers) : '—'}
           </span>
         </div>
         <div className="w-px h-3 bg-border" />
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-syne uppercase tracking-widest text-muted">IG</span>
+          <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">IG</span>
           <span className="text-sm font-syne font-bold text-text">
             {creator.instagramFollowers ? formatNumber(creator.instagramFollowers) : '—'}
           </span>
@@ -88,7 +88,7 @@ export function CreatorCard({ creator }: CreatorCardProps) {
 
       {/* Eng rate */}
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-syne uppercase tracking-widest text-muted">
+        <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
           Avg Eng Rate
         </span>
         <span className="text-sm font-syne font-bold text-accent">
@@ -99,8 +99,8 @@ export function CreatorCard({ creator }: CreatorCardProps) {
       {/* Location */}
       {creator.location && (
         <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-surface-2">
-          <MapPin size={11} className="text-muted shrink-0" />
-          <span className="text-[11px] font-syne text-muted truncate">
+          <MapPin size={11} className="text-muted-foreground shrink-0" />
+          <span className="text-[11px] font-syne text-muted-foreground truncate">
             {creator.location}
           </span>
         </div>

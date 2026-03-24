@@ -26,25 +26,25 @@ export function CampaignTable({ campaigns }: Props) {
       <table className="w-full text-sm font-syne">
         <thead>
           <tr className="border-b border-border">
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               Campaign
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               Brand
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               Status
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               Platform
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               Budget
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold min-w-[140px]">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold min-w-[140px]">
               Spent
             </th>
-            <th className="text-left px-5 py-3 text-[10px] uppercase tracking-widest text-muted font-bold">
+            <th className="text-left px-5 py-3 text-[10px] uppercase text-muted-foreground font-semibold">
               &nbsp;
             </th>
           </tr>
@@ -61,13 +61,13 @@ export function CampaignTable({ campaigns }: Props) {
                 <td className="px-5 py-4 text-text font-medium max-w-[200px]">
                   <span className="block truncate">{campaign.name}</span>
                 </td>
-                <td className="px-5 py-4 font-syne italic text-muted">
+                <td className="px-5 py-4 font-syne italic text-muted-foreground">
                   {campaign.brandName}
                 </td>
                 <td className="px-5 py-4">
                   <CampaignStatusBadge status={campaign.status as CampaignStatusValue} />
                 </td>
-                <td className="px-5 py-4 font-syne italic text-muted">
+                <td className="px-5 py-4 font-syne italic text-muted-foreground">
                   {PLATFORM_LABELS[campaign.platform as PlatformValue] ?? campaign.platform}
                 </td>
                 <td className="px-5 py-4 text-text">
@@ -81,7 +81,7 @@ export function CampaignTable({ campaigns }: Props) {
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <span className="text-muted text-xs w-10 shrink-0 text-right">
+                    <span className="text-muted-foreground text-xs w-10 shrink-0 text-right">
                       {pct}%
                     </span>
                   </div>
@@ -89,7 +89,7 @@ export function CampaignTable({ campaigns }: Props) {
                 <td className="px-5 py-4">
                   <Link
                     href={`/admin/campaigns/${campaign.id}`}
-                    className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-border text-muted hover:border-accent hover:text-accent transition-colors"
+                    className="inline-flex items-center px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border border-border text-muted-foreground hover:border-accent hover:text-accent transition-colors"
                   >
                     View
                   </Link>
@@ -99,7 +99,7 @@ export function CampaignTable({ campaigns }: Props) {
           })}
           {campaigns.length === 0 && (
             <tr>
-              <td colSpan={7} className="px-5 py-12 text-center text-muted/50 font-syne text-xs uppercase tracking-widest">
+              <td colSpan={7} className="px-5 py-12 text-center text-muted-foreground font-syne text-xs uppercase">
                 No campaigns yet
               </td>
             </tr>

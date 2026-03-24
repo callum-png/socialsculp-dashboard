@@ -146,7 +146,7 @@ export function MobileNav({ role, open, onClose }: MobileNavProps) {
         <nav className="px-2 py-3 space-y-4 overflow-y-auto">
           {groups.map((group) => (
             <div key={group.label}>
-              <p className="px-2 mb-1 text-[11px] font-semibold tracking-wider text-muted-foreground/60 uppercase">
+              <p className="px-2 mb-1 text-[11px] font-semibold text-muted-foreground uppercase">
                 {group.label}
               </p>
               <ul className="space-y-0.5">

@@ -125,7 +125,7 @@ export function DealKanban({ initialDeals, campaigns, creators }: Props) {
                 >
                   {DEAL_STAGE_LABELS[stage]}
                 </span>
-                <span className="text-[11px] font-syne font-bold text-muted bg-surface-2 border border-border px-1.5 py-0.5">
+                <span className="text-[11px] font-syne font-bold text-muted-foreground bg-surface-2 border border-border px-1.5 py-0.5">
                   {columnDeals.length}
                 </span>
               </div>
@@ -143,7 +143,7 @@ export function DealKanban({ initialDeals, campaigns, creators }: Props) {
 
                 {columnDeals.length === 0 && (
                   <div className="flex-1 flex items-center justify-center py-8">
-                    <span className="text-[11px] font-syne text-muted/40 uppercase tracking-widest">
+                    <span className="text-[11px] font-syne text-muted-foreground/60 uppercase">
                       Drop here
                     </span>
                   </div>

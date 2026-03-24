@@ -93,7 +93,7 @@ export function StatCard({
           </div>
           <p className="text-xs text-muted-foreground">{title}</p>
           {deltaLabel && delta !== undefined && (
-            <p className="text-[10px] text-muted-foreground/60 mt-0.5">{deltaLabel}</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">{deltaLabel}</p>
           )}
         </div>
       </div>

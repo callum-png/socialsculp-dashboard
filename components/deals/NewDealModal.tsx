@@ -37,7 +37,7 @@ type FormData = z.infer<typeof schema>
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
       {children}
     </label>
   )
@@ -145,7 +145,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
             </h2>
             <button
               onClick={onClose}
-              className="text-muted hover:text-text transition-colors"
+              className="text-muted-foreground hover:text-text transition-colors"
             >
               <X size={16} />
             </button>
@@ -247,7 +247,7 @@ export function NewDealModal({ campaigns, creators, onClose, onCreated }: Props)
                 type="button"
                 onClick={onClose}
                 disabled={submitting}
-                className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
+                className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
               >
                 Cancel
               </button>

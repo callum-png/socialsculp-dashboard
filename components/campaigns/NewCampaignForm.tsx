@@ -47,7 +47,7 @@ const STEPS = ['Details', 'Setup', 'Goals', 'Review']
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
       {children}
     </label>
   )
@@ -157,7 +157,7 @@ export function NewCampaignForm({ brands }: Props) {
                     ? 'bg-accent border-accent text-bg'
                     : i === step
                       ? 'bg-surface-2 border-accent text-accent'
-                      : 'bg-surface-2 border-border text-muted'
+                      : 'bg-surface-2 border-border text-muted-foreground'
                 )}
               >
                 {i < step ? <Check size={12} /> : i + 1}
@@ -165,7 +165,7 @@ export function NewCampaignForm({ brands }: Props) {
               <span
                 className={cn(
                   'text-[10px] font-syne uppercase tracking-widest hidden sm:block',
-                  i === step ? 'text-text' : 'text-muted'
+                  i === step ? 'text-text' : 'text-muted-foreground'
                 )}
               >
                 {label}
@@ -265,7 +265,7 @@ export function NewCampaignForm({ brands }: Props) {
                         'px-3 py-2.5 border text-center text-xs font-syne font-bold uppercase tracking-widest transition-colors',
                         form2.watch('platform') === p
                           ? 'border-accent text-accent bg-blue-50'
-                          : 'border-border text-muted hover:border-[#333333]'
+                          : 'border-border text-muted-foreground hover:border-[#333333]'
                       )}
                     >
                       {PLATFORM_LABELS[p]}
@@ -346,7 +346,7 @@ export function NewCampaignForm({ brands }: Props) {
             <button
               type="button"
               onClick={() => setStep(0)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
             >
               <ChevronLeft size={13} /> Back
             </button>
@@ -373,7 +373,7 @@ export function NewCampaignForm({ brands }: Props) {
                 placeholder="e.g. 4.0"
                 className={inputCls(!!form3.formState.errors.targetROAS)}
               />
-              <p className="mt-1 text-[11px] font-syne text-muted">
+              <p className="mt-1 text-[11px] font-syne text-muted-foreground">
                 Return on ad spend target (e.g. 4.0 = $4 revenue per $1 spent)
               </p>
               <FieldError message={form3.formState.errors.targetROAS?.message} />
@@ -387,7 +387,7 @@ export function NewCampaignForm({ brands }: Props) {
                 placeholder="e.g. 5000000"
                 className={inputCls(!!form3.formState.errors.targetReach)}
               />
-              <p className="mt-1 text-[11px] font-syne text-muted">
+              <p className="mt-1 text-[11px] font-syne text-muted-foreground">
                 Total unique accounts you aim to reach
               </p>
               <FieldError message={form3.formState.errors.targetReach?.message} />
@@ -398,7 +398,7 @@ export function NewCampaignForm({ brands }: Props) {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
             >
               <ChevronLeft size={13} /> Back
             </button>
@@ -430,7 +430,7 @@ export function NewCampaignForm({ brands }: Props) {
                 { label: 'Target Reach', value: formData.targetReach ? Number(formData.targetReach).toLocaleString() : '—' },
               ].map((row) => (
                 <div key={row.label} className="flex justify-between py-2 border-b border-surface-2">
-                  <span className="text-[10px] font-syne uppercase tracking-widest text-muted">
+                  <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
                     {row.label}
                   </span>
                   <span className="text-sm font-syne font-bold text-text">{row.value}</span>
@@ -440,7 +440,7 @@ export function NewCampaignForm({ brands }: Props) {
 
             {formData.description && (
               <div className="pt-2">
-                <div className="text-[10px] font-syne uppercase tracking-widest text-muted mb-2">
+                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-2">
                   Description
                 </div>
                 <p className="text-sm font-syne text-text">{formData.description}</p>
@@ -459,7 +459,7 @@ export function NewCampaignForm({ brands }: Props) {
               type="button"
               onClick={() => setStep(2)}
               disabled={submitting}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
             >
               <ChevronLeft size={13} /> Back
             </button>

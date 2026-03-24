@@ -26,7 +26,7 @@ type FormData = z.infer<typeof schema>
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted mb-1.5">
+    <label className="block text-[10px] font-syne font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
       {children}
     </label>
   )
@@ -142,17 +142,17 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                       onClick={() => setStep(s)}
                       className={cn(
                         'text-[10px] font-syne font-bold uppercase tracking-widest px-2 py-0.5 transition-colors',
-                        step === s ? 'text-accent' : 'text-muted/40'
+                        step === s ? 'text-accent' : 'text-muted-foreground/40'
                       )}
                     >
                       {i + 1}. {s}
                     </button>
-                    {i === 0 && <span className="text-muted/40">/</span>}
+                    {i === 0 && <span className="text-muted-foreground/40">/</span>}
                   </div>
                 ))}
               </div>
             </div>
-            <button onClick={onClose} className="text-muted hover:text-text transition-colors">
+            <button onClick={onClose} className="text-muted-foreground hover:text-text transition-colors">
               <X size={16} />
             </button>
           </div>
@@ -199,7 +199,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                             'px-2.5 py-1 text-[10px] font-syne font-bold uppercase tracking-widest border transition-colors',
                             selectedNiches.includes(n)
                               ? 'bg-blue-50 border-accent text-accent'
-                              : 'bg-surface-2 border-border text-muted hover:border-[#333333]'
+                              : 'bg-surface-2 border-border text-muted-foreground hover:border-[#333333]'
                           )}
                         >
                           {n}
@@ -270,7 +270,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                 type="button"
                 onClick={onClose}
                 disabled={submitting}
-                className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
+                className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors disabled:opacity-40"
               >
                 Cancel
               </button>
@@ -289,7 +289,7 @@ export function NewCreatorModal({ onClose, onCreated }: Props) {
                     <button
                       type="button"
                       onClick={() => setStep('details')}
-                      className="px-4 py-2.5 border border-border text-muted text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
+                      className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-syne font-bold uppercase tracking-widest hover:border-text hover:text-text transition-colors"
                     >
                       Back
                     </button>

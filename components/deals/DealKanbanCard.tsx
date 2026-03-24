@@ -48,7 +48,7 @@ export function DealKanbanCard({ deal }: Props) {
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-3 right-3 cursor-grab active:cursor-grabbing text-muted/40 hover:text-muted transition-colors"
+        className="absolute top-3 right-3 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground transition-colors"
       >
         <GripVertical size={14} />
       </div>
@@ -60,19 +60,19 @@ export function DealKanbanCard({ deal }: Props) {
         </div>
 
         {/* Campaign name */}
-        <div className="font-syne text-xs text-muted truncate mb-3">
+        <div className="font-syne text-xs text-muted-foreground truncate mb-3">
           {deal.campaignName}
         </div>
 
         {/* Fee */}
         {displayFee != null && (
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-syne uppercase tracking-widest text-muted">
+            <span className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
               {deal.agreedFee != null ? 'Agreed' : 'Proposed'}
             </span>
             <span
               className={`text-xs font-syne font-bold ${
-                deal.agreedFee != null ? 'text-accent' : 'text-muted'
+                deal.agreedFee != null ? 'text-accent' : 'text-muted-foreground'
               }`}
             >
               {formatCurrency(displayFee)}
