@@ -5,6 +5,8 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { CampaignStatusBadge } from '@/components/campaigns/CampaignStatusBadge'
 import { SubmitPostButton } from '@/components/creator/SubmitPostButton'
 import { getDb } from '@/lib/db'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { PostsTab } from '@/components/posts/PostsTab'
 import {
   PLATFORM_LABELS,
   CONTENT_TYPE_LABELS,
@@ -126,113 +128,106 @@ export default async function CreatorCampaignDetailPage({ params }: Props) {
         )}
       </div>
 
-      {/* Your Deliverables section */}
+      {/* Tabs: Deliverables + Posts */}
       <div className="p-6">
-        <h2 className="text-xs font-syne font-bold uppercase tracking-widest text-muted-foreground mb-4">
-          Your Deliverables
-        </h2>
+        <Tabs defaultValue="deliverables">
+          <TabsList className="bg-card border border-border p-0 h-auto rounded-none gap-0 mb-5">
+            {['deliverables', 'posts'].map((tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="px-5 py-3 text-[10px] font-syne font-bold uppercase tracking-widest rounded-none text-muted-foreground data-active:text-[#008cff] data-active:bg-blue-50 data-active:shadow-none border-r border-border last:border-r-0"
+              >
+                {tab}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        {deliverables.length === 0 ? (
-          <div className="bg-card border border-border px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
-            No deliverables assigned yet
-          </div>
-        ) : (
-          <div className="bg-card border border-border divide-y divide-border">
-            {deliverables.map((deliverable) => {
-              const isLive = deliverable.submitted && deliverable.post != null
-              const platformLabel =
-                PLATFORM_LABELS[deliverable.platform as PlatformValue] ?? deliverable.platform
-              const contentTypeLabel =
-                CONTENT_TYPE_LABELS[deliverable.contentType as ContentTypeValue] ??
-                deliverable.contentType
+          <TabsContent value="deliverables">
+            {deliverables.length === 0 ? (
+              <div className="bg-card border border-border px-5 py-10 text-center text-foreground font-syne text-xs uppercase tracking-widest">
+                No deliverables assigned yet
+              </div>
+            ) : (
+              <div className="bg-card border border-border divide-y divide-border">
+                {deliverables.map((deliverable) => {
+                  const isLive = deliverable.submitted && deliverable.post != null
+                  const platformLabel =
+                    PLATFORM_LABELS[deliverable.platform as PlatformValue] ?? deliverable.platform
+                  const contentTypeLabel =
+                    CONTENT_TYPE_LABELS[deliverable.contentType as ContentTypeValue] ??
+                    deliverable.contentType
 
-              return (
-                <div key={deliverable.id} className="px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
-                  {/* Left: type + due date */}
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
-                        Platform
-                      </div>
-                      <div className="text-xs font-syne text-foreground">{platformLabel}</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
-                        Type
-                      </div>
-                      <div className="text-xs font-syne text-foreground">{contentTypeLabel}</div>
-                    </div>
-                    {deliverable.dueDate && (
-                      <div>
-                        <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
-                          Due
+                  return (
+                    <div key={deliverable.id} className="px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div>
+                          <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Platform</div>
+                          <div className="text-xs font-syne text-foreground">{platformLabel}</div>
                         </div>
-                        <div className="text-xs font-syne text-foreground">
-                          {new Date(deliverable.dueDate).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })}
+                        <div>
+                          <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Type</div>
+                          <div className="text-xs font-syne text-foreground">{contentTypeLabel}</div>
                         </div>
-                      </div>
-                    )}
-                    {/* Status badge */}
-                    <span
-                      className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${
-                        isLive
-                          ? 'bg-blue-50 text-[#008cff] border border-blue-200'
-                          : 'bg-background text-muted-foreground border border-border'
-                      }`}
-                    >
-                      {isLive ? 'Live' : 'Pending'}
-                    </span>
-                  </div>
-
-                  {/* Right: post metrics or submit button */}
-                  <div className="flex items-center gap-4 shrink-0">
-                    {deliverable.post != null ? (
-                      <>
-                        {deliverable.post.views > 0 && (
-                          <div className="text-right">
-                            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
-                              Views
-                            </div>
+                        {deliverable.dueDate && (
+                          <div>
+                            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Due</div>
                             <div className="text-xs font-syne text-foreground">
-                              {deliverable.post.views.toLocaleString()}
+                              {new Date(deliverable.dueDate).toLocaleDateString('en-US', {
+                                month: 'short', day: 'numeric', year: 'numeric',
+                              })}
                             </div>
                           </div>
                         )}
-                        {deliverable.post.engagementRate > 0 && (
-                          <div className="text-right">
-                            <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">
-                              Eng. Rate
-                            </div>
-                            <div className="text-xs font-syne text-foreground">
-                              {deliverable.post.engagementRate.toFixed(2)}%
-                            </div>
-                          </div>
-                        )}
-                        <Link
-                          href={deliverable.post.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-syne text-[#008cff] hover:text-[#47AAFF] transition-colors whitespace-nowrap"
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 text-[10px] font-syne font-bold uppercase tracking-widest ${
+                            isLive
+                              ? 'bg-blue-50 text-[#008cff] border border-blue-200'
+                              : 'bg-background text-muted-foreground border border-border'
+                          }`}
                         >
-                          View Post →
-                        </Link>
-                      </>
-                    ) : (
-                      <SubmitPostButton
-                        deliverableId={deliverable.id}
-                        platform={deliverable.platform}
-                      />
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
+                          {isLive ? 'Live' : 'Pending'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0">
+                        {deliverable.post != null ? (
+                          <>
+                            {deliverable.post.views > 0 && (
+                              <div className="text-right">
+                                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Views</div>
+                                <div className="text-xs font-syne text-foreground">{deliverable.post.views.toLocaleString()}</div>
+                              </div>
+                            )}
+                            {deliverable.post.engagementRate > 0 && (
+                              <div className="text-right">
+                                <div className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground mb-0.5">Eng. Rate</div>
+                                <div className="text-xs font-syne text-foreground">{deliverable.post.engagementRate.toFixed(2)}%</div>
+                              </div>
+                            )}
+                            <Link
+                              href={deliverable.post.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs font-syne text-[#008cff] hover:text-[#47AAFF] transition-colors whitespace-nowrap"
+                            >
+                              View Post →
+                            </Link>
+                          </>
+                        ) : (
+                          <SubmitPostButton deliverableId={deliverable.id} platform={deliverable.platform} />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="posts">
+            <PostsTab campaignId={campaign.id} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )

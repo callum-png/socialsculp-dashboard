@@ -35,7 +35,7 @@ export default async function PendingPage() {
           --bg2: #0b0b0b;
           --border: #1a1a1a;
           --text: #edeae0;
-          --text-muted: #55524a;
+          --text-muted-foreground: #55524a;
         }
 
         body {
@@ -165,7 +165,7 @@ export default async function PendingPage() {
 
         .sub {
           font-size: 15px;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           line-height: 1.6;
           margin-bottom: 40px;
           max-width: 380px;
@@ -187,7 +187,7 @@ export default async function PendingPage() {
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           margin-bottom: 12px;
         }
 
@@ -234,7 +234,7 @@ export default async function PendingPage() {
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           text-decoration: none;
           padding: 10px 20px;
           border: 1px solid var(--border);

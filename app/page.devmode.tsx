@@ -37,7 +37,7 @@ export default async function RootPage() {
           --border: #161616;
           --border2: #1e1e1e;
           --text: #edeae0;
-          --text-muted: #3a3830;
+          --text-muted-foreground: #3a3830;
           --text-dim: #6b6860;
         }
 
@@ -114,7 +114,7 @@ export default async function RootPage() {
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           border: 1px solid var(--border2);
           padding: 4px 10px;
           border-radius: 2px;
@@ -268,7 +268,7 @@ export default async function RootPage() {
 
         .stat-label {
           font-size: 11px;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-top: 4px;
@@ -292,13 +292,13 @@ export default async function RootPage() {
 
         .footer-copy {
           font-size: 11px;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           letter-spacing: 0.05em;
         }
 
         .footer-location {
           font-size: 11px;
-          color: var(--text-muted);
+          color: var(--text-muted-foreground);
           display: flex;
           align-items: center;
           gap: 6px;
