@@ -25,14 +25,25 @@ export async function PATCH(
 
   const { name, description, sections } = parsed.data
 
-  const playbook = await db.playbook.update({
-    where: { id },
-    data: {
-      ...(name !== undefined && { name }),
-      ...(description !== undefined && { description }),
-      ...(sections !== undefined && { sections }),
-    },
-  })
-
-  return NextResponse.json(playbook)
+  try {
+    const playbook = await db.playbook.update({
+      where: { id },
+      data: {
+        ...(name !== undefined && { name }),
+        ...(description !== undefined && { description }),
+        ...(sections !== undefined && { sections }),
+      },
+    })
+    return NextResponse.json(playbook)
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as { code: string }).code === 'P2025'
+    ) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

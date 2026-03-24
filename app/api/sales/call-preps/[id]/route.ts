@@ -25,18 +25,29 @@ export async function PATCH(
 
   const { prospect, company, callType, scheduledAt, sections } = parsed.data
 
-  const callPrep = await db.callPrep.update({
-    where: { id },
-    data: {
-      ...(prospect !== undefined && { prospect }),
-      ...(company !== undefined && { company }),
-      ...(callType !== undefined && { callType }),
-      ...(scheduledAt !== undefined && {
-        scheduledAt: scheduledAt ? new Date(scheduledAt) : null,
-      }),
-      ...(sections !== undefined && { sections }),
-    },
-  })
-
-  return NextResponse.json(callPrep)
+  try {
+    const callPrep = await db.callPrep.update({
+      where: { id },
+      data: {
+        ...(prospect !== undefined && { prospect }),
+        ...(company !== undefined && { company }),
+        ...(callType !== undefined && { callType }),
+        ...(scheduledAt !== undefined && {
+          scheduledAt: scheduledAt ? new Date(scheduledAt) : null,
+        }),
+        ...(sections !== undefined && { sections }),
+      },
+    })
+    return NextResponse.json(callPrep)
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as { code: string }).code === 'P2025'
+    ) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    }
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
