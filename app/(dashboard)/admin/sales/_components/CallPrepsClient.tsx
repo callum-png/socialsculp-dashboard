@@ -8,7 +8,7 @@ import { SalesDrawer } from '@/components/sales/SalesDrawer'
 import type { CallPrepRow } from '@/types/sales'
 
 interface CallPrepsClientProps {
-  callPreps: CallPrepRow[]
+  callPreps: Omit<CallPrepRow, 'sections'>[]
 }
 
 function formatDate(iso: string | null) {
@@ -28,29 +28,40 @@ export function CallPrepsClient({ callPreps }: CallPrepsClientProps) {
   const [callType, setCallType] = useState('')
   const [scheduledAt, setScheduledAt] = useState('')
   const [saving, setSaving] = useState(false)
+  const [createError, setCreateError] = useState<string | null>(null)
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault()
     if (!prospect.trim() || !callType.trim()) return
     setSaving(true)
-    await fetch('/api/sales/call-preps', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        prospect: prospect.trim(),
-        company: company.trim() || undefined,
-        callType: callType.trim(),
-        // datetime-local produces a local-time string — convert to ISO UTC for Zod validation
-        scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
-      }),
-    })
-    setSaving(false)
-    setOpen(false)
-    setProspect('')
-    setCompany('')
-    setCallType('')
-    setScheduledAt('')
-    router.refresh()
+    setCreateError(null)
+    try {
+      const res = await fetch('/api/sales/call-preps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prospect: prospect.trim(),
+          company: company.trim() || undefined,
+          callType: callType.trim(),
+          // datetime-local produces a local-time string — convert to ISO UTC for Zod validation
+          scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
+        }),
+      })
+      if (!res.ok) {
+        setCreateError('Failed to create. Please try again.')
+        return
+      }
+      setOpen(false)
+      setProspect('')
+      setCompany('')
+      setCallType('')
+      setScheduledAt('')
+      router.refresh()
+    } catch {
+      setCreateError('Network error. Please try again.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -109,7 +120,7 @@ export function CallPrepsClient({ callPreps }: CallPrepsClientProps) {
       </div>
 
       {/* New Call Prep drawer */}
-      <SalesDrawer open={open} onClose={() => setOpen(false)} title="New Call Prep">
+      <SalesDrawer open={open} onClose={() => { setOpen(false); setCreateError(null) }} title="New Call Prep">
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860]">
@@ -165,6 +176,9 @@ export function CallPrepsClient({ callPreps }: CallPrepsClientProps) {
             {saving && <Loader2 size={14} className="animate-spin" />}
             Create Call Prep
           </button>
+          {createError && (
+            <p className="text-sm font-syne text-red-400">{createError}</p>
+          )}
         </form>
       </SalesDrawer>
     </div>

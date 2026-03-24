@@ -1,5 +1,4 @@
 import { getDb } from '@/lib/db'
-import type { CallPrepRow } from '@/types/sales'
 import { CallPrepsClient } from './CallPrepsClient'
 
 export async function CallPrepsTab() {
@@ -12,15 +11,13 @@ export async function CallPrepsTab() {
       company: true,
       callType: true,
       scheduledAt: true,
-      sections: true,
       createdAt: true,
     },
   })
 
-  const callPreps: CallPrepRow[] = rows.map(r => ({
+  const callPreps = rows.map(r => ({
     ...r,
     scheduledAt: r.scheduledAt?.toISOString() ?? null,
-    sections: r.sections as CallPrepRow['sections'],
     createdAt: r.createdAt.toISOString(),
   }))
 

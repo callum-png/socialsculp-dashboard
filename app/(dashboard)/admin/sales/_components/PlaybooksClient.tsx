@@ -17,24 +17,35 @@ export function PlaybooksClient({ playbooks }: PlaybooksClientProps) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [saving, setSaving] = useState(false)
+  const [createError, setCreateError] = useState<string | null>(null)
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) return
     setSaving(true)
-    await fetch('/api/sales/playbooks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: name.trim(),
-        description: description.trim() || undefined,
-      }),
-    })
-    setSaving(false)
-    setOpen(false)
-    setName('')
-    setDescription('')
-    router.refresh()
+    setCreateError(null)
+    try {
+      const res = await fetch('/api/sales/playbooks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          description: description.trim() || undefined,
+        }),
+      })
+      if (!res.ok) {
+        setCreateError('Failed to create. Please try again.')
+        return
+      }
+      setOpen(false)
+      setName('')
+      setDescription('')
+      router.refresh()
+    } catch {
+      setCreateError('Network error. Please try again.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -86,7 +97,7 @@ export function PlaybooksClient({ playbooks }: PlaybooksClientProps) {
       )}
 
       {/* New Playbook drawer */}
-      <SalesDrawer open={open} onClose={() => setOpen(false)} title="New Playbook">
+      <SalesDrawer open={open} onClose={() => { setOpen(false); setCreateError(null) }} title="New Playbook">
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#6B6860]">
@@ -120,6 +131,9 @@ export function PlaybooksClient({ playbooks }: PlaybooksClientProps) {
             {saving && <Loader2 size={14} className="animate-spin" />}
             Create Playbook
           </button>
+          {createError && (
+            <p className="text-sm font-syne text-red-400">{createError}</p>
+          )}
         </form>
       </SalesDrawer>
     </div>
