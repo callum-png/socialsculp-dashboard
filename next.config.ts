@@ -11,9 +11,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'images.clerk.dev' },
     ],
   },
-  experimental: {
-    nodeMiddleware: true,
-  },
   turbopack: {
     root: path.resolve(__dirname),
   },

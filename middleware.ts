@@ -1,26 +1,34 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const isProtectedRoute = createRouteMatcher([
-  '/admin(.*)',
-  '/agent(.*)',
-  '/creator(.*)',
-  '/brand(.*)',
-  '/auth-redirect(.*)',
-])
+const PROTECTED_PREFIXES = ['/admin', '/agent', '/creator', '/brand', '/auth-redirect']
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect()
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl
+
+  const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))
+  if (!isProtected) return NextResponse.next()
+
+  // Clerk sets __client_uat to a non-zero timestamp when a session exists.
+  // Full JWT verification happens in each page/route via auth().
+  const clientUat = req.cookies.get('__client_uat')?.value
+  const hasSession = !!clientUat && clientUat !== '0'
+
+  if (!hasSession) {
+    const signIn = new URL('/sign-in', req.url)
+    signIn.searchParams.set('redirect_url', pathname)
+    return NextResponse.redirect(signIn)
   }
-  return NextResponse.next()
-})
 
-export const runtime = 'nodejs'
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    '/admin(.*)',
+    '/agent(.*)',
+    '/creator(.*)',
+    '/brand(.*)',
+    '/auth-redirect(.*)',
   ],
 }
