@@ -49,18 +49,23 @@ export function SectionEditor({
   async function handleSave() {
     setSaving(true)
     setError(null)
-    const payload = sections.map(({ _key: _, ...rest }) => rest)
-    const res = await fetch(patchUrl, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sections: payload, ...extraData }),
-    })
-    setSaving(false)
-    if (res.ok) {
-      router.refresh()
-      onCancel()
-    } else {
-      setError('Failed to save. Please try again.')
+    try {
+      const payload = sections.map(({ _key: _, ...rest }) => rest)
+      const res = await fetch(patchUrl, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sections: payload, ...extraData }),
+      })
+      if (res.ok) {
+        router.refresh()
+        onCancel()
+      } else {
+        setError('Failed to save. Please try again.')
+      }
+    } catch {
+      setError('Network error. Please try again.')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -106,27 +111,28 @@ export function SectionEditor({
         Add section
       </button>
 
-      <div className="flex gap-3 pt-2">
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-sm font-syne rounded-lg hover:bg-[#0070cc] transition-colors disabled:opacity-40"
-        >
-          {saving && <Loader2 size={14} className="animate-spin" />}
-          Save
-        </button>
-        <button
-          onClick={onCancel}
-          disabled={saving}
-          className="px-5 py-2.5 text-sm font-syne text-[#6B6860] hover:text-foreground transition-colors"
-        >
-          Cancel
-        </button>
+      <div className="flex flex-col gap-3 pt-2">
+        {error && (
+          <p className="text-sm font-syne text-red-400">{error}</p>
+        )}
+        <div className="flex gap-3">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#008cff] text-white text-sm font-syne rounded-lg hover:bg-[#0070cc] transition-colors disabled:opacity-40"
+          >
+            {saving && <Loader2 size={14} className="animate-spin" />}
+            Save
+          </button>
+          <button
+            onClick={onCancel}
+            disabled={saving}
+            className="px-5 py-2.5 text-sm font-syne text-[#6B6860] hover:text-foreground transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-
-      {error && (
-        <p className="text-sm font-syne text-red-400">{error}</p>
-      )}
     </div>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { SectionViewer } from '@/components/sales/SectionViewer'
 import { SectionEditor } from '@/components/sales/SectionEditor'
 import type { Section } from '@/types/sales'
@@ -22,6 +21,12 @@ export function PlaybookEditorShell({
   const [editing, setEditing] = useState(false)
   const [name, setName] = useState(initialName)
   const [description, setDescription] = useState(initialDescription)
+
+  // Sync local state when server delivers fresh props (e.g. after router.refresh())
+  useEffect(() => {
+    setName(initialName)
+    setDescription(initialDescription)
+  }, [initialName, initialDescription])
 
   const nameDescFields = editing ? (
     <div className="flex flex-col gap-4 mb-6 pb-6 border-b border-[#222222]">
