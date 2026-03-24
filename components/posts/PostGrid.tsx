@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ExternalLink } from 'lucide-react'
-import { cn, formatNumber, formatDate } from '@/lib/utils'
+import { cn, formatNumber } from '@/lib/utils'
 import type { Post } from './PostsTab'
 
 // ─── Platform SVG Icons ───────────────────────────────────────────────────────
@@ -54,32 +54,36 @@ function engagementColor(rate: number): string {
 // ─── VideoCard ────────────────────────────────────────────────────────────────
 
 function VideoCard({ post }: { post: Post }) {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null)
+  const [oembedThumb, setOembedThumb] = useState<string | null>(null)
   const [thumbError, setThumbError] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
 
   const handle = post.deliverable?.deal?.creator?.handle ?? post.submittedBy?.name ?? '—'
+  const creatorAvatarUrl = post.deliverable?.deal?.creator?.user?.avatarUrl ?? null
   const engRate = post.engagementRate ?? 0
 
+  // Only fetch oembed if no stored thumbnailUrl
   useEffect(() => {
-    if (post.platform === 'TIKTOK' && post.liveUrl) {
+    if (!post.thumbnailUrl && post.platform === 'TIKTOK' && post.liveUrl) {
       fetch(`/api/oembed?url=${encodeURIComponent(post.liveUrl)}`)
         .then((r) => r.json())
         .then((d: { thumbnailUrl?: string | null }) => {
-          if (d.thumbnailUrl) setThumbnailUrl(d.thumbnailUrl)
+          if (d.thumbnailUrl) setOembedThumb(d.thumbnailUrl)
         })
         .catch(() => {})
     }
-  }, [post.liveUrl, post.platform])
+  }, [post.liveUrl, post.platform, post.thumbnailUrl])
 
-  const hasThumbnail = !!thumbnailUrl && !thumbError
+  const resolvedThumb = post.thumbnailUrl ?? oembedThumb
+  const hasThumbnail = !!resolvedThumb && !thumbError
 
   return (
     <div className="group bg-card border border-border overflow-hidden flex flex-col hover:border-[#008cff]/40 hover:shadow-sm transition-all duration-200 rounded-xl">
       {/* ── Thumbnail ── */}
-      <div className="relative h-52 overflow-hidden">
+      <div className="relative aspect-[9/16] overflow-hidden">
         {hasThumbnail ? (
           <Image
-            src={thumbnailUrl!}
+            src={resolvedThumb!}
             alt={`Post by @${handle}`}
             fill
             className="object-cover"
@@ -106,29 +110,26 @@ function VideoCard({ post }: { post: Post }) {
         )}
 
         {/* Bottom gradient */}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
 
-        {/* Platform badge – top left */}
-        <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-1 rounded-full bg-black/50 backdrop-blur-sm">
+        {/* Platform badge – top right */}
+        <div className="absolute top-2 right-2 flex items-center gap-1.5 px-2 py-1 rounded-full bg-black/60 backdrop-blur-sm">
           {post.platform === 'TIKTOK' ? (
             <TikTokIcon className="w-3 h-3 text-white" />
           ) : (
             <InstagramIcon className="w-3 h-3 text-white" />
           )}
+          <span className="text-[9px] font-syne font-bold text-white uppercase tracking-wide">
+            {post.platform === 'TIKTOK' ? 'TikTok' : 'Instagram'}
+          </span>
         </div>
-
-        {/* Live badge – top right */}
-        <span className="absolute top-2 right-2 inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-syne font-bold uppercase rounded-full bg-emerald-500/90 text-white backdrop-blur-sm">
-          <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-          Live
-        </span>
 
         {/* Views – bottom left */}
         <span className="absolute bottom-2 left-2.5 text-[11px] font-syne font-semibold text-white/90">
           {formatNumber(post.views ?? 0)} views
         </span>
 
-        {/* Hover overlay with Open button */}
+        {/* Hover overlay */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
           <a
             href={post.liveUrl}
@@ -146,17 +147,35 @@ function VideoCard({ post }: { post: Post }) {
       <div className="p-3 flex flex-col gap-2 flex-1">
         {/* Creator avatar + handle */}
         <div className="flex items-center gap-2">
-          <div
-            className={cn(
-              'w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-syne font-bold shrink-0',
-              avatarColor(handle)
+          <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-border">
+            {creatorAvatarUrl && !avatarError ? (
+              <Image
+                src={creatorAvatarUrl}
+                alt={handle}
+                width={28}
+                height={28}
+                className="object-cover w-full h-full"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              <div
+                className={cn(
+                  'w-full h-full flex items-center justify-center text-[9px] font-syne font-bold',
+                  avatarColor(handle)
+                )}
+              >
+                {getInitials(handle)}
+              </div>
             )}
-          >
-            {getInitials(handle)}
           </div>
-          <span className="text-foreground font-syne font-semibold text-xs truncate">
-            @{handle}
-          </span>
+          <div className="min-w-0">
+            <div className="text-foreground font-syne font-semibold text-xs truncate">
+              @{handle}
+            </div>
+            <div className="text-[9px] text-muted-foreground font-syne">
+              {post.deliverable?.contentType?.replace('_', ' ') ?? 'Reel'}
+            </div>
+          </div>
         </div>
 
         {/* Stats grid */}
@@ -174,7 +193,7 @@ function VideoCard({ post }: { post: Post }) {
               {formatNumber(post.comments ?? 0)}
             </div>
             <div className="text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">
-              Comments
+              Cmts
             </div>
           </div>
           <div className="text-center">
@@ -190,11 +209,6 @@ function VideoCard({ post }: { post: Post }) {
               Eng
             </div>
           </div>
-        </div>
-
-        {/* Date */}
-        <div className="text-[10px] text-muted-foreground font-syne">
-          {post.postedAt ? formatDate(post.postedAt) : '—'}
         </div>
       </div>
     </div>

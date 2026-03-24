@@ -49,7 +49,9 @@ export async function GET(req: Request) {
         include: {
           deal: {
             include: {
-              creator: true,
+              creator: {
+                include: { user: { select: { avatarUrl: true } } },
+              },
             },
           },
         },
@@ -74,13 +76,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  let body: { deliverableId: string; liveUrl: string; platform: Platform; postedAt: string; views?: number; likes?: number; comments?: number; shares?: number; engagementRate?: number }
+  let body: { deliverableId: string; liveUrl: string; thumbnailUrl?: string; platform: Platform; postedAt: string; views?: number; likes?: number; comments?: number; shares?: number; engagementRate?: number }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
-  const { deliverableId, liveUrl, platform, postedAt, views, likes, comments, shares, engagementRate } = body
+  const { deliverableId, liveUrl, thumbnailUrl, platform, postedAt, views, likes, comments, shares, engagementRate } = body
 
   if (!deliverableId || !liveUrl || !platform || !postedAt) {
     return NextResponse.json(
@@ -121,6 +123,7 @@ export async function POST(req: Request) {
           deliverableId,
           campaignId: deliverable.deal.campaignId,
           liveUrl,
+          ...(thumbnailUrl ? { thumbnailUrl } : {}),
           platform,
           postedAt: parsedPostedAt,
           views: views ?? 0,

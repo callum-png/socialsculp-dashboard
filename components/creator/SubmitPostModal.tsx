@@ -23,6 +23,7 @@ export function SubmitPostModal({ deliverableId, platform, onSuccess }: Props) {
 
   const [open, setOpen] = useState(false)
   const [liveUrl, setLiveUrl] = useState('')
+  const [thumbnailUrl, setThumbnailUrl] = useState('')
   const [postedAt, setPostedAt] = useState(today)
   const [views, setViews] = useState('')
   const [likes, setLikes] = useState('')
@@ -46,6 +47,7 @@ export function SubmitPostModal({ deliverableId, platform, onSuccess }: Props) {
         body: JSON.stringify({
           deliverableId,
           liveUrl: liveUrl.trim(),
+          thumbnailUrl: thumbnailUrl.trim() || undefined,
           platform,
           postedAt,
           views: views !== '' ? Number(views) : undefined,
@@ -61,6 +63,7 @@ export function SubmitPostModal({ deliverableId, platform, onSuccess }: Props) {
 
       setOpen(false)
       setLiveUrl('')
+      setThumbnailUrl('')
       setPostedAt(today)
       setViews('')
       setLikes('')
@@ -101,6 +104,19 @@ export function SubmitPostModal({ deliverableId, platform, onSuccess }: Props) {
               onChange={(e) => setLiveUrl(e.target.value)}
               required
               className="bg-background border-border text-foreground placeholder:text-foreground"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-syne uppercase tracking-widest text-muted-foreground">
+              Thumbnail URL <span className="normal-case tracking-normal text-muted-foreground/60">(optional)</span>
+            </label>
+            <Input
+              type="url"
+              placeholder="https://... (direct image link)"
+              value={thumbnailUrl}
+              onChange={(e) => setThumbnailUrl(e.target.value)}
+              className="bg-background border-border text-foreground placeholder:text-foreground/40"
             />
           </div>
 

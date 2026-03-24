@@ -417,6 +417,7 @@ model Post {
   campaignId    String
   campaign      Campaign    @relation(fields: [campaignId], references: [id], onDelete: Restrict)
   liveUrl       String
+  thumbnailUrl  String?
   platform      Platform
   postedAt      DateTime
   views         Int         @default(0)

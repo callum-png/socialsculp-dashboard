@@ -5,7 +5,7 @@ import { getDb } from '@/lib/db'
 export default async function AdminCreatorsPage() {
   const db = getDb()
   const creators = await db.creatorProfile.findMany({
-    include: { user: true },
+    include: { user: { select: { name: true, avatarUrl: true } } },
     orderBy: { totalReach: 'desc' },
   })
 
@@ -13,6 +13,7 @@ export default async function AdminCreatorsPage() {
     id: c.id,
     handle: c.handle,
     name: c.user.name,
+    avatarUrl: c.user.avatarUrl,
     niche: c.niche,
     tiktokFollowers: c.tiktokFollowers,
     instagramFollowers: c.instagramFollowers,

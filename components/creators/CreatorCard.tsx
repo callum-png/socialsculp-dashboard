@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { MapPin } from 'lucide-react'
 import { formatNumber, formatPercent } from '@/lib/utils'
 
@@ -7,6 +8,7 @@ interface CreatorCardProps {
     id: string
     handle: string
     name: string
+    avatarUrl?: string | null
     niche: string[]
     tiktokFollowers: number | null
     instagramFollowers: number | null
@@ -32,10 +34,20 @@ export function CreatorCard({ creator }: CreatorCardProps) {
     >
       {/* Header: Avatar + Name */}
       <div className="flex items-start gap-3 mb-4">
-        <div className="w-10 h-10 bg-surface-2 border border-border rounded-md flex items-center justify-center shrink-0">
-          <span className="font-syne text-sm font-bold text-accent">
-            {getInitials(creator.name)}
-          </span>
+        <div className="w-10 h-10 rounded-full overflow-hidden border border-border shrink-0 bg-surface-2 flex items-center justify-center">
+          {creator.avatarUrl ? (
+            <Image
+              src={creator.avatarUrl}
+              alt={creator.name}
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <span className="font-syne text-sm font-bold text-accent">
+              {getInitials(creator.name)}
+            </span>
+          )}
         </div>
         <div className="min-w-0">
           <div className="font-syne font-bold text-text text-sm group-hover:text-accent transition-colors truncate">

@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.tiktokcdn.com' },
+      { protocol: 'https', hostname: '**.tiktokcdn-eu.com' },
+      { protocol: 'https', hostname: 'img.clerk.com' },
+      { protocol: 'https', hostname: '**.cdninstagram.com' },
+      { protocol: 'https', hostname: 'images.clerk.dev' },
+    ],
+  },
   turbopack: {
     root: path.resolve(__dirname),
   },

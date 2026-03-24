@@ -9,6 +9,7 @@ interface Creator {
   id: string
   handle: string
   name: string
+  avatarUrl?: string | null
   niche: string[]
   tiktokFollowers: number | null
   instagramFollowers: number | null

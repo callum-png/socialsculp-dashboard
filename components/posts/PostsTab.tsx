@@ -12,6 +12,7 @@ import { PostTable } from './PostTable'
 export type Post = {
   id: string
   liveUrl: string
+  thumbnailUrl: string | null
   platform: string
   postedAt: string
   views: number
@@ -32,6 +33,7 @@ export type Post = {
       creator: {
         id: string
         handle: string
+        user: { avatarUrl: string | null }
       }
     }
   } | null

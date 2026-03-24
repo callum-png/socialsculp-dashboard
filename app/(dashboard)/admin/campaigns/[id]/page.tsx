@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DollarSign, TrendingUp, Users, Eye, MapPin } from 'lucide-react'
 import { SubmitPostButton } from '@/components/creator/SubmitPostButton'
 import { PublishReportModal } from '@/components/admin/PublishReportModal'
+import { PostsTab } from '@/components/posts/PostsTab'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -162,7 +163,7 @@ export default async function CampaignDetailPage({ params }: PageProps) {
         {/* Tabs */}
         <Tabs defaultValue="overview">
           <TabsList className="bg-card border border-border p-0 h-auto rounded-none gap-0">
-            {['overview', 'analytics', 'creators', 'deliverables'].map((tab) => (
+            {['overview', 'analytics', 'posts', 'creators', 'deliverables'].map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
@@ -194,6 +195,11 @@ export default async function CampaignDetailPage({ params }: PageProps) {
             <ChartContainer title="Weekly Reach" description="TikTok vs Instagram reach per week">
               <ReachBarChart data={reachData} />
             </ChartContainer>
+          </TabsContent>
+
+          {/* Posts */}
+          <TabsContent value="posts" className="mt-5">
+            <PostsTab campaignId={campaign.id} />
           </TabsContent>
 
           {/* Creators */}
