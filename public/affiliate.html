@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Affiliate Network — SocialSculp</title>
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" as="style">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:        #008cff;
+      --blue-dim:    rgba(0,140,255,0.07);
+      --blue-border: rgba(0,140,255,0.22);
+      --bg:          #000;
+      --border:      rgba(255,255,255,0.07);
+      --text:        #fff;
+      --muted:       rgba(255,255,255,0.45);
+    }
+
+    html { background: var(--bg); scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Satoshi', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Film grain ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 280px 280px;
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* ── Outer padding + inner border columns ── */
+    .frame { padding: 0 24px; }
+    .frame-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    .pad { padding: 0 40px; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 0 40px;
+    }
+    .nav-logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-cta {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #000;
+      background: var(--blue);
+      padding: 9px 20px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #0070cc; }
+
+    /* ── Section border utility ── */
+    .section-border { border-bottom: 1px solid var(--border); }
+
+    /* ── Hero ── */
+    .hero-content { padding: 80px 40px 72px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      padding: 5px 14px 5px 5px;
+      margin-bottom: 32px;
+    }
+    .badge-pill {
+      background: var(--blue);
+      color: #000;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .badge-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(38px, 5.2vw, 68px);
+      font-weight: 600;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero-title em { font-style: normal; color: var(--blue); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .hs-item { text-align: center; padding: 0 36px 0 0; }
+    .hs-item:first-child { padding-left: 0; }
+    .hs-divider { width: 1px; height: 36px; background: var(--border); margin-right: 36px; }
+    .hs-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .hs-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* ── Stats bar ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .sr-cell {
+      position: relative;
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      transition: background 0.18s;
+      cursor: default;
+    }
+    .sr-cell:last-child { border-right: none; }
+    .sr-cell::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--blue);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+    .sr-cell:hover { background: rgba(255,255,255,0.018); }
+    .sr-cell:hover::before { opacity: 1; }
+    .sr-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .sr-sublabel {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .sr-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Two-column layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; }
+    .col-l {
+      padding: 60px 40px;
+      border-right: 1px solid var(--border);
+    }
+    .col-r { padding: 60px 40px; }
+
+    /* ── Eyebrow + heading ── */
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .heading {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(26px, 2.8vw, 38px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.06;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .heading .accent { color: var(--blue); }
+
+    /* ── Approach list ── */
+    .approach-list { display: flex; flex-direction: column; }
+    .ap-item {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ap-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .ap-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--blue-border);
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+    .ap-icon svg { width: 15px; height: 15px; }
+    .ap-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .ap-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+    /* ── Case study (single full-width) ── */
+    .cs-full { padding: 48px 40px; }
+    .cs-overview {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .cs-overview-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Reel grid ── */
+    .reel-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .reel-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    .reel-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18px 16px 14px;
+      border-right: 1px solid var(--border);
+      text-decoration: none;
+      transition: background 0.16s;
+      position: relative;
+      overflow: hidden;
+    }
+    .reel-card:last-child { border-right: none; }
+    .reel-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--blue);
+      opacity: 0;
+      transition: opacity 0.16s;
+    }
+    .reel-card:hover { background: rgba(0,140,255,0.05); }
+    .reel-card:hover::before { opacity: 1; }
+    .reel-platform {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .reel-views {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .reel-handle {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .reel-arrow {
+      margin-top: 14px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      transition: color 0.16s;
+    }
+    .reel-card:hover .reel-arrow { color: var(--blue); }
+
+    /* ── Old cs-card ── */
+    .cs-card {
+      padding: 40px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.18s;
+      cursor: default;
+    }
+    .cs-card:nth-child(even) { border-right: none; }
+    .cs-card:nth-last-child(-n+2) { border-bottom: none; }
+    .cs-card:hover { background: rgba(255,255,255,0.018); }
+    .cs-client {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .cs-headline {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .cs-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .cs-stats {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .cs-stat-val {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .cs-stat-label {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ── Process steps ── */
+    .process-list { display: flex; flex-direction: column; }
+    .proc-item {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .proc-item:last-child { border-bottom: none; }
+    .proc-num {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.18);
+      padding: 22px 0;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 24px;
+    }
+    .proc-content { padding: 22px 24px; }
+    .proc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .proc-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── App spotlight ── */
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .app-card {
+      padding: 48px 40px;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card:last-child { border-right: none; }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--blue);
+    }
+    .app-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      border: 1px solid var(--blue-border);
+      background: var(--blue-dim);
+      padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+    .app-name {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(24px, 2.5vw, 32px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .app-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .app-angles { display: flex; flex-direction: column; gap: 8px; }
+    .app-angle {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .app-angle-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    /* ── 2×2 stat grid ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      height: fit-content;
+    }
+    .sg-cell {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .sg-cell:nth-child(even) { border-right: none; }
+    .sg-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .sg-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
+    .sg-value.blue { color: var(--blue); }
+    .sg-caption { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ── How it works (affiliate mechanics) ── */
+    .mechanic-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .mech-cell {
+      padding: 44px 40px;
+      border-right: 1px solid var(--border);
+    }
+    .mech-cell:last-child { border-right: none; }
+    .mech-step {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.2);
+      margin-bottom: 16px;
+    }
+    .mech-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(18px, 1.8vw, 22px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .mech-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CTA band ── */
+    .cta-band {
+      padding: 72px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,140,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      color: var(--text);
+      max-width: 640px;
+    }
+    .cta-title em { font-style: normal; color: var(--blue); }
+    .cta-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+      background: var(--blue);
+      padding: 13px 28px;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #0070cc; }
+    .btn-primary svg { width: 12px; height: 12px; }
+    .btn-secondary {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* ── Footer ── */
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .footer-brand span { color: var(--blue); }
+    .footer-note { font-size: 11px; color: rgba(255,255,255,0.2); }
+    .footer-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+      background: var(--blue);
+      padding: 10px 22px;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .footer-cta:hover { background: #0070cc; }
+    .footer-cta svg { width: 12px; height: 12px; }
+
+    /* ── Section heading strip ── */
+    .section-head {
+      padding: 40px 40px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 40px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1060px) {
+      .reel-grid { grid-template-columns: repeat(3, 1fr); }
+      .reel-card:nth-child(3) { border-right: none; }
+      .reel-card:nth-child(4),
+      .reel-card:nth-child(5) { border-top: 1px solid var(--border); }
+      .reel-card:last-child { border-right: 1px solid var(--border); }
+      .reel-card:nth-child(5) { border-right: none; }
+      .cs-overview { grid-template-columns: 1fr; gap: 24px; }
+    }
+    @media (max-width: 880px) {
+      .two-col { grid-template-columns: 1fr; }
+      .col-l { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 24px; }
+      .col-r { padding: 48px 24px; }
+      .case-studies-grid { grid-template-columns: 1fr; }
+      .cs-card { border-right: none !important; }
+      .cs-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .cs-card:last-child { border-bottom: none; }
+      .app-grid { grid-template-columns: 1fr; }
+      .app-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .app-card:last-child { border-bottom: none; }
+      .mechanic-row { grid-template-columns: 1fr; }
+      .mech-cell { border-right: none; border-bottom: 1px solid var(--border); padding: 36px 24px; }
+      .mech-cell:last-child { border-bottom: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stats-row .sr-cell:nth-child(2) { border-right: none; }
+      .stats-row .sr-cell:nth-child(3) { border-right: 1px solid var(--border); }
+      .hero-content { padding: 56px 24px 48px; }
+      .nav-inner { padding: 0 24px; }
+      .footer-inner { padding: 22px 24px; flex-wrap: wrap; }
+      .cta-band { padding: 56px 24px; }
+      .section-head { padding: 36px 24px; }
+    }
+    @media (max-width: 560px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .stats-row .sr-cell { border-right: none; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .sg-cell { border-right: none !important; }
+      .sg-cell:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .sg-cell:last-child { border-bottom: none; }
+      .hero-stats { gap: 0; }
+      .hs-item { padding: 0 20px 0 0; }
+      .hs-divider { margin-right: 20px; }
+      .footer-note { display: none; }
+      .cs-stats { gap: 16px; }
+      .reel-grid { grid-template-columns: 1fr 1fr; }
+      .reel-card { border-right: 1px solid var(--border) !important; border-top: none; }
+      .reel-card:nth-child(even) { border-right: none !important; }
+      .reel-card:nth-child(n+3) { border-top: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="frame">
+  <div class="nav-inner">
+    <a href="https://socialsculp.io" class="nav-logo">SocialSculp<span>.</span></a>
+    <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" class="nav-cta" target="_blank" rel="noopener">Book a Call</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="frame section-border">
+  <div class="frame-inner section-border">
+    <div class="hero-content">
+      <div class="badge">
+        <span class="badge-pill">Affiliate Network</span>
+        <span class="badge-label">For Roman &amp; Portfolio Partners</span>
+      </div>
+      <h1 class="hero-title">You bring the clients.<br><em>We make them go viral.</em></h1>
+      <p class="hero-sub">Your network has consumer apps that need growth. We run creator seeding campaigns that drive installs at sub-$2 CPM. You refer clients from your portfolio — we execute. This is a JV partnership with revenue share on every campaign.</p>
+      <div class="hero-stats">
+        <div class="hs-item">
+          <div class="hs-value">Sub-$2</div>
+          <div class="hs-label">CPM vs $15–30 Paid Ads</div>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hs-item">
+          <div class="hs-value">Creator Seeding</div>
+          <div class="hs-label">Proprietary Method</div>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hs-item">
+          <div class="hs-value">JV Partnership</div>
+          <div class="hs-label">Revenue Share on Every Campaign</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats bar -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="stats-row">
+      <div class="sr-cell">
+        <div class="sr-value">Sub-$2</div>
+        <div class="sr-sublabel">CPM</div>
+        <div class="sr-desc">Creator seeding delivers 10–20× lower CPM than paid social ads for consumer apps.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">2–3M</div>
+        <div class="sr-sublabel">Views · Quizard</div>
+        <div class="sr-desc">Quizard AI study app: ~$4K budget, 2–3M views, sub-$2 CPM. Real campaign, real data.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">10M+</div>
+        <div class="sr-sublabel">Views · Ryne AI</div>
+        <div class="sr-desc">Ryne AI: 10M+ total views across creator campaigns. Proven at scale.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">Live</div>
+        <div class="sr-sublabel">Optimization</div>
+        <div class="sr-desc">We optimize creative angles in real time — CPM drops as campaigns run, not after.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- How creator seeding works -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="two-col">
+
+      <!-- Left: process -->
+      <div class="col-l">
+        <p class="eyebrow">How It Works</p>
+        <h2 class="heading">Creator Seeding,<br><span class="accent">Not Influencer Ads.</span></h2>
+        <div class="approach-list">
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Creator Identification</p>
+              <p class="ap-body">We find micro and mid-tier creators whose audience exactly matches your app's target user — by niche, demographic, and content behaviour. No spray-and-pray.</p>
+            </div>
+          </div>
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <line x1="10" y1="9" x2="8" y2="9"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Brief Engineering</p>
+              <p class="ap-body">We write content briefs that embed your app's value proposition into a native format — the hook is the content, not the ad. Creators post authentically. Audiences convert.</p>
+            </div>
+          </div>
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Test → Validate → Scale</p>
+              <p class="ap-body">We seed small first. Validate which angles convert. Then double down — deploying the winning brief across dozens of creators in the same demo simultaneously.</p>
+            </div>
+          </div>
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Performance Reporting</p>
+              <p class="ap-body">Views, installs, CPM, and conversion tracked across every creator. You see exactly what's working and why — not a black-box media buy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: stat grid -->
+      <div class="col-r" style="display:flex;align-items:center;">
+        <div class="stat-grid" style="width:100%">
+          <div class="sg-cell">
+            <div class="sg-value blue">Sub-$2</div>
+            <div class="sg-caption">CPM vs $15–30 for paid social — creator content earns organic reach</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Native</div>
+            <div class="sg-caption">Content format — integrations feel organic, not sponsored</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Scale</div>
+            <div class="sg-caption">Same brief deployed across 20–100+ creators simultaneously</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Proven</div>
+            <div class="sg-caption">Quizard, Ryne AI, StealthGPT — real campaigns with real results</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Case Studies header -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="section-head">
+      <p class="eyebrow">Case Studies</p>
+      <h2 class="heading" style="margin-bottom:0;">What Creator Seeding<br><span class="accent">Looks Like in Practice.</span></h2>
+    </div>
+  </div>
+</div>
+
+<!-- Case Study: Quizard -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="cs-full">
+
+      <div class="cs-overview">
+        <div>
+          <div class="cs-client">Quizard · AI Study App · Sep–Dec 2025</div>
+          <h3 class="cs-headline">2–3M views.<br>Sub-$2 CPM.<br>~$4K spend.</h3>
+          <p class="cs-body" style="margin-bottom:0;">Quizard is an AI-powered study tool for college students. We seeded college-life creators with briefs built around authentic campus stress — "ChatGPT got me caught," "how I actually survive finals," "the apps that saved my GPA." The app wasn't the hero. The student struggle was. Quizard was the solution that appeared naturally in the content.</p>
+          <div class="cs-overview-stats">
+            <div>
+              <div class="cs-stat-val">2–3M</div>
+              <div class="cs-stat-label">Views</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">Sub-$2</div>
+              <div class="cs-stat-label">CPM</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">~$4K</div>
+              <div class="cs-stat-label">Campaign Spend</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">3</div>
+              <div class="cs-stat-label">Creator Batches</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini stat block -->
+        <div class="stat-grid" style="align-self:flex-start;">
+          <div class="sg-cell">
+            <div class="sg-value blue">Sub-$2</div>
+            <div class="sg-caption">CPM vs $15–25 for paid social targeting college students</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">3</div>
+            <div class="sg-caption">Creator batches — test, validate, then scale the winners</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">College</div>
+            <div class="sg-caption">Niche creator pool: study, campus life, academic stress</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Native</div>
+            <div class="sg-caption">App embedded in authentic student content — not a sponsored post</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reel grid -->
+      <div class="reel-label">Campaign creators — click to watch</div>
+      <div class="reel-grid">
+        <a class="reel-card" href="https://www.tiktok.com/@kasuniversity/video/7558672670586440973" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">Quizard</div>
+            <div class="reel-handle">@kasuniversity</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@shadezstudies/video/7558142808926735671" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">Quizard</div>
+            <div class="reel-handle">@shadezstudies</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@masoncapodanno/video/7553098716081638670" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">Quizard</div>
+            <div class="reel-handle">@masoncapodanno</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@rcyapstoomuch/video/7561173318896782647" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">Quizard</div>
+            <div class="reel-handle">@rcyapstoomuch</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@keliantee/video/7553394723558345997" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">Quizard</div>
+            <div class="reel-handle">@keliantee</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Case Study: Ryne AI -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="cs-full">
+      <div class="cs-overview">
+        <div>
+          <div class="cs-client">Ryne AI · AI App · Feb–Apr 2026</div>
+          <h3 class="cs-headline">10M+ total views.<br>Active campaign.<br>6 creators.</h3>
+          <p class="cs-body" style="margin-bottom:0;">Ryne AI is an AI-powered app. We sourced and briefed 6 creators across TikTok and Instagram, deploying content in waves. The campaign is still active with 10M+ total views and climbing — proving the same playbook scales across verticals.</p>
+          <div class="cs-overview-stats">
+            <div>
+              <div class="cs-stat-val">10M+</div>
+              <div class="cs-stat-label">Total Views</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">6</div>
+              <div class="cs-stat-label">Creators</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">Active</div>
+              <div class="cs-stat-label">Campaign Status</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-grid" style="align-self:flex-start;">
+          <div class="sg-cell">
+            <div class="sg-value blue">10M+</div>
+            <div class="sg-caption">Total views across all creator content</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">TT + IG</div>
+            <div class="sg-caption">Cross-platform deployment — TikTok and Instagram</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Active</div>
+            <div class="sg-caption">Campaign still running and scaling</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Native</div>
+            <div class="sg-caption">Same playbook — different vertical, same results</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Roman's apps spotlight -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="section-head">
+      <p class="eyebrow">Trial Campaigns</p>
+      <h2 class="heading" style="margin-bottom:0;">Rizz App &amp; Cantina —<br><span class="accent">Here's What We'd Run.</span></h2>
+    </div>
+  </div>
+</div>
+
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="app-grid">
+
+      <!-- Rizz App -->
+      <div class="app-card">
+        <div class="app-tag">Rizz App</div>
+        <h3 class="app-name">Dating &amp; Social.<br>Creator Seeding Wins Here.</h3>
+        <p class="app-desc">Social and dating apps are the category where creator trust matters most. An authentic creator recommendation outperforms paid ads by a wide margin — audiences install because someone they follow uses it, not because they saw a banner.</p>
+        <div class="app-angles">
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Brief creators in the dating/confidence/social skills niche — "how I improved my conversations" content naturally embeds the app</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Lifestyle creators showing "apps I use to meet people / build social skills" — high-trust, native discovery</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Test multiple angles across 10–20 creators simultaneously, scale the winner across 50–100+</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Expected CPM: $1–2 vs $20–40 for equivalent paid targeting</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cantina App -->
+      <div class="app-card">
+        <div class="app-tag">Cantina</div>
+        <h3 class="app-name">AI Character Creation.<br>Entertainment Creators Own This.</h3>
+        <p class="app-desc">Cantina lets users build, customise, and share AI-powered character bots — then create video messages and set them loose. The virality is built in. Creator seeding accelerates what's already native to how people share this kind of content.</p>
+        <div class="app-angles">
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Brief entertainment and AI creators around "meet my AI character" and "I built a bot that..." — the content format is inherently shareable</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>Gaming, animation, and Gen Z lifestyle creators — audiences that respond to character creation and creative tools</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>"Rate my bot" and character reveal challenges — engineered for duet and stitch behaviour, extending campaign reach organically</span>
+          </div>
+          <div class="app-angle">
+            <div class="app-angle-dot"></div>
+            <span>The product IS the content — creators don't need to force an integration, their audience becomes users because the bot is the hook</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- JV Partnership -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="section-head">
+      <p class="eyebrow">The Partnership</p>
+      <h2 class="heading" style="margin-bottom:0;">How the JV<br><span class="accent">Works in Practice.</span></h2>
+    </div>
+  </div>
+</div>
+
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="mechanic-row">
+      <div class="mech-cell">
+        <div class="mech-step">01</div>
+        <div class="mech-title">You Bring<br>the Clients</div>
+        <div class="mech-body">Your network refers consumer apps and brands that need growth. Whether it's companies in your portfolio, founder connections, or apps you have equity in — you make the intro, we take the meeting.</div>
+      </div>
+      <div class="mech-cell">
+        <div class="mech-step">02</div>
+        <div class="mech-title">We Run the<br>Campaign</div>
+        <div class="mech-body">SocialSculp handles everything: creator identification, brief engineering, outreach, content live, and performance reporting. You don't manage a single creator or deliverable. We close and execute.</div>
+      </div>
+      <div class="mech-cell">
+        <div class="mech-step">03</div>
+        <div class="mech-title">Revenue Share<br>on Every Campaign</div>
+        <div class="mech-body">This is a JV partnership. You earn a revenue share on every campaign fee for clients you refer — ongoing, not one-time. We start with Rizz App and Cantina as trial campaigns to prove the model.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="cta-band">
+      <p class="eyebrow">Get Started</p>
+      <h2 class="cta-title">Ready to run Rizz App and Cantina?<br><em>Let's prove the model.</em></h2>
+      <p class="cta-sub">Book a call to walk through exactly what we'd run — creator pool, content angles, brief structure, and campaign economics. Your apps as the trial. Our playbook. JV terms on the table.</p>
+      <div class="cta-actions">
+        <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" class="btn-primary" target="_blank" rel="noopener">
+          Book a Strategy Call
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 6h10M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="mailto:hello@socialsculp.com" class="btn-secondary">Email us directly →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="frame">
+  <div class="frame-inner">
+    <div class="footer-inner">
+      <span class="footer-brand">SocialSculp<span>.</span></span>
+      <span class="footer-note">Confidential · Prepared for Roman</span>
+      <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" class="footer-cta" target="_blank" rel="noopener">
+        Book a Strategy Call
+        <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 6h10M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

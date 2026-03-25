@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  async redirects() {
+    return [
+      { source: '/plutus', destination: '/plutus.html', permanent: false },
+      { source: '/gowish', destination: '/gowish.html', permanent: false },
+      { source: '/affiliatenetwork', destination: '/affiliate.html', permanent: false },
+    ]
+  },
   async headers() {
     return [
       {

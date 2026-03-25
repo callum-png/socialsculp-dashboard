@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Creator Seeding for GoWish — SocialSculp</title>
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" as="style">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:        #008cff;
+      --blue-dim:    rgba(0,140,255,0.07);
+      --blue-border: rgba(0,140,255,0.22);
+      --bg:          #000;
+      --border:      rgba(255,255,255,0.07);
+      --text:        #fff;
+      --muted:       rgba(255,255,255,0.45);
+    }
+
+    html { background: var(--bg); scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Satoshi', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Outer padding + inner border columns ── */
+    .frame { padding: 0 24px; }
+    .frame-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    .pad { padding: 0 40px; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 0 40px;
+    }
+    .nav-logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-cta {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #000;
+      background: var(--blue);
+      padding: 9px 20px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #0070cc; }
+
+    /* ── Section border utility ── */
+    .section-border { border-bottom: 1px solid var(--border); }
+
+    /* ── Hero ── */
+    .hero-content { padding: 80px 40px 72px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      padding: 5px 14px 5px 5px;
+      margin-bottom: 32px;
+    }
+    .badge-pill {
+      background: var(--blue);
+      color: #000;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .badge-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(38px, 5.2vw, 68px);
+      font-weight: 600;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero-title em { font-style: normal; color: var(--blue); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .hs-item { text-align: center; padding: 0 36px 0 0; }
+    .hs-item:first-child { padding-left: 0; }
+    .hs-divider { width: 1px; height: 36px; background: var(--border); margin-right: 36px; }
+    .hs-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .hs-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* ── Stats bar ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .sr-cell {
+      position: relative;
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      transition: background 0.18s;
+      cursor: default;
+    }
+    .sr-cell:last-child { border-right: none; }
+    .sr-cell::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--blue);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+    .sr-cell:hover { background: rgba(255,255,255,0.018); }
+    .sr-cell:hover::before { opacity: 1; }
+    .sr-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .sr-sublabel {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .sr-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Two-column layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; }
+    .col-l {
+      padding: 60px 40px;
+      border-right: 1px solid var(--border);
+    }
+    .col-r { padding: 60px 40px; }
+
+    /* ── Eyebrow + heading ── */
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .heading {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(26px, 2.8vw, 38px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.06;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .heading .accent { color: var(--blue); }
+
+    /* ── Approach list ── */
+    .approach-list { display: flex; flex-direction: column; }
+    .ap-item {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ap-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .ap-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--blue-border);
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+    .ap-icon svg { width: 15px; height: 15px; }
+    .ap-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .ap-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+    /* ── 2×2 stat grid ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      height: fit-content;
+    }
+    .sg-cell {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .sg-cell:nth-child(even) { border-right: none; }
+    .sg-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .sg-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
+    .sg-value.blue { color: var(--blue); }
+    .sg-caption { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Phone mockup ── */
+    .phone-col {
+      padding: 60px 40px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-wrap { position: relative; width: 290px; }
+    .phone-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 3px solid rgba(255,255,255,0.1);
+      background: #0d0d0d;
+    }
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88px;
+      height: 20px;
+      border-radius: 0 0 14px 14px;
+      background: #000;
+      z-index: 10;
+    }
+    .phone-shell iframe {
+      display: block !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
+    .phone-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .phone-link:hover { color: #40b3ff; }
+
+    /* ── Narrative cards ── */
+    .narrative-list { display: flex; flex-direction: column; gap: 10px; }
+    .nc {
+      border: 1px solid var(--border);
+      padding: 18px 20px;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .nc:hover { border-color: var(--blue-border); background: var(--blue-dim); }
+    .nc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .nc-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #000;
+      flex-shrink: 0;
+    }
+    .nc-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+    .nc-body {
+      padding-left: 34px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Footer ── */
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .footer-brand span { color: var(--blue); }
+    .footer-note { font-size: 11px; color: rgba(255,255,255,0.2); }
+    .footer-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+      background: var(--blue);
+      padding: 10px 22px;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .footer-cta:hover { background: #0070cc; }
+    .footer-cta svg { width: 12px; height: 12px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 880px) {
+      .two-col { grid-template-columns: 1fr; }
+      .col-l { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 24px; }
+      .col-r { padding: 48px 24px; }
+      .phone-col { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 24px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stats-row .sr-cell:nth-child(2) { border-right: none; }
+      .stats-row .sr-cell:nth-child(3) { border-right: 1px solid var(--border); }
+      .hero-content { padding: 56px 24px 48px; }
+      .nav-inner { padding: 0 24px; }
+      .footer-inner { padding: 22px 24px; flex-wrap: wrap; }
+    }
+    @media (max-width: 560px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .stats-row .sr-cell { border-right: none; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .sg-cell { border-right: none !important; }
+      .sg-cell:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .sg-cell:last-child { border-bottom: none; }
+      .hero-stats { gap: 0; }
+      .hs-item { padding: 0 20px 0 0; }
+      .hs-divider { margin-right: 20px; }
+      .footer-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="frame">
+  <div class="nav-inner">
+    <a href="https://socialsculp.io" class="nav-logo">SocialSculp<span>.</span></a>
+    <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" class="nav-cta" target="_blank" rel="noopener">Book a Call</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="frame section-border">
+  <div class="frame-inner section-border">
+    <div class="hero-content">
+      <div class="badge">
+        <span class="badge-pill">Creator Seeding</span>
+        <span class="badge-label">for GoWish</span>
+      </div>
+      <h1 class="hero-title">Gift content is already going viral.<br><em>We put GoWish at the centre of it.</em></h1>
+      <p class="hero-sub">Gifting is one of the most creator-native categories on TikTok and Instagram. Birthdays, Christmas, Valentine's — your audience is already making this content. We brief the right creators, on the right occasions, to turn that attention into downloads.</p>
+      <div class="hero-stats">
+        <div class="hs-item">
+          <div class="hs-value">Occasion-Led</div>
+          <div class="hs-label">Content Strategy</div>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hs-item">
+          <div class="hs-value">3-Phase</div>
+          <div class="hs-label">Conversion Playbook</div>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hs-item">
+          <div class="hs-value">10M+</div>
+          <div class="hs-label">GoWish Users Globally</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats bar -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="stats-row">
+      <div class="sr-cell">
+        <div class="sr-value">10M+</div>
+        <div class="sr-sublabel">Global Users</div>
+        <div class="sr-desc">GoWish already has 10M users. We help you reach the next wave.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">$1–1.50</div>
+        <div class="sr-sublabel">CPM</div>
+        <div class="sr-desc">Native gifting content converts at a fraction of paid ad costs.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">3×</div>
+        <div class="sr-sublabel">Phase Playbook</div>
+        <div class="sr-desc">Occasions hook first. Evergreen content scales second.</div>
+      </div>
+      <div class="sr-cell">
+        <div class="sr-value">Live</div>
+        <div class="sr-sublabel">Optimization</div>
+        <div class="sr-desc">We improve performance as campaigns run. Not after.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="two-col">
+
+      <!-- Left: approach -->
+      <div class="col-l">
+        <p class="eyebrow">Our Approach</p>
+        <h2 class="heading">Built Around<br>Gifting Moments.</h2>
+        <div class="approach-list">
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="8" width="18" height="14" rx="1"/><path d="M12 8V22"/><path d="M3 13h18"/>
+                <path d="M8 8c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M8 8c0-2.2-1.8-4-4-4"/>
+                <path d="M16 8c0-2.2 1.8-4 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Occasion-Led Hooks</p>
+              <p class="ap-body">We brief creators around peak gifting moments — Christmas, Birthdays, Valentine's Day. When intent is highest, your content is already in feed.</p>
+            </div>
+          </div>
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Evergreen Wishlist Content</p>
+              <p class="ap-body">Between occasions, we seed habit-forming content — "things I want", "gift ideas for X" — the discovery layer that drives consistent downloads year-round.</p>
+            </div>
+          </div>
+          <div class="ap-item">
+            <div class="ap-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 4l3 3-3 3"/><path d="M18 20l3-3-3-3"/>
+                <path d="M3 7h3a5 5 0 0 1 5 5 5 5 0 0 0 5 5h5"/><path d="M21 7h-5a4.978 4.978 0 0 0-3 1m-4 8a4.984 4.984 0 0 1-3 1H3"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ap-title">Test → Validate → Scale</p>
+              <p class="ap-body">We start small to prove what works, double down on winners, then scale spend only behind validated creative. No budget wasted on guesswork.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: 2×2 stat grid -->
+      <div class="col-r" style="display:flex;align-items:center;">
+        <div class="stat-grid" style="width:100%">
+          <div class="sg-cell">
+            <div class="sg-value">#1</div>
+            <div class="sg-caption">US App Store — hit the top spot in holiday season 2025</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">10M+</div>
+            <div class="sg-caption">Global users — market leader in Scandinavia, expanding fast</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value blue">$1–1.50</div>
+            <div class="sg-caption">CPM — vs $15–30+ for paid ads</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Live</div>
+            <div class="sg-caption">Optimization — CPM and reach improve as the campaign runs</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Narrative + Reel -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="two-col">
+
+      <!-- Left: phone mockup -->
+      <div class="phone-col">
+        <div class="phone-wrap">
+          <div class="phone-shell">
+            <div class="phone-notch"></div>
+            <iframe
+              src="https://www.instagram.com/reel/DT3qYCIEubS/embed/captioned/?cr=1&v=14&wp=284&rd=https%3A%2F%2Fsocialsculp.io&rp=%2Fgowish"
+              allowtransparency="true"
+              allowfullscreen="true"
+              frameborder="0"
+              height="700"
+              scrolling="no"
+            ></iframe>
+          </div>
+          <a href="https://www.instagram.com/reel/DT3qYCIEubS/" class="phone-link" target="_blank" rel="noopener">
+            Watch on Instagram →
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: narrative strategy -->
+      <div class="col-r">
+        <p class="eyebrow">Proprietary Strategy</p>
+        <h2 class="heading">The Video That<br><span class="accent">Shows the Strategy</span></h2>
+        <div class="narrative-list">
+          <div class="nc">
+            <div class="nc-head">
+              <div class="nc-num">1</div>
+              <div class="nc-title">Narrative Alignment</div>
+            </div>
+            <p class="nc-body">The hook is the occasion, not the app. "What I want for Christmas" is a content format — we engineer GoWish into that format naturally, so it feels like discovery, not an ad.</p>
+          </div>
+          <div class="nc">
+            <div class="nc-head">
+              <div class="nc-num">2</div>
+              <div class="nc-title">Conversion Mechanics</div>
+            </div>
+            <p class="nc-body">Download intent is embedded into the content structure: social proof, wishlist reveal, clear CTA. Not bolted on at the end. This is the difference between a brand video and one that converts.</p>
+          </div>
+          <div class="nc">
+            <div class="nc-head">
+              <div class="nc-num">3</div>
+              <div class="nc-title">Audience Propagation</div>
+            </div>
+            <p class="nc-body">The same occasion-led angle deployed across multiple creators in the same demo. Reach compounds. CPM drops. The message becomes ambient — not an ad, a trend.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="frame">
+  <div class="frame-inner">
+    <div class="footer-inner">
+      <span class="footer-brand">SocialSculp<span>.</span></span>
+      <span class="footer-note">Confidential · Prepared for GoWish</span>
+      <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" class="footer-cta" target="_blank" rel="noopener">
+        Book a Strategy Call
+        <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 6h10M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.instagram.com/embed.js" async></script>
+
+</body>
+</html>

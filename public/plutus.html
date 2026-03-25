@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creator Seeding for Plutus Gaming — SocialSculp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface-2: #161616;
+      --border: #1e1e1e;
+      --accent: #008cff;
+      --accent-dim: rgba(0, 140, 255, 0.12);
+      --text: #f0ece4;
+      --text-muted: #6b6860;
+      --text-dim: #3a3832;
+      --green: #34d399;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    /* ─── Typography ─────────────────────────────────────────────── */
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.15; }
+
+    .label {
+      display: inline-block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    /* ─── Nav ────────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-cta {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(0, 140, 255, 0.3);
+      padding: 8px 20px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────── */
+    #hero {
+      padding: 120px 0 96px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(38px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    .pill.accent {
+      border-color: rgba(0, 140, 255, 0.3);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    /* ─── Section headings ───────────────────────────────────────── */
+    .section-title {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-lead {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+    }
+
+    /* ─── Problem ────────────────────────────────────────────────── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .problem-card {
+      background: var(--surface);
+      padding: 28px 24px;
+    }
+
+    .problem-card .stat {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #e05252;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .problem-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Approach ───────────────────────────────────────────────── */
+    .approach-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .approach-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 28px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .approach-step:last-child { border-bottom: none; }
+
+    .step-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      padding-top: 3px;
+      flex-shrink: 0;
+      width: 32px;
+    }
+
+    .step-body h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .step-body p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Playbook ───────────────────────────────────────────────── */
+    .phase-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    @media (max-width: 600px) {
+      .phase-row { grid-template-columns: 1fr; }
+    }
+
+    .phase-card {
+      background: var(--surface);
+      padding: 32px 28px;
+    }
+
+    .phase-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .phase-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .phase-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Narrative ──────────────────────────────────────────────── */
+    .narrative-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .narrative-card {
+      background: var(--surface);
+      padding: 32px 28px;
+    }
+
+    .narrative-card .mechanic-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .narrative-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .narrative-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Phone Showcase ────────────────────────────────────────── */
+    .showcase-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .showcase-split {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .phone-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .phone-side {
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+      }
+    }
+
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      overflow: hidden;
+      border-radius: 2rem;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      background: #111;
+    }
+
+    .phone-notch {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      z-index: 20;
+      height: 24px;
+      width: 112px;
+      transform: translateX(-50%);
+      border-radius: 0 0 16px 16px;
+      background: #000;
+    }
+
+    .phone-frame iframe {
+      width: 100%;
+      min-width: 0 !important;
+      border: none;
+      display: block;
+    }
+
+    .phone-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .phone-link:hover { color: #0070cc; }
+
+    .strategy-side {
+      padding: 48px 28px;
+    }
+
+    .strategy-step {
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .strategy-step:hover {
+      border-color: rgba(0, 140, 255, 0.2);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .strategy-step:last-child { margin-bottom: 0; }
+
+    .strategy-step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .strategy-step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .strategy-step h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+
+    .strategy-step p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding-left: 40px;
+    }
+
+    /* ─── Numbers ────────────────────────────────────────────────── */
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    @media (min-width: 640px) {
+      .numbers-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .number-card {
+      background: var(--surface);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .number-card .big {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .number-card .versus {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .number-card .description {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Why ────────────────────────────────────────────────────── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    @media (max-width: 600px) {
+      .why-grid { grid-template-columns: 1fr; }
+    }
+
+    .why-card {
+      background: var(--surface);
+      padding: 28px 24px;
+    }
+
+    .why-card .icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .why-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .why-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── CTA ────────────────────────────────────────────────────── */
+    #cta {
+      text-align: center;
+      padding: 120px 0;
+    }
+
+    #cta .section-title { margin-bottom: 16px; }
+
+    #cta .section-lead {
+      margin: 0 auto 48px;
+      max-width: 480px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: var(--accent);
+      padding: 18px 40px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .cta-btn:hover {
+      background: #0070cc;
+      transform: translateY(-1px);
+    }
+
+    .cta-sub {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    footer span { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="https://socialsculp.io" class="nav-logo">SocialSculp<span>.</span></a>
+    <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" target="_blank" rel="noopener" class="nav-cta">Book a Call</a>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Plutus Gaming × SocialSculp</p>
+      <h1 class="hero-title">Creator Seeding<br />for <em>Plutus Gaming</em></h1>
+      <p class="hero-sub">
+        Reach gaming audiences at $1–1.50 CPM through a data-driven creator seeding playbook. No wasted spend. Live optimisation from day one.
+      </p>
+      <div class="pill-row">
+        <div class="pill accent">$1–1.50 CPM</div>
+        <div class="pill accent">3-Phase Playbook</div>
+        <div class="pill accent">Live Optimisation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section id="problem">
+    <div class="container">
+      <span class="label">The Problem</span>
+      <h2 class="section-title">Traditional ads don't work<br />in gaming.</h2>
+      <p class="section-lead">
+        Paid media costs $15–30+ CPM, burns budget before you have signal, and feels like an ad — which gaming audiences are wired to ignore. You're paying a premium to be tuned out.
+      </p>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="stat">$15–30+</div>
+          <p>CPM for paid social ads targeting gaming audiences — before a single conversion</p>
+        </div>
+        <div class="problem-card">
+          <div class="stat">↓ Trust</div>
+          <p>Gaming communities are among the most ad-resistant audiences online — traditional advertising backfires</p>
+        </div>
+        <div class="problem-card">
+          <div class="stat">0 Signal</div>
+          <p>Paid campaigns give you spend data, not creative signal. You don't know what actually resonates until it's too late</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Approach -->
+  <section id="approach">
+    <div class="container">
+      <span class="label">Our Approach</span>
+      <h2 class="section-title">Data-powered, not guesswork.</h2>
+      <p class="section-lead">
+        We deploy a network of vetted gaming creators who produce native content — content that audiences actively seek out, not scroll past. AI agents monitor performance in real time. Budget follows results, not assumptions.
+      </p>
+      <div class="approach-steps">
+        <div class="approach-step">
+          <div class="step-number">01</div>
+          <div class="step-body">
+            <h4>Creator-Native Content</h4>
+            <p>Gaming audiences trust creators they follow. We place your brand inside organic content — hooks engineered for discovery, not interruption.</p>
+          </div>
+        </div>
+        <div class="approach-step">
+          <div class="step-number">02</div>
+          <div class="step-body">
+            <h4>Real-Time AI Monitoring</h4>
+            <p>20+ AI agents track every post: views, engagement rate, retention signals. Winning content gets amplified immediately — losing content gets cut.</p>
+          </div>
+        </div>
+        <div class="approach-step">
+          <div class="step-number">03</div>
+          <div class="step-body">
+            <h4>Test → Validate → Scale</h4>
+            <p>We prove what works before committing budget. Phase 1 generates signal. Phase 2 validates. Phase 3 deploys capital behind validated creative only.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Phase Playbook -->
+  <section id="playbook">
+    <div class="container">
+      <span class="label">The Playbook</span>
+      <h2 class="section-title">Three phases. Zero wasted spend.</h2>
+      <p class="section-lead">
+        Most agencies skip straight to scale. We insist on earning the right to scale — by proving the creative works first.
+      </p>
+      <div class="phase-row">
+        <div class="phase-card">
+          <div class="phase-number">Phase 1</div>
+          <h3>Test</h3>
+          <p>Deploy a diverse creator mix with varied angles. Measure view rates, retention, engagement. Identify what resonates with your specific audience segment.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-number">Phase 2</div>
+          <h3>Validate</h3>
+          <p>Double down on the creators and hooks that won Phase 1. Increase volume with proven content structures. Confirm CPM trends downward as narrative compounds.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-number">Phase 3</div>
+          <h3>Scale</h3>
+          <p>Deploy full budget behind validated creative only. Expand creator network using Phase 2 benchmarks as the filter. CPM drops as audience propagation compounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Narrative Strategy -->
+  <section id="narrative">
+    <div class="container">
+      <span class="label">Narrative Strategy</span>
+      <h2 class="section-title">Three mechanics that<br />drive compounding reach.</h2>
+      <p class="section-lead">
+        Performance isn't random. Every high-converting piece of creator content is built on the same structural mechanics — and we engineer all three into every brief.
+      </p>
+      <div class="narrative-grid">
+        <div class="narrative-card">
+          <div class="mechanic-label">Mechanic 01</div>
+          <h3>Hook Engineering</h3>
+          <p>Pain-point angle first — not features. Content leads with what the audience already feels, then positions Plutus as the answer. The hook is the product.</p>
+        </div>
+        <div class="narrative-card">
+          <div class="mechanic-label">Mechanic 02</div>
+          <h3>Conversion Mechanics</h3>
+          <p>Urgency and social proof embedded in the content structure itself — not bolted on at the end. Viewers act because the narrative earns it, not because they were told to.</p>
+        </div>
+        <div class="narrative-card">
+          <div class="mechanic-label">Mechanic 03</div>
+          <h3>Audience Propagation</h3>
+          <p>Same narrative deployed across multiple creators simultaneously. Audiences encounter the same story from different voices — compounding reach, reinforcing trust, and dropping effective CPM over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phone Showcase -->
+  <section id="showcase">
+    <div class="container">
+      <span class="label">Proprietary Strategy</span>
+      <h2 class="section-title">The Video That<br />Shows the Strategy</h2>
+      <p class="section-lead">
+        This is what creator-native content looks like when it's built to convert — not just entertain. Every frame is engineered.
+      </p>
+      <div class="showcase-split">
+        <div class="phone-side">
+          <div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <iframe
+                src="https://www.instagram.com/reel/DT3qYCIEubS/embed/captioned/?cr=1&v=14&wp=320"
+                allowtransparency="true"
+                allowfullscreen="true"
+                frameborder="0"
+                height="720"
+                scrolling="no"
+                style="background: white; width: 100%; max-width: 100%; border-radius: 3px; border: none; display: block; margin: 0; padding: 0;"
+              ></iframe>
+            </div>
+            <a href="https://www.instagram.com/reel/DT3qYCIEubS/" target="_blank" rel="noopener" class="phone-link">
+              Watch on Instagram →
+            </a>
+          </div>
+        </div>
+        <div class="strategy-side">
+          <span class="label" style="margin-bottom: 24px;">How We Build Content</span>
+          <div class="strategy-step">
+            <div class="strategy-step-header">
+              <span class="strategy-step-number">1</span>
+              <h4>Narrative Alignment</h4>
+            </div>
+            <p>The hook is built around the product's pain-point — not its features. We engineer the angle first, then the content follows. The video opens on the audience's problem, not the product.</p>
+          </div>
+          <div class="strategy-step">
+            <div class="strategy-step-header">
+              <span class="strategy-step-number">2</span>
+              <h4>Conversion Mechanics</h4>
+            </div>
+            <p>Urgency, social proof, and a clear next step are embedded into the structure of the content — not bolted on at the end. This is the difference between a brand video and one that converts.</p>
+          </div>
+          <div class="strategy-step">
+            <div class="strategy-step-header">
+              <span class="strategy-step-number">3</span>
+              <h4>Audience Propagation</h4>
+            </div>
+            <p>The same narrative angle is deployed across multiple creators who share the same target demo — so the message compounds instead of duplicating. Reach scales. CPM drops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Numbers -->
+  <section id="numbers">
+    <div class="container">
+      <span class="label">The Numbers</span>
+      <h2 class="section-title">What creator seeding<br />actually delivers.</h2>
+      <p class="section-lead">
+        These aren't projections. They're the benchmarks we optimise toward based on live campaign data across gaming and entertainment verticals.
+      </p>
+      <div class="numbers-grid">
+        <div class="number-card">
+          <div class="big">$1–1.50</div>
+          <div class="versus">vs $15–30+ for paid ads</div>
+          <div class="description">Effective CPM at scale</div>
+        </div>
+        <div class="number-card">
+          <div class="big">∞</div>
+          <div class="versus">No cap on creator volume</div>
+          <div class="description">Creator network depth</div>
+        </div>
+        <div class="number-card">
+          <div class="big">Live</div>
+          <div class="versus">Every post, every hour</div>
+          <div class="description">Performance monitoring</div>
+        </div>
+        <div class="number-card">
+          <div class="big">20+</div>
+          <div class="versus">Running 24/7</div>
+          <div class="description">AI agents on your campaign</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why SocialSculp -->
+  <section id="why">
+    <div class="container">
+      <span class="label">Why SocialSculp</span>
+      <h2 class="section-title">Built for performance,<br />not for optics.</h2>
+      <p class="section-lead">
+        We're not a traditional influencer agency. We're a performance-first operation — with the creative, data, and talent infrastructure to back it.
+      </p>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="icon">📣</div>
+          <h4>Influencer Marketing</h4>
+          <p>End-to-end creator seeding campaigns — strategy, briefing, deployment, and live optimisation. Not just introductions.</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">🎬</div>
+          <h4>Creative Production</h4>
+          <p>In-house content production capability for brands that need more than creator-generated assets — scripts, hooks, visual direction.</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">🌐</div>
+          <h4>Talent Management</h4>
+          <p>Vetted network of creators across TikTok and Instagram — active, growing, with proven engagement in the verticals that matter to you.</p>
+        </div>
+        <div class="why-card">
+          <div class="icon">📊</div>
+          <h4>Performance Marketing</h4>
+          <p>Every decision is data-backed. We track CPM, engagement rate, retention, and ROAS — and we optimise in real time, not at the end of the campaign.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="container">
+      <span class="label">Get Started</span>
+      <h2 class="section-title">Ready to reach gaming<br />audiences that actually convert?</h2>
+      <p class="section-lead">
+        Book a 30-minute strategy call. We'll map out a creator seeding approach specific to Plutus Gaming — no commitments, no deck spam.
+      </p>
+      <a href="https://calendar.app.google/c6Ci7BweG3LXyMRQ6" target="_blank" rel="noopener" class="cta-btn">
+        Book Your Strategy Call →
+      </a>
+      <p class="cta-sub">30 minutes · No commitment · Direct with the team</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 <span>SocialSculp</span>. All rights reserved. · socialsculp.io</p>
+  </footer>
+
+  <script src="https://www.instagram.com/embed.js" async></script>
+</body>
+</html>
