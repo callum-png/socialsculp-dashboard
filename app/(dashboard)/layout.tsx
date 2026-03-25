@@ -14,9 +14,12 @@ export default async function DashboardLayout({
     redirect('/sign-in')
   }
 
-  const client = await clerkClient()
-  const user = await client.users.getUser(userId)
-  const role = (user.publicMetadata?.role as UserRole) ?? 'ADMIN'
-
-  return <DashboardShell role={role}>{children}</DashboardShell>
+  try {
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId)
+    const role = (user.publicMetadata?.role as UserRole) ?? 'ADMIN'
+    return <DashboardShell role={role}>{children}</DashboardShell>
+  } catch {
+    redirect('/sign-in')
+  }
 }
