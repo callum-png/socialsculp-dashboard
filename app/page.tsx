@@ -8,20 +8,24 @@ import { LoadingScreen } from '@/app/components/LoadingScreen'
 import { HeroSparkles } from '@/app/components/HeroSparkles'
 
 export default async function Home() {
-  const { userId } = await auth()
-  if (userId) {
-    const client = await clerkClient()
-    const user = await client.users.getUser(userId)
-    const role = user.publicMetadata?.role as string | undefined
-    const status = user.publicMetadata?.status as string | undefined
-    if (role && status !== 'PENDING') {
-      switch (role) {
-        case 'ADMIN': redirect('/admin')
-        case 'AGENT': redirect('/agent')
-        case 'CREATOR': redirect('/creator')
-        case 'BRAND': redirect('/brand')
+  try {
+    const { userId } = await auth()
+    if (userId) {
+      const client = await clerkClient()
+      const user = await client.users.getUser(userId)
+      const role = user.publicMetadata?.role as string | undefined
+      const status = user.publicMetadata?.status as string | undefined
+      if (role && status !== 'PENDING') {
+        switch (role) {
+          case 'ADMIN': redirect('/admin')
+          case 'AGENT': redirect('/agent')
+          case 'CREATOR': redirect('/creator')
+          case 'BRAND': redirect('/brand')
+        }
       }
     }
+  } catch {
+    // Clerk auth check failed — show landing page for unauthenticated visitors
   }
 
   return (
