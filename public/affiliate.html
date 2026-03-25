@@ -268,7 +268,7 @@
     .cs-full { padding: 48px 40px; }
     .cs-overview {
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: 1fr 340px;
       gap: 48px;
       margin-bottom: 48px;
     }
@@ -511,6 +511,7 @@
       padding: 28px 24px;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
     .sg-cell:nth-child(even) { border-right: none; }
     .sg-cell:nth-last-child(-n+2) { border-bottom: none; }
@@ -524,7 +525,7 @@
       margin-bottom: 7px;
     }
     .sg-value.blue { color: var(--blue); }
-    .sg-caption { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .sg-caption { font-size: 11px; color: var(--muted); line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word; }
 
     /* ── How it works (affiliate mechanics) ── */
     .mechanic-row {
@@ -657,6 +658,89 @@
     .footer-cta:hover { background: #0070cc; }
     .footer-cta svg { width: 12px; height: 12px; }
 
+    /* ── Phone mockup ── */
+    .phone-showcase {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 48px;
+      padding: 56px 40px;
+      align-items: center;
+    }
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      overflow: hidden;
+      border-radius: 2rem;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      background: #111;
+    }
+    .phone-notch {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      z-index: 20;
+      height: 24px;
+      width: 112px;
+      transform: translateX(-50%);
+      border-radius: 0 0 16px 16px;
+      background: #000;
+    }
+    .phone-frame iframe {
+      width: 100%;
+      min-width: 0 !important;
+      border: none;
+      display: block;
+    }
+    .phone-caption {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .phone-caption a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .phone-caption a:hover { color: #0070cc; }
+    .showcase-text .showcase-stat-val {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .showcase-text .showcase-stat-val.blue { color: var(--blue); }
+    .showcase-stat-row {
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .showcase-stat-item .showcase-stat-num {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .showcase-stat-item .showcase-stat-label {
+      font-size: 10px;
+      color: var(--muted);
+    }
+    @media (max-width: 880px) {
+      .phone-showcase { grid-template-columns: 1fr; justify-items: center; padding: 48px 24px; }
+      .showcase-text { text-align: center; }
+      .showcase-stat-row { justify-content: center; }
+    }
+
     /* ── Section heading strip ── */
     .section-head {
       padding: 40px 40px 0;
@@ -779,6 +863,54 @@
         <div class="sr-value">Live</div>
         <div class="sr-sublabel">Optimization</div>
         <div class="sr-desc">We optimize creative angles in real time — CPM drops as campaigns run, not after.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Phone showcase -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="phone-showcase">
+      <div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <iframe
+            src="https://www.tiktok.com/embed/v3/7584241120096439566"
+            allowfullscreen="true"
+            frameborder="0"
+            height="740"
+            scrolling="no"
+            style="background: #000; width: 100%; max-width: 100%; border: none; display: block; margin: 0; padding: 0;"
+          ></iframe>
+        </div>
+        <div class="phone-caption">
+          <a href="https://www.tiktok.com/@arospeaks/video/7584241120096439566" target="_blank" rel="noopener">Watch on TikTok →</a>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <p class="eyebrow">Live Campaign Result</p>
+        <div class="showcase-stat-val blue">1.5M</div>
+        <div class="showcase-stat-val">views on a single post.</div>
+        <p style="font-size:13px; color:var(--muted); line-height:1.65; margin-top:20px; max-width:440px;">This Quizard post by @arospeaks hit 1.5M views organically. No paid promotion. One creator, one brief, native content. This is what creator seeding looks like when the angle is right.</p>
+        <div class="showcase-stat-row">
+          <div class="showcase-stat-item">
+            <div class="showcase-stat-num">98.9K</div>
+            <div class="showcase-stat-label">Likes</div>
+          </div>
+          <div class="showcase-stat-item">
+            <div class="showcase-stat-num">8.5K</div>
+            <div class="showcase-stat-label">Shares</div>
+          </div>
+          <div class="showcase-stat-item">
+            <div class="showcase-stat-num">1.1K</div>
+            <div class="showcase-stat-label">Comments</div>
+          </div>
+          <div class="showcase-stat-item">
+            <div class="showcase-stat-num">6.6%</div>
+            <div class="showcase-stat-label">Engagement Rate</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -934,7 +1066,15 @@
 
       <!-- Reel grid -->
       <div class="reel-label">Campaign creators — click to watch</div>
-      <div class="reel-grid">
+      <div class="reel-grid" style="grid-template-columns: repeat(6, 1fr);">
+        <a class="reel-card" href="https://www.tiktok.com/@arospeaks/video/7584241120096439566" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">1.5M views</div>
+            <div class="reel-handle">@arospeaks</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
         <a class="reel-card" href="https://www.tiktok.com/@kasuniversity/video/7558672670586440973" target="_blank" rel="noopener">
           <div>
             <div class="reel-platform">TikTok</div>
@@ -981,6 +1121,104 @@
   </div>
 </div>
 
+<!-- Case Study: StealthGPT -->
+<div class="frame section-border">
+  <div class="frame-inner">
+    <div class="cs-full">
+      <div class="cs-overview">
+        <div>
+          <div class="cs-client">StealthGPT · AI Writing Tool · 2025–2026</div>
+          <h3 class="cs-headline">300K+ views. 50K+ likes.<br>5 creators. Cross-platform.</h3>
+          <p class="cs-body" style="margin-bottom:0;">StealthGPT is an AI writing tool that bypasses AI detection. We seeded creators in the student and education niche across TikTok and Instagram — briefs built around "AI has been patched in schools," "how I still use AI for essays," and "apps that save your GPA." The controversy angle drove massive engagement: 10%+ engagement rate across TikTok posts.</p>
+          <div class="cs-overview-stats">
+            <div>
+              <div class="cs-stat-val">300K+</div>
+              <div class="cs-stat-label">Views</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">50K+</div>
+              <div class="cs-stat-label">Likes</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">10%+</div>
+              <div class="cs-stat-label">Engagement Rate</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">5</div>
+              <div class="cs-stat-label">Creators</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-grid" style="align-self:flex-start;">
+          <div class="sg-cell">
+            <div class="sg-value blue">10%+</div>
+            <div class="sg-caption">Engagement rate — controversy-led briefs drive interaction</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">TT + IG</div>
+            <div class="sg-caption">Cross-platform deployment across TikTok and Instagram</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">50K+</div>
+            <div class="sg-caption">Total likes across all creator posts</div>
+          </div>
+          <div class="sg-cell">
+            <div class="sg-value">Native</div>
+            <div class="sg-caption">Controversy hook — creators own the narrative, app is the solution</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reel grid -->
+      <div class="reel-label">Campaign creators — click to watch</div>
+      <div class="reel-grid">
+        <a class="reel-card" href="https://www.tiktok.com/@jetty._wetty/video/7570069652513017102" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">89.2K views</div>
+            <div class="reel-handle">@jetty._wetty</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.instagram.com/reel/DQ5s4YclQyo/" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">Instagram</div>
+            <div class="reel-views">22.7K likes</div>
+            <div class="reel-handle">@zayynelly</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@zayynelly/video/7571308381248523540" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">156.4K views</div>
+            <div class="reel-handle">@zayynelly</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/t/ZP8DHFLm9/" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">30K views</div>
+            <div class="reel-handle">@3purxpii</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/t/ZP8DHeBHx/" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">26.2K views</div>
+            <div class="reel-handle">@greening_talks</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- Case Study: Ryne AI -->
 <div class="frame section-border">
   <div class="frame-inner">
@@ -988,12 +1226,16 @@
       <div class="cs-overview">
         <div>
           <div class="cs-client">Ryne AI · AI App · Feb–Apr 2026</div>
-          <h3 class="cs-headline">10M+ total views.<br>Active campaign.<br>6 creators.</h3>
-          <p class="cs-body" style="margin-bottom:0;">Ryne AI is an AI-powered app. We sourced and briefed 6 creators across TikTok and Instagram, deploying content in waves. The campaign is still active with 10M+ total views and climbing — proving the same playbook scales across verticals.</p>
+          <h3 class="cs-headline">10M+ total views.<br>74K+ likes. 6 creators.</h3>
+          <p class="cs-body" style="margin-bottom:0;">Ryne AI is an AI-powered app. We sourced and briefed 6 creators across TikTok and Instagram, deploying content in waves. The campaign is still active with 10M+ total views, 74K+ likes, and climbing — proving the same playbook scales across verticals.</p>
           <div class="cs-overview-stats">
             <div>
               <div class="cs-stat-val">10M+</div>
               <div class="cs-stat-label">Total Views</div>
+            </div>
+            <div>
+              <div class="cs-stat-val">74K+</div>
+              <div class="cs-stat-label">Total Likes</div>
             </div>
             <div>
               <div class="cs-stat-val">6</div>
@@ -1025,6 +1267,36 @@
           </div>
         </div>
       </div>
+
+      <!-- Reel grid -->
+      <div class="reel-label">Campaign creators — click to watch</div>
+      <div class="reel-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <a class="reel-card" href="https://www.instagram.com/reels/DUOYEwUCDt0/" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">Instagram</div>
+            <div class="reel-views">9.2K likes</div>
+            <div class="reel-handle">@kbtheginger</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.tiktok.com/@greening_talks/video/7602810404250635534" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">TikTok</div>
+            <div class="reel-views">14.5K likes</div>
+            <div class="reel-handle">@greening_talks</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+        <a class="reel-card" href="https://www.instagram.com/reels/DT3qYCIEubS/" target="_blank" rel="noopener">
+          <div>
+            <div class="reel-platform">Instagram</div>
+            <div class="reel-views">50.3K likes</div>
+            <div class="reel-handle">@zayynelly</div>
+          </div>
+          <div class="reel-arrow">Watch →</div>
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
