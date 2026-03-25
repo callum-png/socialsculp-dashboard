@@ -203,6 +203,59 @@ html { scroll-behavior: smooth; }
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+  overflow: hidden;
+
+  /* Background image — Milad Fakurian sphere */
+  background-image: url('https://images.unsplash.com/photo-1617358142775-4be217d9cc19?w=1920&q=85&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center 40%;
+}
+
+/* Warm cream tint over the grey image */
+.v2-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(240, 218, 200, 0.38);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Gradient for text readability — bottom fade */
+.v2-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(240,230,222,0.15) 0%,
+      rgba(240,230,222,0.0) 30%,
+      rgba(240,230,222,0.0) 55%,
+      rgba(240,230,222,0.65) 78%,
+      rgba(240,230,222,0.92) 100%
+    );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Vignette edges */
+.v2-hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 85% at 50% 50%,
+    transparent 0%,
+    rgba(220, 195, 175, 0.35) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* All hero content sits above overlays */
+.v2-hero > *:not(.v2-hero-overlay):not(.v2-hero-vignette) {
+  position: relative;
+  z-index: 4;
 }
 .v2-hero-tag {
   font-family: var(--font-sans);
@@ -238,10 +291,11 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   transform: translateY(20px);
   animation: v2FadeUp 0.9s ease forwards 2.0s;
+  text-shadow: 0 2px 40px rgba(240,218,200,0.5);
 }
 .v2-hero-headline .outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--dark);
+  -webkit-text-stroke: 1.5px rgba(20,20,20,0.75);
 }
 .v2-hero-headline .blue {
   color: var(--accent);

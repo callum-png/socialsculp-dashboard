@@ -101,6 +101,8 @@ export default function V2Page() {
 
       {/* ── Hero ── */}
       <section className="v2-hero" id="hero">
+        <div className="v2-hero-overlay" aria-hidden="true" />
+        <div className="v2-hero-vignette" aria-hidden="true" />
         <div className="v2-hero-tag">
           Social Media Sculptors — Est. 2024
         </div>
