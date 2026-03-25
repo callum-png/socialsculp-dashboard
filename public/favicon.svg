@@ -1,4 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#04060E"/>
-  <text x="16" y="22" font-family="Arial, sans-serif" font-weight="900" font-size="14" fill="#008CFF" text-anchor="middle" letter-spacing="-0.5">SS</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#040810"/>
+      <stop offset="100%" stop-color="#07101E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2aa8ff"/>
+      <stop offset="100%" stop-color="#008CFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <text x="16" y="21.5" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="13.5" fill="url(#accent)" text-anchor="middle" letter-spacing="-1">SS</text>
 </svg>
