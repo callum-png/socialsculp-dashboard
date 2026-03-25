@@ -1,13 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useScrollAnimations } from './useScrollAnimations'
 
 // Dynamically import 3D components — no SSR
+// IntroScene has an inline loading fallback so the counter shows instantly
 const IntroScene = dynamic(
   () => import('./IntroScene').then(m => ({ default: m.IntroScene })),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#040810' }}>
+        <div style={{ position: 'absolute', bottom: 48, left: 48 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(5rem,9vw,8rem)', color: 'rgba(240,230,222,0.92)', lineHeight: 1, letterSpacing: '-0.03em' }}>000</div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(0,140,255,0.75)', marginTop: 6 }}>CREATOR NETWORK — INITIALISING</div>
+        </div>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+      </div>
+    )
+  }
 )
 const NetworkHero = dynamic(
   () => import('./NetworkHero').then(m => ({ default: m.NetworkHero })),
@@ -52,6 +64,14 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
   const [heroVisible, setHeroVisible] = useState(false)
 
   useScrollAnimations()
+
+  // ?skip=1 in URL bypasses the intro instantly (useful for development)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('skip')) {
+      setIntroComplete(true)
+      setHeroVisible(true)
+    }
+  }, [])
 
   const handleIntroComplete = () => {
     setIntroComplete(true)

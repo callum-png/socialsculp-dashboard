@@ -159,8 +159,8 @@ function HeroNetwork({ nodesData, edgesData }: { nodesData: THREE.Vector3[], edg
 
 export function NetworkHero() {
   const { nodes, edges } = useMemo(() => {
-    const nodes = genNodes(70, 9, 2.2)
-    const edges = genEdges(nodes, 3.8)
+    const nodes = genNodes(45, 9, 2.5)
+    const edges = genEdges(nodes, 4.0)
     return { nodes, edges }
   }, [])
 

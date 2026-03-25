@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { EffectComposer, Bloom, ChromaticAberration, Vignette } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 // ── Duration ──────────────────────────────────────────────────
-const INTRO_DURATION = 4500 // ms — faster, punchier
-const NODE_COUNT = 80
+const INTRO_DURATION = 4000 // ms
+const NODE_COUNT = 55
 const SPHERE_RADIUS = 9
-const MIN_DIST = 2.1
-const CONNECTION_RADIUS = 3.9
+const MIN_DIST = 2.3
+const CONNECTION_RADIUS = 4.2
 const BRAND_TEXT = 'SOCIALSCULP'
 
 // ── GLSL: Nodes ───────────────────────────────────────────────
@@ -224,9 +224,8 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
       </group>
       <Camera pRef={pRef} />
       <EffectComposer>
-        <Bloom intensity={1.8} luminanceThreshold={0.08} luminanceSmoothing={0.85} mipmapBlur />
-        <ChromaticAberration offset={[0.0006, 0.0006] as [number, number]} />
-        <Vignette eskil={false} offset={0.1} darkness={0.85} />
+        <Bloom intensity={1.6} luminanceThreshold={0.1} luminanceSmoothing={0.85} mipmapBlur />
+        <ChromaticAberration offset={[0.0005, 0.0005] as [number, number]} />
       </EffectComposer>
     </>
   )
@@ -237,21 +236,39 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0)
   const [fading, setFading] = useState(false)
   const [mounted, setMounted] = useState(true)
+  const [sceneReady, setSceneReady] = useState(false)
 
   const activRef = useRef(new Float32Array(NODE_COUNT))
   const edgeActivRef = useRef(new Float32Array(0))
   const pRef = useRef(0)
 
-  const { nodes, edges, levels } = useMemo(() => {
-    const nodes = generateNodes(NODE_COUNT, SPHERE_RADIUS, MIN_DIST)
-    const edges = buildEdges(nodes, CONNECTION_RADIUS)
-    const levels = bfs(nodes.length, edges)
-    return { nodes, edges, levels }
-  }, [])
-
-  useEffect(() => { edgeActivRef.current = new Float32Array(edges.length) }, [edges.length])
+  // Defer heavy computation to after first paint so counter shows instantly
+  const nodesRef = useRef<THREE.Vector3[]>([])
+  const edgesRef = useRef<[number, number][]>([])
+  const levelsRef = useRef<number[][]>([])
 
   useEffect(() => {
+    // Run after first paint via setTimeout 0
+    const id = setTimeout(() => {
+      const nodes = generateNodes(NODE_COUNT, SPHERE_RADIUS, MIN_DIST)
+      const edges = buildEdges(nodes, CONNECTION_RADIUS)
+      const levels = bfs(nodes.length, edges)
+      nodesRef.current = nodes
+      edgesRef.current = edges
+      levelsRef.current = levels
+      edgeActivRef.current = new Float32Array(edges.length)
+      setSceneReady(true)
+    }, 0)
+    return () => clearTimeout(id)
+  }, [])
+
+  // Convenience aliases (only valid after sceneReady)
+  const nodes = nodesRef.current
+  const edges = edgesRef.current
+  const levels = levelsRef.current
+
+  useEffect(() => {
+    if (!sceneReady) return
     const activ = activRef.current
     const start = performance.now()
     let raf: number
@@ -261,31 +278,32 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       pRef.current = pct
       setProgress(Math.floor(pct))
 
+      const ns = nodesRef.current
+      const es = edgesRef.current
+      const ls = levelsRef.current
+
       if (pct < 15) {
-        // 0-15%: Nodes appear one by one
-        const n = Math.floor((pct / 15) * nodes.length)
-        for (let i = 0; i < nodes.length; i++) {
+        const n = Math.floor((pct / 15) * ns.length)
+        for (let i = 0; i < ns.length; i++) {
           const t = i < n ? 0.18 : 0
           activ[i] += (t - activ[i]) * 0.12
         }
       } else if (pct < 70) {
-        // 15-70%: BFS signal propagation
         const sp = (pct - 15) / 55
-        const lp = sp * levels.length
-        for (let l = 0; l < levels.length; l++) {
+        const lp = sp * ls.length
+        for (let l = 0; l < ls.length; l++) {
           const raw = Math.max(0, Math.min(1, lp - l))
           const smooth = raw * raw * (3 - 2 * raw)
           const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.2 + smooth * 0.8 : 0.18
-          for (const idx of levels[l]) activ[idx] += (target - activ[idx]) * 0.08
+          for (const idx of ls[l]) activ[idx] += (target - activ[idx]) * 0.08
         }
-        edges.forEach(([a, b], i) => {
+        es.forEach(([a, b], i) => {
           const t = Math.min(activ[a], activ[b]) * 1.15
           edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.09
         })
       } else {
-        // 70-100%: Full glow
-        for (let i = 0; i < nodes.length; i++) activ[i] += (1.0 - activ[i]) * 0.05
-        edges.forEach((_, i) => { edgeActivRef.current[i] += (0.75 - edgeActivRef.current[i]) * 0.05 })
+        for (let i = 0; i < ns.length; i++) activ[i] += (1.0 - activ[i]) * 0.05
+        es.forEach((_, i) => { edgeActivRef.current[i] += (0.75 - edgeActivRef.current[i]) * 0.05 })
       }
 
       if (pct < 100) {
@@ -293,13 +311,13 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       } else {
         setTimeout(() => {
           setFading(true)
-          setTimeout(() => { setMounted(false); onComplete() }, 1200)
-        }, 400)
+          setTimeout(() => { setMounted(false); onComplete() }, 1000)
+        }, 300)
       }
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [nodes, edges, levels, onComplete])
+  }, [sceneReady, onComplete])
 
   if (!mounted) return null
 
@@ -315,13 +333,18 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       opacity: fading ? 0 : 1,
       pointerEvents: fading ? 'none' : 'auto',
     }}>
-      <Canvas
-        camera={{ position: [0, 3, 20], fov: 52 }}
-        gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-      >
-        <Scene nodes={nodes} edges={edges} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} />
-      </Canvas>
+      {/* Dark background always shows instantly */}
+      <div style={{ position: 'absolute', inset: 0, background: '#040810' }} />
+      {/* Canvas only mounts once nodes are computed (deferred by setTimeout 0) */}
+      {sceneReady && (
+        <Canvas
+          camera={{ position: [0, 3, 20], fov: 52 }}
+          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+        >
+          <Scene nodes={nodesRef.current} edges={edgesRef.current} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} />
+        </Canvas>
+      )}
 
       {/* Top-right corner label */}
       <div style={{
