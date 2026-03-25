@@ -23,7 +23,7 @@ export async function PATCH(
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
   }
 
-  const { prospect, company, callType, scheduledAt, sections } = parsed.data
+  const { prospect, company, callType, scheduledAt, sections, research, meetingNotes } = parsed.data
 
   try {
     const callPrep = await db.callPrep.update({
@@ -36,6 +36,8 @@ export async function PATCH(
           scheduledAt: scheduledAt ? new Date(scheduledAt) : null,
         }),
         ...(sections !== undefined && { sections }),
+        ...(research !== undefined && { research }),
+        ...(meetingNotes !== undefined && { meetingNotes }),
       },
     })
     return NextResponse.json(callPrep)

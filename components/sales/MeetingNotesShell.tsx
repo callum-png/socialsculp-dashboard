@@ -1,34 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { SectionViewer } from './SectionViewer'
-import { SectionEditor } from './SectionEditor'
-import type { Section } from '@/types/sales'
+import { MeetingNotesViewer } from './MeetingNotesViewer'
+import { MeetingNotesEditor } from './MeetingNotesEditor'
+import type { MeetingNote } from '@/types/sales'
 
-interface SectionEditorShellProps {
+interface MeetingNotesShellProps {
   patchUrl: string
-  sections: Section[]
-  extraFields?: React.ReactNode
-  extraData?: Record<string, string | null | undefined>
-  fieldName?: string
-  heading?: string
+  notes: MeetingNote[]
 }
 
-export function SectionEditorShell({
-  patchUrl,
-  sections,
-  extraFields,
-  extraData,
-  fieldName = 'sections',
-  heading = 'Content',
-}: SectionEditorShellProps) {
+export function MeetingNotesShell({ patchUrl, notes }: MeetingNotesShellProps) {
   const [editing, setEditing] = useState(false)
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-syne text-xs font-bold uppercase tracking-widest text-[#6B6860]">
-          {heading}
+          Meeting Notes
         </h2>
         {!editing && (
           <button
@@ -41,16 +30,13 @@ export function SectionEditorShell({
       </div>
 
       {editing ? (
-        <SectionEditor
+        <MeetingNotesEditor
           patchUrl={patchUrl}
-          initialSections={sections}
-          extraFields={extraFields}
-          extraData={extraData}
-          fieldName={fieldName}
+          initialNotes={notes}
           onCancel={() => setEditing(false)}
         />
       ) : (
-        <SectionViewer sections={sections} />
+        <MeetingNotesViewer notes={notes} />
       )}
     </div>
   )

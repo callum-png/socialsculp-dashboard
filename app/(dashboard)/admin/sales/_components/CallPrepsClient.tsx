@@ -7,8 +7,10 @@ import { Plus, Loader2, ChevronRight } from 'lucide-react'
 import { SalesDrawer } from '@/components/sales/SalesDrawer'
 import type { CallPrepRow } from '@/types/sales'
 
+type CallPrepListItem = Pick<CallPrepRow, 'id' | 'prospect' | 'company' | 'callType' | 'scheduledAt' | 'createdAt'>
+
 interface CallPrepsClientProps {
-  callPreps: Omit<CallPrepRow, 'sections'>[]
+  callPreps: CallPrepListItem[]
 }
 
 function formatDate(iso: string | null) {

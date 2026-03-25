@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getDb } from '@/lib/db'
 import { PageHeader } from '@/components/shared/PageHeader'
-import { SectionEditorShell } from '@/components/sales/SectionEditorShell'
+import { CallPrepDetailClient } from './_components/CallPrepDetailClient'
+import type { Section, MeetingNote } from '@/types/sales'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -21,7 +22,9 @@ export default async function CallPrepDetailPage({ params }: PageProps) {
   const callPrep = await db.callPrep.findUnique({ where: { id } })
   if (!callPrep) notFound()
 
-  const sections = (callPrep.sections ?? []) as { title: string; body: string }[]
+  const sections = (callPrep.sections ?? []) as Section[]
+  const research = (callPrep.research ?? []) as Section[]
+  const meetingNotes = (callPrep.meetingNotes ?? []) as MeetingNote[]
   const scheduledAt = callPrep.scheduledAt?.toISOString() ?? null
 
   return (
@@ -46,18 +49,18 @@ export default async function CallPrepDetailPage({ params }: PageProps) {
         }
       />
 
-      <div className="px-6 pb-12">
-        <SectionEditorShell
-          patchUrl={`/api/sales/call-preps/${id}`}
-          sections={sections}
-          extraData={{
-            prospect: callPrep.prospect,
-            company: callPrep.company ?? undefined,
-            callType: callPrep.callType,
-            scheduledAt,
-          }}
-        />
-      </div>
+      <CallPrepDetailClient
+        patchUrl={`/api/sales/call-preps/${id}`}
+        sections={sections}
+        research={research}
+        meetingNotes={meetingNotes}
+        extraData={{
+          prospect: callPrep.prospect,
+          company: callPrep.company ?? undefined,
+          callType: callPrep.callType,
+          scheduledAt,
+        }}
+      />
     </div>
   )
 }

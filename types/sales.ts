@@ -3,6 +3,12 @@ export type Section = {
   body: string
 }
 
+export type MeetingNote = {
+  title: string
+  body: string
+  date: string
+}
+
 export type CallPrepRow = {
   id: string
   prospect: string
@@ -10,6 +16,8 @@ export type CallPrepRow = {
   callType: string
   scheduledAt: string | null
   sections: Section[]
+  research: Section[] | null
+  meetingNotes: MeetingNote[]
   createdAt: string
 }
 

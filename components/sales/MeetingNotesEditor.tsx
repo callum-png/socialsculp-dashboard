@@ -3,60 +3,59 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Trash2, Loader2 } from 'lucide-react'
-import type { Section } from '@/types/sales'
+import type { MeetingNote } from '@/types/sales'
 
-type EditingSection = { _key: string; title: string; body: string }
+type EditingNote = MeetingNote & { _key: string }
 
-interface SectionEditorProps {
+interface MeetingNotesEditorProps {
   patchUrl: string
-  initialSections: Section[]
-  extraFields?: React.ReactNode
-  extraData?: Record<string, string | null | undefined>
-  fieldName?: string
+  initialNotes: MeetingNote[]
   onCancel: () => void
 }
 
-export function SectionEditor({
+export function MeetingNotesEditor({
   patchUrl,
-  initialSections,
-  extraFields,
-  extraData,
-  fieldName = 'sections',
+  initialNotes,
   onCancel,
-}: SectionEditorProps) {
+}: MeetingNotesEditorProps) {
   const router = useRouter()
-  const [sections, setSections] = useState<EditingSection[]>(
-    (initialSections.length > 0 ? initialSections : [{ title: '', body: '' }]).map(s => ({
-      ...s,
-      _key: crypto.randomUUID(),
-    }))
+  const [notes, setNotes] = useState<EditingNote[]>(
+    initialNotes.map(n => ({ ...n, _key: crypto.randomUUID() }))
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  function updateSection(index: number, field: keyof Section, value: string) {
-    setSections(prev =>
-      prev.map((s, i) => (i === index ? { ...s, [field]: value } : s))
+  function updateNote(index: number, field: 'title' | 'body', value: string) {
+    setNotes(prev =>
+      prev.map((n, i) => (i === index ? { ...n, [field]: value } : n))
     )
   }
 
-  function addSection() {
-    setSections(prev => [...prev, { title: '', body: '', _key: crypto.randomUUID() }])
+  function addNote() {
+    setNotes(prev => [
+      ...prev,
+      {
+        title: '',
+        body: '',
+        date: new Date().toISOString(),
+        _key: crypto.randomUUID(),
+      },
+    ])
   }
 
-  function removeSection(index: number) {
-    setSections(prev => prev.filter((_, i) => i !== index))
+  function removeNote(index: number) {
+    setNotes(prev => prev.filter((_, i) => i !== index))
   }
 
   async function handleSave() {
     setSaving(true)
     setError(null)
     try {
-      const payload = sections.map(({ _key: _, ...rest }) => rest)
+      const payload = notes.map(({ _key: _, ...rest }) => rest)
       const res = await fetch(patchUrl, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [fieldName]: payload, ...extraData }),
+        body: JSON.stringify({ meetingNotes: payload }),
       })
       if (res.ok) {
         router.refresh()
@@ -71,46 +70,61 @@ export function SectionEditor({
     }
   }
 
+  function formatDate(iso: string) {
+    const d = new Date(iso)
+    return d.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }) + ', ' + d.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      {extraFields}
-
-      {sections.map((section, i) => (
+      {notes.map((note, i) => (
         <div
-          key={section._key}
+          key={note._key}
           className="bg-[#111111] border border-[#222222] rounded-lg p-5 flex flex-col gap-3"
         >
           <div className="flex items-center justify-between gap-3">
-            <input
-              value={section.title}
-              onChange={e => updateSection(i, 'title', e.target.value)}
-              placeholder="Section title"
-              className="flex-1 bg-transparent border-b border-[#333333] pb-1 text-xs font-syne font-bold uppercase tracking-widest text-[#6B6860] placeholder-[#3A3A3A] focus:outline-none focus:border-[#008cff] transition-colors"
-            />
+            <div className="flex items-center gap-3 flex-1">
+              <span className="text-[10px] font-syne text-[#6B6860] shrink-0">
+                {formatDate(note.date)}
+              </span>
+              <input
+                value={note.title}
+                onChange={e => updateNote(i, 'title', e.target.value)}
+                placeholder="Note title"
+                className="flex-1 bg-transparent border-b border-[#333333] pb-1 text-xs font-syne font-bold uppercase tracking-widest text-[#6B6860] placeholder-[#3A3A3A] focus:outline-none focus:border-[#008cff] transition-colors"
+              />
+            </div>
             <button
-              onClick={() => removeSection(i)}
+              onClick={() => removeNote(i)}
               className="text-[#6B6860] hover:text-red-400 transition-colors"
-              title="Remove section"
+              title="Remove note"
             >
               <Trash2 size={14} />
             </button>
           </div>
           <textarea
-            value={section.body}
-            onChange={e => updateSection(i, 'body', e.target.value)}
-            placeholder="Write section content…"
-            rows={5}
+            value={note.body}
+            onChange={e => updateNote(i, 'body', e.target.value)}
+            placeholder="Write meeting notes..."
+            rows={6}
             className="bg-[#0A0A0A] border border-[#222222] rounded-md px-4 py-3 text-sm font-syne text-[#EDE8DE] placeholder-[#3A3A3A] focus:outline-none focus:border-[#008cff] transition-colors resize-none leading-relaxed"
           />
         </div>
       ))}
 
       <button
-        onClick={addSection}
+        onClick={addNote}
         className="flex items-center gap-2 px-4 py-2.5 border border-dashed border-[#333333] rounded-lg text-sm font-syne text-[#6B6860] hover:border-[#008cff] hover:text-[#008cff] transition-colors w-fit"
       >
         <Plus size={14} />
-        Add section
+        Add note
       </button>
 
       <div className="flex flex-col gap-3 pt-2">

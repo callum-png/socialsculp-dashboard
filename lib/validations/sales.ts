@@ -5,6 +5,12 @@ export const SectionSchema = z.object({
   body: z.string(),
 })
 
+export const MeetingNoteSchema = z.object({
+  title: z.string().min(1),
+  body: z.string(),
+  date: z.string(),
+})
+
 export const CreateCallPrepSchema = z.object({
   prospect: z.string().min(1),
   company: z.string().optional(),
@@ -18,6 +24,8 @@ export const UpdateCallPrepSchema = z.object({
   callType: z.string().min(1).optional(),
   scheduledAt: z.string().datetime().nullable().optional(),
   sections: z.array(SectionSchema).optional(),
+  research: z.array(SectionSchema).optional(),
+  meetingNotes: z.array(MeetingNoteSchema).optional(),
 })
 
 export const CreatePlaybookSchema = z.object({
