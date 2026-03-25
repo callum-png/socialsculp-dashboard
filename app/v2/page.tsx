@@ -1,5 +1,6 @@
 import './landing-v2.css'
 import { V2Loader, V2RevealObserver, V2Counter } from './V2Client'
+import { HeroThreeCanvas } from './HeroThreeCanvas'
 
 const caseStudies = [
   {
@@ -101,6 +102,7 @@ export default function V2Page() {
 
       {/* ── Hero ── */}
       <section className="v2-hero" id="hero">
+        <HeroThreeCanvas />
         <div className="v2-hero-overlay" aria-hidden="true" />
         <div className="v2-hero-vignette" aria-hidden="true" />
         <div className="v2-hero-tag">

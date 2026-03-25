@@ -1,0 +1,17 @@
+{
+  "name": "SocialSculp",
+  "short_name": "SocialSculp",
+  "description": "Creator seeding & narrative engineering agency. 1.9B+ views, $2 blended CPM.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#040810",
+  "theme_color": "#008CFF",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -205,10 +205,8 @@ html { scroll-behavior: smooth; }
   position: relative;
   overflow: hidden;
 
-  /* Background image — Milad Fakurian sphere */
-  background-image: url('https://images.unsplash.com/photo-1617358142775-4be217d9cc19?w=1920&q=85&auto=format&fit=crop');
-  background-size: cover;
-  background-position: center 40%;
+  /* Three.js canvas renders inside — see HeroThreeCanvas.tsx */
+  background: var(--cream);
 }
 
 /* Warm cream tint over the grey image */
