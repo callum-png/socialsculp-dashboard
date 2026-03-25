@@ -714,7 +714,6 @@
           cursor: default;
         }
         .brand-logo-item img {
-          filter: grayscale(1) brightness(0) invert(1);
           opacity: 0.35;
           transition: opacity 0.3s;
           display: block;

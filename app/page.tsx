@@ -6,6 +6,7 @@ import { CanvasBackground } from '@/app/components/CanvasBackground'
 import { ServiceModal } from '@/app/components/ServiceModal'
 import { LoadingScreen } from '@/app/components/LoadingScreen'
 import { HeroSparkles } from '@/app/components/HeroSparkles'
+import { HeroVisualBento } from '@/app/components/HeroVisualBento'
 
 export default async function Home() {
   try {
@@ -71,7 +72,7 @@ export default async function Home() {
              ========================================== */}
         <section id="hero" style={{position:'relative'}}>
           <HeroSparkles />
-          <div style={{maxWidth:'460px',marginLeft:'auto',marginRight:'auto'}}>
+          <div style={{width:'100%'}}>
             <div className="hero-eyebrow">
               <div className="live-dot"></div>
               <span className="t-label">Social Media Sculptors</span>
@@ -93,49 +94,9 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Campaign explosion visual */}
+          {/* Campaign dashboard visual — 21st.dev bento */}
           <div className="hero-visual">
-            <div className="hero-visual-glow" aria-hidden="true"></div>
-            <div className="explosion-hub">
-              {/* Ripple rings */}
-              <div className="ripple r1"></div>
-              <div className="ripple r2"></div>
-              <div className="ripple r3"></div>
-
-              {/* SVG connector lines hub to orbs */}
-              <svg className="hub-lines" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <line x1="140" y1="140" x2="262" y2="28"  stroke="rgba(0,140,255,0.15)" strokeWidth="1" strokeDasharray="3 5"/>
-                <line x1="140" y1="140" x2="268" y2="248" stroke="rgba(0,140,255,0.12)" strokeWidth="1" strokeDasharray="3 5"/>
-                <line x1="140" y1="140" x2="18"  y2="46"  stroke="rgba(0,140,255,0.15)" strokeWidth="1" strokeDasharray="3 5"/>
-                <line x1="140" y1="140" x2="14"  y2="242" stroke="rgba(0,140,255,0.12)" strokeWidth="1" strokeDasharray="3 5"/>
-              </svg>
-
-              {/* Mini content tiles (floating video posts) */}
-              <div className="content-tile ct1"><div className="ct-thumb"></div><div className="ct-engage">2.1M</div></div>
-              <div className="content-tile ct2"><div className="ct-thumb"></div><div className="ct-engage">890K</div></div>
-              <div className="content-tile ct3"><div className="ct-thumb"></div><div className="ct-engage">3.7M</div></div>
-
-              {/* Rotating orbit dot */}
-              <div className="hub-orbit" aria-hidden="true"></div>
-
-              {/* Core stat sphere */}
-              <div className="hub-core">
-                <div className="hub-val"><span id="hub-counter">1.9</span><span className="hub-suffix">B+</span></div>
-                <div className="hub-lbl">All-Time Views</div>
-              </div>
-
-              {/* Floating stat chips */}
-              <div className="orb orb-cpm"><div className="orb-val">$2</div><div className="orb-lbl">Blended CPM</div></div>
-              <div className="orb orb-creators"><div className="orb-val">50+</div><div className="orb-lbl">Creators</div></div>
-              <div className="orb orb-reach"><div className="orb-val">20+</div><div className="orb-lbl">Brands Served</div></div>
-              <div className="orb orb-brands"><div className="orb-val">&#8734;</div><div className="orb-lbl">Scale</div></div>
-
-              {/* Live indicator */}
-              <div className="exp-live">
-                <div className="live-badge-dot"></div>
-                Live Campaigns
-              </div>
-            </div>
+            <HeroVisualBento />
           </div>
 
           <div className="scroll-hint">
@@ -148,50 +109,50 @@ export default async function Home() {
 
         {/* Brand marquee — directly below hero */}
         <div className="brands-marquee-wrap" style={{marginTop:'48px'}}>
-          <div className="brands-marquee">
-            <span className="brand-item">Whop</span>
-            <span className="brand-item">BKFC</span>
-            <span className="brand-item">Snapchat</span>
-            <span className="brand-item">TikTok</span>
-            <span className="brand-item">Cal AI</span>
-            <span className="brand-item">Block Blast</span>
-            <span className="brand-item">StealthGPT</span>
-            <span className="brand-item">Quizard</span>
-            <span className="brand-item">Unstuck</span>
-            <span className="brand-item">Haven</span>
-            <span className="brand-item">Alpha Lion</span>
-            <span className="brand-item">Bucked Up</span>
-            <span className="brand-item">C4</span>
-            <span className="brand-item">Based Body Works</span>
-            <span className="brand-item">Sweatcoin</span>
-            <span className="brand-item">GoWish</span>
-            <span className="brand-item">Fitbod</span>
-            <span className="brand-item">PrizePicks</span>
-            <span className="brand-item">Olive</span>
-            <span className="brand-item">MenuFit</span>
-            <span className="brand-item">1st Phorm</span>
-            {/* Duplicate for seamless loop */}
-            <span className="brand-item">Whop</span>
-            <span className="brand-item">BKFC</span>
-            <span className="brand-item">Snapchat</span>
-            <span className="brand-item">TikTok</span>
-            <span className="brand-item">Cal AI</span>
-            <span className="brand-item">Block Blast</span>
-            <span className="brand-item">StealthGPT</span>
-            <span className="brand-item">Quizard</span>
-            <span className="brand-item">Unstuck</span>
-            <span className="brand-item">Haven</span>
-            <span className="brand-item">Alpha Lion</span>
-            <span className="brand-item">Bucked Up</span>
-            <span className="brand-item">C4</span>
-            <span className="brand-item">Based Body Works</span>
-            <span className="brand-item">Sweatcoin</span>
-            <span className="brand-item">GoWish</span>
-            <span className="brand-item">Fitbod</span>
-            <span className="brand-item">PrizePicks</span>
-            <span className="brand-item">Olive</span>
-            <span className="brand-item">MenuFit</span>
-            <span className="brand-item">1st Phorm</span>
+          <div className="brands-marquee-inner">
+            <div className="brands-marquee">
+              {/* ── Logo brands (Simple Icons CDN) ── */}
+              <span className="brand-logo-item">
+                <img src="https://cdn.simpleicons.org/snapchat/ffffff" alt="Snapchat" height="22" width="auto" />
+              </span>
+              <span className="brand-logo-item">
+                <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok" height="20" width="auto" />
+              </span>
+              {/* ── Text brands ── */}
+              <span className="brand-item">Cal AI</span>
+              <span className="brand-item">StealthGPT</span>
+              <span className="brand-item">Quizard</span>
+              <span className="brand-item">Alpha Lion</span>
+              <span className="brand-item">Bucked Up</span>
+              <span className="brand-item">PrizePicks</span>
+              <span className="brand-item">Sweatcoin</span>
+              <span className="brand-item">Fitbod</span>
+              <span className="brand-item">GoWish</span>
+              <span className="brand-item">BKFC</span>
+              <span className="brand-item">Block Blast</span>
+              <span className="brand-item">1st Phorm</span>
+              <span className="brand-item">Based Body Works</span>
+              {/* ── Duplicate for seamless loop ── */}
+              <span className="brand-logo-item">
+                <img src="https://cdn.simpleicons.org/snapchat/ffffff" alt="Snapchat" height="22" width="auto" />
+              </span>
+              <span className="brand-logo-item">
+                <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok" height="20" width="auto" />
+              </span>
+              <span className="brand-item">Cal AI</span>
+              <span className="brand-item">StealthGPT</span>
+              <span className="brand-item">Quizard</span>
+              <span className="brand-item">Alpha Lion</span>
+              <span className="brand-item">Bucked Up</span>
+              <span className="brand-item">PrizePicks</span>
+              <span className="brand-item">Sweatcoin</span>
+              <span className="brand-item">Fitbod</span>
+              <span className="brand-item">GoWish</span>
+              <span className="brand-item">BKFC</span>
+              <span className="brand-item">Block Blast</span>
+              <span className="brand-item">1st Phorm</span>
+              <span className="brand-item">Based Body Works</span>
+            </div>
           </div>
         </div>
 
