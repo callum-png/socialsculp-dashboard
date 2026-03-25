@@ -267,15 +267,27 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   transform: translateY(20px);
   animation: v2FadeUp 0.9s ease forwards 2.0s;
-  text-shadow: 0 2px 60px rgba(0,140,255,0.15);
+  text-shadow: 0 0 80px rgba(0,140,255,0.12), 0 4px 60px rgba(0,0,0,0.5);
 }
 .v2-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(240,230,222,0.45);
+  -webkit-text-stroke: 1.5px rgba(0,140,255,0.55);
+  filter: drop-shadow(0 0 20px rgba(0,140,255,0.3));
 }
 .v2-hero-headline .v2-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(240,230,222,0.45);
+  -webkit-text-stroke: 1.5px rgba(0,140,255,0.55);
+  filter: drop-shadow(0 0 20px rgba(0,140,255,0.3));
+}
+.v2-gradient-text {
+  background: linear-gradient(130deg, #008CFF 0%, #38CFFF 45%, #a259ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.v2-text-accent {
+  color: var(--accent);
+  font-style: normal;
 }
 .v2-hero-headline .blue {
   color: var(--accent);
@@ -412,6 +424,7 @@ html { scroll-behavior: smooth; }
   font-weight: 400;
   color: var(--cream);
   line-height: 1;
+  text-shadow: 0 0 40px rgba(0,140,255,0.2);
 }
 .v2-stat-num .v2-stat-accent {
   color: var(--accent);
@@ -493,6 +506,7 @@ html { scroll-behavior: smooth; }
   line-height: 0.9;
   letter-spacing: -0.01em;
   color: var(--cream);
+  text-shadow: 0 0 60px rgba(0,140,255,0.1);
 }
 .v2-section-link {
   font-family: var(--font-sans);

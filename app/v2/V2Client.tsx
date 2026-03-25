@@ -83,7 +83,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           </div>
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
-          <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-outline">Narratives</span><br />at Scale.</h1>
+          <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
           <div className="v2-hero-sub-row">
             <p className="v2-hero-desc">SocialSculp is a data-driven creator seeding agency. 1.9B+ views, $2 blended CPM, 50+ creators.</p>
             <div className="v2-hero-actions">

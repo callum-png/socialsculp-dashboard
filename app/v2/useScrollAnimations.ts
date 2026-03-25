@@ -120,19 +120,7 @@ export function useScrollAnimations() {
         })
       }
 
-      // ── Marquee velocity effect ───────────────────────────
-      const track = document.querySelector<HTMLElement>('.v2-marquee-track')
-      if (track) {
-        ScrollTrigger.create({
-          trigger: '.v2-marquee-wrap',
-          start: 'top bottom',
-          end: 'bottom top',
-          onUpdate: (self) => {
-            const speed = Math.max(10, Math.min(60, 28 - self.getVelocity() * 0.003))
-            track.style.animationDuration = `${speed}s`
-          },
-        })
-      }
+      // Marquee runs on pure CSS animation — no GSAP velocity override
     })
 
     return () => {

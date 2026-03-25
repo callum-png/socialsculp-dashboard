@@ -6,7 +6,7 @@ import { EffectComposer, Bloom, ChromaticAberration, Vignette } from '@react-thr
 import * as THREE from 'three'
 
 // ── Duration ──────────────────────────────────────────────────
-const INTRO_DURATION = 8000 // ms
+const INTRO_DURATION = 4500 // ms — faster, punchier
 const NODE_COUNT = 80
 const SPHERE_RADIUS = 9
 const MIN_DIST = 2.1
@@ -20,7 +20,7 @@ const NODE_VERT = /* glsl */`
   void main() {
     vActive = aActive;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = mix(3.0, 22.0, vActive) * (300.0 / -mv.z);
+    gl_PointSize = mix(3.5, 20.0, vActive) * (300.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `
@@ -34,13 +34,15 @@ const NODE_FRAG = /* glsl */`
     float core = 1.0 - smoothstep(0.0, 0.13, d);
     float mid  = 1.0 - smoothstep(0.13, 0.3, d);
     float glow = 1.0 - smoothstep(0.3, 0.5, d);
-    vec3 dormant = vec3(0.07, 0.12, 0.24);
+    // Dormant floor raised: 0.13 base so nodes are visible from frame 1
+    vec3 dormant = vec3(0.08, 0.14, 0.28);
     vec3 edge    = vec3(0.0, 0.58, 1.0);
-    vec3 bright  = vec3(0.8, 0.94, 1.0);
+    vec3 bright  = vec3(0.75, 0.92, 1.0);
     vec3 col = mix(dormant, edge, vActive);
-    col = mix(col, bright, core * vActive * 0.85);
-    float pulse = sin(uTime * 2.8) * 0.06 * vActive;
-    float a = clamp(core * 0.95 + mid * 0.5 * vActive + glow * 0.3 * vActive + pulse, 0.06 * core, 1.0);
+    col = mix(col, bright, core * vActive * 0.78);
+    float pulse = sin(uTime * 2.6) * 0.05 * vActive;
+    // dormant alpha floor is 0.13*core so they're always slightly visible
+    float a = clamp(core * 0.92 + mid * 0.45 * vActive + glow * 0.28 * vActive + pulse, 0.13 * core, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `
@@ -178,21 +180,21 @@ function Edges({ nodes, edges, edgeActivRef }: {
   )
 }
 
-// ── R3F: Camera ───────────────────────────────────────────────
+// ── R3F: Camera — gentle orbit, stays close ────────────────────
 function Camera({ pRef }: { pRef: React.MutableRefObject<number> }) {
   useFrame(({ camera, clock }) => {
     const t = clock.getElapsedTime()
-    const p = pRef.current
-    const radius = p < 60 ? 22 - p * 0.06 : 18 + (p - 60) * 0.18
-    camera.position.x = Math.sin(t * 0.055) * radius
-    camera.position.y = 4 + Math.sin(t * 0.028) * 3.5
-    camera.position.z = Math.cos(t * 0.055) * radius
+    // Gentle slow orbit — reduced amplitude vs original
+    camera.position.x = Math.sin(t * 0.04) * 3.5
+    camera.position.y = 3 + Math.sin(t * 0.022) * 1.8
+    camera.position.z = 20 - Math.abs(Math.sin(t * 0.015)) * 1.5
     camera.lookAt(0, 0, 0)
+    void pRef
   })
   return null
 }
 
-// ── Scene ─────────────────────────────────────────────────────
+// ── Scene — group rotates slowly on Y ─────────────────────────
 function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
   nodes: THREE.Vector3[]
   edges: [number, number][]
@@ -200,21 +202,31 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
   edgeActivRef: React.MutableRefObject<Float32Array>
   pRef: React.MutableRefObject<number>
 }) {
+  const groupRef = useRef<THREE.Group>(null)
   const positions = useMemo(() => {
     const a = new Float32Array(nodes.length * 3)
     nodes.forEach((p, i) => { a[i*3]=p.x; a[i*3+1]=p.y; a[i*3+2]=p.z })
     return a
   }, [nodes])
+
+  useFrame(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += 0.0006
+    }
+  })
+
   return (
     <>
       <color attach="background" args={['#040810']} />
-      <Nodes positions={positions} activRef={activRef} />
-      <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
+      <group ref={groupRef}>
+        <Nodes positions={positions} activRef={activRef} />
+        <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
+      </group>
       <Camera pRef={pRef} />
       <EffectComposer>
-        <Bloom intensity={2.0} luminanceThreshold={0.1} luminanceSmoothing={0.9} mipmapBlur />
-        <ChromaticAberration offset={[0.0007, 0.0007] as [number, number]} />
-        <Vignette eskil={false} offset={0.1} darkness={0.9} />
+        <Bloom intensity={1.8} luminanceThreshold={0.08} luminanceSmoothing={0.85} mipmapBlur />
+        <ChromaticAberration offset={[0.0006, 0.0006] as [number, number]} />
+        <Vignette eskil={false} offset={0.1} darkness={0.85} />
       </EffectComposer>
     </>
   )
@@ -249,31 +261,31 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       pRef.current = pct
       setProgress(Math.floor(pct))
 
-      if (pct < 25) {
-        // Nodes appear one by one
-        const n = Math.floor((pct / 25) * nodes.length)
+      if (pct < 15) {
+        // 0-15%: Nodes appear one by one
+        const n = Math.floor((pct / 15) * nodes.length)
         for (let i = 0; i < nodes.length; i++) {
           const t = i < n ? 0.18 : 0
-          activ[i] += (t - activ[i]) * 0.1
+          activ[i] += (t - activ[i]) * 0.12
         }
-      } else if (pct < 78) {
-        // BFS signal propagation
-        const sp = (pct - 25) / 53
+      } else if (pct < 70) {
+        // 15-70%: BFS signal propagation
+        const sp = (pct - 15) / 55
         const lp = sp * levels.length
         for (let l = 0; l < levels.length; l++) {
           const raw = Math.max(0, Math.min(1, lp - l))
           const smooth = raw * raw * (3 - 2 * raw)
           const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.2 + smooth * 0.8 : 0.18
-          for (const idx of levels[l]) activ[idx] += (target - activ[idx]) * 0.07
+          for (const idx of levels[l]) activ[idx] += (target - activ[idx]) * 0.08
         }
         edges.forEach(([a, b], i) => {
           const t = Math.min(activ[a], activ[b]) * 1.15
-          edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.08
+          edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.09
         })
       } else {
-        // Full glow
-        for (let i = 0; i < nodes.length; i++) activ[i] += (1.0 - activ[i]) * 0.04
-        edges.forEach((_, i) => { edgeActivRef.current[i] += (0.75 - edgeActivRef.current[i]) * 0.04 })
+        // 70-100%: Full glow
+        for (let i = 0; i < nodes.length; i++) activ[i] += (1.0 - activ[i]) * 0.05
+        edges.forEach((_, i) => { edgeActivRef.current[i] += (0.75 - edgeActivRef.current[i]) * 0.05 })
       }
 
       if (pct < 100) {
@@ -282,7 +294,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         setTimeout(() => {
           setFading(true)
           setTimeout(() => { setMounted(false); onComplete() }, 1200)
-        }, 500)
+        }, 400)
       }
     }
     raf = requestAnimationFrame(tick)
@@ -291,8 +303,10 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
 
   if (!mounted) return null
 
-  const showText = progress >= 78
-  const textCount = showText ? Math.floor(((progress - 78) / 14) * BRAND_TEXT.length) : 0
+  // Brand text appears at 70% (phase shift)
+  const showText = progress >= 70
+  // Each letter flips in sequentially over the 70-100% window
+  const textCount = showText ? Math.floor(((progress - 70) / 20) * BRAND_TEXT.length) : 0
 
   return (
     <div style={{
@@ -302,51 +316,75 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       pointerEvents: fading ? 'none' : 'auto',
     }}>
       <Canvas
-        camera={{ position: [0, 4, 22], fov: 55 }}
+        camera={{ position: [0, 3, 20], fov: 52 }}
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       >
         <Scene nodes={nodes} edges={edges} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} />
       </Canvas>
 
-      {/* Brand text */}
+      {/* Top-right corner label */}
+      <div style={{
+        position: 'absolute', top: 24, right: 32, zIndex: 10, pointerEvents: 'none',
+        fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem',
+        letterSpacing: '0.18em', textTransform: 'uppercase',
+        color: 'rgba(0,140,255,0.6)',
+      }}>
+        SIGNAL PROPAGATION
+      </div>
+
+      {/* Brand text — 3D CSS reveal */}
       {showText && (
         <div style={{
           position: 'absolute', top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(2.8rem, 6vw, 7rem)',
-          letterSpacing: '-0.02em', color: '#F0E6DE',
-          textShadow: '0 0 80px rgba(0,140,255,0.5)',
+          fontSize: 'clamp(3.5rem, 8vw, 9rem)',
+          letterSpacing: '-0.02em',
+          color: '#F0E6DE',
           whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
+          perspective: '900px',
         }}>
           {BRAND_TEXT.slice(0, textCount).split('').map((ch, i) => (
-            <span key={i} style={{ display: 'inline-block', animation: 'iLetIn 0.25s ease forwards' }}>
-              {i === 6 ? <em style={{ color: '#008CFF', fontStyle: 'normal' }}>{ch}</em> : ch}
+            <span
+              key={i}
+              style={{
+                display: 'inline-block',
+                animation: 'letterFlip3d 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards',
+                animationDelay: `${i * 0.018}s`,
+                opacity: 0,
+                textShadow: i >= 6
+                  ? '1px 1px 0 #0050aa, 2px 2px 0 #0040a0, 3px 3px 0 #003090, 4px 4px 0 #002080, 5px 5px 6px rgba(0,0,50,0.7), 0 0 60px rgba(0,140,255,0.7)'
+                  : '1px 1px 0 #1a0020, 2px 2px 0 #100018, 3px 3px 0 #0a0010, 4px 4px 0 #06000c, 5px 5px 6px rgba(0,0,20,0.7), 0 0 40px rgba(0,140,255,0.3)',
+              }}
+            >
+              {i === 6 ? (
+                <em style={{ color: '#008CFF', fontStyle: 'normal' }}>{ch}</em>
+              ) : ch}
             </span>
           ))}
         </div>
       )}
 
-      {/* Counter */}
+      {/* Counter — big and dramatic */}
       <div style={{
         position: 'absolute', bottom: 48, left: 48, zIndex: 10, pointerEvents: 'none',
       }}>
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(3.5rem, 7vw, 6.5rem)',
+          fontSize: 'clamp(5rem, 9vw, 8rem)',
           color: 'rgba(240,230,222,0.92)', lineHeight: 1, letterSpacing: '-0.03em',
         }}>
           {String(progress).padStart(3, '0')}
         </div>
         <div style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem',
+          fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem',
           letterSpacing: '0.22em', textTransform: 'uppercase',
           color: 'rgba(0,140,255,0.75)', marginTop: 6,
         }}>
-          Creator Network Initialising
+          CREATOR NETWORK — INITIALISING
         </div>
       </div>
 
@@ -354,11 +392,16 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.07)', zIndex: 10 }}>
         <div style={{
           height: '100%', width: `${progress}%`, background: '#008CFF',
-          boxShadow: '0 0 16px rgba(0,140,255,0.9)', transition: 'width 0.08s linear',
+          boxShadow: '0 0 16px rgba(0,140,255,0.9)', transition: 'width 0.06s linear',
         }} />
       </div>
 
-      <style>{`@keyframes iLetIn { from { opacity:0; transform:translateY(10px) } to { opacity:1; transform:translateY(0) } }`}</style>
+      <style>{`
+        @keyframes letterFlip3d {
+          from { opacity: 0; transform: perspective(900px) rotateX(90deg); }
+          to   { opacity: 1; transform: perspective(900px) rotateX(0deg); }
+        }
+      `}</style>
     </div>
   )
 }
