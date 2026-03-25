@@ -74,10 +74,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        syne: ['Syne', 'sans-serif'],
-        fraunces: ['Fraunces', 'serif'],
-        sans: ['Syne', 'sans-serif'],
-        serif: ['Fraunces', 'serif'],
+        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        syne: ['"Plus Jakarta Sans"', 'sans-serif'],
+        fraunces: ['"Plus Jakarta Sans"', 'sans-serif'],
+        serif: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',

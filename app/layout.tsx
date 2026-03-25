@@ -1,20 +1,12 @@
 import type { Metadata } from 'next'
-import { Syne, Fraunces } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 
-const syne = Syne({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-syne',
-  display: 'swap',
-})
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  weight: 'variable',
-  style: ['normal', 'italic'],
-  variable: '--font-fraunces',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
@@ -79,12 +71,12 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${syne.variable} ${fraunces.variable}`}
+        className={jakarta.variable}
         suppressHydrationWarning
       >
         <body
-          className={`${syne.variable} ${fraunces.variable} antialiased min-h-screen`}
-          style={{ fontFamily: 'var(--font-syne), Syne, sans-serif' }}
+          className={`${jakarta.variable} antialiased min-h-screen`}
+          style={{ fontFamily: 'var(--font-jakarta), "Plus Jakarta Sans", sans-serif' }}
         >
           {children}
         </body>
