@@ -18,11 +18,15 @@ const IntroScene = dynamic(
     ssr: false,
     loading: () => (
       <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#040810' }}>
-        <div style={{ position: 'absolute', bottom: 48, left: 48 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(9rem,18vw,22rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
-          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(0,140,255,0.75)', marginTop: 6 }}>CREATOR NETWORK — INITIALISING</div>
+        <div style={{ position: 'absolute', bottom: 'clamp(32px,6vh,64px)', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(4rem,20vw,18rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16 }}>
+            <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(0,140,255,0.75)' }}>CREATOR NETWORK — INITIALISING</div>
+            <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
+          </div>
         </div>
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.05)' }} />
       </div>
     )
   }
@@ -35,6 +39,53 @@ const ScrollScene = dynamic(
   () => import('./ScrollScene').then(m => ({ default: m.ScrollScene })),
   { ssr: false }
 )
+
+// ── Floating creator card (glassmorphism overlay on hero) ───────
+function FloatingCreatorCard({ handle, platform, views, delay, style }: {
+  handle: string; platform: 'tiktok' | 'instagram'; views: string; delay: number;
+  style?: React.CSSProperties
+}) {
+  const platformColor = platform === 'tiktok' ? '#00f2ea' : '#e1306c'
+  const platformLabel = platform === 'tiktok' ? 'TikTok' : 'Instagram'
+  return (
+    <div style={{
+      position: 'absolute', zIndex: 3, pointerEvents: 'none',
+      width: 210,
+      background: 'rgba(4,12,28,0.78)',
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
+      border: '1px solid rgba(255,255,255,0.10)',
+      borderRadius: 14,
+      padding: '14px 18px',
+      animation: `creatorCardFloat 6s ease-in-out infinite`,
+      animationDelay: `${delay}s`,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+      ...style,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+        <div style={{
+          width: 36, height: 36, borderRadius: '50%',
+          background: `linear-gradient(135deg, ${platformColor}33, rgba(0,140,255,0.3))`,
+          border: `1.5px solid ${platformColor}55`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 14, color: platformColor, fontWeight: 700, flexShrink: 0,
+        }}>{handle[0].toUpperCase()}</div>
+        <div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.78rem', fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>{handle}</div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 3, background: `${platformColor}1a`, borderRadius: 4, padding: '1px 6px' }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: platformColor }} />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', letterSpacing: '0.06em', color: platformColor }}>{platformLabel}</span>
+          </div>
+        </div>
+      </div>
+      <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontSize: '1.6rem', fontWeight: 300, color: '#F0E6DE', lineHeight: 1, letterSpacing: '-0.02em' }}>{views}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>Total Views</span>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.62rem', color: '#22c55e', fontWeight: 600 }}>↑ Live</span>
+      </div>
+    </div>
+  )
+}
 
 type GeoType = 'seeding' | 'narrative' | 'media' | 'mgmt' | 'strategy' | 'analytics'
 
@@ -108,6 +159,16 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             {/* Only mount NetworkHero after intro — prevents 3 simultaneous WebGL contexts */}
             {introComplete && <NetworkHero />}
           </div>
+
+          {/* Floating creator cards — glassmorphism overlay, hidden on mobile */}
+          {introComplete && (
+            <div className="v2-hero-creator-cards" aria-hidden="true">
+              <FloatingCreatorCard handle="@zoeytoks" platform="tiktok" views="4.2M" delay={0} style={{ top: '28%', right: '4%' }} />
+              <FloatingCreatorCard handle="@marcellina" platform="instagram" views="1.9M" delay={1.8} style={{ top: '55%', right: '7%' }} />
+              <FloatingCreatorCard handle="@jkfitness" platform="tiktok" views="8.7M" delay={3.2} style={{ top: '72%', right: '2%' }} />
+            </div>
+          )}
+
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
           <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
@@ -219,6 +280,29 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
                 </svg>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ── How It Works ── */}
+        <section className="v2-process">
+          <div className="v2-section-header">
+            <div>
+              <span className="v2-eyebrow">The Method</span>
+              <h2 className="v2-section-title v2-split-reveal">Three Steps. Real Results.</h2>
+            </div>
+          </div>
+          <div className="v2-process-steps">
+            {[
+              { num: '01', title: 'Brief', body: 'You share your campaign goal. We map the creator landscape — reach, CPM, audience overlap, niche authority.' },
+              { num: '02', title: 'Seed', body: 'We place your product with 10–50 vetted creators simultaneously. Organic posts, no ad labels, authentic voice.' },
+              { num: '03', title: 'Scale', body: 'We analyse which creators drove results, double down, and build you a perpetual-motion content engine.' },
+            ].map((s, i) => (
+              <div className="v2-process-step v2-reveal" key={i} data-delay={`${i * 0.15}`}>
+                <div className="v2-process-num">{s.num}</div>
+                <div className="v2-process-title">{s.title}</div>
+                <p className="v2-process-body">{s.body}</p>
+              </div>
+            ))}
           </div>
         </section>
 

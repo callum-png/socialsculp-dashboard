@@ -436,21 +436,28 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         </div>
       )}
 
-      {/* Counter — LARGE editorial presence */}
+      {/* Counter — centred at bottom */}
       <div style={{
-        position: 'absolute', bottom: 40, left: 48, zIndex: 10, pointerEvents: 'none',
+        position: 'absolute',
+        bottom: 'clamp(32px, 6vh, 64px)',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        textAlign: 'center',
+        zIndex: 10,
+        pointerEvents: 'none',
+        whiteSpace: 'nowrap',
       }}>
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(9rem, 18vw, 22rem)',
+          fontSize: 'clamp(4rem, 20vw, 18rem)',
           color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em',
           textShadow: '0 0 80px rgba(0,140,255,0.15)',
         }}>
           {String(progress).padStart(3, '0')}
         </div>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 12, marginTop: 16,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16,
         }}>
           <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
           <div style={{
@@ -460,6 +467,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           }}>
             {phaseLabel}
           </div>
+          <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
         </div>
       </div>
 

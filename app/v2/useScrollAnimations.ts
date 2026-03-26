@@ -56,14 +56,15 @@ export function useScrollAnimations() {
       })
 
       // ── Section fade-up reveals ───────────────────────────
+      // CSS sets .v2-reveal { opacity:0; transform:translateY(24px) } as base state.
+      // We animate TO visible so GSAP works with CSS rather than fighting it.
       document.querySelectorAll<HTMLElement>('.v2-reveal').forEach(el => {
-        gsap.from(el, {
-          y: 28,
-          opacity: 0,
+        gsap.to(el, {
+          y: 0,
+          opacity: 1,
           duration: 0.9,
           delay: el.dataset.delay ? parseFloat(el.dataset.delay) : 0,
           ease: 'power2.out',
-          immediateRender: false,   // don't set opacity:0 until trigger fires
           scrollTrigger: { trigger: el, start: 'top bottom', toggleActions: 'play none none none' },
         })
       })

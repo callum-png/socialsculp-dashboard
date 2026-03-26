@@ -230,9 +230,17 @@ html { scroll-behavior: smooth; }
 }
 
 /* All hero content sits above overlays */
-.v2-hero > *:not(.v2-hero-canvas-wrap):not(.v2-hero-overlay) {
+.v2-hero > *:not(.v2-hero-canvas-wrap):not(.v2-hero-overlay):not(.v2-hero-creator-cards) {
   position: relative;
   z-index: 2;
+}
+
+/* Floating creator cards container — absolute, covers full hero */
+.v2-hero-creator-cards {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
 }
 .v2-hero-tag {
   font-family: var(--font-sans);
@@ -1067,17 +1075,103 @@ html { scroll-behavior: smooth; }
   .v2-metrics-row { grid-template-columns: 1fr 1fr; }
 }
 
+/* ─── Creator card float animation (used by FloatingCreatorCard) ─── */
+@keyframes creatorCardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Hide floating cards on mobile — too crowded */
+@media (max-width: 768px) {
+  .v2-hero-creator-cards { display: none; }
+}
+
+/* ─── Process section ──────────────────────────────────────────── */
+.v2-process {
+  padding: 120px var(--pad);
+  background: #050c18;
+}
+.v2-process-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 72px;
+  position: relative;
+}
+.v2-process-steps::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0,140,255,0.35) 20%, rgba(0,140,255,0.35) 80%, transparent);
+  pointer-events: none;
+}
+.v2-process-step {
+  padding: 0 48px;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.v2-process-step:first-child { border-left: none; }
+.v2-process-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: #008CFF;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.v2-process-num::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #008CFF;
+  box-shadow: 0 0 10px rgba(0,140,255,0.8);
+  flex-shrink: 0;
+}
+.v2-process-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  font-weight: 300;
+  font-style: italic;
+  color: #F0E6DE;
+  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+}
+.v2-process-body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.75;
+  max-width: 300px;
+}
+
 @media (max-width: 640px) {
   .v2-nav { padding: 20px 24px; }
   .v2-nav-links { display: none; }
   .v2-hero { padding: 100px 24px 60px; }
-  .v2-hero-sub-row { flex-direction: column; align-items: flex-start; }
+  .v2-hero-headline { font-size: clamp(3rem, 13vw, 5rem); }
+  .v2-hero-sub-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .v2-hero-actions { flex-direction: column; width: 100%; }
+  .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 24px; }
   .v2-stat { border-right: none; border-top: 1px solid var(--border); padding: 16px 0; }
   .v2-stat:first-child { border-top: none; }
-  .v2-work, .v2-services, .v2-metrics, .v2-cta, .v2-about { padding: 60px 24px; }
+  .v2-work, .v2-services, .v2-metrics, .v2-cta, .v2-about, .v2-process { padding: 60px 24px; }
   .v2-case-row { grid-template-columns: 60px 1fr; }
   .v2-case-metric { display: none; }
   .v2-metrics-row { grid-template-columns: 1fr; }
   .v2-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  .v2-about { grid-template-columns: 1fr; }
+  .v2-cta-headline { font-size: clamp(2.5rem, 12vw, 4rem); }
+  /* Process — stack vertically on mobile */
+  .v2-process-steps { grid-template-columns: 1fr; gap: 0; }
+  .v2-process-steps::before { display: none; }
+  .v2-process-step { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); padding: 36px 0; }
+  .v2-process-step:first-child { border-top: none; }
 }
