@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
@@ -108,14 +108,17 @@ function HeroNetwork({ nodesData, edgesData }: { nodesData: THREE.Vector3[], edg
     return g
   }, [edgePosArr])
 
-  // Mouse: tx/ty = target, cx/cy = current (smoothed)
-  const mouse = useRef({ tx: 0, ty: 0, cx: 0, cy: 0 })
+  // Mouse: tx/ty/tz = targets, cx/cy/cz = current (smoothed)
+  const mouse = useRef({ tx: 0, ty: 0, tz: 0, cx: 0, cy: 0, cz: 0 })
+  const { camera } = useThree()
 
   useEffect(() => {
     const fn = (e: MouseEvent) => {
-      // Normalize 0-1, then map to tilt range
-      mouse.current.tx = (e.clientX / window.innerWidth - 0.5) * 0.5    // ±0.25 rad Y
-      mouse.current.ty = -(e.clientY / window.innerHeight - 0.5) * 0.35  // ±0.175 rad X
+      const nx = e.clientX / window.innerWidth - 0.5   // -0.5 → 0.5
+      const ny = e.clientY / window.innerHeight - 0.5  // -0.5 → 0.5
+      mouse.current.tx = nx * 1.4          // ±0.7 rad Y (dramatic horizontal)
+      mouse.current.ty = -ny * 0.9         // ±0.45 rad X (dramatic vertical)
+      mouse.current.tz = ny * 2.0          // camera Z: top=near, bottom=far
     }
     window.addEventListener('mousemove', fn)
     return () => window.removeEventListener('mousemove', fn)
@@ -128,19 +131,25 @@ function HeroNetwork({ nodesData, edgesData }: { nodesData: THREE.Vector3[], edg
     if (mat.current) mat.current.uniforms.uTime.value = clock.getElapsedTime()
 
     const m = mouse.current
-    // Smooth mouse position
-    m.cx += (m.tx - m.cx) * 0.025
-    m.cy += (m.ty - m.cy) * 0.025
+    // Faster lerp = more responsive feel
+    const lerp = 0.04
+    m.cx += (m.tx - m.cx) * lerp
+    m.cy += (m.ty - m.cy) * lerp
+    m.cz += (m.tz - m.cz) * lerp
 
-    // Auto-orbit: ~45 sec full rotation
-    autoRotY.current += 0.0008
+    // Auto-orbit: ~52 sec full rotation (clearly visible 3D movement)
+    autoRotY.current += 0.0012
 
     if (groupRef.current) {
-      // Y = auto-orbit + mouse horizontal tilt
       groupRef.current.rotation.y = autoRotY.current + m.cx
-      // X = mouse vertical tilt only
       groupRef.current.rotation.x = m.cy
     }
+
+    // Camera Z parallax: base=20, drifts ±2 with mouse Y
+    camera.position.z = 20 + m.cz
+    // Subtle camera X/Y shift for depth parallax
+    camera.position.x += (-m.cx * 1.5 - camera.position.x) * 0.03
+    camera.position.y += (m.cy * 1.0 - camera.position.y) * 0.03
   })
 
   return (
