@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TitanGate Equity | A New Class of Ownership</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #000000;
+            --dark-secondary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 48px 80px;
+            position: relative;
+        }
+
+        .hero-tag {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 300;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: 300;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+            letter-spacing: 1px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 120px 48px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 64px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 48px;
+            line-height: 1.8;
+        }
+
+        /* Invitation Section */
+        .invitation {
+            text-align: center;
+            padding: 160px 48px;
+        }
+
+        .invitation-label {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 32px;
+        }
+
+        .invitation-title {
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+
+        .invitation-text {
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300;
+            opacity: 0.7;
+            max-width: 900px;
+            margin: 0 auto 48px;
+            line-height: 1.8;
+        }
+
+        /* Grid Sections */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            padding: 48px 32px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .grid-item-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .grid-item-text {
+            font-size: 16px;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 64px;
+            max-width: 1200px;
+            margin: 80px auto 0;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 300;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* Process Steps */
+        .process {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            max-width: 1400px;
+            margin: 80px auto 0;
+        }
+
+        .process-step {
+            text-align: center;
+        }
+
+        .step-number {
+            font-size: 48px;
+            font-weight: 300;
+            opacity: 0.3;
+            margin-bottom: 24px;
+        }
+
+        .step-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .step-text {
+            font-size: 16px;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .comparison-grid {
+            display: grid;
+            gap: 64px;
+            margin-top: 80px;
+        }
+
+        .comparison-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .comparison-new,
+        .comparison-old {
+            padding: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .comparison-new {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .comparison-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .comparison-text {
+            font-size: 16px;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        .comparison-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 16px;
+        }
+
+        /* Admission Section */
+        .admission {
+            text-align: center;
+            padding: 160px 48px;
+            background: var(--dark-secondary);
+        }
+
+        .admission-title {
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+
+        .admission-code {
+            font-size: clamp(28px, 4vw, 56px);
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin: 64px 0;
+            opacity: 0.8;
+            line-height: 2;
+            font-family: 'Courier New', monospace;
+        }
+
+        .admission-text {
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 300;
+            opacity: 0.7;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 64px 48px 32px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.5;
+            margin-bottom: 16px;
+        }
+
+        .footer-credit {
+            font-size: 12px;
+            opacity: 0.4;
+        }
+
+        /* Tech Categories */
+        .tech-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 80px auto 0;
+        }
+
+        .tech-item {
+            padding: 32px;
+            border: 1px solid var(--border);
+            text-align: center;
+            font-size: 18px;
+            font-weight: 400;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .tech-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Access Denied Animation */
+        .access-denied {
+            text-align: center;
+            padding: 80px 48px;
+            font-size: 24px;
+            letter-spacing: 4px;
+            opacity: 0.6;
+            font-family: 'Courier New', monospace;
+        }
+
+        .access-denied > div {
+            margin: 16px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            section {
+                padding: 80px 24px;
+            }
+
+            .comparison-item {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .invitation,
+            .admission {
+                padding: 80px 24px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Text Reveal Animation */
+        .text-reveal {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .text-reveal.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Initialising...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">TGE | TitanGate Equity</div>
+        <ul class="nav-links">
+            <li><a href="#vision">Vision</a></li>
+            <li><a href="#opportunities">Opportunities</a></li>
+            <li><a href="#pioneers">Pioneers</a></li>
+            <li><a href="#manifesto">Manifesto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-tag">TGE | TitanGate Equity</div>
+        <h1 class="hero-title">A New Class<br>of Ownership</h1>
+        <p class="hero-subtitle text-reveal">Titan's Gate<br>A closed Network</p>
+        <div class="scroll-indicator">Scroll</div>
+    </section>
+
+    <!-- Invitation Section -->
+    <section class="invitation" id="vision">
+        <div class="invitation-label">Titan's Gate</div>
+        <h2 class="invitation-title">Invitation Only.</h2>
+        <h3 class="invitation-title" style="font-size: clamp(32px, 5vw, 64px); opacity: 0.8; margin-bottom: 48px;">
+            Unmatched access to the<br>world's most coveted opportunities.
+        </h3>
+        <p class="invitation-text">
+            Where others invest in the obvious,<br>we explore what lies behind closed doors.
+        </p>
+    </section>
+
+    <!-- Elite Opportunities Section -->
+    <section id="opportunities">
+        <h2 class="section-title">Elite Private Market Opportunities. Tokenized.</h2>
+        <p class="section-subtitle">
+            One-of-a-kind access to the epitome of private market opportunities, once reserved for institutions.<br>
+            Compounding wealth, seamlessly.
+        </p>
+    </section>
+
+    <!-- Our Vision Section -->
+    <section style="background: var(--dark-secondary);">
+        <div class="invitation-label">our vision</div>
+        <h2 class="section-title">Titangate Equity</h2>
+        <p style="text-align: center; font-size: 16px; opacity: 0.6; margin-bottom: 32px; letter-spacing: 1px;">
+            @titangate_Equity
+        </p>
+        <p class="section-subtitle">
+            There are paths in the world that can't be seen — only sensed. Where others invest in the obvious, we explore what lies behind closed doors. This is a gateway to the extraordinary. Not everyone is meant to step through it.
+        </p>
+        
+        <div class="grid-section" style="margin-top: 80px;">
+            <div class="grid-item">
+                <div class="grid-item-title">Unseen Possibilities.</div>
+                <div class="grid-item-text">We find opportunities others can't see or access.</div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-item-title">Institutional-Grade Protection.</div>
+                <div class="grid-item-text">Private markets were designed to exclude, even those within. Opacity, risk & insider walls were once the norm. We redefine reconstruct reconfigure the standards once taken for granted. Through blockchain verification, secure SPV structures, and the power of decentralization, every deal is transparent, trusted, and built for protection.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Backing Titans Section -->
+    <section>
+        <h2 class="section-title">Backing the Titans That Redefine Entire Industries</h2>
+        <p class="section-subtitle" style="margin-bottom: 16px;">Specializing in technology that shapes the future</p>
+        
+        <div class="tech-categories">
+            <div class="tech-item">Artificial Intelligence</div>
+            <div class="tech-item">Financial Technology</div>
+            <div class="tech-item">Space Exploration</div>
+            <div class="tech-item">Enterprise Infrastructure</div>
+            <div class="tech-item">Healthcare</div>
+            <div class="tech-item">Biotech</div>
+            <div class="tech-item">Next-Gen Defense</div>
+            <div class="tech-item">Cybersecurity</div>
+        </div>
+        
+        <div class="access-denied">
+            <div>Initializing...</div>
+            <div style="margin-top: 32px;">Access Denied</div>
+            <div style="margin-top: 32px;">Initializing...</div>
+        </div>
+    </section>
+
+    <!-- Access That Speaks Section -->
+    <section style="background: var(--dark-secondary);">
+        <h2 class="section-title">Access That Speaks for Itself</h2>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="stat1">0%</div>
+                <div class="stat-label">Of our selected opportunities delivered positive returns over the last 12 months</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="stat2">+0%</div>
+                <div class="stat-label">Average performance of our selection over the last 12 months</div>
+            </div>
+        </div>
+        <p class="section-subtitle" style="margin-top: 80px;">
+            What's Off Limits, We Make Possible. Beyond access, we create access, positioning you in the world's most sought-after companies with unmatched protection.
+        </p>
+    </section>
+
+    <!-- Process Section -->
+    <section id="pioneers">
+        <h2 class="section-title">From Selection to Legacy.</h2>
+        <div class="process">
+            <div class="process-step">
+                <div class="step-number">01</div>
+                <div class="step-title">Selection</div>
+                <div class="step-text">We find you.</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">02</div>
+                <div class="step-title">Alignment</div>
+                <div class="step-text">Onboarding process to align capital, vision, and opportunity.</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">03</div>
+                <div class="step-title">Access</div>
+                <div class="step-text">Gain entry to elite opportunities, secured and tokenized.</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">04</div>
+                <div class="step-title">Compounding</div>
+                <div class="step-text">Your wealth compounds seamlessly while we carry the weight.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="manifesto" style="background: var(--dark-secondary);">
+        <h2 class="section-title">Enforcement vs Empty Promises</h2>
+        <div class="comparison">
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <div class="comparison-new">
+                        <div class="comparison-label">The New World</div>
+                        <div class="comparison-title">Enforcement</div>
+                        <div class="comparison-text">Smart contracts enforce execution. If a deal dies, funds return instantly.</div>
+                    </div>
+                    <div class="comparison-old">
+                        <div class="comparison-label">The Old World</div>
+                        <div class="comparison-title">Empty Promises</div>
+                        <div class="comparison-text">Deals vanish, buyers drop out, funds sit idle for weeks.</div>
+                    </div>
+                </div>
+                
+                <div class="comparison-item">
+                    <div class="comparison-new">
+                        <div class="comparison-label">The New World</div>
+                        <div class="comparison-title">Stewardship</div>
+                        <div class="comparison-text">Every member is sovereign. Direct response, personal care, white-glove stewardship</div>
+                    </div>
+                    <div class="comparison-old">
+                        <div class="comparison-label">The Old World</div>
+                        <div class="comparison-title">Neglect</div>
+                        <div class="comparison-text">Ghosted by "support," brokers ignore you, capital disposable.</div>
+                    </div>
+                </div>
+                
+                <div class="comparison-item">
+                    <div class="comparison-new">
+                        <div class="comparison-label">The New World</div>
+                        <div class="comparison-title">Flexibility</div>
+                        <div class="comparison-text">We bend the market to your will. Bespoke allocations, liquidity pathways, access to "impossible" companies.</div>
+                    </div>
+                    <div class="comparison-old">
+                        <div class="comparison-label">The Old World</div>
+                        <div class="comparison-title">One-Size-Fits-All</div>
+                        <div class="comparison-text">You take what's given. No customization, no choice, no strategy.</div>
+                    </div>
+                </div>
+                
+                <div class="comparison-item">
+                    <div class="comparison-new">
+                        <div class="comparison-label">The New World</div>
+                        <div class="comparison-title">Liquidity</div>
+                        <div class="comparison-text">Liquidity is engineered. Immediate exits, alternative pathways, seamless peer-to-peer trading.</div>
+                    </div>
+                    <div class="comparison-old">
+                        <div class="comparison-label">The Old World</div>
+                        <div class="comparison-title">Captivity</div>
+                        <div class="comparison-text">No updates, no timelines, no exits. Years locked waiting for IPOs that may never come.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Section -->
+    <section class="admission">
+        <div class="invitation-label">admission</div>
+        <div class="admission-code">>>><br>into<br>_<br>TGE<br>[25]<br>Is<br>_<br>Not<br>[?]</div>
+        <h2 class="admission-title">requested</h2>
+        <p class="admission-text">
+            It is Granted. We quietly identify and forge alliances with extraordinary individuals of serious capital, those rare few whose presence strengthens the whole.<br><br>
+            Every member is cultivated with intention. Each relationship is personal, each experience designed as if it were singular. We seek no comfort in numbers, only in the precision of quality.<br><br>
+            One individual of true caliber outweighs a thousand of the ordinary.<br><br>
+            Inside TGE, trust is absolute, collaboration is constant, and wealth is not fleeting but generational.<br><br>
+            This is not simply an investment circle. It is a network of Titans, chosen and bound together to shape enduring legacies.
+        </p>
+        <p class="admission-text" style="margin-top: 64px; font-size: clamp(16px, 2vw, 20px);">
+            A Privilege.<br>Beyond Reach.
+        </p>
+        <p class="admission-text" style="margin-top: 32px; opacity: 0.6;">
+            TGE will never be open to the world, and it was never meant to be. Those inside live the results.<br>
+            Those outside will only see the shadows.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Titan's Gate</div>
+        <div class="footer-text">©2025 TitanGate Equity</div>
+        <div class="footer-text">All Rights Reserved</div>
+        <div class="footer-credit">Made by Somefolk</div>
+    </footer>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Text Reveal on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.text-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Animate stats on scroll
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStat(entry.target);
+                    statObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        function animateStat(element) {
+            const target = element.id === 'stat1' ? 100 : 150;
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = element.id === 'stat1' ? '100%' : '+150%';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = element.id === 'stat1' 
+                        ? Math.floor(current) + '%' 
+                        : '+' + Math.floor(current) + '%';
+                }
+            }, 16);
+        }
+
+        document.getElementById('stat1') && statObserver.observe(document.getElementById('stat1'));
+        document.getElementById('stat2') && statObserver.observe(document.getElementById('stat2'));
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animations to sections
+        const sections = document.querySelectorAll('section');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+    </script>
+</body>
+</html>
+

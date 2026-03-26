@@ -74,7 +74,7 @@ export function StatCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <p className={cn(
-              'font-syne text-2xl font-bold tracking-tight leading-none',
+              'text-2xl font-bold leading-none stat-number',
               (accent || color === 'blue') ? 'text-accent' : 'text-foreground'
             )}>
               {displayValue}
@@ -82,7 +82,7 @@ export function StatCard({
             {delta !== undefined && (
               <span
                 className={cn(
-                  'inline-flex items-center gap-0.5 text-[11px] font-syne font-semibold',
+                  'inline-flex items-center gap-0.5 text-[11px] font-semibold stat-number',
                   isPositiveDelta ? 'text-emerald-500' : 'text-destructive'
                 )}
               >

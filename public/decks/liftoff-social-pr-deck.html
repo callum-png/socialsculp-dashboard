@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Liftoff | Social PR Packages with Ashton Hall</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #008cff;
+            --blue-light: #33aaff;
+            --blue-dark: #0066cc;
+            --orange: #FF6B35;
+            --black: #0A0A0A;
+            --dark-gray: #1A1A1A;
+        }
+
+        html {
+            height: 100%;
+            overflow-x: hidden;
+            background: var(--black);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-weight: 400;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            position: relative;
+        }
+
+        /* Film Gradient Background */
+        .gradient-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 140, 255, 0.25) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(10, 10, 10, 0.95) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Film Grain Effect */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px);
+            background-size: 4px 4px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .status-bar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: env(safe-area-inset-top, 20px);
+            max-height: 30px;
+            background: var(--black);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            padding: 60px 100px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1400px;
+            width: 100%;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography with Shine and White Outline */
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(80px, 14vw, 200px);
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 0.9;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 
+                -2px -2px 0 #fff,
+                2px -2px 0 #fff,
+                -2px 2px 0 #fff,
+                2px 2px 0 #fff,
+                0 0 40px rgba(0, 140, 255, 0.6),
+                0 0 80px rgba(0, 140, 255, 0.4);
+            position: relative;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.9) 50%, #fff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(28px, 5vw, 56px);
+            text-align: center;
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 30px rgba(0, 140, 255, 0.5);
+        }
+
+        .section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(56px, 9vw, 120px);
+            font-weight: 400;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            position: relative;
+            padding-bottom: 25px;
+            text-shadow: 
+                -2px -2px 0 #fff,
+                2px -2px 0 #fff,
+                -2px 2px 0 #fff,
+                2px 2px 0 #fff,
+                0 0 50px rgba(0, 140, 255, 0.6);
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.95) 50%, #fff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 4s ease-in-out infinite;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent, var(--blue), transparent);
+            box-shadow: 0 0 30px var(--blue);
+        }
+
+        .section-text {
+            font-size: clamp(18px, 2.2vw, 28px);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .liftoff-logo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 40px;
+            display: block;
+            filter: drop-shadow(0 0 30px rgba(0, 140, 255, 0.6));
+        }
+
+        .brand-mention {
+            color: var(--blue);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+            margin: 40px 0;
+        }
+
+        .column-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(42px, 6vw, 80px);
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: var(--blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.1;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 30px rgba(0, 140, 255, 0.5);
+        }
+
+        .column-text {
+            font-size: clamp(18px, 2vw, 24px);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, 
+                rgba(26, 26, 26, 0.9) 0%, 
+                rgba(10, 10, 10, 0.95) 100%);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--blue);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 60px rgba(0, 140, 255, 0.3);
+        }
+
+        .feature-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 20px rgba(0, 140, 255, 0.4);
+        }
+
+        .feature-description {
+            font-size: clamp(16px, 1.8vw, 22px);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+            letter-spacing: 0.1px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, 
+                rgba(0, 140, 255, 0.15) 0%, 
+                rgba(138, 43, 226, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            border: 3px solid rgba(0, 140, 255, 0.4);
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--blue);
+            box-shadow: 
+                0 25px 70px rgba(0, 140, 255, 0.5),
+                0 0 60px rgba(0, 140, 255, 0.3);
+        }
+
+        .stat-number {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(64px, 10vw, 120px);
+            font-weight: 400;
+            color: var(--blue);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 30px rgba(0, 140, 255, 0.6);
+        }
+
+        .stat-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(18px, 2.5vw, 28px);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, 
+                rgba(0, 140, 255, 0.2) 0%, 
+                rgba(138, 43, 226, 0.15) 100%);
+            border: 4px solid var(--blue);
+            border-radius: 16px;
+            padding: 50px 60px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(0, 140, 255, 0.4);
+        }
+
+        /* Process Steps */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .process-step {
+            background: linear-gradient(135deg, 
+                rgba(0, 140, 255, 0.1) 0%, 
+                rgba(138, 43, 226, 0.05) 100%);
+            border: 3px solid rgba(0, 140, 255, 0.3);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .process-number {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(48px, 7vw, 96px);
+            color: var(--blue);
+            margin-bottom: 20px;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover {
+            background: var(--blue);
+            transform: scale(1.5);
+            box-shadow: 0 0 20px var(--blue);
+        }
+
+        .nav-dot.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 30px var(--blue);
+            transform: scale(1.7);
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: linear-gradient(135deg, 
+                rgba(0, 140, 255, 0.2) 0%, 
+                rgba(138, 43, 226, 0.15) 100%);
+            border: 4px solid var(--blue);
+            border-radius: 16px;
+            padding: 80px 70px;
+            margin: 70px auto;
+            max-width: 1000px;
+            text-align: center;
+            box-shadow: 
+                0 40px 100px rgba(0, 0, 0, 0.7),
+                0 0 80px rgba(0, 140, 255, 0.4);
+        }
+
+        .contact-name {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(56px, 8vw, 96px);
+            font-weight: 400;
+            color: var(--blue);
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 40px rgba(0, 140, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 50px 70px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .slide {
+                padding: 50px 50px;
+            }
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+            }
+            .two-column {
+                grid-template-columns: 1fr !important;
+                gap: 40px;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-dots {
+                right: 20px;
+            }
+        }
+
+        strong {
+            color: var(--blue);
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 140, 255, 0.4);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: clamp(18px, 2vw, 24px);
+            line-height: 1.7;
+        }
+
+        /* Client Logos Grid */
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+            align-items: center;
+        }
+
+        .client-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(24px, 3vw, 36px);
+            color: var(--blue);
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar-overlay"></div>
+    <div class="gradient-background"></div>
+    <div class="grain-overlay"></div>
+    <div class="deck-container">
+        <div class="nav-dots" id="navDots"></div>
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-slide="0">
+            <div class="slide-content">
+                <img src="images/liftoff.webp" alt="Liftoff" class="liftoff-logo">
+                <h1 class="hero-title">LIFTOFF</h1>
+                <p class="hero-subtitle">SOCIAL PR PACKAGES</p>
+                <p style="font-size: clamp(22px, 3vw, 32px); text-align: center; color: rgba(255, 255, 255, 0.9); margin: 40px 0 60px; font-weight: 600; letter-spacing: 3px;">
+                    POWERED BY <span class="brand-mention">ASHTON HALL</span><br>
+                    <span class="brand-mention">SocialSculp</span> — Creating Next Generation Levels of Content
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 2: The New Organic -->
+        <section class="slide" data-slide="1">
+            <div class="slide-content">
+                <h2 class="section-title">THE NEW ORGANIC</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 36px); margin-bottom: 60px;">
+                    Beyond Advertising
+                </p>
+                <div class="highlight-box">
+                    <h3 style="font-family: 'Anton', sans-serif; font-size: clamp(36px, 5.5vw, 56px); color: var(--blue); margin-bottom: 40px; letter-spacing: 2px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">
+                        CULTIVATING ORGANIC INFLUENCE FOR ORGANIC CONTENT
+                    </h3>
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px);">
+                        Proprietary content strategy for profound organic reach on Instagram. We don't just post—we create narratives that <strong>gym pages want to share</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: The Problem -->
+        <section class="slide" data-slide="2">
+            <div class="slide-content">
+                <h2 class="section-title">THE PROBLEM</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 36px); margin-bottom: 60px;">
+                    A Brand's Challenge
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Diminishing Returns</h3>
+                        <p class="feature-description">
+                            Conventional marketing delivers less impact every year. Traditional ads are losing their effectiveness.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Rejection of Ads</h3>
+                        <p class="feature-description">
+                            People are increasingly rejecting traditional advertisements. Users have developed high sensitivity to paid content.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Interruption Fatigue</h3>
+                        <p class="feature-description">
+                            Content that feels paid, inoffensive, or interrupts their platform experience gets ignored or blocked.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: The Problem Continued -->
+        <section class="slide" data-slide="3">
+            <div class="slide-content">
+                <h2 class="section-title">THE PROBLEM</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Lower Detection</h3>
+                        <p class="feature-description">
+                            Lower detection rates on social media. Content is stored, scrolled past immediately.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Algorithm Shifts</h3>
+                        <p class="feature-description">
+                            Algorithm shifts continuously suppress conventional brand content.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Authenticity Gap</h3>
+                        <p class="feature-description">
+                            Difficulty in providing authenticity and affordability to brand messaging.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Audience Fatigue</h3>
+                        <p class="feature-description">
+                            Audiences are fatigued by direct ads and sales pitches. They want content, not commercials.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Key Takeaway -->
+        <section class="slide" data-slide="4">
+            <div class="slide-content">
+                <h2 class="section-title">KEY TAKEAWAY</h2>
+                <div class="highlight-box" style="max-width: 1000px;">
+                    <p class="section-text" style="font-size: clamp(32px, 4vw, 48px); line-height: 1.5; font-weight: 700;">
+                        Brands need to <strong>stop selling</strong> and start <strong>converting their ads into enjoyable and shareable content</strong>.
+                    </p>
+                </div>
+                <p class="section-text" style="margin-top: 60px; font-size: clamp(20px, 2.5vw, 28px);">
+                    For <span class="brand-mention">Liftoff</span>, that means creating content that <strong>gym pages want to post</strong>—not ads they're paid to show.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 6: The Solution - Social PR -->
+        <section class="slide" data-slide="5">
+            <div class="slide-content">
+                <h2 class="section-title">THE SOLUTION</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 32px); margin-bottom: 60px;">
+                    Transforming traditional advertisements into digestible, enjoyable, shareable content for consumers.
+                </p>
+                <div class="process-grid">
+                    <div class="process-step">
+                        <div class="process-number">1</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">BUILD A NARRATIVE</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Content audit, narrative framing, asset collection, interview footage, brand announcements
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">2</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">CREATE THE CONTENT</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Creative content development, executive approval, final optimization for platform
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">3</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">DISTRIBUTION & ANALYSIS</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Distribution across network, real-time performance tracking, content refinement
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">4</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">OPTIMIZATION & SCALING</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Strategic review of top performers, creation of next month's content based on proven success
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Our Message -->
+        <section class="slide" data-slide="6">
+            <div class="slide-content">
+                <h2 class="section-title">OUR MESSAGE</h2>
+                <div class="highlight-box" style="max-width: 1000px;">
+                    <p class="section-text" style="font-size: clamp(40px, 6vw, 72px); line-height: 1.3; font-weight: 700;">
+                        We create headlines that <strong>stop the scroll</strong>.
+                    </p>
+                </div>
+                <p class="section-text" style="margin-top: 60px; font-size: clamp(20px, 2.5vw, 28px);">
+                    For <span class="brand-mention">Liftoff</span>, that means headlines that make gym pages pause, read, and share.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 8: Our Method -->
+        <section class="slide" data-slide="7">
+            <div class="slide-content">
+                <h2 class="section-title">OUR METHOD</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 32px); margin-bottom: 60px;">
+                    We use handpicked accounts to seed branded content to the feed.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">MACRO PAGES</h3>
+                        <p class="feature-description">
+                            Large-scale gym and fitness pages with millions of followers. Maximum reach and visibility.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">MICRO PAGES</h3>
+                        <p class="feature-description">
+                            Targeted fitness pages with engaged communities. Higher conversion rates and authentic engagement.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">NICHE PAGES</h3>
+                        <p class="feature-description">
+                            Specialized gym and workout pages. Hyper-targeted audiences that align perfectly with <span class="brand-mention">Liftoff</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Guaranteed Syndication -->
+        <section class="slide" data-slide="8">
+            <div class="slide-content">
+                <h2 class="section-title">GUARANTEED SYNDICATION</h2>
+                <div class="highlight-box">
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8;">
+                        Just like traditional press releases used to be syndicated across RSS feeds, our social PR is designed to be syndicated top-down across <strong>hundreds or even thousands</strong> of meme pages, sports accounts, and other content pages that repost from the biggest sources.
+                    </p>
+                    <p class="section-text" style="margin-top: 40px; font-size: clamp(20px, 2.5vw, 28px);">
+                        For <span class="brand-mention">Liftoff</span>, that means distribution across <strong>gym pages, fitness accounts, and workout communities</strong> that repost content their audiences want to see.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Cost Effective Control -->
+        <section class="slide" data-slide="9">
+            <div class="slide-content">
+                <h2 class="section-title">COST EFFECTIVE CONTROL</h2>
+                <div class="two-column">
+                    <div>
+                        <h3 class="column-title">YOU GET</h3>
+                        <ul style="text-align: left;">
+                            <li>✓ Everything you want in traditional PR</li>
+                            <li>✓ More creative control</li>
+                            <li>✓ Better visualizations</li>
+                            <li>✓ Guaranteed placement</li>
+                            <li>✓ Much cheaper cost</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="column-title">WE PROVIDE</h3>
+                        <p class="column-text">
+                            Direct lines and inventory of key accounts, acting similar to a PR agency. We have relationships with <strong>gym pages and fitness communities</strong> that traditional agencies don't.
+                        </p>
+                        <p class="column-text">
+                            For <span class="brand-mention">Liftoff</span>, that means guaranteed placement on pages your target audience actually follows.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Own the Explore Page -->
+        <section class="slide" data-slide="10">
+            <div class="slide-content">
+                <h2 class="section-title">OUR METHOD</h2>
+                <div class="highlight-box" style="max-width: 1000px;">
+                    <p class="section-text" style="font-size: clamp(40px, 6vw, 72px); line-height: 1.3; font-weight: 700;">
+                        Own the explore page.<br>Become unavoidable.
+                    </p>
+                </div>
+                <p class="section-text" style="margin-top: 60px; font-size: clamp(20px, 2.5vw, 28px);">
+                    When <span class="brand-mention">Liftoff</span> content appears across hundreds of gym pages, it becomes impossible for fitness enthusiasts to miss.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 12: 2025 Results -->
+        <section class="slide" data-slide="11">
+            <div class="slide-content">
+                <h2 class="section-title">OUR 2025 RESULTS</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 32px); margin-bottom: 60px;">
+                    Our Strategy Works
+                </p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">62B+</div>
+                        <div class="stat-label">Views</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">430K+</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2.6B+</div>
+                        <div class="stat-label">Interactions</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: From Views to Value -->
+        <section class="slide" data-slide="12">
+            <div class="slide-content">
+                <h2 class="section-title">FROM VIEWS TO VALUE</h2>
+                <p class="section-text" style="font-size: clamp(24px, 3vw, 32px); margin-bottom: 60px;">
+                    How <span class="brand-mention">SocialSculp</span> Drives Impact
+                </p>
+                <div class="two-column">
+                    <div>
+                        <h3 class="column-title">THE ATTRIBUTION RIPPLE</h3>
+                        <ul style="text-align: left;">
+                            <li>• Audience growth</li>
+                            <li>• Follower growth</li>
+                            <li>• Social media engagement</li>
+                            <li>• Organic search</li>
+                            <li>• Multi-touchpoint reach</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="column-title">CONVERSIONS</h3>
+                        <ul style="text-align: left;">
+                            <li>• Website traffic</li>
+                            <li>• Registrations</li>
+                            <li>• Conversion optimization</li>
+                            <li>• Customer retention</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 60px;">
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px);">
+                        <strong>Mass distribution</strong> turns into followers and traffic, turns into registrations and returning users, turns into retention. We don't just generate views—we generate <strong>retentive users</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Case Study - Polymarket -->
+        <section class="slide" data-slide="13">
+            <div class="slide-content">
+                <h2 class="section-title">CASE STUDY: POLYMARKET</h2>
+                <div class="two-column">
+                    <div>
+                        <h3 class="column-title">THE RESULTS</h3>
+                        <p class="column-text">
+                            In just under 30 days, <span class="brand-mention">SocialSculp</span> drove <strong>213 million+ Instagram views</strong> for Polymarket.
+                        </p>
+                        <p class="column-text">
+                            For a high-volume content strategy featuring viral content, Polymarket's branded banner helped them gain <strong>over 10,000 followers</strong> during the campaign.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="column-title">THE IMPACT</h3>
+                        <p class="column-text">
+                            For <strong>1,450+ unique organic Instagram posts</strong>, we maximized brand authority and engagement, solidifying Polymarket as the top prediction platform in the industry.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Case Study - Dual.com -->
+        <section class="slide" data-slide="14">
+            <div class="slide-content">
+                <h2 class="section-title">CASE STUDY: DUAL.COM</h2>
+                <div class="two-column">
+                    <div>
+                        <h3 class="column-title">THE RESULTS</h3>
+                        <p class="column-text">
+                            In just <strong>48 days</strong>, <span class="brand-mention">SocialSculp</span> drove over <strong>2.5 billion social media views</strong> for Dual Casino.
+                        </p>
+                        <p class="column-text">
+                            A brand new online casino as of July 2025 through branded mass content distribution.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="column-title">THE IMPACT</h3>
+                        <p class="column-text">
+                            With <strong>16,000+ unique organic posts</strong>, we maximized brand awareness and engagement, propelling Dual to the top of online casino deposit volume and delivering <strong>over 1 million website visits</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Case Study - Triumph -->
+        <section class="slide" data-slide="15">
+            <div class="slide-content">
+                <h2 class="section-title">CASE STUDY: TRIUMPH</h2>
+                <div class="highlight-box">
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left;">
+                        Streamer clips that show off app gameplay don't push out organically like paid ads. We created a <strong>strong and engaging narrative</strong> behind them.
+                    </p>
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left; margin-top: 30px;">
+                        In just under <strong>two days</strong>, we pushed out over <strong>10 million views</strong> for trending hip-hop and meme pages. By deploying <strong>50+ posts in a 24-hour window</strong>, the narrative established itself as a trending headline.
+                    </p>
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left; margin-top: 30px;">
+                        Within <strong>48 hours</strong>, pages were picking up the story as they saw it as trending content that would perform strong with their audience. That equated to a <strong>+4,200+ follower gain</strong> on the Triumph Arcade Instagram account in 48 hours!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Case Study - Loveable -->
+        <section class="slide" data-slide="16">
+            <div class="slide-content">
+                <h2 class="section-title">CASE STUDY: LOVEABLE</h2>
+                <div class="two-column">
+                    <div>
+                        <h3 class="column-title">THE GROWTH</h3>
+                        <p class="column-text">
+                            Loveable grew to <strong>$100 million in ARR</strong> in the first eight months of launch, distributing thousands of social PR posts.
+                        </p>
+                        <p class="column-text">
+                            Their platform <strong>doubled their ARR to $200 million</strong> in just four more months after reaching $100 million.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="column-title">THE IMPACT</h3>
+                        <p class="column-text">
+                            In July, <strong>100 million views</strong> were generated for social PR, and Loveable gained <strong>over 8 million users</strong> while raising a <strong>$200 million Series A</strong> and <strong>$1.8 billion valuation</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Case Study - Raise -->
+        <section class="slide" data-slide="17">
+            <div class="slide-content">
+                <h2 class="section-title">CASE STUDY: RAISE</h2>
+                <div class="highlight-box">
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left;">
+                        The streaming market is saturated on reels. Clips for casinos don't often go viral alone. They need a <strong>narrative and strong headline</strong> for viewers to get bought in.
+                    </p>
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left; margin-top: 30px;">
+                        We created an <strong>unheard of story</strong> that makes the viewer want to stay on. After testing this narrative on a few micro-pages, it was imminent that the ad would go viral.
+                    </p>
+                    <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); line-height: 1.8; text-align: left; margin-top: 30px;">
+                        In that same timeframe, we ran over <strong>100+ posts</strong> across Instagram's top trending pages. Within <strong>48 hours</strong>, we generated over <strong>300,000 likes and 25 million views</strong>. Pages started working and we picked up the headlines that came up with a viral story across Instagram.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Clients -->
+        <section class="slide" data-slide="18">
+            <div class="slide-content">
+                <h2 class="section-title">OUR CLIENTS</h2>
+                <p class="section-text" style="font-size: clamp(20px, 2.5vw, 28px); margin-bottom: 60px;">
+                    We are working with online brands
+                </p>
+                <div class="client-grid">
+                    <div class="client-name">Polymarket</div>
+                    <div class="client-name">Lone Star Kali</div>
+                    <div class="client-name">FitBot</div>
+                    <div class="client-name">StubGPT</div>
+                    <div class="client-name">Quizzard</div>
+                    <div class="client-name">Haven on Stock</div>
+                    <div class="client-name">Prize Picks</div>
+                    <div class="client-name">And Many More</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Partnership Roadmap -->
+        <section class="slide" data-slide="19">
+            <div class="slide-content">
+                <h2 class="section-title">PARTNERSHIP ROADMAP</h2>
+                <div class="process-grid">
+                    <div class="process-step">
+                        <div class="process-number">1</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">STRATEGY</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Weeks 1-2: Content audit, narrative framing, asset collection. Interview footage, brand announcements.
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">2</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">CONTENT CREATION</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Creative content development, executive approval, final optimization for platform.
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">3</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">DISTRIBUTION & ANALYSIS</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Distribution across network, real-time performance tracking, content refinement.
+                        </p>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">4</div>
+                        <h3 class="feature-title" style="font-size: clamp(20px, 2.5vw, 28px);">OPTIMIZATION & SCALING</h3>
+                        <p class="feature-description" style="font-size: clamp(14px, 1.8vw, 18px); margin-top: 20px;">
+                            Strategic review of top performers. Creation of next month's content based on proven success.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: The Team -->
+        <section class="slide" data-slide="20">
+            <div class="slide-content">
+                <h2 class="section-title">THE TEAM</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">COMPONENT EXPERTISE</h3>
+                        <p class="feature-description">
+                            Deep expertise in product marketing, branding, creative strategy, distribution, and growth.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">ANTI-AD AESTHETIC</h3>
+                        <p class="feature-description">
+                            We guarantee an anti-ad aesthetic for authentic audience engagement. Content that feels organic, not paid.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">PROPRIETARY NETWORK</h3>
+                        <p class="feature-description">
+                            Exclusive access to all high-volume distribution channels. Direct relationships with gym pages and fitness communities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: Ready to Get Started -->
+        <section class="slide" data-slide="21">
+            <div class="slide-content">
+                <h2 class="section-title">READY TO GET STARTED?</h2>
+                <div class="contact-box">
+                    <div class="contact-name">SocialSculp</div>
+                    <p style="font-size: clamp(24px, 3vw, 36px); color: rgba(255,255,255,0.9); margin-top: 40px; font-weight: 600;">
+                        Partnerships Agency of <span class="brand-mention">Ashton Hall</span>
+                    </p>
+                    <p style="font-size: clamp(20px, 2.5vw, 28px); color: rgba(255,255,255,0.8); margin-top: 40px; font-weight: 500;">
+                        We help brands with internal content distribution and powerhousing of ambassadorships with <span class="brand-mention">Ashton Hall</span> and other ambassadors.
+                    </p>
+                    <p style="font-size: clamp(22px, 2.8vw, 32px); color: var(--blue); margin-top: 60px; font-weight: 700; text-shadow: 0 0 20px rgba(0, 140, 255, 0.5);">
+                        business@socialsculp.io
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.getElementById('navDots');
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            });
+            navDots.appendChild(dot);
+        });
+
+        function updateActiveDot() {
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
+            
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                const slideTop = rect.top + window.scrollY;
+                const slideBottom = slideTop + rect.height;
+                
+                if (scrollPosition >= slideTop && scrollPosition < slideBottom) {
+                    document.querySelectorAll('.nav-dot').forEach((dot, dotIndex) => {
+                        dot.classList.toggle('active', dotIndex === index);
+                    });
+                }
+            });
+        }
+
+        const observerOptions = {
+            threshold: [0, 0.25, 0.5, 0.75, 1],
+            rootMargin: '-20% 0px -20% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                    const slideIndex = parseInt(entry.target.dataset.slide);
+                    document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === slideIndex);
+                    });
+                }
+            });
+            updateActiveDot();
+        }, observerOptions);
+
+        slides.forEach(slide => observer.observe(slide));
+
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveDot, 50);
+        }, { passive: true });
+
+        updateActiveDot();
+
+        document.addEventListener('keydown', (e) => {
+            const currentSlide = Array.from(slides).findIndex(slide => {
+                const rect = slide.getBoundingClientRect();
+                return rect.top >= 0 && rect.top < window.innerHeight / 2;
+            });
+
+            if (e.key === 'ArrowDown' && currentSlide < slides.length - 1) {
+                slides[currentSlide + 1].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' && currentSlide > 0) {
+                slides[currentSlide - 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>

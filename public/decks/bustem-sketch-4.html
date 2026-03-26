@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 675px; overflow: hidden; background: #000; }
+
+    .thumb {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      background: #030303;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Subtle radial glow behind number */
+    .glow-bg {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,30,55,0.18) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Thin grid */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,45,85,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,85,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* Top label */
+    .top-label {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* The number */
+    .number-wrap {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .number {
+      font-family: 'Anton', sans-serif;
+      font-size: 220px;
+      line-height: 0.85;
+      color: #fff;
+      letter-spacing: -6px;
+    }
+
+    .number .accent { color: #ff2d55; }
+
+    .unit {
+      font-family: 'Anton', sans-serif;
+      font-size: 72px;
+      color: #ff2d55;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* Divider line */
+    .divider-line {
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #ff2d55, transparent);
+      margin: 20px 0 16px;
+    }
+
+    .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Bottom pill */
+    .pill {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,45,85,0.12);
+      border: 1px solid rgba(255,45,85,0.35);
+      border-radius: 100px;
+      padding: 10px 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ff5c7a;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+<div class="thumb">
+  <div class="grid"></div>
+  <div class="glow-bg"></div>
+
+  <div class="top-label">Bustem AI — Running Total</div>
+
+  <div class="number-wrap">
+    <div class="number">1,<span class="accent">247</span></div>
+    <div class="divider-line"></div>
+    <div class="unit">Fakes Removed</div>
+    <div class="sub">This Week Alone.</div>
+  </div>
+
+  <div class="pill">bustem.ai — AI Brand Protection</div>
+</div>
+</body>
+</html>

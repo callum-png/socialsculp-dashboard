@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitbod Campaign Assessment | SocialSculp — Cycle One (Gabriella Annalisa)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #008cff;
+            --primary-dark: #005fa3;
+            --primary-light: #1a9eff;
+            --text: #1a1a1a;
+            --gray: #666;
+            --light: #f8f9fa;
+            --border: #d1d5db;
+            --success: #10b981;
+            --danger: #b91c1c;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            background: #e5e7eb;
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .doc {
+            max-width: 920px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #005fa3 0%, #008cff 50%, #0066cc 100%);
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 1.85rem;
+            font-weight: 900;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .sub { font-size: 1rem; opacity: 0.95; font-weight: 500; }
+        .hero .meta { margin-top: 0.75rem; font-size: 0.9rem; opacity: 0.9; }
+
+        .main { padding: 2.25rem 2rem; }
+
+        .sec { margin-bottom: 2.25rem; }
+
+        .sec h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .summary-box {
+            background: var(--light);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 1.25rem;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .summary-item .label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
+        }
+
+        .summary-item .val { font-size: 1.5rem; font-weight: 900; color: var(--primary-dark); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.6rem 0.9rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .num { text-align: right; }
+        .bold { font-weight: 700; }
+        .cpm-good { color: var(--success); font-weight: 600; }
+        .cpm-bad { color: var(--danger); font-weight: 600; }
+
+        .callout {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 0.9rem 1.1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .callout strong { color: var(--primary-dark); }
+
+        .steps { list-style: none; }
+        .steps li {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .steps li:last-child { border-bottom: none; }
+
+        .steps .n {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .steps .tit { font-weight: 600; margin-bottom: 0.2rem; color: var(--primary-dark); }
+        .steps .desc { color: var(--gray); font-size: 0.9rem; }
+
+        .bullets { margin: 0.75rem 0; padding-left: 1.2rem; }
+        .bullets li { margin-bottom: 0.6rem; }
+
+        .foot {
+            background: var(--light);
+            padding: 1.25rem 2rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .foot strong { color: var(--primary); }
+
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .hero { padding: 2rem 1.25rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .main { padding: 1.5rem 1.25rem; }
+            .summary-row { grid-template-columns: 1fr; }
+            th, td { padding: 0.5rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="doc">
+        <header class="hero">
+            <h1>Fitbod Campaign Assessment</h1>
+            <p class="sub">SocialSculp — Cycle One Close-Out</p>
+            <p class="meta">Gabriella Annalisa · All three creatives posted · Fitbod holds full usage</p>
+        </header>
+
+        <main class="main">
+            <section class="sec">
+                <h2>Executive Summary</h2>
+                <p>Cycle One of the Fitbod campaign with SocialSculp, featuring Gabriella Annalisa, has concluded. All three creatives have been posted and are live on Instagram and TikTok, and Fitbod holds full usage over those creatives. Everything has come to a close. This assessment covers final spend, analytics, CPM performance, learnings, and next steps—including invoice closure, Fitbod backend attribution review, and Phase Two planning.</p>
+            </section>
+
+            <section class="sec">
+                <h2>Immediate Next Steps</h2>
+                <ol class="steps">
+                    <li>
+                        <span class="n">1</span>
+                        <div>
+                            <div class="tit">Pay remaining invoice to Gabriella Annalisa</div>
+                            <div class="desc">Pay the balance for the two creatives not yet paid. Total owed to Gabriella Annalisa: $9,000 (see Final Spend below).</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="n">2</span>
+                        <div>
+                            <div class="tit">Fitbod backend attribution review</div>
+                            <div class="desc">Confirm how this campaign is attributed on the Fitbod side (installs, sign-ups, retention) to evaluate whether renewing with Gabriella Annalisa is worth it.</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="n">3</span>
+                        <div>
+                            <div class="tit">Renewal decision: Gabriella Annalisa</div>
+                            <div class="desc">Decide whether to renew based on attribution, CPM, and fit. SocialSculp committed to a long-standing partnership if the campaign attributes well.</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="n">4</span>
+                        <div>
+                            <div class="tit">Phase Two planning</div>
+                            <div class="desc">Consider a broader creator rollout (e.g. Jeremiah Jones, TrenTwins, Gharilla, other fitness creators) for variety, more data, and less single-creator reliance. Use Shortimize to keep tracking virality where applicable.</div>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="sec">
+                <h2>Final Spend Report</h2>
+                <div class="summary-box">
+                    <div class="summary-row">
+                        <div class="summary-item">
+                            <div class="label">Total campaign spend</div>
+                            <div class="val">$11,500</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label">Gabriella Annalisa (3 creatives)</div>
+                            <div class="val">$9,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label">SocialSculp management fee</div>
+                            <div class="val">$2,500</div>
+                        </div>
+                    </div>
+                </div>
+                <p><strong>Breakdown:</strong> $9,000 owed to Gabriella Annalisa (all three creatives; two unpaid) + $2,500 SocialSculp management fee = <strong>$11,500</strong> total.</p>
+            </section>
+
+            <section class="sec">
+                <h2>Final Analytics & CPM</h2>
+                <p>View counts are Instagram + TikTok combined. CPM = (Spend ÷ Total Views) × 1,000.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Creative</th>
+                            <th class="num">Instagram</th>
+                            <th class="num">TikTok</th>
+                            <th class="num">Total views</th>
+                            <th class="num">Spend</th>
+                            <th class="num">CPM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Video 1</strong></td>
+                            <td class="num">527,000</td>
+                            <td class="num">330,000</td>
+                            <td class="num bold">857,000</td>
+                            <td class="num">$3,000</td>
+                            <td class="num cpm-good">$3.50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Video 2</strong></td>
+                            <td class="num">100,000</td>
+                            <td class="num">100,000</td>
+                            <td class="num bold">200,000</td>
+                            <td class="num">$3,000</td>
+                            <td class="num cpm-bad">$15.00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Video 3</strong></td>
+                            <td class="num">70,000</td>
+                            <td class="num">160,000</td>
+                            <td class="num bold">230,000</td>
+                            <td class="num">$3,000</td>
+                            <td class="num cpm-bad">$13.04</td>
+                        </tr>
+                        <tr style="background: var(--light); font-weight: 700;">
+                            <td>Total</td>
+                            <td class="num">697,000</td>
+                            <td class="num">590,000</td>
+                            <td class="num">1,287,000</td>
+                            <td class="num">$9,000</td>
+                            <td class="num">$6.99</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout">
+                    <strong>Blended CPM (creator spend only):</strong> $9,000 ÷ 1,287,000 × 1,000 = <strong>$6.99</strong> per 1K views.<br>
+                    <strong>Blended CPM (full campaign, incl. SocialSculp):</strong> $11,500 ÷ 1,287,000 × 1,000 = <strong>$8.94</strong> per 1K views.
+                </div>
+
+                <p><em>$3,000 per video × 3 creatives = $9,000 total creator spend.</em></p>
+            </section>
+
+            <section class="sec">
+                <h2>Why Video 1 Overperformed</h2>
+                <p>Video 1 drove 857K views at $3.50 CPM and set the benchmark:</p>
+                <ul class="bullets">
+                    <li><strong>First-frame emotional hook:</strong> Mom and baby having a genuine reaction in the open—grabbed attention and improved retention.</li>
+                    <li><strong>Mom carrying baby in the first frame:</strong> Quickly signaled “motherhood + real life,” matched her audience, and kept viewers watching.</li>
+                    <li><strong>Retention-focused open:</strong> Strong first few seconds drove watch time and algorithm pickup, so more reach and views.</li>
+                </ul>
+                <p>This matches Gabriella’s organic hits (e.g. ~600K-view TikTok on postpartum stomach / “still there”). Underperformers usually lack that clear emotional moment from mom or baby and feel like generic lifestyle clips.</p>
+            </section>
+
+            <section class="sec">
+                <h2>Key Takeaways & Recommendations</h2>
+                <p><strong>If we renew with Gabriella Annalisa:</strong></p>
+                <ul class="bullets">
+                    <li>Lead with a <strong>first-frame emotional hook</strong> (mom/baby reaction, relatable moment) to maximize retention and reach.</li>
+                    <li>Optimize for <strong>retention in the first few seconds</strong>—avoid generic opens.</li>
+                    <li>Use <strong>“day in the life”</strong> storytelling—visually and in copy—so Fitbod feels natural, not ad-like.</li>
+                    <li>Add <strong>variety</strong> (scenarios, hooks, formats) while keeping the emotional thread that works for her audience.</li>
+                </ul>
+                <p><strong>Partnership:</strong> A long-standing deal with Gabriella Annalisa is on the table if the campaign attributes well for Fitbod. Renewal should factor in backend attribution, not just CPM/views.</p>
+                <p><strong>Broader strategy:</strong> Cycle One was single-creator due to budget. Phase Two should widen the rollout (Jeremiah Jones, TrenTwins, Gharilla, other fitness creators) to diversify, gather more data, and avoid over-reliance on one partner. Fitbod integration and creative strategy were tactical; performance would likely have been weaker without them.</p>
+            </section>
+
+            <section class="sec">
+                <h2>Data Collection & Phase Two Vision</h2>
+                <p>Cycle One yielded exceptional data collection regardless of whether we renew with Gabriella Annalisa:</p>
+                <ul class="bullets">
+                    <li>Clear signal on <strong>what drives reach and retention</strong> (emotional hook, first frame, motherhood context, day-in-the-life storytelling).</li>
+                    <li>Valuable <strong>consumer sentiment analysis</strong> and engagement patterns from the audience.</li>
+                    <li>Evidence that <strong>motherhood creators</strong> have powerful parallel consumerism in their audiences—this insight is applicable to future Fitbod cycles and similar brands.</li>
+                    <li>Performance data across three different creative approaches, showing what works and what doesn't.</li>
+                </ul>
+                <p>Shortimize helped track virality throughout the campaign and provided visibility into how everything played out. This was our first influencer campaign with SocialSculp, and it served as an excellent experiment and test case.</p>
+                <p><strong>Phase Two goals:</strong> SocialSculp would love to renew the campaign with Gabriella Annalisa if the backend attribution supports it, and we would love to keep pushing and scaling. Additionally, we should be able to employ Jeremiah Jones, TrenTwins, Gharilla, and other fitness creators to create a more diverse campaign. Different buckets of creators will allow us to gather more comprehensive data to test and optimize. This was amazing data collection no matter how you look at it—we saw how people reacted to different creative approaches, gathered consumer sentiment analysis, and learned about the powerful parallel consumerism in motherhood creator audiences.</p>
+                <p>We hope to employ these learnings prospectively with our new cycles of campaigns. Shortimize and other tracking tools should continue to be used to monitor virality and performance across all creators.</p>
+            </section>
+
+            <section class="sec">
+                <h2>Closing</h2>
+                <p>Cycle One with Gabriella Annalisa under SocialSculp has come to a close. All three creatives have been posted, and Fitbod has full usage over those creatives. Everything has been completed.</p>
+                <p><strong>Immediate actions:</strong> Pay the remaining invoice to Gabriella Annalisa for the two creatives that haven't been paid for yet ($9,000 total). Review Fitbod backend attribution to determine if renewing with Gabriella Annalisa is worth it and how the campaign is attributed on Fitbod's side.</p>
+                <p><strong>Forward momentum:</strong> If the campaign attributes well, SocialSculp is committed to turning this into a long-standing partnership with Gabriella Annalisa. Whether we renew with Gabriella Annalisa or not, Phase Two should incorporate a broader creator rollout to diversify our approach, gather more data, and avoid over-reliance on a single creator. We look forward to continuing to scale and push forward, employing the learnings from this cycle to optimize future campaigns.</p>
+                <p>This campaign provided excellent data and insights that will inform our strategy moving forward. We're looking forward to this new year with everyone and hope we can stay a team.</p>
+            </section>
+        </main>
+
+        <footer class="foot">
+            <p><strong>Fitbod Campaign Assessment</strong> · SocialSculp · Cycle One (Gabriella Annalisa)</p>
+            <p>Generated by SocialSculp</p>
+        </footer>
+    </div>
+</body>
+</html>

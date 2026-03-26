@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFP #1962P - Prime Contractor Responsibilities | City of Alexandria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .deck-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            padding: 50px;
+            page-break-after: always;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .slide-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .slide-header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .slide-content {
+            flex: 1;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f5f7fa;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .checklist-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-item:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .contact-info h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 20px 0;
+        }
+
+        .timeline:before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: -32px;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .slide {
+                page-break-after: always;
+                box-shadow: none;
+                margin-bottom: 0;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>RFP #1962P</h1>
+                <div class="subtitle">Prime Contractor Responsibilities</div>
+                <div class="subtitle" style="margin-top: 15px; font-size: 1em;">Household Hazardous Waste Collection Day</div>
+                <div class="subtitle" style="margin-top: 10px; font-size: 0.9em;">City of Alexandria, Louisiana</div>
+            </div>
+            <div class="slide-content" style="text-align: center; padding-top: 50px;">
+                <h2 style="border: none; color: #667eea;">Project Overview</h2>
+                <p style="font-size: 1.3em; color: #666; max-width: 800px; margin: 30px auto;">
+                    The Prime Contractor serves as the main point of contact with the City of Alexandria and is responsible for overall project management, coordination, and execution of the Household Hazardous Waste Collection Day event.
+                </p>
+                <div class="stat-grid" style="max-width: 900px; margin: 50px auto;">
+                    <div class="stat-card">
+                        <div class="number">500-750</div>
+                        <div class="label">Expected Vehicles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">18-20</div>
+                        <div class="label">Staff Required</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1 Day</div>
+                        <div class="label">Annual Event</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Pre-Event Responsibilities -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Pre-Event Responsibilities</h1>
+            </div>
+            <div class="slide-content">
+                <h2>1. Proposal Submission & Compliance</h2>
+                <ul>
+                    <li>Submit complete bid package with all required documentation</li>
+                    <li>Complete pricing chart on Page 10 of RFP specifications</li>
+                    <li>Provide documentation of cost variations by container size (if applicable)</li>
+                </ul>
+                
+                <div class="highlight-box">
+                    <h3>Certificate of Insurance Requirements</h3>
+                    <ul>
+                        <li>General aggregate liability: <strong>$4,000,000</strong></li>
+                        <li>Per person/per occurrence: <strong>$2,000,000</strong></li>
+                        <li>Worker's Compensation (standard policy, not Act 938)</li>
+                        <li>City named as additional insured</li>
+                        <li>60-day cancellation notice (minimum 30 days)</li>
+                    </ul>
+                </div>
+
+                <ul>
+                    <li>Submit list of at least 5 customers (preferably Louisiana) who used services in 2020-2021</li>
+                    <li>Include customer information: name, contact person, phone number, tons collected, population served, households, and cost</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Staffing -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Staffing & Qualifications</h1>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <h3>Staff Requirements</h3>
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">Recruit and provide <strong>18-20 qualified staff members</strong> with minimum <strong>24-hour OSHA Hazwoper training</strong></p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="number">1</div>
+                        <div class="label">Project Manager</div>
+                        <div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">Event planning and oversight</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1</div>
+                        <div class="label">Health & Safety Officer</div>
+                        <div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">Oversee health and safety</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">4</div>
+                        <div class="label">Chemists</div>
+                        <div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">Segregate materials</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">12</div>
+                        <div class="label">Technicians</div>
+                        <div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9;">Unload vehicles</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <p><strong>✓</strong> Provide resumes of all collection staff in proposal</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Equipment & PPE -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Equipment & PPE Requirements</h1>
+            </div>
+            <div class="slide-content">
+                <h2>Required Equipment</h2>
+                <div class="checklist">
+                    <div class="checklist-item">15 Rubbermaid carts for unloading materials</div>
+                    <div class="checklist-item">6 paint bulking grills for latex paint</div>
+                    <div class="checklist-item">Plastic sheeting to cover collection area</div>
+                    <div class="checklist-item">Absorbent roll for 20' X 20' latex paint bulking area</div>
+                    <div class="checklist-item">10-12 tables for sorting collected materials</div>
+                    <div class="checklist-item">Scale to weigh full containers before shipment</div>
+                    <div class="checklist-item">Cones and signs for traffic control</div>
+                </div>
+
+                <h2 style="margin-top: 40px;">Personal Protective Equipment (PPE)</h2>
+                <div class="highlight-box">
+                    <p style="margin-bottom: 15px;">Provide all PPE for volunteers (included in Set-Up charge):</p>
+                    <div class="checklist">
+                        <div class="checklist-item">Tyvek Suits</div>
+                        <div class="checklist-item">Boot Covers</div>
+                        <div class="checklist-item">Safety Glasses</div>
+                        <div class="checklist-item">Gloves: blue nitrile and size 9 and 10 butyl nitrile</div>
+                        <div class="checklist-item">Vinyl aprons</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Health & Safety Plan -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Health & Safety Plan</h1>
+            </div>
+            <div class="slide-content" style="text-align: center;">
+                <div style="max-width: 700px; margin: 50px auto;">
+                    <div class="stat-card" style="margin-bottom: 30px;">
+                        <div class="number" style="font-size: 3em;">30 Days</div>
+                        <div class="label" style="font-size: 1.3em;">Prior to Event</div>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>Requirements</h3>
+                        <ul style="text-align: left;">
+                            <li>Develop and submit approved Health and Safety Plan</li>
+                            <li>Submit to City and LDEQ</li>
+                            <li>Plan must meet all regulatory requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Subcontractor Coordination -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Subcontractor Coordination</h1>
+            </div>
+            <div class="slide-content">
+                <h2>Waste Disposal Subcontractor Requirements</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>EPA permitted TSDF</strong> (Treatment, Storage, Disposal Facility)</li>
+                        <li><strong>Current RCRA Part B Permit</strong></li>
+                        <li>Ability to accept materials on hazardous waste manifest</li>
+                    </ul>
+                </div>
+
+                <h2>Responsibilities</h2>
+                <ul>
+                    <li>Identify and engage waste disposal subcontractor(s)</li>
+                    <li>Provide list of final recycling and disposal facilities in proposal</li>
+                    <li>Coordinate with subcontractor for transportation and disposal services</li>
+                </ul>
+
+                <h2 style="margin-top: 40px;">AFEAT Program Compliance</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li>Document bona fide effort to secure minority/disadvantaged business subcontractors</li>
+                        <li>Submit proof of engagement for any selected subcontractors</li>
+                        <li>Maintain records of solicitations and contacts</li>
+                        <li><strong>This is a consideration in bid review and rating</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Event Day Responsibilities -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Event Day Responsibilities</h1>
+            </div>
+            <div class="slide-content">
+                <h2>1. Site Setup</h2>
+                <div class="highlight-box">
+                    <p><strong>Afternoon Before Event:</strong> Set up collection site</p>
+                    <p style="margin-top: 10px;">All setup charges, per diem, and travel costs included in "Set-Up" charge</p>
+                </div>
+
+                <h2>2. Event Management</h2>
+                <ul>
+                    <li>Oversee entire collection operation</li>
+                    <li>Manage 18-20 staff members on site</li>
+                    <li>Coordinate with City volunteers (20-30 provided by City)</li>
+                    <li>Ensure proper traffic control and participant flow</li>
+                    <li>Handle 500-750 cars expected at event</li>
+                </ul>
+
+                <h2>3. Material Handling</h2>
+                <ul>
+                    <li>Unload materials from participants' vehicles</li>
+                    <li>Segregate materials by type and hazard classification</li>
+                    <li>Bulk latex paint using provided grills</li>
+                    <li>Weigh containers before shipment</li>
+                    <li>Ensure proper packaging and labeling</li>
+                </ul>
+
+                <h2>4. Safety & Compliance</h2>
+                <ul>
+                    <li>Health and Safety Officer monitors all operations</li>
+                    <li>Ensure all staff and volunteers wear appropriate PPE</li>
+                    <li>Maintain safe working conditions</li>
+                    <li>Follow all OSHA and regulatory requirements</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Post-Event Responsibilities -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Post-Event Responsibilities</h1>
+            </div>
+            <div class="slide-content">
+                <h2>1. Material Transportation</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li>Assume generator status of all collected materials</li>
+                        <li>Ship materials on hazardous waste manifest</li>
+                        <li>Transport to EPA permitted TSDF with current RCRA Part B Permit</li>
+                        <li>All transportation charges and fuel surcharges included in pricing</li>
+                    </ul>
+                </div>
+
+                <h2>2. Documentation & Reporting</h2>
+                <div class="highlight-box" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); border-left-color: #e17055;">
+                    <h3 style="color: #d63031;">⚠️ Critical Deadline: 30 Days</h3>
+                    <ul>
+                        <li>Provide Certificates of Recycling and/or Disposal within <strong>30 days</strong> of collection</li>
+                        <li>Provide copies of manifest within <strong>30 days</strong> of collection</li>
+                        <li><strong>Invoices will not be paid until these documents are provided</strong></li>
+                    </ul>
+                </div>
+
+                <h2>3. Disposal & Reclamation</h2>
+                <div class="highlight-box">
+                    <h3>Preferred Disposal Methods (in order):</h3>
+                    <ol style="padding-left: 30px; margin-top: 15px;">
+                        <li style="padding: 8px 0;"><strong>Recycling</strong> (most desirable)</li>
+                        <li style="padding: 8px 0;"><strong>Fuel Incineration</strong></li>
+                        <li style="padding: 8px 0;"><strong>Incineration</strong></li>
+                        <li style="padding: 8px 0;"><strong>Landfill</strong> (least desirable)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Financial Responsibilities -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Financial Responsibilities</h1>
+            </div>
+            <div class="slide-content">
+                <h2>Pricing Structure</h2>
+                <div class="highlight-box">
+                    <h3>Submit Lump Sum Price for One-Day Event</h3>
+                    <p style="margin: 15px 0;">Pricing must include:</p>
+                </div>
+
+                <div class="checklist">
+                    <div class="checklist-item">Set-Up charge (includes setup, per diem, travel)</div>
+                    <div class="checklist-item">Transportation charges</div>
+                    <div class="checklist-item">Onsite labor charges</div>
+                    <div class="checklist-item">Container charges</div>
+                    <div class="checklist-item">All disposal/recycling charges</div>
+                    <div class="checklist-item">All fuel surcharges</div>
+                    <div class="checklist-item">PPE for volunteers</div>
+                </div>
+
+                <h2 style="margin-top: 40px;">Payment Terms</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li>City schedules payment within <strong>30 days</strong> after delivery and invoice</li>
+                        <li>Payment contingent upon receipt of:
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Certificates of Recycling/Disposal</li>
+                                <li>Copies of manifest</li>
+                                <li>Proper invoice</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Key Deadlines -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Key Deadlines</h1>
+            </div>
+            <div class="slide-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>Questions/Clarifications</h3>
+                        <p style="font-size: 1.2em; color: #667eea; font-weight: 600;">3:00 PM, February 5, 2026</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Proposal Submission</h3>
+                        <p style="font-size: 1.2em; color: #667eea; font-weight: 600;">2:00 PM, February 16, 2026</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Health & Safety Plan Submission</h3>
+                        <p style="font-size: 1.2em; color: #667eea; font-weight: 600;">30 days before event date</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Certificates & Manifests</h3>
+                        <p style="font-size: 1.2em; color: #667eea; font-weight: 600;">30 days after collection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Contact Information -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Contact Information</h1>
+            </div>
+            <div class="slide-content">
+                <div class="contact-info">
+                    <h3>Primary Contact</h3>
+                    <p style="font-size: 1.2em; margin: 10px 0;"><strong>Joann Swain</strong></p>
+                    <p style="font-size: 1.1em; margin: 5px 0;">Senior Buyer</p>
+                    <p style="margin: 15px 0;">
+                        <strong>Phone:</strong> 318-441-6182<br>
+                        <strong>Fax:</strong> 318-619-3412<br>
+                        <strong>Email:</strong> joann.swain@cityofalex.com
+                    </p>
+                </div>
+
+                <div class="contact-info" style="margin-top: 30px;">
+                    <h3>Mailing Address</h3>
+                    <p style="font-size: 1.1em;">PO Box 71<br>Alexandria, LA 71309-0071</p>
+                </div>
+
+                <div class="contact-info" style="margin-top: 30px;">
+                    <h3>Physical Address</h3>
+                    <p style="font-size: 1.1em;">2021 Industrial Park Road, Building WH<br>Alexandria, LA 71303</p>
+                </div>
+
+                <div class="contact-info" style="margin-top: 30px;">
+                    <h3>Event Location</h3>
+                    <p style="font-size: 1.1em;">City of Alexandria Consolidated Complex<br>2021 Industrial Park Road<br>Alexandria, LA 71303</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Summary</h1>
+            </div>
+            <div class="slide-content">
+                <h2>Prime Contractor Responsibilities</h2>
+                <div class="checklist">
+                    <div class="checklist-item">Overall project management and coordination</div>
+                    <div class="checklist-item">Staff recruitment, training, and management</div>
+                    <div class="checklist-item">Equipment procurement and setup</div>
+                    <div class="checklist-item">Event execution and oversight</div>
+                    <div class="checklist-item">Subcontractor coordination (waste disposal company)</div>
+                    <div class="checklist-item">Regulatory compliance and documentation</div>
+                    <div class="checklist-item">Material transportation coordination</div>
+                    <div class="checklist-item">Final reporting and documentation</div>
+                    <div class="checklist-item">Financial management and invoicing</div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 40px; text-align: center;">
+                    <h2 style="border: none; color: #667eea;">Contract Term</h2>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        <strong>Initial:</strong> 1 year (one event annually)<br>
+                        <strong>Option to renew:</strong> Up to 2 additional years
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>RFP #1962P - Prime Contractor Responsibilities | City of Alexandria, Louisiana</p>
+    </div>
+</body>
+</html>

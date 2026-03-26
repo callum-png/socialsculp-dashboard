@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DepthFirst — Storyboard Feedback</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #0A0A0A; color: #fff; font-family: 'Inter', sans-serif; }
+    body { max-width: 860px; margin: 0 auto; padding: 60px 40px 100px; }
+
+    .header { margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .brand-tag { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #8B5CF6; margin-bottom: 14px; }
+    h1 { font-family: 'Anton', sans-serif; font-size: 52px; line-height: 1; text-transform: uppercase; color: #fff; margin-bottom: 10px; }
+    .meta { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 12px; }
+
+    .philosophy { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.25); border-radius: 12px; padding: 28px 32px; margin-bottom: 48px; }
+    .philosophy h2 { font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 3px; color: #8B5CF6; margin-bottom: 16px; }
+    .philosophy p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.75); }
+    .philosophy strong { color: #fff; }
+
+    .scene { margin-bottom: 52px; padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .scene:last-of-type { border-bottom: none; }
+
+    .scene-header { margin-bottom: 20px; }
+    .scene-time { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 4px; margin-bottom: 8px; }
+    .scene-title { font-family: 'Anton', sans-serif; font-size: 26px; text-transform: uppercase; color: #fff; }
+    .scene-vo { font-size: 13px; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 8px; line-height: 1.5; }
+
+    .note { display: flex; gap: 14px; align-items: flex-start; padding: 14px 18px; border-radius: 8px; margin-bottom: 10px; }
+    .note:last-child { margin-bottom: 0; }
+    .note.good  { background: rgba(0,217,126,0.05);  border-left: 3px solid #00d97e; }
+    .note.bad   { background: rgba(255,45,85,0.06);  border-left: 3px solid #ff2d55; }
+    .note.maybe { background: rgba(255,214,0,0.05);  border-left: 3px solid #FFD600; }
+    .note.alt   { background: rgba(139,92,246,0.08); border-left: 3px solid #8B5CF6; }
+
+    .note-tag { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; white-space: nowrap; }
+    .good  .note-tag { background: rgba(0,217,126,0.12);  color: #00d97e; }
+    .bad   .note-tag { background: rgba(255,45,85,0.12);  color: #ff2d55; }
+    .maybe .note-tag { background: rgba(255,214,0,0.1);   color: #FFD600; }
+    .alt   .note-tag { background: rgba(139,92,246,0.2);  color: #a78bfa; }
+
+    .note-text { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.7); }
+    .note-text strong { color: #fff; }
+
+    .try { margin-top: 6px; padding: 12px 16px; background: rgba(139,92,246,0.05); border: 1px dashed rgba(139,92,246,0.2); border-radius: 6px; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .try strong { color: rgba(167,139,250,0.9); }
+
+    .figma-comment { margin-top: 12px; padding: 12px 16px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 12px; color: rgba(255,255,255,0.5); font-family: monospace; line-height: 1.5; }
+    .figma-comment::before { content: "Figma comment (press C): "; color: #8B5CF6; font-family: 'Inter', sans-serif; }
+
+    .top-note { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 48px; padding: 28px 32px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; }
+    .top-note strong { color: #fff; }
+
+    .priority { margin-top: 56px; }
+    .priority-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #8B5CF6; margin-bottom: 24px; }
+    .p-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .p-item:last-child { border-bottom: none; }
+    .p-num { font-family: 'Anton', sans-serif; font-size: 40px; color: rgba(255,45,85,0.25); line-height: 1; width: 44px; flex-shrink: 0; }
+    .p-content h3 { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .p-content p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand-tag">SocialSculp — Storyboard Feedback</div>
+    <h1>DepthFirst Launch Video</h1>
+    <div class="meta">7 scenes · Design stage (pre-animation) · March 6, 2026</div>
+  </div>
+
+  <div class="philosophy">
+    <h2>Reference Philosophy (Slash)</h2>
+    <p><strong>Abstract concept</strong> (not UI-based) → abstract, branded visual. <strong>Concrete feature</strong> (lives in the product) → one-to-one UI representation. Avoid repeating the same screen or action — new stimulus = more engaging. When in doubt: can we show the actual thing? If yes, show it. If no, go abstract.</p>
+  </div>
+
+  <div class="top-note">
+    Overall the script is strong — clear problem, product, proof, CTA. <strong>The main opportunity is tightening the abstract vs. concrete split per scene</strong> so we don't over-rely on one visual language. Scene 3 (login bug) and Scene 5 (AI writes fix) are concrete UI moments — they should feel one-to-one. Scenes 1, 2, 4, 6 are abstract — the halftone/logo treatment works, but we need variety so it doesn't feel like the same frame seven times. Also: <strong>sound-off test</strong> — key claims (10x faster, 30 seconds, ServiceNow/Lovable/Supabase, comment "depthfirst") should be readable with mute on.
+  </div>
+
+  <div class="philosophy" style="margin-bottom: 32px;">
+    <h2>📍 How to find each scene in Figma</h2>
+    <p style="margin-bottom: 12px;"><strong>Top row:</strong> Info cards labeled "Depthfirst - Scene 1" through "Scene 7" — script + Assets button.</p>
+    <p style="margin-bottom: 12px;"><strong>Bottom scroll:</strong> Vertical column with VO lines + the actual visual frames (Styleframes). Each VO line is followed by the image that plays during that line.</p>
+    <p><strong>Match by VO text:</strong> Find the VO line in the scroll, then the Styleframe directly below it. That's the image this feedback applies to.</p>
+  </div>
+
+  <!-- Scene 1 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 1</div>
+      <div class="scene-title">Hook — AI speed vs. security gap</div>
+      <div class="scene-vo">"Let's say you're a company shipping code 10x faster thanks to AI. Right now, security teams are manually reviewing more code than ever — and dangerous vulnerabilities can go undetected."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame with <em>dark background + DepthFirst logo in a black disc + purple halftone/dot pattern</em>. VO line above it: "Let's say you're a company shipping code 10x faster thanks to AI." In the top row: the card labeled "Depthfirst - Scene 1."
+      </div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text"><strong>Abstract is correct here.</strong> This is a conceptual problem — no specific UI to show. The halftone + DepthFirst logo treatment fits the philosophy. Branded, moody, sets the stakes.</div>
+    </div>
+
+    <div class="note maybe">
+      <div class="note-tag">Consider</div>
+      <div class="note-text">"10x faster" and "vulnerabilities go undetected" are the two hooks. If we stay abstract, could we add a subtle text beat — e.g. "10x faster" or "undetected" — so the sound-off viewer gets the core tension? One line, same style as end card. Don't over-design; just make the claim scannable.</div>
+      <div class="figma-comment">Consider adding a single text beat ("10x faster" or "undetected") for sound-off viewers — one line, same style as CTA card.</div>
+    </div>
+  </div>
+
+  <!-- Scene 2 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 2</div>
+      <div class="scene-title">Connect + scan</div>
+      <div class="scene-vo">"First, we'll connect DepthFirst to your source code. Right now, specialized AI agents running our proprietary security models are scanning every line of your code. They understand how your entire system works and show you where you're most vulnerable to attackers."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "First, we'll connect DepthFirst to your source code..." — likely shows browser/IDE UI or code scanning visual. In the top row: the card labeled "Depthfirst - Scene 2."
+      </div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>This is a hybrid moment.</strong> "Connect DepthFirst to your source code" is a concrete action — there's a UI for that (repo connect, GitHub/GitLab integration, etc.). "Scanning every line" and "proprietary security models" are abstract. Per Slash: we could show the connect step one-to-one, then cut to an abstract visual for "scanning" — or we go full abstract if we want to save the first UI reveal for Scene 3. Decide: is this the moment we show the product, or do we hold until the vulnerability?</div>
+      <div class="try"><strong>Try this:</strong> Option A — Show DepthFirst connect UI (repo picker, "Connect GitHub") for 2–3 sec, then transition to abstract "scanning" visual (code lines flowing, AI agent icon, etc.). Option B — Stay abstract but make it clearly "scanning" — e.g. code blocks + progress, or a radar/sonar metaphor. Avoid a generic logo frame that could be any scene.</div>
+      <div class="figma-comment">Hybrid: "connect" = concrete UI. "scanning" = abstract. Consider showing connect UI briefly, then abstract scan visual — or make abstract frame clearly "scanning" (code + progress, radar) not generic.</div>
+    </div>
+  </div>
+
+  <!-- Scene 3 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 3</div>
+      <div class="scene-title">Critical issue — login bug</div>
+      <div class="scene-vo">"Here, DepthFirst flags a critical issue: attackers can exploit a bug in your login page to steal customer data. If left unchecked, this could expose your customers' social security numbers, credit cards, and bank logins."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "Here, depthfirst flags a critical issue..." — whatever visual you're using for the login bug / vulnerability. In the top row: the card labeled "Depthfirst - Scene 3."
+      </div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>This must be one-to-one UI.</strong> The script names a specific thing: "login page," "bug," "customer data." Per Slash's "10 minutes, account open, Shopify/PayPal/Amazon" — we showed the exact screen. Here we need to show the DepthFirst UI flagging a login-page vulnerability. The viewer should see: this is what it looks like when DepthFirst catches something. Not an abstract threat — the actual product catching the actual bug.</div>
+      <div class="try"><strong>Try this:</strong> DepthFirst dashboard or IDE plugin with a flagged finding. The finding card/panel should read something like "Login page — SQL injection" or "Auth bypass" with a severity badge. Maybe a split: left = vulnerable login page mock, right = DepthFirst flagging it. The "one-to-one" is: we're talking about a login bug → we show the login bug being caught.</div>
+      <div class="figma-comment">MUST be one-to-one UI. Show DepthFirst flagging a login-page vulnerability — dashboard or IDE with finding card (e.g. "Login — SQL injection"). Split screen: vulnerable page + DepthFirst catching it.</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">The stakes (SSN, credit cards, bank logins) are clear. If we nail the visual, the VO will land. No need to visualize the data types — the UI does the work.</div>
+    </div>
+  </div>
+
+  <!-- Scene 4 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 4</div>
+      <div class="scene-title">AI simulates attack</div>
+      <div class="scene-vo">"Our AI simulates attacks against you, just as a real hacker would. The agent was able to break in and read customer information. This means the threat is real."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "Our AI simulates attacks against you, just as a real hacker would..." — attack/hacker visual. In the top row: the card labeled "Depthfirst - Scene 4."
+      </div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text"><strong>Abstract is correct.</strong> "Simulates attacks" and "break in" are conceptual — we're not showing a specific UI action. An abstract visual (hacker vs. shield, attack simulation, "threat confirmed" moment) fits. Keeps variety: we went concrete in Scene 3, we go abstract here.</div>
+    </div>
+
+    <div class="note maybe">
+      <div class="note-tag">Consider</div>
+      <div class="note-text">"The agent was able to break in" — if DepthFirst has a UI that shows attack simulation results (e.g. "Exploit successful" or a replay), that could be one-to-one. But if that UI is cluttered or not impressive, abstract is safer. Match the Slash "funds held in USDSL" approach: when the UI doesn't sell it, go abstract and branded.</div>
+      <div class="figma-comment">Abstract works. If DepthFirst has a clean "attack simulation result" UI, consider one-to-one — otherwise stay abstract. Avoid same halftone as Scene 1; use different abstract language (e.g. attack/defense, red vs. blue).</div>
+    </div>
+  </div>
+
+  <!-- Scene 5 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 5</div>
+      <div class="scene-title">AI writes fix — approve in one click</div>
+      <div class="scene-vo">"But DepthFirst doesn't just flag this issue — it takes action. In under 30 seconds, our AI writes the fix. Your development team can approve the fix in one click, or give feedback so DepthFirst improves over time."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "But DepthFirst doesn't just flag this issue — it takes action..." — fix/approve UI. In the top row: the card labeled "Depthfirst - Scene 5."
+      </div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>This must be one-to-one UI.</strong> "Writes the fix," "approve in one click," "give feedback" — these are concrete product actions. Per Slash: "10 minutes, account open" = we showed the screen. Here: "30 seconds, AI writes the fix" = we show the fix being written (or the PR/diff), and "approve in one click" = we show the approve button. This is the payoff. Don't abstract it away.</div>
+      <div class="try"><strong>Try this:</strong> DepthFirst UI with (1) a code diff or fix suggestion appearing, (2) "Approve" / "Request changes" buttons, (3) maybe a timer or "30s" badge. The flow: vulnerability → fix appears → one-click approve. Same structure as Slash's "account opens, money lands" — we're showing the product doing the thing we promised.</div>
+      <div class="figma-comment">MUST be one-to-one UI. Show: (1) fix/PR appearing, (2) Approve button, (3) "30 seconds" or timer. This is the payoff — don't abstract. Sound-off: "30 seconds" and "one click" should be readable.</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">"Improves over time" is a nice trust beat — we can keep that in VO. The visual should focus on the immediate payoff (fix + approve).</div>
+    </div>
+  </div>
+
+  <!-- Scene 6 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 6</div>
+      <div class="scene-title">Social proof — attackers + defenders</div>
+      <div class="scene-vo">"Attackers are using AI to break into your systems 10x faster and 10x cheaper than ever before. We are committed to leveling the playing field and protecting companies with AI. Companies like ServiceNow, Lovable, and Supabase already use DepthFirst."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "Attackers are using AI to break into your systems..." — logos / social proof visual. In the top row: the card labeled "Depthfirst - Scene 6."
+      </div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">Abstract for "attackers 10x faster" — no UI. "Leveling the playing field" is conceptual. Logos (ServiceNow, Lovable, Supabase) = concrete proof. Per Parker: "Logos as proof, not wallpaper" — 3–5 in a single composition, hold 2 sec, then cut. Don't scroll forever.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>Sound-off: logos must be visible.</strong> ServiceNow, Lovable, Supabase are the conversion drivers. If we go abstract for the first half of the line, the logo beat needs to be unmistakable. One frame: three logos, "Companies using DepthFirst" or similar. So the muted viewer gets: these companies trust this.</div>
+      <div class="figma-comment">Logos = proof. 3–5 in one frame, hold 2 sec. "ServiceNow, Lovable, Supabase" must be readable with sound off. Don't scroll logos forever — one beat, then move.</div>
+    </div>
+  </div>
+
+  <!-- Scene 7 -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">Scene 7</div>
+      <div class="scene-title">Lead magnet + CTA</div>
+      <div class="scene-vo">"To celebrate this launch, we're giving away a free Security Guide for vibe coders. If you've shipped anything using AI, your app could be leaking credentials, user data, and even payment info. This guide breaks down the most common security holes in AI-written code and exactly what to do about them. Comment 'depthfirst' and I'll send it to you."</div>
+      <div class="figma-comment" style="margin-top: 16px; background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);">
+        <strong>📍 APPLY TO THIS IMAGE:</strong> The frame <em>directly below</em> the VO line "To celebrate this launch, we're giving away a free Security Guide..." — end card / CTA. In the top row: the card labeled "Depthfirst - Scene 7."
+      </div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">Lead magnet structure matches Slash and Parker — bonus at the end, comment to get it. "Vibe coders" is on-brand. The CTA is clear: comment "depthfirst."</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>One CTA, one card.</strong> Per Parker: "Comment DEPTHFIRST for your free Security Guide" — one line only. The word "depthfirst" should pop (color, weight, or pulse). So the eye and ear align: "comment depthfirst" = that word. No second line that contradicts it.</div>
+      <div class="try"><strong>Try this:</strong> End card: "Comment DEPTHFIRST for your free Security Guide." Make DEPTHFIRST the only element that pops. Same rule as Parker's "PARKER as the button."</div>
+      <div class="figma-comment">One CTA card. "Comment depthfirst" — make "depthfirst" the only word that pops (color/weight). Sound-off: next step must be unambiguous.</div>
+    </div>
+  </div>
+
+  <!-- Priority -->
+  <div class="priority">
+    <div class="priority-label">Priority fixes</div>
+    <div class="p-item">
+      <div class="p-num">1</div>
+      <div class="p-content">
+        <h3>Scene 3 — One-to-one UI for login bug</h3>
+        <p>Show DepthFirst flagging the vulnerability. This is the first "proof" moment. Abstract here undercuts the product.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">2</div>
+      <div class="p-content">
+        <h3>Scene 5 — One-to-one UI for fix + approve</h3>
+        <p>Show the fix being written and the approve button. "30 seconds" and "one click" need a visual. This is the payoff.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">3</div>
+      <div class="p-content">
+        <h3>Scene 2 — Decide connect vs. abstract</h3>
+        <p>Either show the connect UI briefly or make the abstract frame clearly "scanning" — not a repeat of Scene 1's look.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">4</div>
+      <div class="p-content">
+        <h3>Scene 6 — Logos visible, sound-off</h3>
+        <p>ServiceNow, Lovable, Supabase in one frame. Don't wallpaper — one beat of proof.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">5</div>
+      <div class="p-content">
+        <h3>Scene 7 — DEPTHFIRST as the button</h3>
+        <p>End card: one line, "depthfirst" pops. Unambiguous next step.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px; color: rgba(255,255,255,0.35);">
+    To add comments in Figma: press <kbd>C</kbd>, click the frame or element, paste the suggestion. Each "Figma comment" block above is copy-ready.
+  </div>
+
+</body>
+</html>

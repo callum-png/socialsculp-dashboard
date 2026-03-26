@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 675px; overflow: hidden; background: #000; }
+
+    .thumb {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      background: #050505;
+      overflow: hidden;
+    }
+
+    /* full bleed photo */
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      background-image: url('file:///C:/Users/Cal/Pictures/Screenshots/Screenshot 2026-03-05 150000.png');
+      background-size: cover;
+      background-position: center top;
+      filter: brightness(0.35) saturate(0.6);
+    }
+
+    /* red scan line sweeping */
+    .scanline {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #ff2d55, transparent);
+      box-shadow: 0 0 20px 4px #ff2d5588;
+      top: 45%;
+    }
+
+    /* grid overlay */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,45,85,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,85,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* top bar */
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      background: rgba(255,45,85,0.92);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      gap: 16px;
+    }
+
+    .top-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #fff; opacity: 0.9; }
+    .top-bar .label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .top-bar .blink {
+      margin-left: auto;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
+
+    /* center content */
+    .center {
+      position: absolute;
+      inset: 52px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #ff5c7a;
+    }
+
+    .headline {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 130px;
+      line-height: 0.88;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 60px rgba(255,45,85,0.4);
+    }
+
+    .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 1px;
+    }
+
+    /* bottom stats bar */
+    .stats-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 72px;
+      background: rgba(0,0,0,0.85);
+      border-top: 1px solid rgba(255,45,85,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 80px;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 28px;
+      color: #ff2d55;
+    }
+
+    .stat-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,45,85,0.3);
+    }
+  </style>
+</head>
+<body>
+<div class="thumb">
+  <div class="bg-photo"></div>
+  <div class="grid"></div>
+  <div class="scanline"></div>
+
+  <div class="top-bar">
+    <div class="dot"></div>
+    <div class="label">⚠ Infringer Detected</div>
+    <div class="blink">● LIVE SCAN</div>
+  </div>
+
+  <div class="center">
+    <div class="eyebrow">AI Brand Protection</div>
+    <div class="headline">We Find.<br>We Nuke.</div>
+    <div class="sub">The first AI built to destroy copycats.</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">100K+</div>
+      <div class="stat-label">Fakes Crushed</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">$1M+</div>
+      <div class="stat-label">Sales Reclaimed</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">120+</div>
+      <div class="stat-label">Brands Protected</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

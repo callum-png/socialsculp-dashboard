@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
+import { ConvexClientProvider } from '@/components/providers/ConvexClientProvider'
 import './globals.css'
 
 const jakarta = Plus_Jakarta_Sans({
@@ -125,7 +126,9 @@ export default function RootLayout({
           className={`${jakarta.variable} antialiased min-h-screen`}
           style={{ fontFamily: 'var(--font-jakarta), "Plus Jakarta Sans", sans-serif' }}
         >
-          {children}
+          <ConvexClientProvider>
+            {children}
+          </ConvexClientProvider>
         </body>
       </html>
     </ClerkProvider>

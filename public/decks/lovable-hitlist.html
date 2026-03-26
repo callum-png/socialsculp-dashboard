@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lovable · Influencer & Creator Hitlist | SocialSculp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #008cff;
+      --blue-dim: rgba(0,140,255,0.12);
+      --blue-border: rgba(0,140,255,0.28);
+      --orange: #FF6B35;
+      --orange-dim: rgba(255,107,53,0.1);
+      --orange-border: rgba(255,107,53,0.35);
+      --bg: #0A0A0A;
+      --bg2: #111111;
+      --bg3: #181818;
+      --text: #f0f0f0;
+      --muted: rgba(240,240,240,0.48);
+      --border: rgba(255,255,255,0.07);
+      /* platform colours */
+      --tiktok: #ff2d55;
+      --youtube: #ff0000;
+      --twitch: #9146ff;
+      --instagram: #e1306c;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes gradientDrift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate { animation: slideIn 0.65s ease both; }
+    .d1 { animation-delay: 0.08s; }
+    .d2 { animation-delay: 0.18s; }
+    .d3 { animation-delay: 0.3s; }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .wordmark {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .wordmark span { color: var(--blue); }
+    .header-tag {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .header-tag em { font-style: normal; color: var(--orange); font-weight: 600; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 80px 48px 64px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 20%, rgba(0,140,255,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255,107,53,0.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      line-height: 1; letter-spacing: 0;
+      background: linear-gradient(135deg, #fff 0%, rgba(0,140,255,0.85) 55%, #FF6B35 100%);
+      background-size: 200% 200%;
+      animation: gradientDrift 7s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+    .hero-sub {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .hero-badges {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 24px;
+    }
+    .hbadge {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 20px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .hbadge.tt { background: rgba(255,45,85,0.12); border: 1px solid rgba(255,45,85,0.3); color: var(--tiktok); }
+    .hbadge.ig { background: rgba(225,48,108,0.1); border: 1px solid rgba(225,48,108,0.3); color: var(--instagram); }
+    .hbadge.tw { background: rgba(145,70,255,0.1); border: 1px solid rgba(145,70,255,0.3); color: var(--twitch); }
+    .hbadge.yt { background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3); color: var(--youtube); }
+    .hero-desc {
+      max-width: 520px; margin: 0 auto;
+      font-size: 15px; color: var(--muted); line-height: 1.7;
+    }
+    .hero-desc strong { color: var(--text); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 64px 48px; max-width: 1280px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05; margin-bottom: 10px;
+    }
+    .section-title span { color: var(--blue); }
+    .section-note {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 36px; max-width: 560px;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── CREATOR CARD ── */
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+    }
+    .card:hover { border-color: var(--blue-border); transform: translateY(-3px); }
+    .card.tier1 {
+      border-color: var(--orange-border);
+      background: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, var(--bg3) 60%);
+    }
+    .card.tier1:hover { border-color: var(--orange); }
+
+    .tier-flag {
+      position: absolute; top: 12px; right: 12px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--orange); background: var(--orange-dim);
+      border: 1px solid var(--orange-border);
+      padding: 3px 8px; border-radius: 10px;
+    }
+
+    .card-top { display: flex; align-items: flex-start; gap: 10px; }
+    .card-rank {
+      min-width: 28px; height: 28px; border-radius: 8px;
+      background: var(--blue-dim); border: 1px solid var(--blue-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: 12px;
+      font-weight: 700; color: var(--blue);
+    }
+    .card.tier1 .card-rank {
+      background: var(--orange-dim); border-color: var(--orange-border); color: var(--orange);
+    }
+    .card-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+    .card-handle {
+      font-size: 12px; color: var(--blue);
+      font-weight: 500; letter-spacing: 0.3px;
+    }
+    .card.tier1 .card-handle { color: var(--orange); }
+
+    .platform-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pbadge {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 10px;
+      display: inline-flex; align-items: center; gap: 5px;
+      text-decoration: none; cursor: pointer;
+      transition: filter 0.2s, box-shadow 0.2s;
+    }
+    .pbadge:hover { filter: brightness(1.25); box-shadow: 0 0 10px currentColor; }
+    .pbadge i { font-size: 11px; }
+    .pbadge.tt { background: rgba(255,45,85,0.12); border: 1px solid rgba(255,45,85,0.25); color: var(--tiktok); }
+    .pbadge.ig { background: rgba(225,48,108,0.1); border: 1px solid rgba(225,48,108,0.25); color: var(--instagram); }
+    .pbadge.tw { background: rgba(145,70,255,0.1); border: 1px solid rgba(145,70,255,0.25); color: var(--twitch); }
+    .pbadge.yt { background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.25); color: var(--youtube); }
+
+    .card-meta {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .meta-count {
+      font-family: 'Anton', sans-serif;
+      font-size: 20px; color: var(--blue);
+      text-shadow: 0 0 14px rgba(0,140,255,0.35);
+    }
+    .card.tier1 .meta-count { color: var(--orange); text-shadow: 0 0 14px rgba(255,107,53,0.35); }
+    .meta-label {
+      font-size: 11px; color: var(--muted);
+      font-weight: 500;
+    }
+
+    .card-niche {
+      font-size: 12px; color: var(--muted);
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px; border: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .card-fit {
+      font-size: 12px; color: var(--text);
+      font-weight: 500; line-height: 1.5;
+    }
+    .card-fit::before {
+      content: '→ ';
+      color: var(--blue); font-weight: 700;
+    }
+    .card.tier1 .card-fit::before { color: var(--orange); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex; gap: 0;
+    }
+    .stat-item {
+      flex: 1; text-align: center;
+      border-right: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-val {
+      font-family: 'Anton', sans-serif;
+      font-size: 36px; color: var(--blue);
+      text-shadow: 0 0 20px rgba(0,140,255,0.4);
+      line-height: 1;
+    }
+    .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .footer-left {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    }
+    .footer-left span { color: var(--blue); }
+    .footer-right { font-size: 11px; color: rgba(240,240,240,0.25); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      header { padding: 13px 20px; }
+      .hero { padding: 60px 20px 48px; }
+      .section { padding: 48px 20px; }
+      .stats-bar { padding: 24px 20px; gap: 0; flex-wrap: wrap; }
+      .stat-item { border-right: none; padding: 12px 16px; min-width: 50%; }
+      footer { flex-direction: column; align-items: flex-start; padding: 24px 20px; }
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+      .header-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wordmark">SocialSculp <span>×</span> SylcRoad</div>
+    <div class="header-tag">Lovable · Creator Seeding · <em>Hitlist</em></div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow animate">Creator Seeding Research · Lovable.dev</div>
+    <div class="hero-title animate d1">Influencer<br>Hitlist</div>
+    <div class="hero-sub animate d2">10 Influencers · 10 Streamers · Cross-Post Campaign</div>
+    <div class="hero-badges animate d2">
+      <span class="hbadge tt"><i class="fa-brands fa-tiktok"></i> TikTok</span>
+      <span class="hbadge ig"><i class="fa-brands fa-instagram"></i> Instagram</span>
+      <span class="hbadge tw"><i class="fa-brands fa-twitch"></i> Twitch</span>
+      <span class="hbadge yt"><i class="fa-brands fa-youtube"></i> YouTube</span>
+    </div>
+    <p class="hero-desc animate d3">
+      Medium-size creators (<strong>100K–600K</strong>) whose audiences overlap directly with Lovable's core user: indie hackers, SaaS builders, AI-first founders, and dev-adjacent entrepreneurs.
+    </p>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-val">20</div>
+      <div class="stat-lbl">Total Creators</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">4</div>
+      <div class="stat-lbl">Platforms Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">4</div>
+      <div class="stat-lbl">Tier 1 Targets</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">Twitch + YT</div>
+      <div class="stat-lbl">Streamer Platforms</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- INFLUENCERS -->
+  <section class="section animate">
+    <div class="section-label">TikTok · Instagram</div>
+    <div class="section-title">10 <span>Influencers</span></div>
+    <p class="section-note">AI tool reviewers, no-code advocates, and builder-minded creators whose audiences are actively looking for tools like Lovable. Cross-post campaign across TikTok and Instagram.</p>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">01</div>
+          <div>
+            <div class="card-name">Harper Carroll</div>
+            <div class="card-handle">@harpercarrollai</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@harpercarrollai" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/harpercarrollai" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">~269K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Stanford/Meta AI educator. Democratizes AI for broad audiences — explains how AI works and how to use it.</div>
+        <div class="card-fit">Strong fit for Lovable's builder audience. Her audience learns by doing — Lovable is the perfect hands-on tool.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">02</div>
+          <div>
+            <div class="card-name">brandnat</div>
+            <div class="card-handle">@brandnat</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@brandnat" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/brand.nat" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">429K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Scaling one-person businesses with AI automation. Solopreneur-first content.</div>
+        <div class="card-fit">Solo founder audience = Lovable's exact user. High intent, high conversion potential.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">03</div>
+          <div>
+            <div class="card-name">kanekallaway</div>
+            <div class="card-handle">@kanekallaway</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@kanekallaway" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/kallaway" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">394K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Tech & AI content. Broad coverage of the AI tools landscape with an engaged audience.</div>
+        <div class="card-fit">Strong AI tool discovery audience — Lovable lands well here as a standout builder tool.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">04</div>
+          <div>
+            <div class="card-name">nomadatoast</div>
+            <div class="card-handle">@nomadatoast</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@nomadatoast" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/nomadatoast" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">316K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Creative tech tips and AI tool breakdowns. Discovery-focused format.</div>
+        <div class="card-fit">AI tool discovery is core to his content — Lovable is a high-visual, demo-friendly product.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">05</div>
+          <div>
+            <div class="card-name">Sinéad Bovell</div>
+            <div class="card-handle">@sineadbovell</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@sineadbovell" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/sineadbovell" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">308K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Tech futurist, AI, founder of WAYE. Thought-leader angle on AI and the future of building.</div>
+        <div class="card-fit">Credibility + reach. Lovable as "the future of building apps" fits her narrative perfectly.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">06</div>
+          <div>
+            <div class="card-name">Blake Anderson</div>
+            <div class="card-handle">@blakeandersonw</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@blakeandersonw" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/blakeandersonw" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">~500K+</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Built RizzGPT, Cal AI, Umax with ChatGPT — $10M+ revenue. Uses Lovable, Cursor, Figma. Zero-code-to-millionaire narrative.</div>
+        <div class="card-fit">Has literally built with Lovable. His audience are founders who want to ship apps fast — perfect alignment.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">07</div>
+          <div>
+            <div class="card-name">Karyna Kazhamiakina</div>
+            <div class="card-handle">@karyna.kazhamiakina</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@karyna.kazhamiakina" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/karyna.kazhamiakina" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">~50K+</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Founder, Boundless101. Built entire website in 2 hours with Lovable. Promotes AI tools for non-technical founders.</div>
+        <div class="card-fit">Has used Lovable on-camera. Her audience = founders who don't want to wait for technical co-founders — direct ICP.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">08</div>
+          <div>
+            <div class="card-name">She Does AI</div>
+            <div class="card-handle">@shedoesai</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@shedoesai" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/shedoesai" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">225K</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">Free AI newsletters and curated tool lists. Female-skewed AI audience, high engagement.</div>
+        <div class="card-fit">Underserved demographic for dev tools — strong differentiation opportunity for Lovable.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">09</div>
+          <div>
+            <div class="card-name">Omkar</div>
+            <div class="card-handle">@buildwithomkar</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@buildwithomkar" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/buildwithomkar" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">~50K+</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">AI & no-code educator. Teaches builders how to leverage AI tools without coding.</div>
+        <div class="card-fit">No-code + AI niche = Lovable's exact positioning. His audience is actively looking for tools like Lovable.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-rank">10</div>
+          <div>
+            <div class="card-name">Daniel Bourke</div>
+            <div class="card-handle">@danielbourke</div>
+          </div>
+        </div>
+        <div class="platform-badges">
+          <a class="pbadge tt" href="https://www.tiktok.com/@danielbourke" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+          <a class="pbadge ig" href="https://www.instagram.com/danielbourke" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <div class="card-meta">
+          <div class="meta-count">~50K+</div>
+          <div class="meta-label">followers</div>
+        </div>
+        <div class="card-niche">AI/ML educator, ex-Google. Makes AI accessible — courses, tutorials, and practical builder content.</div>
+        <div class="card-fit">Technical credibility + builder audience. His followers want to ship — Lovable fits the "build without coding" narrative.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STREAMERS -->
+  <section class="section animate" style="background: var(--bg2); max-width: 100%; padding: 64px 48px;">
+    <div style="max-width: 1280px; margin: 0 auto;">
+      <div class="section-label">Twitch · YouTube</div>
+      <div class="section-title">10 <span>Streamers</span></div>
+      <p class="section-note">Vibe coders, AI tool reviewers, and indie hacker streamers on Twitch and YouTube — live coding, tool demos, and builder-focused content that aligns with Lovable's audience.</p>
+
+      <div class="grid">
+
+        <div class="card tier1">
+          <div class="tier-flag">Tier 1</div>
+          <div class="card-top">
+            <div class="card-rank">01</div>
+            <div>
+              <div class="card-name">Theo · t3.gg</div>
+              <div class="card-handle">@theo</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge tw" href="https://www.twitch.tv/theo" target="_blank" rel="noopener"><i class="fa-brands fa-twitch"></i> Twitch</a>
+            <a class="pbadge yt" href="https://www.youtube.com/@t3dotgg" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~95K</div>
+            <div class="meta-label">avg views/video · 511K YT subs</div>
+          </div>
+          <div class="card-niche">Ex-Twitch engineer. Web dev, AI tools, developer productivity. Has covered Lovable, Cursor, and Bolt directly.</div>
+          <div class="card-fit">Has already reviewed Lovable on-camera. Trusted voice — his audience acts on his tool takes immediately.</div>
+        </div>
+
+        <div class="card tier1">
+          <div class="tier-flag">Tier 1</div>
+          <div class="card-top">
+            <div class="card-rank">02</div>
+            <div>
+              <div class="card-name">ThePrimeagen</div>
+              <div class="card-handle">@theprimeagen</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge tw" href="https://www.twitch.tv/theprimeagen" target="_blank" rel="noopener"><i class="fa-brands fa-twitch"></i> Twitch</a>
+            <a class="pbadge yt" href="https://www.youtube.com/@ThePrimeagen" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~285K</div>
+            <div class="meta-label">Twitch followers · 250K+ YT subs</div>
+          </div>
+          <div class="card-niche">Vim, Rust, TypeScript. Ex-Netflix. Long-form coding streams. FrontEnd Masters instructor.</div>
+          <div class="card-fit">Senior dev audience evaluating AI tools. His endorsement carries weight in the dev community.</div>
+        </div>
+
+        <div class="card tier1">
+          <div class="tier-flag">Tier 1</div>
+          <div class="card-top">
+            <div class="card-rank">03</div>
+            <div>
+              <div class="card-name">Matt Wolfe</div>
+              <div class="card-handle">@mreflow</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@mreflow" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~114K</div>
+            <div class="meta-label">avg views/video · 890K subs</div>
+          </div>
+          <div class="card-niche">AI tools, news, and practical breakdowns. Covers every major AI product launch with depth and context.</div>
+          <div class="card-fit">Reviews every major AI tool — Lovable is exactly the kind of product his 890K-strong audience wants to know about.</div>
+        </div>
+
+        <div class="card tier1">
+          <div class="tier-flag">Tier 1</div>
+          <div class="card-top">
+            <div class="card-rank">04</div>
+            <div>
+              <div class="card-name">Liam Ottley</div>
+              <div class="card-handle">@LiamOttley</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@LiamOttley" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~86K</div>
+            <div class="meta-label">avg views/video · 741K subs</div>
+          </div>
+          <div class="card-niche">AI automation agency, AI business, building with AI tools. Operator-first founder audience.</div>
+          <div class="card-fit">Founder/operator audience actively building with AI — Lovable slots directly into his use case stack.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">05</div>
+            <div>
+              <div class="card-name">Alex Finn</div>
+              <div class="card-handle">@AlexFinn</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@AlexFinn" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~40K</div>
+            <div class="meta-label">avg views/video · 132K subs</div>
+          </div>
+          <div class="card-niche">Self-described "#1 vibe coding channel." Claude Code, Codex, no-code AI — vibe coding is literally his entire brand.</div>
+          <div class="card-fit">The top vibe coding creator on YouTube. His audience is Lovable's ICP by definition.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">06</div>
+            <div>
+              <div class="card-name">Ben Awad</div>
+              <div class="card-handle">@benawad</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge tw" href="https://www.twitch.tv/benawad" target="_blank" rel="noopener"><i class="fa-brands fa-twitch"></i> Twitch</a>
+            <a class="pbadge yt" href="https://www.youtube.com/@benawad" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~5.3K</div>
+            <div class="meta-label">Twitch followers</div>
+          </div>
+          <div class="card-niche">React, GraphQL, TypeScript. Pair programming, web dev tutorials. Code Ponder marketplace founder.</div>
+          <div class="card-fit">Dev audience actively building — Lovable as a rapid prototyping tool fits his workflow content.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">07</div>
+            <div>
+              <div class="card-name">Fireship</div>
+              <div class="card-handle">@Fireship</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@Fireship" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~275K</div>
+            <div class="meta-label">subs</div>
+          </div>
+          <div class="card-niche">Fast-paced dev tutorials. Next.js, Flutter, AI tools. Most consistent and trend-aware dev creator.</div>
+          <div class="card-fit">His audience follows tool trends — Lovable as the AI app builder fits his content format perfectly.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">08</div>
+            <div>
+              <div class="card-name">Simon Hoiberg</div>
+              <div class="card-handle">@SimonHoiberg</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@SimonHoiberg" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~25K</div>
+            <div class="meta-label">avg views/video · 150K subs</div>
+          </div>
+          <div class="card-niche">AI tools, no-code automation, direct reviews of app builders. Laser-focused on the tools-for-builders niche.</div>
+          <div class="card-fit">Directly reviews AI app builders — Lovable is exactly the category he covers.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">09</div>
+            <div>
+              <div class="card-name">Web Dev Cody</div>
+              <div class="card-handle">@WebDevCody</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge yt" href="https://www.youtube.com/@WebDevCody" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~22K</div>
+            <div class="meta-label">avg views/video · 200K subs</div>
+          </div>
+          <div class="card-niche">Full-stack web development, builds complete projects live on camera. Modern frameworks and tooling focus.</div>
+          <div class="card-fit">Live build format = perfect for a Lovable demo. His audience learns by watching people build in real time.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-rank">10</div>
+            <div>
+              <div class="card-name">whitep4nth3r</div>
+              <div class="card-handle">@whitep4nth3r</div>
+            </div>
+          </div>
+          <div class="platform-badges">
+            <a class="pbadge tw" href="https://www.twitch.tv/whitep4nth3r" target="_blank" rel="noopener"><i class="fa-brands fa-twitch"></i> Twitch</a>
+            <a class="pbadge yt" href="https://www.youtube.com/@whitep4nth3r" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
+          <div class="card-meta">
+            <div class="meta-count">~20K+</div>
+            <div class="meta-label">Twitch followers</div>
+          </div>
+          <div class="card-niche">Software engineer, developer educator. Streams front-end dev, builds websites, roasts viewer code.</div>
+          <div class="card-fit">Engaged dev community — Lovable as a tool to demo during stream would resonate with her builder audience.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">SocialSculp <span>×</span> SylcRoad · Lovable Creator Seeding</div>
+    <div class="footer-right">Research compiled via TikTok, Instagram, Twitch, YouTube · March 2026 · Verify counts before outreach.</div>
+  </footer>
+
+</body>
+</html>

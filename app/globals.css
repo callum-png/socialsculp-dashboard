@@ -126,8 +126,9 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  --font-syne: 'Syne', sans-serif;
-  --font-fraunces: 'Fraunces', serif;
+  --font-syne: 'Plus Jakarta Sans', sans-serif;
+  --font-fraunces: 'Plus Jakarta Sans', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* ─── Base Styles ────────────────────────────────────────────────────────── */
@@ -146,7 +147,7 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -154,7 +155,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.025em;
@@ -162,14 +163,14 @@
   }
 
   p, li, blockquote {
-    font-family: 'Fraunces', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 
   /* Numbers and labels stay Syne */
   label, caption, th, td,
   [data-label],
   [data-number] {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 }
 
@@ -228,11 +229,30 @@
   }
 
   .font-syne {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 
   .font-fraunces {
-    font-family: 'Fraunces', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .font-jakarta {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* Stat number display — upright, zero tracking, tabular */
+  .stat-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* Card shadow system — Apple-like subtle depth */
+  .shadow-card {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .shadow-card-hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.08);
   }
 
   /* Surface helpers */
