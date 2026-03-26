@@ -39,6 +39,10 @@ const ScrollScene = dynamic(
   () => import('./ScrollScene').then(m => ({ default: m.ScrollScene })),
   { ssr: false }
 )
+const CtaCanvas = dynamic(
+  () => import('./CtaCanvas').then(m => ({ default: m.CtaCanvas })),
+  { ssr: false }
+)
 
 // ── Floating creator card (glassmorphism overlay on hero) ───────
 function FloatingCreatorCard({ handle, platform, views, delay, style }: {
@@ -308,15 +312,17 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── CTA ── */}
         <section className="v2-cta" id="contact">
-          {/* CSS orbital rings background */}
-          <div className="v2-cta-rings" aria-hidden="true">
-            <div className="v2-cta-ring v2-cta-ring-1" />
-            <div className="v2-cta-ring v2-cta-ring-2" />
-            <div className="v2-cta-ring v2-cta-ring-3" />
-            <div className="v2-cta-ring v2-cta-ring-4" />
+          {/* Viral particle burst background */}
+          <div className="v2-cta-canvas-wrap" aria-hidden="true">
+            {introComplete && <CtaCanvas />}
           </div>
+
           <div className="v2-cta-eyebrow">Ready to grow?</div>
-          <h2 className="v2-cta-headline">Let&apos;s Build<br /><span className="v2-cta-outline">Something</span><br />Unforgettable.</h2>
+          <h2 className="v2-cta-headline">
+            <span className="v2-cta-hl-small">Let&apos;s Build</span>
+            <span className="v2-cta-hl-big">Something</span>
+            <span className="v2-cta-hl-outline">Unforgettable.</span>
+          </h2>
           <div className="v2-cta-actions">
             <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="v2-cta-btn primary">Book a Strategy Call →</a>
             <a href="/sign-up" className="v2-cta-btn outline">Create Account</a>
