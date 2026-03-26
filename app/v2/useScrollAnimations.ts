@@ -58,12 +58,13 @@ export function useScrollAnimations() {
       // ── Section fade-up reveals ───────────────────────────
       document.querySelectorAll<HTMLElement>('.v2-reveal').forEach(el => {
         gsap.from(el, {
-          y: 30,
+          y: 28,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.9,
           delay: el.dataset.delay ? parseFloat(el.dataset.delay) : 0,
           ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' },
+          immediateRender: false,   // don't set opacity:0 until trigger fires
+          scrollTrigger: { trigger: el, start: 'top bottom', toggleActions: 'play none none none' },
         })
       })
 
@@ -93,6 +94,7 @@ export function useScrollAnimations() {
           duration: 0.7,
           stagger: 0.1,
           ease: 'power2.out',
+          immediateRender: false,
           scrollTrigger: { trigger: rows[0].parentElement, start: 'top 85%', toggleActions: 'play none none reverse' },
         })
       }
@@ -106,6 +108,7 @@ export function useScrollAnimations() {
           duration: 0.65,
           stagger: 0.07,
           ease: 'power2.out',
+          immediateRender: false,
           scrollTrigger: { trigger: cards[0].parentElement, start: 'top 85%', toggleActions: 'play none none reverse' },
         })
       }
