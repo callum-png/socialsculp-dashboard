@@ -249,6 +249,11 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const [mounted, setMounted] = useState(true)
   const [sceneReady, setSceneReady] = useState(false)
 
+  // Store callback in ref — prevents animation effect from restarting when
+  // parent re-renders and creates a new function reference
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => { onCompleteRef.current = onComplete }, [onComplete])
+
   const activRef = useRef(new Float32Array(NODE_COUNT))
   const edgeActivRef = useRef(new Float32Array(0))
   const pRef = useRef(0)
@@ -329,13 +334,13 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       } else {
         setTimeout(() => {
           setFading(true)
-          setTimeout(() => { setMounted(false); onComplete() }, 1000)
+          setTimeout(() => { setMounted(false); onCompleteRef.current() }, 1000)
         }, 300)
       }
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [sceneReady, onComplete])
+  }, [sceneReady])
 
   if (!mounted) return null
 
