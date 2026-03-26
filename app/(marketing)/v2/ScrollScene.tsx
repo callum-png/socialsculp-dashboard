@@ -115,8 +115,7 @@ export function ScrollScene({ type }: { type: GeoType }) {
   return (
     <View
       style={{ width: '100%', height: '100%', display: 'block' }}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
+      {...{ onPointerEnter: () => setHovered(true), onPointerLeave: () => setHovered(false) } as any}
     >
       <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
       <ambientLight intensity={0.3} />

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aro · Cal AI Sales Brief | SocialSculp × SylcRoad</title>
+  <meta name="description" content="Influencer brief for Aro (@arospeaks) — Cal AI creator seeding sales call." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #008cff;
+      --blue-dim: rgba(0, 140, 255, 0.15);
+      --blue-border: rgba(0, 140, 255, 0.3);
+      --orange: #FF6B35;
+      --orange-dim: rgba(255, 107, 53, 0.12);
+      --orange-border: rgba(255, 107, 53, 0.35);
+      --bg: #0A0A0A;
+      --bg2: #111111;
+      --bg3: #181818;
+      --text: #f0f0f0;
+      --muted: rgba(240, 240, 240, 0.5);
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+    @keyframes gradientDrift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animate { animation: slideIn 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wordmark {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .wordmark span { color: var(--blue); }
+    .header-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .header-tag em {
+      font-style: normal;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 48px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,140,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 70%, rgba(255,107,53,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 24px;
+    }
+    .hero-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(96px, 18vw, 200px);
+      line-height: 0.9;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(0,140,255,0.8) 60%, #FF6B35 100%);
+      background-size: 200% 200%;
+      animation: gradientDrift 6s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      margin-bottom: 16px;
+    }
+    .hero-handle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .hero-handle a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .hero-handle a:hover { color: #33aaff; }
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--blue-border);
+      color: var(--blue);
+      background: var(--blue-dim);
+    }
+    .tag.orange {
+      border-color: var(--orange-border);
+      color: var(--orange);
+      background: var(--orange-dim);
+    }
+    .hero-line {
+      max-width: 560px;
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .hero-line strong { color: var(--text); font-weight: 600; }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 80px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.5px;
+      margin-bottom: 40px;
+    }
+    .section-title span { color: var(--blue); }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+      margin: 0;
+    }
+
+    /* ── ROLE CARDS ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .role-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .role-card:hover {
+      border-color: var(--blue-border);
+      transform: translateY(-4px);
+    }
+    .role-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .role-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .role-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 48px;
+    }
+    .video-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .video-left {}
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      background: #1a1a1a;
+      border-radius: 36px;
+      border: 3px solid #333;
+      padding: 16px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .phone-screen {
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 9/16;
+      position: relative;
+    }
+    .phone-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .phone-notch {
+      width: 100px;
+      height: 10px;
+      background: #333;
+      border-radius: 5px;
+      margin: 0 auto 12px;
+    }
+    .video-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+      gap: 16px;
+    }
+    .play-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 30px rgba(0,140,255,0.5);
+      transition: transform 0.2s;
+    }
+    .play-btn:hover { transform: scale(1.08); }
+    .tiktok-link {
+      font-size: 12px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid var(--blue-border);
+      padding: 8px 20px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+    .tiktok-link:hover { background: var(--blue-dim); }
+    .video-right {}
+    .video-right .section-label { margin-bottom: 8px; }
+    .video-right .section-title { margin-bottom: 24px; }
+    .strategy-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.3s;
+    }
+    .step:hover { border-color: var(--blue-border); }
+    .step-num {
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(0,140,255,0.4);
+      margin-top: 2px;
+    }
+    .step-body h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .step-body h4 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .step-body p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── STRATEGY ── */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .strategy-copy p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .strategy-copy p strong { color: var(--text); }
+    .stat-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .stat-block {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      transition: border-color 0.3s;
+    }
+    .stat-block:hover { border-color: var(--blue-border); }
+    .stat-val {
+      font-family: 'Anton', sans-serif;
+      font-size: 38px;
+      line-height: 1;
+      color: var(--blue);
+      text-shadow: 0 0 20px rgba(0,140,255,0.4);
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── CASE STUDIES ── */
+    .cases-section { background: var(--bg2); }
+    .brand-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+    .brand-pill {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all 0.25s;
+    }
+    .brand-pill:hover, .brand-pill.active {
+      border-color: var(--blue-border);
+      color: var(--blue);
+      background: var(--blue-dim);
+    }
+    .brand-pill.spotlight {
+      border-color: var(--orange-border);
+      color: var(--orange);
+      background: var(--orange-dim);
+    }
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .case-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 22px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .case-card:hover {
+      border-color: var(--blue-border);
+      transform: translateY(-3px);
+    }
+    .case-card.spotlight {
+      border-color: var(--orange-border);
+      background: linear-gradient(135deg, rgba(255,107,53,0.06) 0%, var(--bg3) 100%);
+    }
+    .case-card.spotlight:hover { border-color: var(--orange); }
+    .case-brand {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .case-card.spotlight .case-brand { color: var(--orange); }
+    .case-metric {
+      font-family: 'Anton', sans-serif;
+      font-size: 28px;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .case-card.spotlight .case-metric { color: var(--orange); }
+    .case-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .spotlight-note {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange);
+      opacity: 0.8;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .footer-left {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-left span { color: var(--blue); }
+    .footer-right {
+      font-size: 12px;
+      color: rgba(240,240,240,0.3);
+      max-width: 360px;
+      text-align: right;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      header { padding: 14px 24px; }
+      section { padding: 60px 24px; }
+      .hero { padding: 60px 24px; }
+      .video-section { padding: 60px 24px; }
+      .video-inner { grid-template-columns: 1fr; gap: 40px; }
+      .phone-frame { max-width: 280px; }
+      .role-grid { grid-template-columns: 1fr; }
+      .strategy-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-right { text-align: left; }
+    }
+    @media (max-width: 480px) {
+      .hero-name { font-size: clamp(72px, 22vw, 96px); }
+      .header-tag { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wordmark">SocialSculp <span>×</span> SylcRoad</div>
+    <div class="header-tag">Cal AI · Creator Seeding · <em>Sales Brief</em></div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow animate">Joining the call</div>
+    <div class="hero-name animate delay-1">ARO</div>
+    <div class="hero-handle animate delay-2">
+      <a href="https://www.tiktok.com/@arospeaks" target="_blank" rel="noopener">@arospeaks</a>
+    </div>
+    <div class="hero-tags animate delay-3">
+      <span class="tag">Influencer</span>
+      <span class="tag orange">Narrative Engineer</span>
+      <span class="tag">Case Study Narrator</span>
+    </div>
+    <p class="hero-line animate delay-4">
+      Aro joins the call to show Cal AI what <strong>narrative-engineered creator content</strong> looks and performs like — live. He'll break down 1–2 of his own videos and the strategy behind them.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ROLE ON THE CALL -->
+  <section class="animate">
+    <div class="section-label">On the call</div>
+    <div class="section-title">Aro's Role · <span>Three Jobs</span></div>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-icon">📋</div>
+        <h3>Narrative Showcase</h3>
+        <p>Walks Cal AI through 1–2 of his own videos where narrative engineering was at the core — breaking down the angle, the hook, and what drove performance.</p>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">🎬</div>
+        <h3>Live Example</h3>
+        <p>Shows his own video as a real, executed piece of narrative-engineered content — so the strategy isn't theoretical. It's on screen.</p>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">📡</div>
+        <h3>Proof of Concept</h3>
+        <p>Demonstrates how narrative alignment, conversion mechanics, and audience propagation work together — the same playbook we'd run for Cal AI.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- VIDEO + STRATEGY BREAKDOWN -->
+  <div class="video-section">
+    <div class="video-inner">
+      <div class="video-left animate">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <!-- TikTok embed attempt — falls back gracefully -->
+            <blockquote
+              class="tiktok-embed"
+              cite="https://www.tiktok.com/@arospeaks/video/7584241120096439566"
+              data-video-id="7584241120096439566"
+              style="max-width:100%;min-width:unset;border:none;background:#000;"
+            >
+              <div class="video-fallback" style="height:100%;">
+                <div class="play-btn">▶</div>
+                <a class="tiktok-link" href="https://www.tiktok.com/@arospeaks/video/7584241120096439566" target="_blank" rel="noopener">
+                  Watch on TikTok →
+                </a>
+              </div>
+            </blockquote>
+            <script async src="https://www.tiktok.com/embed.js"></script>
+          </div>
+        </div>
+      </div>
+      <div class="video-right animate delay-2">
+        <div class="section-label">Aro's video · proprietary strategy</div>
+        <div class="section-title">The Video That<br /><span>Shows the Strategy</span></div>
+        <div class="strategy-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4><em>Narrative Alignment</em></h4>
+              <p>The hook is built around the product's pain-point — not its features. We engineer the angle first, then the content follows. Aro's video opens on the audience's problem, not the product.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4><em>Conversion Mechanics</em></h4>
+              <p>Urgency, social proof, and a clear next step are embedded into the structure of the content — not bolted on at the end. This is the difference between a brand video and one that converts.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4><em>Audience Propagation</em></h4>
+              <p>The same narrative angle is deployed across multiple creators who share the same target demo — so the message compounds instead of duplicating. Reach scales. CPM drops.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- THE STRATEGY -->
+  <section class="animate">
+    <div class="section-label">How we do it</div>
+    <div class="section-title">Data-Powered. <span>Not Guesswork.</span></div>
+    <div class="strategy-grid">
+      <div class="strategy-copy">
+        <p>
+          Our strategy starts with <strong>data from every campaign we've run</strong> — audience segments that converted, angles that retained, platforms that compounded. We don't brief creators on vibes. We brief them on what works for their audience and your product.
+        </p>
+        <p>
+          The AI-powered tooling underpinning every campaign means we're running <strong>live optimization</strong> — CPM and reach improve as the campaign runs. We don't set and forget. We watch the data in real time and steer.
+        </p>
+        <p>
+          The playbook is three phases: <strong>Test → Validate → Scale.</strong> We test angles across a small set of creators, validate what converts, then scale only what earns its budget. Every dollar spent on scale is already proven.
+        </p>
+        <p>
+          The same playbook Aro will walk through on the call — <strong>is the exact playbook for Cal AI.</strong>
+        </p>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-block">
+          <div class="stat-val">$2–5</div>
+          <div class="stat-label">CPM — vs $15–30+ for paid ads. Native content that converts.</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val">3×</div>
+          <div class="stat-label">Phase playbook: Test → Validate → Scale. No wasted budget.</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val">Live</div>
+          <div class="stat-label">Optimization — CPM and reach improve as the campaign runs.</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val">∞</div>
+          <div class="stat-label">Creator network — sourced, matched, and briefed from our proprietary house network.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CASE STUDIES -->
+  <section class="cases-section animate" style="max-width:100%;padding:80px 48px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-label">Aro will narrate</div>
+      <div class="section-title">Case Studies · <span>The Proof</span></div>
+      <div class="brand-pills">
+        <span class="brand-pill spotlight">StealthGPT ↗</span>
+        <span class="brand-pill spotlight">Ryne AI ↗</span>
+        <span class="brand-pill active">Quizard</span>
+        <span class="brand-pill">Haven</span>
+        <span class="brand-pill">Snapchat</span>
+      </div>
+      <div class="cases-grid">
+        <div class="case-card spotlight">
+          <div class="case-brand">StealthGPT</div>
+          <div class="case-metric">1.3M</div>
+          <div class="case-sub">Views · $2 CPM</div>
+          <div class="spotlight-note">Team walkthrough ↗</div>
+        </div>
+        <div class="case-card spotlight">
+          <div class="case-brand">Ryne AI</div>
+          <div class="case-metric">Deep Dive</div>
+          <div class="case-sub">Full case study walkthrough</div>
+          <div class="spotlight-note">Team walkthrough ↗</div>
+        </div>
+        <div class="case-card">
+          <div class="case-brand">Quizard</div>
+          <div class="case-metric">2M</div>
+          <div class="case-sub">Views · $3 CPM</div>
+        </div>
+        <div class="case-card">
+          <div class="case-brand">Haven</div>
+          <div class="case-metric">5M+</div>
+          <div class="case-sub">Views · $2 CPM</div>
+        </div>
+        <div class="case-card">
+          <div class="case-brand">Snapchat</div>
+          <div class="case-metric">10</div>
+          <div class="case-sub">Verified Snap Stars</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">SocialSculp <span>×</span> SylcRoad · Cal AI Creator Seeding</div>
+    <div class="footer-right">Aro shows the strategy. The team walks the case studies. Full doc sent post-call.</div>
+  </footer>
+
+</body>
+</html>

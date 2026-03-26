@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 675px; overflow: hidden; background: #000; }
+
+    .thumb {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* LEFT: BEFORE */
+    .side {
+      position: relative;
+      width: 600px;
+      height: 675px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .side-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('file:///C:/Users/Cal/Pictures/Screenshots/Screenshot 2026-03-05 150000.png');
+      background-size: cover;
+      background-position: center top;
+    }
+
+    .side.before .side-bg {
+      filter: grayscale(1) brightness(0.45);
+    }
+
+    .side.after .side-bg {
+      filter: brightness(0.85) saturate(1.1);
+    }
+
+    /* red X overlay on before side */
+    .x-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .big-x {
+      font-family: 'Anton', sans-serif;
+      font-size: 380px;
+      color: rgba(255, 30, 55, 0.7);
+      line-height: 1;
+      text-shadow: 0 0 60px rgba(255,30,55,0.5);
+    }
+
+    /* green checkmark on after side */
+    .check-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .big-check {
+      font-size: 260px;
+      color: rgba(0, 220, 100, 0.75);
+      line-height: 1;
+      filter: drop-shadow(0 0 40px rgba(0,220,100,0.5));
+    }
+
+    /* Labels */
+    .side-label {
+      position: absolute;
+      top: 32px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .side-label .word {
+      font-family: 'Anton', sans-serif;
+      font-size: 88px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .side.before .word { color: #ff2d55; }
+    .side.after .word { color: #00dc64; }
+
+    /* Center divider — lightning bolt */
+    .divider {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 675px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .bolt {
+      font-size: 120px;
+      color: #fff;
+      text-shadow:
+        0 0 20px #fff,
+        0 0 60px rgba(255,200,0,0.8),
+        0 0 100px rgba(255,200,0,0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Vertical dividing line behind bolt */
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, #fff 20%, #fff 80%, transparent);
+      box-shadow: 0 0 20px 4px rgba(255,255,255,0.4);
+    }
+
+    /* Bottom labels */
+    .bottom-label {
+      position: absolute;
+      bottom: 28px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .side.before .bottom-label {
+      left: 0; right: 340px;
+      color: rgba(255,45,85,0.7);
+    }
+
+    .side.after .bottom-label {
+      right: 0; left: 340px;
+      color: rgba(0,220,100,0.7);
+    }
+  </style>
+</head>
+<body>
+<div class="thumb">
+  <div class="side before">
+    <div class="side-bg"></div>
+    <div class="side-label"><div class="word">Before</div></div>
+    <div class="x-overlay"><div class="big-x">✕</div></div>
+    <div class="bottom-label">Copycats Everywhere</div>
+  </div>
+
+  <div class="side after">
+    <div class="side-bg"></div>
+    <div class="side-label"><div class="word">After</div></div>
+    <div class="check-overlay"><div class="big-check">✓</div></div>
+    <div class="bottom-label">Brand Protected</div>
+  </div>
+
+  <div class="divider">
+    <div class="bolt">⚡</div>
+  </div>
+</div>
+</body>
+</html>

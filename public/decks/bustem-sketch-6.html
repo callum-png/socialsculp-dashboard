@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 675px; overflow: hidden; background: #000; }
+
+    .thumb {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      background: #050505;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* Left: person from screenshot */
+    .person-side {
+      position: relative;
+      width: 500px;
+      height: 675px;
+      flex-shrink: 0;
+    }
+
+    .person-img {
+      position: absolute;
+      inset: 0;
+      background-image: url('file:///C:/Users/Cal/Pictures/Screenshots/Screenshot 2026-03-05 150000.png');
+      background-size: cover;
+      background-position: center top;
+    }
+
+    /* Fade right edge */
+    .person-side::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 55%, #050505 100%);
+    }
+
+    /* Right: content */
+    .content-side {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      padding: 50px 60px 50px 20px;
+      z-index: 2;
+    }
+
+    /* Arrow pointing left toward person */
+    .arrow-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .arrow {
+      font-size: 72px;
+      color: #ff2d55;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(255,45,85,0.7);
+      flex-shrink: 0;
+    }
+
+    .arrow-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,45,85,0.8);
+    }
+
+    .headline {
+      font-family: 'Anton', sans-serif;
+      font-size: 96px;
+      line-height: 0.9;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .headline .yellow { color: #ffd600; }
+    .headline .red { color: #ff2d55; }
+
+    /* Fake vs Real comparison mini-boxes */
+    .compare {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .compare-box {
+      flex: 1;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .compare-box.fake {
+      background: rgba(255,30,55,0.12);
+      border: 2px solid rgba(255,30,55,0.4);
+    }
+
+    .compare-box.real {
+      background: rgba(0,200,80,0.1);
+      border: 2px solid rgba(0,200,80,0.35);
+    }
+
+    .box-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .compare-box.fake .box-label { color: #ff5c7a; }
+    .compare-box.real .box-label { color: #00c850; }
+
+    .box-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .box-icon {
+      font-size: 28px;
+    }
+
+    /* Sub line */
+    .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+<div class="thumb">
+  <div class="person-side">
+    <div class="person-img"></div>
+  </div>
+
+  <div class="content-side">
+    <div class="arrow-row">
+      <div class="arrow">←</div>
+      <div class="arrow-label">Found the copycat</div>
+    </div>
+
+    <div class="headline">They<br><span class="yellow">Copied</span><br><span class="red">My Brand</span></div>
+
+    <div class="compare">
+      <div class="compare-box fake">
+        <div class="box-icon">📦</div>
+        <div class="box-label">Fake</div>
+        <div class="box-title">Counterfeit listing live on Amazon</div>
+      </div>
+      <div class="compare-box real">
+        <div class="box-icon">✓</div>
+        <div class="box-label">Terminated</div>
+        <div class="box-title">Removed in 48 hours by Bustem AI</div>
+      </div>
+    </div>
+
+    <div class="sub">Bustem finds them. Bustem kills them.</div>
+  </div>
+</div>
+</body>
+</html>

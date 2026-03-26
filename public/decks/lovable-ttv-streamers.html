@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SocialSculp x Media Maxxing &amp; Lovable · TTV Streamer Hitlist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #008cff;
+      --orange: #FF6B35;
+      --bg: #0f1117;
+      --bg2: #161b27;
+      --bg3: #1e2436;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.14);
+      --text: #f0f0f0;
+      --muted: rgba(240,240,240,0.45);
+      --twitch: #9146ff;
+      --kick: #53fc18;
+      --youtube: #ff0000;
+      --twitter: #1d9bf0;
+      --instagram: #e1306c;
+      --row-hover: rgba(0,140,255,0.05);
+      --stripe: rgba(255,255,255,0.018);
+      --lovable: #1E52F1;
+      --lovable-pink: #EA8AAB;
+      --lovable-orange: #F3702F;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .doc-header {
+      background: radial-gradient(ellipse at 25% 60%, rgba(234,138,171,0.08) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 40%, rgba(30,82,241,0.07) 0%, transparent 55%),
+                  var(--bg2);
+      border-bottom: none;
+      position: relative;
+      padding: 40px 48px 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .doc-header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #F3702F 20%, #EA8AAB 50%, #1E52F1 80%, transparent 100%);
+    }
+    .doc-title-block {}
+    .doc-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 10px;
+    }
+    .doc-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 52px; font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text);
+      text-shadow: 0 0 60px rgba(145,70,255,0.35), 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .doc-title span { color: var(--twitch); }
+    .doc-meta {
+      font-size: 12px; color: var(--muted);
+      margin-top: 10px;
+    }
+    .doc-meta strong { color: var(--text); font-weight: 600; }
+    .doc-right {
+      text-align: right;
+    }
+    .doc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 8px 16px; border-radius: 6px;
+      background: rgba(30,82,241,0.12);
+      border: 1px solid rgba(30,82,241,0.3);
+      color: #6b9fff;
+    }
+    .doc-date {
+      font-size: 10px; color: var(--muted);
+      margin-top: 6px; letter-spacing: 0.5px;
+    }
+
+    /* ── LOVABLE BRAND ── */
+    .lovable-logo {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 28px; margin-right: 32px;
+    }
+    .lv-heart, .lv-word {
+      background: linear-gradient(135deg, #F3702F 0%, #EA8AAB 50%, #1E52F1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .lv-heart { font-size: 22px; }
+    .lv-word  { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .footer-lv { opacity: 0.6; margin-bottom: 0; }
+    .footer-lv .lv-heart { font-size: 13px; }
+    .footer-lv .lv-word  { font-size: 13px; }
+
+    /* ── LEGEND ── */
+    .legend-bar {
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 32px;
+      display: flex; align-items: center; gap: 20px;
+      flex-wrap: wrap;
+    }
+    .legend-label {
+      font-size: 10px; color: var(--muted);
+      letter-spacing: 1px; text-transform: uppercase;
+      font-weight: 600; margin-right: 4px;
+    }
+    .legend-item {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 600;
+      color: var(--muted); letter-spacing: 0.3px;
+    }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 2px;
+    }
+    .ld-tw { background: var(--twitch); }
+    .ld-ki { background: var(--kick); }
+    .ld-yt { background: var(--youtube); }
+    .ld-x  { background: #fff; }
+    .ld-ig { background: var(--instagram); }
+
+    /* ── TABLE WRAPPER ── */
+    .table-wrap {
+      overflow-x: auto;
+      padding: 0;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+
+    /* COLUMN HEADER */
+    thead tr {
+      background: var(--bg3);
+      position: sticky; top: 0; z-index: 10;
+    }
+    thead th {
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 2px solid var(--border-strong);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    thead th:last-child { border-right: none; }
+    thead th.col-center { text-align: center; }
+    thead th.col-num {
+      width: 36px; text-align: center;
+      color: rgba(240,240,240,0.2);
+    }
+
+    /* ROWS */
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:nth-child(even) { background: var(--stripe); }
+    tbody tr:hover { background: var(--row-hover); }
+
+    td {
+      padding: 11px 16px;
+      vertical-align: middle;
+      border-right: 1px solid var(--border);
+      font-size: 12.5px;
+    }
+    td:last-child { border-right: none; }
+
+    .td-num {
+      text-align: center;
+      font-size: 11px; font-weight: 700;
+      color: rgba(240,240,240,0.2);
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* NAME CELL */
+    .streamer-name {
+      font-weight: 700; font-size: 13px;
+      color: var(--text); line-height: 1.2;
+    }
+    .streamer-type {
+      font-size: 10px; color: var(--muted);
+      margin-top: 2px; letter-spacing: 0.3px;
+    }
+    .streamer-type.variety  { color: rgba(0,140,255,0.7); }
+    .streamer-type.gaming   { color: rgba(145,70,255,0.8); }
+    .streamer-type.irl      { color: rgba(255,107,53,0.8); }
+    .streamer-type.celeb    { color: rgba(255,193,7,0.8); }
+
+    /* PLATFORM LINK CELLS */
+    .td-platform { text-align: center; }
+    .plink {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 6px;
+      text-decoration: none; font-size: 13px;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .plink:hover { opacity: 0.75; transform: scale(1.15); }
+    .plink.tw { background: rgba(145,70,255,0.15); color: var(--twitch); border: 1px solid rgba(145,70,255,0.3); }
+    .plink.ki { background: rgba(83,252,24,0.1); color: var(--kick); border: 1px solid rgba(83,252,24,0.25); }
+    .plink.yt { background: rgba(255,0,0,0.1); color: var(--youtube); border: 1px solid rgba(255,0,0,0.25); }
+    .plink.x  { background: rgba(255,255,255,0.07); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+    .plink.ig { background: rgba(225,48,108,0.1); color: var(--instagram); border: 1px solid rgba(225,48,108,0.25); }
+    .plink.na { opacity: 0.18; pointer-events: none; cursor: default; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--muted); }
+
+    /* NOTES CELL */
+    .td-notes {
+      font-size: 11.5px; color: rgba(240,240,240,0.55);
+      max-width: 280px; line-height: 1.5;
+    }
+    .td-notes strong { color: var(--text); font-weight: 600; }
+
+    /* COST CELL */
+    .td-cost { white-space: nowrap; vertical-align: middle; }
+    .cost-range { font-size: 12px; font-weight: 700; color: var(--text); }
+
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg2);
+    }
+    .footer-brand {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-brand span { color: var(--blue); }
+    .footer-note { font-size: 10px; color: rgba(240,240,240,0.2); }
+
+    /* ── PRINT ── */
+    @media print {
+      .doc-header, thead tr { position: relative; }
+      body { background: #fff; color: #111; }
+      .plink { border: 1px solid #ddd; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .doc-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 20px 20px;
+        gap: 12px;
+      }
+      .doc-title { font-size: 32px; }
+      .doc-right { text-align: left; width: 100%; }
+      .lovable-logo { margin-right: 0; margin-bottom: 12px; }
+      .doc-meta { font-size: 11px; }
+
+      .legend-bar { padding: 8px 16px; gap: 8px; }
+
+      .table-wrap { overflow-x: visible; padding: 8px 0; }
+      table, tbody { display: block; min-width: unset; width: 100%; }
+      thead { display: none; }
+
+      tbody tr {
+        display: block;
+        margin: 0 12px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg2);
+        overflow: hidden;
+      }
+      tbody tr:nth-child(even) { background: var(--bg2); }
+
+      td { display: block; border-right: none; border-bottom: none; padding: 8px 14px; }
+      .td-num { display: none; }
+
+      tbody tr td:nth-child(2) {
+        padding: 12px 14px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .td-platform { display: inline-flex; padding: 8px 4px; }
+      .td-platform:nth-child(3) { padding-left: 14px; }
+
+      .td-cost { border-top: 1px solid var(--border); padding: 8px 14px; }
+
+      .td-notes { max-width: 100%; border-top: 1px solid var(--border); padding: 8px 14px 14px; }
+
+      .doc-footer { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 20px; }
+      .footer-lv { margin-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-title-block">
+      <div class="doc-eyebrow">SocialSculp × Media Maxxing & Lovable · Influencer Seeding Proposal</div>
+      <div class="doc-title">TTV <span>Streamer</span> Hitlist</div>
+      <div class="doc-meta">Vetted creator roster for sponsored integration · US-primary audiences · <strong>20 targets</strong></div>
+    </div>
+    <div class="doc-right">
+      <div class="lovable-logo">
+        <span class="lv-heart"><i class="fa-solid fa-heart"></i></span>
+        <span class="lv-word">lovable</span>
+      </div>
+      <div class="doc-badge"><i class="fa-brands fa-twitch"></i> Twitch-Primary · US Audiences</div>
+      <div class="doc-date">March 2026</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend-bar">
+    <span class="legend-label">Platforms:</span>
+    <span class="legend-item"><span class="legend-dot ld-tw"></span>Twitch</span>
+    <span class="legend-item"><span class="legend-dot ld-ki"></span>Kick</span>
+    <span class="legend-item"><span class="legend-dot ld-yt"></span>YouTube</span>
+    <span class="legend-item"><span class="legend-dot ld-x"></span>X / Twitter</span>
+    <span class="legend-item"><span class="legend-dot ld-ig"></span>Instagram</span>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th>Streamer</th>
+          <th class="col-center">Twitch</th>
+          <th class="col-center">Kick</th>
+          <th class="col-center">YouTube</th>
+          <th class="col-center">X</th>
+          <th class="col-center">Instagram</th>
+          <th>Est. Rate</th>
+          <th>Integration Angle</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="td-num">01</td>
+          <td>
+            <div class="streamer-name">Ac7ionman</div>
+            <div class="streamer-type variety">Variety · IRL</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/ac7ionman" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/ac7ionman" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/ac7ionman" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/Ac7ionMann" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/ac7ionman/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$1,500–3,500</div></td>
+          <td class="td-notes">US-based multi-platform variety creator with a high clip extraction rate. Live product integration aligns naturally with his high-energy format and cross-channel US audience.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">02</td>
+          <td>
+            <div class="streamer-name">Rampage Jackson</div>
+            <div class="streamer-type celeb">Celebrity · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/rampageishuman" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/rampagejackson/videos" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/RampageJackson" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/RampageJackson" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/rampagejackson/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$5,000–10,000</div></td>
+          <td class="td-notes">Celebrity-tier talent with mass-market US appeal. <strong>UFC Hall of Famer building an app live</strong> delivers an authentic "anyone can do this" narrative with immediate earned media upside.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">03</td>
+          <td>
+            <div class="streamer-name">Alyb0ba</div>
+            <div class="streamer-type variety">Variety · IRL</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/alyb0ba" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/alyb0ba" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@Alyb0ba" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/alyb0ba" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/alyb0ba/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$500–1,200</div></td>
+          <td class="td-notes">US-based multi-platform presence with a consistent, engaged audience. Reactive format integrates well with live product demonstrations and sponsored content segments.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">04</td>
+          <td>
+            <div class="streamer-name">Deen The Great</div>
+            <div class="streamer-type irl">IRL · Lifestyle</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw na" href="#" title="N/A"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/deenthegreat/videos" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/channel/UCQXJe2loenb0J_bKbUMAncw" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/DeenTheGreat" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/deenthegreat/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$800–2,000</div></td>
+          <td class="td-notes">Lifestyle-first creator with a non-technical US audience — an ideal profile for illustrating Lovable's accessibility. Kick-primary with active cross-platform distribution.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">05</td>
+          <td>
+            <div class="streamer-name">Kanel Joseph</div>
+            <div class="streamer-type variety">Variety · Entertainment</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/kaneljoseph" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@kaneljoseph" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/kaneljoseph" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/kaneljoseph/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$500–1,200</div></td>
+          <td class="td-notes">High clip-rate variety format with strong US viewership. Genuine on-stream reactions generate significant clip volume across aggregator platforms — well-suited for live product integration.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">06</td>
+          <td>
+            <div class="streamer-name">Mizkif</div>
+            <div class="streamer-type variety">Variety · IRL</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/mizkif" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/mizkif" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@mizkif" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/REALMizkif" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/realmizkif/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$10,000–20,000</div></td>
+          <td class="td-notes"><strong>~700K US Twitch audience</strong> with industry-leading clip extraction. One of the highest-performing earned media candidates on the platform for live integration formats.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">07</td>
+          <td>
+            <div class="streamer-name">Erobb221</div>
+            <div class="streamer-type variety">Variety · Comedy</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/erobb221" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/erobb221" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@erobb2213" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/erobb221" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/erobb221/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$2,000–5,000</div></td>
+          <td class="td-notes">US-based comedy variety creator with a proven organic reaction format. Product integrations are presented through authentic, unscripted content — <strong>strong clip performance with accessible integration pricing</strong>.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">08</td>
+          <td>
+            <div class="streamer-name">EsfandTV</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/esfandtv" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@EsfandTV" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/EsfandTV" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/esfandtv/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$3,000–7,000</div></td>
+          <td class="td-notes">Texas-based IRL variety streamer with ~200K Twitch. Deeply loyal US community tuned in for personality-driven content — high audience receptivity to authentic brand integrations.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">09</td>
+          <td>
+            <div class="streamer-name">Nmplol</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/nmplol" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/nmplol" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@nmplol" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/nmplol" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/nmplol/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$4,000–8,000</div></td>
+          <td class="td-notes"><strong>~400K US Twitch audience.</strong> Lifestyle and relationship content positions Lovable's no-technical-background-required value proposition as directly relevant to his viewer base.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">10</td>
+          <td>
+            <div class="streamer-name">ConnorEatsPants</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/connoreatspants" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki" href="https://kick.com/connoreatspants" target="_blank" rel="noopener" title="Kick"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@ConnorEatsPants" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/ConnorEatsPants" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/connoreatspants/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$1,500–4,000</div></td>
+          <td class="td-notes">US-based IRL variety creator with a consistently engaged community and reliable clip output. <strong>Strong clip performance combined with accessible integration pricing</strong> delivers efficient ROI.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">11</td>
+          <td>
+            <div class="streamer-name">QTCinderella</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/qtcinderella" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@QTCinderella" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/qtcinderella" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/qtcinderella/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$3,000–7,000</div></td>
+          <td class="td-notes">US-based community-first IRL streamer with one of Twitch's highest audience trust scores. Her viewers respond strongly to genuine product endorsements — <strong>ideal for integration-forward campaigns</strong>.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">12</td>
+          <td>
+            <div class="streamer-name">Jschlatt</div>
+            <div class="streamer-type variety">Variety · Comedy</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/schlatt" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@jschlatt" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/jschlattLIVE" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/jschlatt/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$10,000–22,000</div></td>
+          <td class="td-notes">US-based comedy variety creator with a <strong>highly loyal US audience</strong> and strong short-form clip performance. Personality-driven format generates authentic integration opportunities with minimal production overhead.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">13</td>
+          <td>
+            <div class="streamer-name">Fuslie</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/fuslie" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@fuslie" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/fuslie" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/fuslie" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$3,000–7,000</div></td>
+          <td class="td-notes">US-based variety creator with ~300K Twitch and a diverse, engaged audience. Non-technical viewership makes Lovable's accessibility narrative particularly resonant and shareable.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">14</td>
+          <td>
+            <div class="streamer-name">Lacari</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/lacari" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@lacari" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/lacari" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/tk_lacari/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$1,500–3,500</div></td>
+          <td class="td-notes">US-based IRL variety creator with ~150K Twitch and a highly engaged community. Consistent clip volume and accessible integration pricing position this as a <strong>strong ROI placement</strong>.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">15</td>
+          <td>
+            <div class="streamer-name">BruceDropEmOff</div>
+            <div class="streamer-type variety">Variety · Hip-Hop</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/brucedropemoff" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@BruceDropEmOff" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/BruceDropEmOff" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/raycondones/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$4,000–10,000</div></td>
+          <td class="td-notes">US-based hip-hop and variety creator with ~250K Twitch and a demonstrated brand deal history. <strong>High clip culture and broad US audience reach</strong> make this a priority placement for live integrations.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">16</td>
+          <td>
+            <div class="streamer-name">Hyphonix</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/hyphonix" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@hyphonix" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/RealHyphonixYT" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/official_hyphonix/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$2,000–5,000</div></td>
+          <td class="td-notes">US-based IRL variety streamer with a high organic clip extraction rate. Unscripted, reactive content style produces authentic integration moments with strong short-form distribution potential.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">17</td>
+          <td>
+            <div class="streamer-name">Maya Higa</div>
+            <div class="streamer-type irl">IRL · Lifestyle</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/maya" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@MayaHiga" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/mayahiga" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/maya_higa/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$1,500–3,500</div></td>
+          <td class="td-notes">US-based IRL and lifestyle creator with a dedicated, loyal community. <strong>Authenticity-driven content style</strong> makes her audience particularly receptive to genuine product integrations — high trust, low friction.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">18</td>
+          <td>
+            <div class="streamer-name">xChocoBars</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/xchocobars" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@xChocoBars" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/xChocoBars" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/xchocobars/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$2,500–6,000</div></td>
+          <td class="td-notes">US-based IRL variety creator with a highly loyal, personality-driven community. Audience demonstrates <strong>strong brand receptivity when integrations are presented authentically</strong> — cost-effective for the engagement level.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">19</td>
+          <td>
+            <div class="streamer-name">TinaKitten</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/tinakitten" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@TinaKitten" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/TinaKitten" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/tinakitten/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$1,500–4,000</div></td>
+          <td class="td-notes">US-based IRL variety creator with an intensely loyal subscriber base. High audience trust translates directly to product receptivity — <strong>well-suited for integration-style sponsored segments</strong>.</td>
+        </tr>
+
+        <tr>
+          <td class="td-num">20</td>
+          <td>
+            <div class="streamer-name">iamnotkenneth</div>
+            <div class="streamer-type irl">IRL · Variety</div>
+          </td>
+          
+          <td class="td-platform"><a class="plink tw" href="https://www.twitch.tv/iamnotkenneth" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a></td>
+          <td class="td-platform"><a class="plink ki na" href="#" title="N/A"><i class="fa-solid fa-k"></i></a></td>
+          <td class="td-platform"><a class="plink yt" href="https://www.youtube.com/@iamnotkenneth" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a></td>
+          <td class="td-platform"><a class="plink x" href="https://x.com/iamnotkenneth" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a></td>
+          <td class="td-platform"><a class="plink ig" href="https://www.instagram.com/iamnotkenneth/" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a></td>
+          <td class="td-cost"><div class="cost-range">$400–1,000</div></td>
+          <td class="td-notes">US-based IRL variety creator with a growing, highly engaged community. Personality-driven content and authentic on-stream reactions make him a strong candidate for <strong>organic live product integration</strong>.</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-brand">SocialSculp <span>×</span> Media Maxxing & Lovable · Influencer Seeding Proposal</div>
+    <div class="lovable-logo footer-lv">
+      <span class="lv-heart"><i class="fa-solid fa-heart"></i></span>
+      <span class="lv-word">lovable</span>
+    </div>
+  </div>
+
+</body>
+</html>

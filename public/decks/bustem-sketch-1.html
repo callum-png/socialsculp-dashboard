@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 675px; overflow: hidden; background: #000; }
+
+    .thumb {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      background: #060606;
+      overflow: hidden;
+    }
+
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      background-image: url('file:///C:/Users/Cal/Pictures/Screenshots/Screenshot 2026-03-05 150000.png');
+      background-size: cover;
+      background-position: center top;
+      filter: brightness(0.25) saturate(0.4);
+    }
+
+    /* Red border glow around the whole frame — "caught" spotlight */
+    .border-glow {
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 120px 40px rgba(255, 30, 60, 0.55);
+      pointer-events: none;
+    }
+
+    /* Top badge */
+    .badge {
+      position: absolute;
+      top: 36px;
+      right: 48px;
+      background: #ff2d55;
+      border-radius: 8px;
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .badge-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 42px;
+      color: #fff;
+      line-height: 1;
+    }
+    .badge-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* Center: CAUGHT */
+    .center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .caught {
+      font-family: 'Anton', sans-serif;
+      font-size: 260px;
+      line-height: 0.85;
+      color: #ff2d55;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 80px rgba(255,45,85,0.8),
+        0 0 200px rgba(255,45,85,0.4);
+      letter-spacing: -4px;
+    }
+
+    .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Bottom bar */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(255,45,85,0.15);
+      border-top: 2px solid rgba(255,45,85,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .bottom-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff2d55; }
+    .bottom-bar span {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ff5c7a;
+    }
+  </style>
+</head>
+<body>
+<div class="thumb">
+  <div class="bg-photo"></div>
+  <div class="border-glow"></div>
+
+  <div class="badge">
+    <div class="badge-num">847</div>
+    <div class="badge-label">Fakes Found</div>
+  </div>
+
+  <div class="center">
+    <div class="eyebrow">Bustem AI</div>
+    <div class="caught">CAUGHT</div>
+    <div class="sub">Every Counterfeit. Every Time.</div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="dot"></div>
+    <span>AI Brand Protection for E-Commerce</span>
+    <div class="dot"></div>
+  </div>
+</div>
+</body>
+</html>

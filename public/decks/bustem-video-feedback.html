@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bustem — Video Feedback</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #0A0A0A; color: #fff; font-family: 'Inter', sans-serif; }
+    body { max-width: 860px; margin: 0 auto; padding: 60px 40px 100px; }
+
+    .header { margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .brand-tag { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #008cff; margin-bottom: 14px; }
+    h1 { font-family: 'Anton', sans-serif; font-size: 52px; line-height: 1; text-transform: uppercase; color: #fff; margin-bottom: 10px; }
+    .meta { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 12px; }
+
+    .scene { margin-bottom: 52px; padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .scene:last-of-type { border-bottom: none; }
+
+    .scene-header { margin-bottom: 20px; }
+    .scene-time { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 4px; margin-bottom: 8px; }
+    .scene-title { font-family: 'Anton', sans-serif; font-size: 26px; text-transform: uppercase; color: #fff; }
+
+    .note { display: flex; gap: 14px; align-items: flex-start; padding: 14px 18px; border-radius: 8px; margin-bottom: 10px; }
+    .note:last-child { margin-bottom: 0; }
+    .note.good  { background: rgba(0,217,126,0.05);  border-left: 3px solid #00d97e; }
+    .note.bad   { background: rgba(255,45,85,0.06);  border-left: 3px solid #ff2d55; }
+    .note.maybe { background: rgba(255,214,0,0.05);  border-left: 3px solid #FFD600; }
+    .note.alt   { background: rgba(0,140,255,0.06);  border-left: 3px solid #008cff; }
+
+    .note-tag { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; white-space: nowrap; }
+    .good  .note-tag { background: rgba(0,217,126,0.12);  color: #00d97e; }
+    .bad   .note-tag { background: rgba(255,45,85,0.12);  color: #ff2d55; }
+    .maybe .note-tag { background: rgba(255,214,0,0.1);   color: #FFD600; }
+    .alt   .note-tag { background: rgba(0,140,255,0.12);  color: #008cff; }
+
+    .note-text { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.7); }
+    .note-text strong { color: #fff; }
+
+    /* "Try this" direction block */
+    .try { margin-top: 6px; padding: 12px 16px; background: rgba(0,140,255,0.05); border: 1px dashed rgba(0,140,255,0.2); border-radius: 6px; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .try strong { color: rgba(0,190,255,0.9); }
+
+    .top-note { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 48px; padding: 28px 32px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; }
+    .top-note strong { color: #fff; }
+
+    .missing { background: rgba(255,107,53,0.05); border: 1px solid rgba(255,107,53,0.18); border-radius: 12px; padding: 28px 32px; margin-top: 48px; }
+    .missing-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #FF6B35; margin-bottom: 20px; }
+    .missing-item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,107,53,0.1); }
+    .missing-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .missing-stat { font-family: 'Anton', sans-serif; font-size: 20px; color: #fff; margin-bottom: 6px; }
+    .missing-note { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    .priority { margin-top: 56px; }
+    .priority-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #008cff; margin-bottom: 24px; }
+    .p-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .p-item:last-child { border-bottom: none; }
+    .p-num { font-family: 'Anton', sans-serif; font-size: 40px; color: rgba(255,45,85,0.25); line-height: 1; width: 44px; flex-shrink: 0; }
+    .p-content h3 { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .p-content p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand-tag">SocialSculp — Creative Feedback</div>
+    <h1>Bustem Video Review</h1>
+    <div class="meta">Scene 7.2–8.1 &nbsp;·&nbsp; Frame 9 of 13 &nbsp;·&nbsp; March 6, 2026</div>
+  </div>
+
+  <div class="top-note">
+    Overall the direction is solid — the product demo is clear and the loss-to-recovery arc is structurally right. <strong>The main issue is that the UI mockup scenes feel too clean and product-demo-ish</strong> compared to where the brand actually lives visually. The storyboard was dark, aggressive, confrontational. These scenes feel like a Shopify app pitch. Beyond the visual tone, there are also three key stats from the approved copy that don't appear anywhere in this scene — those are the conversion drivers and they need to be in here.
+  </div>
+
+  <!-- Scene A -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">0:00 – 0:26</div>
+      <div class="scene-title">Dashboard — Copycat Cards Scroll</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">Using real brand names — Skims, Temu, Alibaba — is the right call. Viewers recognize them instantly and it makes the product feel real, not hypothetical. Don't lose this.</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">The "Potential Copycat" label in red and the Approve/Deny buttons make it feel like something is actively happening. It reads as a decision, not just a dashboard.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>The white card backgrounds are killing the brand energy.</strong> It looks like a Figma prototype, not a threat detection tool. The whole brand is dark and aggressive — this scene is the opposite.</div>
+      <div class="try"><strong>Try this:</strong> Dark card backgrounds — something like #0F0F0F or #111 with a faint border. When a card is flagged as "Potential Copycat," give it a red left-border glow (like a security alert firing). The rest of the card stays dark. That contrast between the neutral cards and the flagged ones will feel like the AI is catching something in real time.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>The cards just appear — there's no sense of the AI scanning and finding.</strong> It feels like someone manually scrolled to a list, not a system catching threats live.</div>
+      <div class="try"><strong>Try this:</strong> Each card slides in from the right, then after a 0.3s pause, the "Potential Copycat" label flickers on — like a scan completing. A brief red border pulse on the card when it's flagged. It adds maybe 2 seconds total but completely changes the read from "static list" to "live detection."</div>
+    </div>
+
+    <div class="note maybe">
+      <div class="note-tag">Consider</div>
+      <div class="note-text">A faint red ambient glow in the background that intensifies as more cards get flagged — subtle, but builds tension as the scroll continues. By the time you've seen 5–6 flagged cards, the background should feel slightly alarming.</div>
+    </div>
+  </div>
+
+  <!-- Scene B -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">0:26 – 6:16</div>
+      <div class="scene-title">Revenue Loss + Shopify Split Screen</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">The cause-and-effect structure is smart. Copycat on one side, revenue declining on the other — you don't need voiceover to connect the dots. The visual tells the story.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>The negative numbers just appear. They need to hit.</strong> Right now -$2,821 / -$7,318 / -$6,653 feel like a spreadsheet. The whole point of this sequence is to make the viewer feel the pain before the payoff.</div>
+      <div class="try"><strong>Try this:</strong> Fast counter animation — each number counts down from 0 to its negative value in about 0.4 seconds. On arrival, the number gets a brief red glow and a subtle screen-edge flash (like the screen reacts). Then it settles into place. The count-down makes it feel like money being drained in real time, not a static stat.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>The Shopify sidebar nav is eating too much real estate.</strong> It's background context — but right now it's competing with the stats for attention. The ~28% decline badge is nearly invisible at its current size.</div>
+      <div class="try"><strong>Try this:</strong> Crop the Shopify view to just the gross sales card — cut off the nav entirely. Slightly blur or darken everything except the number itself. The decline percentage should be 2x its current size and bright red, not a muted orange. It should look like a warning, not a label.</div>
+    </div>
+
+    <div class="note maybe">
+      <div class="note-tag">Consider</div>
+      <div class="note-text">Between the loss stats, a brief black frame with just the running total in large type — something like "— $16,792 lost so far" — before cutting to the next copycat. Each loss adding to a visible tally would make the sequence feel cumulative and escalating rather than a series of separate examples.</div>
+    </div>
+  </div>
+
+  <!-- Scene C -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">8:08</div>
+      <div class="scene-title">Recovery Stat — $10,622.98 Gross Sales</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">Isolating this as a single centered card is exactly right. After all that loss, this frame needs to breathe. The instinct is correct.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>The +28% is the emotional payoff of the whole sequence and it's a footnote.</strong> That number is the release — it should feel like a celebration, not a label. It's currently smaller than the gross sales figure it's supposed to amplify.</div>
+      <div class="try"><strong>Try this:</strong> Have the card build in sequence — first the gross sales number counts up from $0 (fast, ~0.5s), then the +28% slams in at 2–3x its current size with a green glow burst. Make the percentage the dominant element, not the dollar amount. Optionally: add a brief upward tick animation on the trend line right as the percentage appears.</div>
+    </div>
+
+    <div class="note alt">
+      <div class="note-tag">Alternative</div>
+      <div class="note-text">Consider a split-frame cut right before this scene: the previous loss number (-$6,653, still in red) fades out on the left half of the screen as the recovery card builds in on the right. A literal before/after in a single frame. Reinforces the contrast without needing narration.</div>
+    </div>
+  </div>
+
+  <!-- Scene D -->
+  <div class="scene">
+    <div class="scene-header">
+      <div class="scene-time">13:15</div>
+      <div class="scene-title">Founder CTA — "Get Ur Scan Below"</div>
+    </div>
+
+    <div class="note good">
+      <div class="note-tag">Good</div>
+      <div class="note-text">The neon Bustem sign is genuinely great production value. It makes the whole thing feel legit and ties directly to the brand identity. Keep it prominent.</div>
+    </div>
+
+    <div class="note bad">
+      <div class="note-tag">Fix</div>
+      <div class="note-text"><strong>"GET UR SCAN BELOW" looks like a default lower-third.</strong> It's the last thing the viewer sees and it has almost no visual weight. The copy is also weaker than what you have — "world's first FREE AI threat scan" is a far more compelling line.</div>
+      <div class="try"><strong>Try this:</strong> Replace it entirely. Before cutting to the founder, do a brief full-screen text moment: black background, then "WORLD'S FIRST FREE AI THREAT SCAN" stamped in Anton font, large, white — one word appearing at a time with a quick flash between each word (like a security clearance screen). Then cut to the founder. The CTA has already landed before he even opens his mouth.</div>
+    </div>
+
+    <div class="note alt">
+      <div class="note-tag">Alternative</div>
+      <div class="note-text">If you want to keep the lower-third format: use Anton font at 2x the current size, add a blue glow matching the neon sign behind it, and change the copy to "FREE AI THREAT SCAN — LINK BELOW." Short, high-contrast, brand-matched. The neon already gives you the ambient light — lean into it.</div>
+    </div>
+
+    <div class="note maybe">
+      <div class="note-tag">Consider</div>
+      <div class="note-text">The founder's shirt says "GET UR SCAN BELOW" which is fine, but if the on-screen text says the same thing it's redundant. Let the shirt handle the direct CTA instruction and let the text overlay carry the offer — "WORLD'S FIRST FREE AI THREAT SCAN." Two elements, two jobs.</div>
+    </div>
+  </div>
+
+  <!-- Missing copy -->
+  <div class="missing">
+    <div class="missing-label">Missing — Not in Any Frame</div>
+    <p style="font-size:13px; color:rgba(255,255,255,0.45); margin-bottom:24px; line-height:1.6;">These three lines from the approved copy don't appear anywhere in this scene. They're the conversion drivers — the video needs them.</p>
+    <div class="missing-item">
+      <div class="missing-stat">43 counterfeits eliminated per month</div>
+      <div class="missing-note">Should appear as a text overlay during the dashboard scroll — bold white on dark, bottom-left corner. It contextualizes the volume. Viewers need to grasp the scale before they see individual examples.</div>
+    </div>
+    <div class="missing-item">
+      <div class="missing-stat">$240,000 in lost revenue recovered</div>
+      <div class="missing-note">Needs an interstitial frame between the loss sequence and the recovery card. This is the macro stat that makes the $10K feel achievable for the viewer. Without it, the arc goes from individual losses straight to one win — the cumulative scale is missing.</div>
+    </div>
+    <div class="missing-item">
+      <div class="missing-stat">World's first FREE AI threat scan</div>
+      <div class="missing-note">This is the hook. It deserves a dedicated full-screen moment — not a lower-third afterthought. Ideally lands right before the founder shot so the offer is planted in the viewer's head before the founder reinforces it.</div>
+    </div>
+  </div>
+
+  <!-- Priority -->
+  <div class="priority">
+    <div class="priority-label">What to Fix First</div>
+    <div class="p-item">
+      <div class="p-num">1</div>
+      <div class="p-content">
+        <h3>Add the 3 missing copy elements</h3>
+        <p>43/month overlay on Scene A, $240K interstitial before the recovery card, and a dedicated free scan frame. These are the stats that make someone think "that's my problem." Without them the video is a demo reel, not a conversion ad.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">2</div>
+      <div class="p-content">
+        <h3>Dark card backgrounds + red flagging on Scene A</h3>
+        <p>Switch card backgrounds from white to dark, add red border glow on flagged items, slide-in animation with a 0.3s flag delay. This single change fixes the brand tone mismatch for the whole scene.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">3</div>
+      <div class="p-content">
+        <h3>Counter animation on the loss numbers</h3>
+        <p>Count down from 0 to negative in 0.4s with a red glow on arrival. Crop out the Shopify nav, make the decline % bigger and red. The pain has to be felt before the recovery lands.</p>
+      </div>
+    </div>
+    <div class="p-item">
+      <div class="p-num">4</div>
+      <div class="p-content">
+        <h3>Full-screen CTA frame + upgrade the text</h3>
+        <p>Stamped full-screen "WORLD'S FIRST FREE AI THREAT SCAN" in Anton before the founder shot. Use the strong copy line, not "get ur scan below." Last impression — treat it like one.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

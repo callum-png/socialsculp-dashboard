@@ -2,11 +2,11 @@ import './landing.css'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Script from 'next/script'
-import { CanvasBackground } from '@/app/components/CanvasBackground'
-import { ServiceModal } from '@/app/components/ServiceModal'
-import { LoadingScreen } from '@/app/components/LoadingScreen'
-import { HeroSparkles } from '@/app/components/HeroSparkles'
-import { HeroVisualBento } from '@/app/components/HeroVisualBento'
+import { CanvasBackground } from '@/app/(marketing)/components/CanvasBackground'
+import { ServiceModal } from '@/app/(marketing)/components/ServiceModal'
+import { LoadingScreen } from '@/app/(marketing)/components/LoadingScreen'
+import { HeroSparkles } from '@/app/(marketing)/components/HeroSparkles'
+import { HeroVisualBento } from '@/app/(marketing)/components/HeroVisualBento'
 
 export default async function Home() {
   try {

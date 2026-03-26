@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 675px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .thumbnail {
+      position: relative;
+      width: 1200px;
+      height: 675px;
+      overflow: hidden;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('file:///C:/Users/Cal/Pictures/Screenshots/Screenshot 2026-03-05 150000.png');
+      background-size: cover;
+      background-position: center top;
+    }
+
+    /* dark gradient from bottom so text pops */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.3) 40%,
+        rgba(0, 0, 0, 0) 65%
+      );
+    }
+
+    .text-wrap {
+      position: absolute;
+      bottom: 48px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .headline {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 96px;
+      line-height: 1.0;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 0 40px rgba(0,0,0,0.9);
+    }
+
+    .headline span {
+      color: #ff5c7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="thumbnail">
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="text-wrap">
+      <div class="headline">The First <span>E-Com</span> Fake Finder</div>
+    </div>
+  </div>
+</body>
+</html>
