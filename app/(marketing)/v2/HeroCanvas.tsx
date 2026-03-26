@@ -71,8 +71,8 @@ const VERT = /* glsl */`
       float isMine  = 1.0 - step(0.5, abs(aCreatorIdx - activeC));
       float cycleT  = mod(uTime, uCycleLen) / uCycleLen;
       float pT      = clamp((cycleT - aPhaseOffset * 0.35) / 0.55, 0.0, 1.0);
-      float smooth  = easeInOut(pT);
-      vec3 pos      = mix(aStartPos, aEndPos, smooth);
+      float blendT  = easeInOut(pT);
+      vec3 pos      = mix(aStartPos, aEndPos, blendT);
       pos.y        += sin(pT * 3.14159) * 0.4;
       vec4 mv2      = modelViewMatrix * vec4(pos, 1.0);
       gl_Position   = projectionMatrix * mv2;
@@ -151,7 +151,7 @@ function PropagationScene({ isMobile }: { isMobile: boolean }) {
 
     // Brand node at origin
     role[0]    = 0
-    size[0]    = isMobile ? 64 : 52
+    size[0]    = isMobile ? 5.5 : 4.5
     color[0]   = 1.0; color[1] = 0.96; color[2] = 0.93
 
     // Creator nodes
@@ -163,7 +163,7 @@ function PropagationScene({ isMobile }: { isMobile: boolean }) {
       pos[idx * 3 + 2] = z
       role[idx]  = 1
       cidx[idx]  = i
-      size[idx]  = isMobile ? 18 : 13
+      size[idx]  = isMobile ? 2.2 : 1.8
       const r = parseInt(hex.slice(1, 3), 16) / 255
       const g = parseInt(hex.slice(3, 5), 16) / 255
       const b = parseInt(hex.slice(5, 7), 16) / 255
@@ -183,7 +183,7 @@ function PropagationScene({ isMobile }: { isMobile: boolean }) {
         role[idx]  = 2
         cidx[idx]  = c
         phase[idx] = p / SP_PER_C
-        size[idx]  = isMobile ? 5 : 4
+        size[idx]  = isMobile ? 0.55 : 0.45
         // aStartPos = [0,0,0] — Float32Array already zeroed
         // aEndPos = creator position
         end_[idx * 3]     = cx
@@ -206,7 +206,7 @@ function PropagationScene({ isMobile }: { isMobile: boolean }) {
       for (let p = 0; p < BP_PER_C; p++) {
         role[idx]  = 3
         cidx[idx]  = c
-        size[idx]  = isMobile ? 4 : 3
+        size[idx]  = isMobile ? 0.45 : 0.35
         // aStartPos = creator pos (burst origin)
         start[idx * 3]     = cx
         start[idx * 3 + 1] = cy
