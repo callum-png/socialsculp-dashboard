@@ -20,6 +20,7 @@
   --border:     rgba(240,230,222,0.08);
   --font-disp:  'Cormorant Garamond', Georgia, serif;
   --font-sans:  'DM Sans', system-ui, sans-serif;
+  --pad:        48px;
 }
 
 html, body { background: #040810; }
@@ -268,7 +269,7 @@ html { scroll-behavior: smooth; }
   font-family: var(--font-disp);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(5rem, 11vw, 12.5rem);
+  font-size: clamp(3.2rem, 7vw, 8.5rem);
   line-height: 0.88;
   letter-spacing: -0.02em;
   color: var(--cream);
@@ -527,7 +528,7 @@ html { scroll-behavior: smooth; }
 .v2-section-title {
   font-family: var(--font-disp);
   font-style: italic;
-  font-size: clamp(2.8rem, 5vw, 5.5rem);
+  font-size: clamp(2.2rem, 4vw, 4.5rem);
   font-weight: 300;
   line-height: 0.9;
   letter-spacing: -0.01em;
@@ -920,7 +921,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-cta {
   background: var(--dark);
-  padding: 120px 48px;
+  padding: 140px 48px 120px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -929,11 +930,41 @@ html { scroll-behavior: smooth; }
   content: '';
   position: absolute;
   top: 50%; left: 50%;
-  width: 800px; height: 800px;
+  width: 900px; height: 900px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(0,140,255,0.12) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(0,140,255,0.10) 0%, transparent 65%);
   pointer-events: none;
 }
+
+/* ── Animated orbital rings for CTA section ── */
+.v2-cta-rings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+.v2-cta-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0,140,255,0.12);
+  animation: ctaRingPulse 4s ease-in-out infinite;
+}
+.v2-cta-ring-1 { width: 280px; height: 280px; animation-delay: 0s; border-color: rgba(0,140,255,0.18); }
+.v2-cta-ring-2 { width: 480px; height: 480px; animation-delay: 0.8s; border-color: rgba(0,140,255,0.12); }
+.v2-cta-ring-3 { width: 680px; height: 680px; animation-delay: 1.6s; border-color: rgba(0,140,255,0.07); }
+.v2-cta-ring-4 { width: 880px; height: 880px; animation-delay: 2.4s; border-color: rgba(0,140,255,0.04); }
+@keyframes ctaRingPulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.04); opacity: 0.6; }
+}
+
+/* Ensure CTA text is above rings */
+.v2-cta-eyebrow,
+.v2-cta-headline,
+.v2-cta-actions { position: relative; z-index: 1; }
 .v2-cta-eyebrow {
   font-family: var(--font-sans);
   font-size: 0.65rem;
@@ -948,7 +979,7 @@ html { scroll-behavior: smooth; }
 .v2-cta-headline {
   font-family: var(--font-disp);
   font-style: italic;
-  font-size: clamp(3.5rem, 8vw, 9rem);
+  font-size: clamp(2.8rem, 6vw, 7rem);
   font-weight: 300;
   color: var(--cream);
   line-height: 0.9;
@@ -1088,8 +1119,14 @@ html { scroll-behavior: smooth; }
 
 /* ─── Process section ──────────────────────────────────────────── */
 .v2-process {
-  padding: 120px var(--pad);
+  padding: 100px var(--pad);
   background: #050c18;
+  overflow: visible;
+}
+/* Centre the section header when there's no right-side link */
+.v2-process .v2-section-header {
+  justify-content: center;
+  text-align: center;
 }
 .v2-process-steps {
   display: grid;
@@ -1148,30 +1185,35 @@ html { scroll-behavior: smooth; }
   font-size: 0.88rem;
   color: rgba(255,255,255,0.5);
   line-height: 1.75;
-  max-width: 300px;
 }
 
 @media (max-width: 640px) {
+  :root { --pad: 24px; }
   .v2-nav { padding: 20px 24px; }
   .v2-nav-links { display: none; }
-  .v2-hero { padding: 100px 24px 60px; }
-  .v2-hero-headline { font-size: clamp(3rem, 13vw, 5rem); }
+  .v2-hero { padding: 100px 24px 60px; min-height: 100svh; }
+  .v2-hero-headline { font-size: clamp(2.6rem, 11vw, 4.5rem); }
   .v2-hero-sub-row { flex-direction: column; align-items: flex-start; gap: 20px; }
   .v2-hero-actions { flex-direction: column; width: 100%; }
   .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
-  .v2-stats-strip { grid-template-columns: 1fr; padding: 24px; }
-  .v2-stat { border-right: none; border-top: 1px solid var(--border); padding: 16px 0; }
-  .v2-stat:first-child { border-top: none; }
-  .v2-work, .v2-services, .v2-metrics, .v2-cta, .v2-about, .v2-process { padding: 60px 24px; }
-  .v2-case-row { grid-template-columns: 60px 1fr; }
+  .v2-stats-strip { grid-template-columns: 1fr 1fr; padding: 24px; gap: 1px; background: var(--border); }
+  .v2-stat { border-right: none; border-top: none; padding: 16px 12px; background: var(--dark); }
+  .v2-work, .v2-services, .v2-metrics, .v2-cta, .v2-about { padding: 60px 24px; }
+  .v2-process { padding: 60px 24px 80px; }
+  .v2-case-row { grid-template-columns: 48px 1fr; gap: 12px; }
   .v2-case-metric { display: none; }
-  .v2-metrics-row { grid-template-columns: 1fr; }
+  .v2-metrics-row { grid-template-columns: 1fr 1fr; }
+  .v2-metric-cell.featured { grid-column: 1 / -1; }
   .v2-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
   .v2-about { grid-template-columns: 1fr; }
-  .v2-cta-headline { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .v2-cta { padding: 80px 24px 100px; }
+  .v2-cta-headline { font-size: clamp(2.2rem, 9vw, 3.5rem); }
+  .v2-cta-ring-3, .v2-cta-ring-4 { display: none; }
   /* Process — stack vertically on mobile */
   .v2-process-steps { grid-template-columns: 1fr; gap: 0; }
   .v2-process-steps::before { display: none; }
-  .v2-process-step { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); padding: 36px 0; }
+  .v2-process-step { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); padding: 32px 0; }
   .v2-process-step:first-child { border-top: none; }
+  .v2-process-title { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+  .v2-section-title { font-size: clamp(1.8rem, 7vw, 3rem); }
 }

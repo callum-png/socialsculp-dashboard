@@ -70,30 +70,32 @@ function GalaxyScene({
     const size = new Float32Array(TOTAL)
     const brt  = new Float32Array(TOTAL)
 
-    // Brand node at origin
-    size[0] = 28; brt[0] = 1.0
+    // Brand node — large unmistakable centre point
+    const brandSz = isMobile ? 52 : 42
+    size[0] = brandSz; brt[0] = 1.0
 
-    // Creator nodes — initial positions (will be updated each frame)
+    // Creator nodes — clearly visible orbital bodies
+    const creatorSz = isMobile ? 24 : 17
     for (let i = 0; i < CC; i++) {
-      size[1 + i] = 14; brt[1 + i] = 0.90
+      size[1 + i] = creatorSz; brt[1 + i] = 0.92
     }
 
-    // Signal packets — start at origin
+    // Signal packets — bright sparks
     for (let i = 0; i < CC; i++) {
-      size[1 + CC + i] = 6; brt[1 + CC + i] = 1.0
+      size[1 + CC + i] = isMobile ? 9 : 7; brt[1 + CC + i] = 1.0
     }
 
-    // Audience — random shell at r=12–18
+    // Audience — compact shell for mobile, wider for desktop
     for (let i = 0; i < AC; i++) {
       const idx = 1 + CC + CC + i
       const theta = Math.random() * Math.PI * 2
       const phi   = Math.acos(2 * Math.random() - 1)
-      const r     = 11.5 + Math.random() * 6
+      const r     = isMobile ? 7 + Math.random() * 5 : 11.5 + Math.random() * 6
       pos[idx * 3]     = r * Math.sin(phi) * Math.cos(theta)
       pos[idx * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
       pos[idx * 3 + 2] = r * Math.cos(phi)
-      size[idx] = 1.5 + Math.random() * 2.5
-      brt[idx]  = 0.08 + Math.random() * 0.12
+      size[idx] = isMobile ? 2 + Math.random() * 3 : 1.5 + Math.random() * 2.5
+      brt[idx]  = 0.10 + Math.random() * 0.14
     }
 
     const g = new THREE.BufferGeometry()
@@ -114,7 +116,7 @@ function GalaxyScene({
 
     return { geo: g, lineGeo: lg, packetT, autoRotY, linePosArr }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [CC, AC])
+  }, [CC, AC, isMobile])
 
   // ── Frame loop — zero heap allocation ────────────────────────
   useFrame(({ clock, camera }) => {
@@ -128,20 +130,21 @@ function GalaxyScene({
     m.cy += (m.ty - m.cy) * lerp
     m.cz += (m.tz - m.cz) * lerp
 
-    // Camera orbit
+    // Camera orbit — pull closer on mobile so nodes appear larger
+    const camZ = isMobile ? 16 : 22
     autoRotY.current += 0.0008
     camera.position.x = Math.sin(autoRotY.current) * 0.8 + m.cx * 2.5
     camera.position.y = 2.5 + m.cy * 1.5
-    camera.position.z = 22 + m.cz
+    camera.position.z = camZ + m.cz
     camera.lookAt(0, 0.5, 0)
 
-    // Creator orbits
+    // Creator orbits — pronounced Y tilt so depth is obvious (more 3D)
     for (let i = 0; i < CC; i++) {
       const [r, speed, phase] = orbits[i]
       const angle = t * speed + phase
       const x = Math.cos(angle) * r
-      const y = Math.sin(angle * 0.55 + phase) * r * 0.28
-      const z = Math.sin(angle) * r * 0.82
+      const y = Math.sin(angle * 0.7 + phase) * r * 0.45   // more dramatic tilt
+      const z = Math.sin(angle) * r * 0.85
       const ci = (1 + i) * 3
       pos[ci]     = x
       pos[ci + 1] = y

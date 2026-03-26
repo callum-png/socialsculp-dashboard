@@ -413,12 +413,22 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           transform: 'translate(-50%, -50%)',
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(5.5rem, 13vw, 15rem)',
+          fontSize: 'clamp(2.8rem, 7vw, 8rem)',
           letterSpacing: '-0.03em',
           color: '#F0E6DE',
           whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
           perspective: '1400px',
-          textShadow: '0 0 160px rgba(0,140,255,0.6), 0 0 60px rgba(0,140,255,0.25), 0 2px 40px rgba(0,0,0,0.8)',
+          textShadow: [
+            '1px 1px 0 rgba(0,90,190,0.9)',
+            '2px 2px 0 rgba(0,70,155,0.8)',
+            '3px 3px 0 rgba(0,52,122,0.7)',
+            '4px 4px 0 rgba(0,38,94,0.6)',
+            '5px 5px 0 rgba(0,26,68,0.5)',
+            '6px 6px 0 rgba(0,16,46,0.4)',
+            '8px 8px 28px rgba(0,0,0,0.75)',
+            '0 0 80px rgba(0,140,255,0.55)',
+            '0 0 160px rgba(0,100,220,0.3)',
+          ].join(', '),
         }}>
           {BRAND_TEXT.slice(0, textCount).split('').map((ch, i) => (
             <span
@@ -455,7 +465,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(4rem, 20vw, 18rem)',
+          fontSize: 'clamp(2rem, 9vw, 7rem)',
           color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em',
           textShadow: '0 0 80px rgba(0,140,255,0.15)',
         }}>
