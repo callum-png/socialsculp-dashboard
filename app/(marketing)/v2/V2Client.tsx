@@ -39,10 +39,6 @@ const ScrollScene = dynamic(
   () => import('./ScrollScene').then(m => ({ default: m.ScrollScene })),
   { ssr: false }
 )
-const CtaCanvas = dynamic(
-  () => import('./CtaCanvas').then(m => ({ default: m.CtaCanvas })),
-  { ssr: false }
-)
 
 // ── Floating creator card (glassmorphism overlay on hero) ───────
 function FloatingCreatorCard({ handle, platform, views, delay, style }: {
@@ -93,7 +89,18 @@ function FloatingCreatorCard({ handle, platform, views, delay, style }: {
 
 type GeoType = 'seeding' | 'narrative' | 'media' | 'mgmt' | 'strategy' | 'analytics'
 
-interface CaseStudy { num: string; title: string; tags: string[]; metric: string; metricLbl: string }
+interface CaseStudyHighlight { label: string; value: string }
+interface CaseStudy {
+  num: string
+  title: string
+  logo?: string
+  tags: string[]
+  metric: string
+  metricLbl: string
+  campaignType?: string
+  description?: string
+  highlights?: CaseStudyHighlight[]
+}
 interface Service { num: string; name: string; desc: string; tags: string[]; geo: GeoType }
 
 function AnimatedCounter({ target, suffix = '', isFloat = false }: { target: number; suffix?: string; isFloat?: boolean }) {
@@ -120,9 +127,93 @@ function ServiceCard({ svc }: { svc: Service }) {
   )
 }
 
+function BrandLogo({ domain, title, size = 32 }: { domain?: string; title: string; size?: number }) {
+  const [err, setErr] = useState(false)
+  if (!domain || err) {
+    return (
+      <div style={{
+        width: size, height: size, borderRadius: 6,
+        background: 'linear-gradient(135deg, rgba(0,140,255,0.25), rgba(0,80,200,0.15))',
+        border: '1px solid rgba(0,140,255,0.3)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
+        fontSize: size * 0.38, color: 'rgba(0,140,255,0.9)',
+        flexShrink: 0,
+      }}>
+        {title[0].toUpperCase()}
+      </div>
+    )
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`https://logo.clearbit.com/${domain}`}
+      alt={title}
+      width={size}
+      height={size}
+      onError={() => setErr(true)}
+      style={{ width: size, height: size, borderRadius: 6, objectFit: 'contain', background: '#fff', padding: 3, flexShrink: 0 }}
+    />
+  )
+}
+
+function CaseStudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [onClose])
+
+  return (
+    <div className="v2-modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="v2-modal-panel" onClick={e => e.stopPropagation()}>
+        <button className="v2-modal-close" onClick={onClose} aria-label="Close">✕</button>
+
+        <div className="v2-modal-header">
+          <BrandLogo domain={c.logo} title={c.title} size={52} />
+          <div>
+            <div className="v2-modal-eyebrow">{c.campaignType || c.tags[0]}</div>
+            <h3 className="v2-modal-title">{c.title}</h3>
+          </div>
+        </div>
+
+        {c.description && (
+          <p className="v2-modal-desc">{c.description}</p>
+        )}
+
+        {c.highlights && c.highlights.length > 0 && (
+          <div className="v2-modal-stats">
+            {c.highlights.map((h, i) => (
+              <div className="v2-modal-stat" key={i}>
+                <div className="v2-modal-stat-val">{h.value}</div>
+                <div className="v2-modal-stat-lbl">{h.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="v2-modal-tags">
+          {c.tags.map(t => <span className="v2-case-tag" key={t}>{t}</span>)}
+        </div>
+
+        <a
+          href="https://calendar.app.google/4wcPnasps28aBHTJ9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="v2-modal-cta"
+        >
+          Start a Similar Campaign →
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: CaseStudy[]; services: Service[]; brands: string[] }) {
   const [introComplete, setIntroComplete] = useState(false)
   const [heroVisible, setHeroVisible] = useState(false)
+  const [selectedCase, setSelectedCase] = useState<CaseStudy | null>(null)
 
   useScrollAnimations()
 
@@ -216,8 +307,9 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             </a>
           </div>
           {caseStudies.map((c, i) => (
-            <div className="v2-case-row" key={i}>
+            <div className="v2-case-row" key={i} onClick={() => setSelectedCase(c)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setSelectedCase(c)}>
               <div className="v2-case-num">{c.num}</div>
+              <div className="v2-case-logo-col"><BrandLogo domain={c.logo} title={c.title} size={36} /></div>
               <div className="v2-case-body">
                 <div className="v2-case-title">{c.title}</div>
                 <div className="v2-case-tags">{c.tags.map(t => <span className="v2-case-tag" key={t}>{t}</span>)}</div>
@@ -255,6 +347,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             </div>
             <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={50} suffix="+" /></div><div className="v2-metric-lbl">Active Creators</div></div>
             <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={20} suffix="+" /></div><div className="v2-metric-lbl">Brands Served</div></div>
+            <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={1.9} suffix="B+" isFloat /></div><div className="v2-metric-lbl">Total Views</div></div>
           </div>
         </div>
 
@@ -310,11 +403,6 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── CTA ── */}
         <section className="v2-cta" id="contact">
-          {/* Viral particle burst background */}
-          <div className="v2-cta-canvas-wrap" aria-hidden="true">
-            {introComplete && <CtaCanvas />}
-          </div>
-
           <div className="v2-cta-eyebrow">Ready to grow?</div>
           <h2 className="v2-cta-headline">
             <span className="v2-cta-hl-small">Let&apos;s Build</span>
@@ -331,12 +419,15 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
         <footer className="v2-footer">
           <a href="/v2" className="v2-footer-logo">Social<em>Sculp</em></a>
           <ul className="v2-footer-links"><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li><li><a href="/sign-in">Sign In</a></li><li><a href="/sign-up">Get Started</a></li></ul>
-          <div className="v2-footer-legal">© 2024 S23 Operations Ltd.</div>
+          <div className="v2-footer-legal">© 2025 SocialSculp LLC.</div>
         </footer>
       </div>
 
       {/* Single shared WebGL canvas for all ScrollScene views — always present */}
       <SharedCanvas />
+
+      {/* Case study detail modal */}
+      {selectedCase && <CaseStudyModal c={selectedCase} onClose={() => setSelectedCase(null)} />}
     </>
   )
 }
