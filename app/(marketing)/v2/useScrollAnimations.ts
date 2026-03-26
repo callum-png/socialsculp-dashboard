@@ -31,6 +31,10 @@ export function useScrollAnimations() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    // Always start at the top — prevents browser scroll restoration from mid-page
+    history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+
     // ── Lenis smooth scroll ─────────────────────────────────
     const lenis = new Lenis({
       duration: 1.4,
