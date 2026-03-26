@@ -165,7 +165,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             <div className="v2-hero-creator-cards" aria-hidden="true">
               <FloatingCreatorCard handle="@ashtonhall" platform="tiktok" views="12.4M" delay={0} style={{ top: '28%', right: '4%' }} />
               <FloatingCreatorCard handle="@imnotkenneth" platform="tiktok" views="6.1M" delay={1.8} style={{ top: '55%', right: '7%' }} />
-              <FloatingCreatorCard handle="@arospeaks" platform="instagram" views="3.8M" delay={3.2} style={{ top: '72%', right: '2%' }} />
+              <FloatingCreatorCard handle="@arospeaks" platform="instagram" views="3.8M" delay={3.2} style={{ top: '60%', right: '3%' }} />
             </div>
           )}
 

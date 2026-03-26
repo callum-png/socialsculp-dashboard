@@ -2,11 +2,11 @@ import './landing-v2.css'
 import { V2PageWrapper } from './V2Client'
 
 const caseStudies = [
-  { num: '01', title: 'Quizard', tags: ['Creator Seeding', 'TikTok', 'Education'], metric: '62M+', metricLbl: 'Views' },
-  { num: '02', title: 'StealthGPT', tags: ['Organic Growth', 'AI Tools', 'Short-Form'], metric: '28M', metricLbl: 'Views' },
-  { num: '03', title: 'Ryne AI', tags: ['Viral Launch', 'TikTok', 'AI'], metric: '11M', metricLbl: 'Views' },
-  { num: '04', title: 'Haven', tags: ['Lifestyle', 'Instagram', 'Creator Strategy'], metric: '8.4M', metricLbl: 'Views' },
-  { num: '05', title: 'Snapchat', tags: ['Brand Partnership', 'Multi-Platform', 'UGC'], metric: '50+', metricLbl: 'Creators Seeded' },
+  { num: '01', title: 'Quizard', tags: ['Creator Seeding', 'TikTok', 'Education'], metric: '5M', metricLbl: 'Views' },
+  { num: '02', title: 'StealthGPT', tags: ['Organic Growth', 'AI Tools', 'Short-Form'], metric: '10M', metricLbl: 'Views' },
+  { num: '03', title: 'Ryne AI', tags: ['Viral Launch', 'TikTok', 'AI'], metric: '10M', metricLbl: 'Views' },
+  { num: '04', title: 'Haven', tags: ['Lifestyle', 'Instagram', 'Creator Strategy'], metric: '7M', metricLbl: 'Views' },
+  { num: '05', title: 'Snapchat', tags: ['Brand Partnership', 'Multi-Platform', 'UGC'], metric: '15+', metricLbl: 'Creators Seeded' },
 ]
 
 const services = [
