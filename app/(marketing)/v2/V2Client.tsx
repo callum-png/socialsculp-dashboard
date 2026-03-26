@@ -403,13 +403,16 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── CTA ── */}
         <section className="v2-cta" id="contact">
-          <div className="v2-cta-eyebrow">Ready to grow?</div>
+          <span className="v2-cta-ring" />
+          <span className="v2-cta-ring" />
+          <span className="v2-cta-ring" />
+          <div className="v2-cta-eyebrow v2-reveal">Ready to grow?</div>
           <h2 className="v2-cta-headline">
-            <span className="v2-cta-hl-small">Let&apos;s Build</span>
-            <span className="v2-cta-hl-big">Something</span>
-            <span className="v2-cta-hl-outline">Unforgettable.</span>
+            <span className="v2-cta-hl-small v2-reveal d1">Let&apos;s Build</span>
+            <span className="v2-cta-hl-big v2-reveal d2">Something</span>
+            <span className="v2-cta-hl-outline v2-reveal d3">Unforgettable.</span>
           </h2>
-          <div className="v2-cta-actions">
+          <div className="v2-cta-actions v2-reveal d3">
             <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="v2-cta-btn primary">Book a Strategy Call →</a>
             <a href="/sign-up" className="v2-cta-btn outline">Create Account</a>
           </div>
