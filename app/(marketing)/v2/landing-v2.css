@@ -952,6 +952,21 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 
+/* Pulse rings */
+.v2-cta-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: clamp(280px, 75vw, 480px);
+  height: clamp(280px, 75vw, 480px);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 140, 255, 0.22);
+  animation: ctaRingExpand 4.2s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.v2-cta-ring:nth-child(2) { animation-delay: 1.4s; }
+.v2-cta-ring:nth-child(3) { animation-delay: 2.8s; }
+
 /* CTA content layers above canvas */
 .v2-cta-eyebrow,
 .v2-cta-headline,
@@ -991,13 +1006,19 @@ html { scroll-behavior: smooth; }
   font-style: italic;
   font-size: clamp(4rem, 10vw, 11rem);
   font-weight: 300;
-  color: var(--cream);
   letter-spacing: -0.03em;
   line-height: 0.88;
-  text-shadow:
-    0 0 120px rgba(0,140,255,0.5),
-    0 0 60px rgba(0,140,255,0.25),
-    0 0 20px rgba(0,140,255,0.1);
+  background: linear-gradient(
+    90deg,
+    #F0E6DE 35%,
+    rgba(120, 200, 255, 0.95) 50%,
+    #F0E6DE 65%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerSweep 5s linear infinite;
 }
 .v2-cta-hl-outline {
   font-family: var(--font-disp);
@@ -1231,6 +1252,16 @@ html { scroll-behavior: smooth; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes ctaRingExpand {
+  0%   { transform: translate(-50%, -50%) scale(0.25); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(2.4);  opacity: 0; }
+}
+
+@keyframes shimmerSweep {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 .v2-reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -1361,8 +1392,10 @@ html { scroll-behavior: smooth; }
   .v2-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
   .v2-about { grid-template-columns: 1fr; }
   .v2-cta { padding: 80px 24px 100px; }
-  .v2-cta-hl-big    { font-size: clamp(3rem, 13vw, 5rem); }
-  .v2-cta-hl-outline { font-size: clamp(1.5rem, 7vw, 2.5rem); }
+  .v2-cta-hl-big    { font-size: clamp(3.4rem, 13vw, 5rem); }
+  .v2-cta-hl-outline { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+  .v2-cta-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+  .v2-cta-btn { width: 100%; justify-content: center; }
   /* Process — stack vertically on mobile */
   .v2-process-steps { grid-template-columns: 1fr; gap: 0; }
   .v2-process-steps::before { display: none; }
