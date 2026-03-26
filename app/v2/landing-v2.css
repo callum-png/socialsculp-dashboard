@@ -718,11 +718,10 @@ html { scroll-behavior: smooth; }
   height: 72px;
   opacity: 0.85;
   transition: opacity 0.3s;
-  pointer-events: none;
+  /* pointer-events enabled so View receives hover events */
 }
 .v2-svc-card:hover .v2-svc-3d {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .v2-svc-tag {

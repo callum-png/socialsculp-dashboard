@@ -1,8 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { View } from '@react-three/drei'
-import { PerspectiveCamera } from '@react-three/drei'
+import { View, PerspectiveCamera } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -50,11 +49,9 @@ const SVC_FRAG = /* glsl */`
     vec3 iriCol = iridescence(fresnel, uTime);
     vec3 col = mix(uBaseColor, iriCol, fresnel * 0.7);
 
-    // Rim light
     float rim = pow(1.0 - max(dot(vNormal, vViewDir), 0.0), 3.5);
     col += vec3(0.0, 0.55, 1.0) * rim * 0.6;
 
-    // Simple diffuse
     vec3 light = normalize(vec3(1.5, 2.0, 3.0));
     float diff = max(dot(vNormal, light), 0.0) * 0.5;
     col = col * (0.4 + diff);
@@ -67,6 +64,17 @@ function ServiceMesh({ type, hovered }: { type: GeoType; hovered: boolean }) {
   const mesh = useRef<THREE.Mesh>(null)
   const mat = useRef<THREE.ShaderMaterial>(null)
   const currentSpeed = useRef(0.004)
+
+  const geo = useRef(GEOMETRIES[type]())
+
+  const baseColors: Record<GeoType, [number, number, number]> = {
+    seeding:   [0.0, 0.28, 0.6],
+    narrative: [0.04, 0.06, 0.2],
+    media:     [0.0, 0.18, 0.5],
+    mgmt:      [0.02, 0.1, 0.3],
+    strategy:  [0.0, 0.22, 0.55],
+    analytics: [0.03, 0.14, 0.4],
+  }
 
   useFrame(({ clock }) => {
     if (!mesh.current || !mat.current) return
@@ -83,19 +91,10 @@ function ServiceMesh({ type, hovered }: { type: GeoType; hovered: boolean }) {
     }
   })
 
-  const geo = GEOMETRIES[type]()
-  const baseColors: Record<GeoType, [number, number, number]> = {
-    seeding:   [0.0, 0.28, 0.6],
-    narrative: [0.04, 0.06, 0.2],
-    media:     [0.0, 0.18, 0.5],
-    mgmt:      [0.02, 0.1, 0.3],
-    strategy:  [0.0, 0.22, 0.55],
-    analytics: [0.03, 0.14, 0.4],
-  }
   const [r, g, b] = baseColors[type]
 
   return (
-    <mesh ref={mesh} geometry={geo}>
+    <mesh ref={mesh} geometry={geo.current}>
       <shaderMaterial
         ref={mat}
         vertexShader={SVC_VERT}
@@ -109,25 +108,21 @@ function ServiceMesh({ type, hovered }: { type: GeoType; hovered: boolean }) {
   )
 }
 
-// Each ScrollScene uses View (no Canvas) — all share the root SharedCanvas
+// View IS the element — no wrapper needed, it fills the .v2-svc-3d container
 export function ScrollScene({ type }: { type: GeoType }) {
   const [hovered, setHovered] = useState(false)
-  const trackRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div
-      ref={trackRef}
-      style={{ width: '100%', height: '100%' }}
+    <View
+      style={{ width: '100%', height: '100%', display: 'block' }}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
-      <View track={trackRef as React.MutableRefObject<HTMLElement>}>
-        <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
-        <ambientLight intensity={0.3} />
-        <pointLight position={[5, 5, 5]} intensity={1.5} color="#66aaff" />
-        <pointLight position={[-4, -3, 2]} intensity={0.8} color="#0055ff" />
-        <ServiceMesh type={type} hovered={hovered} />
-      </View>
-    </div>
+      <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
+      <ambientLight intensity={0.3} />
+      <pointLight position={[5, 5, 5]} intensity={1.5} color="#66aaff" />
+      <pointLight position={[-4, -3, 2]} intensity={0.8} color="#0055ff" />
+      <ServiceMesh type={type} hovered={hovered} />
+    </View>
   )
 }

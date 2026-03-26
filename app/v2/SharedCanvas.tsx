@@ -14,9 +14,11 @@ export function SharedCanvas() {
         width: '100vw',
         height: '100vh',
         pointerEvents: 'none',
-        zIndex: 1,
+        zIndex: 5,
       }}
       gl={{ antialias: true, alpha: true }}
+      eventSource={typeof document !== 'undefined' ? document.body : undefined}
+      eventPrefix="client"
     >
       <View.Port />
       <Preload all />
