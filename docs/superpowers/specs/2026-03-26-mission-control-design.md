@@ -32,23 +32,39 @@ Browser (SWR, 30s poll)
 - IP: `167.172.237.104`
 - User: `root`
 - OpenClaw binary: `/usr/bin/openclaw` (v2026.3.24)
-- Gateway: `localhost:18789` (systemd service)
-- Logs: `/tmp/openclaw/openclaw-YYYY-MM-DD.log`
+- Gateway: `localhost:18789` (systemd user service, lingering enabled)
+- Service file: `~/.config/systemd/user/openclaw-gateway.service`
+- Logs: `/tmp/openclaw/openclaw-YYYY-MM-DD.log` (UTC-dated)
 - Cron config: `/root/.openclaw/cron/jobs.json`
 - Cron run logs: `/root/.openclaw/cron/runs/*.jsonl`
 - Workspace: `/root/.openclaw/workspace/`
 
+### Vercel Configuration
+
+**`next.config.ts` must include:**
+```ts
+serverExternalPackages: ['ssh2']
+```
+This prevents webpack/Turbopack from bundling `ssh2`'s native bindings, which fail in Vercel's build.
+
+**All `/api/openclaw/*` routes must export:**
+```ts
+export const maxDuration = 60;
+```
+Default Vercel timeout (10s) is insufficient for SSH handshake + command execution. Pro plan supports up to 60s.
+
 ## Sidebar Integration
 
-New nav item in the OPERATIONS group of `ROLE_NAV.ADMIN`:
+New nav item in the OPERATIONS group in `Sidebar.tsx`'s `ROLE_NAV.ADMIN`:
 
 ```
 OPERATIONS group:
   CRM → Sales → Decks → Portals → Tasks → **Mission Control** → Users → Settings
 ```
 
-- Icon: `Monitor` from lucide-react
+- Icon: `Monitor` from lucide-react — must be imported and added to `ICON_MAP` in `Sidebar.tsx`
 - Route: `/admin/mission-control`
+- Note: `ADMIN_NAV_ITEMS` in `lib/constants.ts` is a stale parallel definition — update it too or remove it
 
 ## Page Layout
 
@@ -59,7 +75,7 @@ Single scrollable page, no sub-routes. Seven modules arranged as:
 3. **Task Feed + Workflows** (2-column grid)
 4. **Live Logs + Revenue/ROI** (2-column grid)
 
-Responsive: collapses to single column on mobile.
+Responsive: collapses to single column on mobile. Uses `PageHeader` component with eyebrow "OPERATIONS".
 
 ## Module Specifications
 
@@ -76,8 +92,10 @@ Responsive: collapses to single column on mobile.
 - Connected nodes: from `openclaw nodes status`
 
 **Controls (right side):**
-- Restart button → `systemctl --user restart openclaw-gateway`
-- Kill button → `systemctl --user stop openclaw-gateway`
+- Restart button → `XDG_RUNTIME_DIR=/run/user/0 systemctl --user restart openclaw-gateway`
+- Kill button → `XDG_RUNTIME_DIR=/run/user/0 systemctl --user stop openclaw-gateway`
+
+Note: OpenClaw runs as a systemd user service for root with lingering enabled. SSH non-interactive sessions need `XDG_RUNTIME_DIR` explicitly set to access the user bus.
 
 **Polling:** Every 30s via SWR.
 
@@ -85,7 +103,7 @@ Responsive: collapses to single column on mobile.
 
 ### 2. Token & Cost Tracker (Stats Row)
 
-**Data source:** Parse `/tmp/openclaw/openclaw-YYYY-MM-DD.log` for token usage lines, plus `/root/.openclaw/cron/runs/*.jsonl` for per-task duration.
+**Data source:** Parse `/tmp/openclaw/openclaw-*.log` for token usage lines, plus `/root/.openclaw/cron/runs/*.jsonl` for per-task duration.
 
 **Stats cards (4 columns):**
 - **Today's Tokens** — total input+output tokens, estimated cost
@@ -130,7 +148,7 @@ Responsive: collapses to single column on mobile.
 
 ### 5. Live Log Viewer
 
-**Data source:** SSH exec `tail -200 /tmp/openclaw/openclaw-YYYY-MM-DD.log`
+**Data source:** SSH exec `ls -t /tmp/openclaw/*.log | head -1` to find the latest log, then `tail -N` on it. Do NOT construct the filename from today's date — let the filesystem determine the most recent log to avoid timezone mismatches.
 
 **Displays:** Terminal-style monospace log output with:
 - Timestamp highlighting
@@ -149,8 +167,8 @@ Responsive: collapses to single column on mobile.
 
 Integrated into the Status Hero Bar and Workflow cards rather than a separate module:
 
-- **Restart Gateway** → `systemctl --user restart openclaw-gateway`
-- **Stop Gateway** → `systemctl --user stop openclaw-gateway`
+- **Restart Gateway** → `XDG_RUNTIME_DIR=/run/user/0 systemctl --user restart openclaw-gateway`
+- **Stop Gateway** → `XDG_RUNTIME_DIR=/run/user/0 systemctl --user stop openclaw-gateway`
 - **Trigger Cron Job** → `openclaw cron trigger <id>`
 - **Kill Running Task** → future: requires identifying running process
 
@@ -164,6 +182,8 @@ All control actions require a confirmation dialog before execution.
 - `/root/.openclaw/workspace/tracker.json` → pipeline/deal tracking
 - Cost data from token tracking (module 2)
 
+**Missing file handling:** Use `test -f <path> && cat <path> || echo '{}'` for each file. Missing workspace files return zero values, not errors. This is distinct from SSH failures, which surface as VPS Unreachable.
+
 **Displays:**
 - Outreach emails sent (MTD)
 - Leads generated
@@ -175,16 +195,31 @@ All control actions require a confirmation dialog before execution.
 
 ## API Routes
 
-All under `/api/openclaw/`:
+All under `/api/openclaw/`. Every route exports `maxDuration = 60`.
+
+### Split status into independent endpoints for resilience:
 
 | Route | Method | SSH Command | Response |
 |-------|--------|-------------|----------|
-| `/api/openclaw/status` | GET | `openclaw health` + `openclaw cron list --json` + log parse | Bundled status JSON |
-| `/api/openclaw/logs` | GET | `tail -N /tmp/openclaw/openclaw-YYYY-MM-DD.log` | Log lines array |
+| `/api/openclaw/health` | GET | `openclaw health` | Health + agent status |
+| `/api/openclaw/cron` | GET | `openclaw cron list --json` | Cron jobs + run history |
+| `/api/openclaw/logs` | GET | `ls -t /tmp/openclaw/*.log \| head -1 \| xargs tail -N` | Log lines array |
 | `/api/openclaw/cron/trigger` | POST | `openclaw cron trigger <id>` | Success/error |
-| `/api/openclaw/control/restart` | POST | `systemctl --user restart openclaw-gateway` | Success/error |
-| `/api/openclaw/control/stop` | POST | `systemctl --user stop openclaw-gateway` | Success/error |
+| `/api/openclaw/control/restart` | POST | `XDG_RUNTIME_DIR=/run/user/0 systemctl --user restart openclaw-gateway` | Success/error |
+| `/api/openclaw/control/stop` | POST | `XDG_RUNTIME_DIR=/run/user/0 systemctl --user stop openclaw-gateway` | Success/error |
 | `/api/openclaw/revenue` | GET | Parse workspace JSON files | Revenue metrics |
+
+**Response envelope for data endpoints:**
+```ts
+{
+  data: T | null,
+  error: string | null,
+  timestamp: number,  // when this data was fetched
+  stale: boolean      // true if returning cached data after a failure
+}
+```
+
+Client polls `/health` and `/cron` independently via SWR. If one fails, the other still updates. This prevents a single slow command from stalling the entire dashboard.
 
 ### SSH Utility
 
@@ -192,9 +227,10 @@ Shared `lib/openclaw-ssh.ts` module:
 - Manages SSH connection using `ssh2` npm package
 - Decodes `OPENCLAW_SSH_KEY` env var (base64 → private key)
 - Provides `execCommand(cmd: string): Promise<string>` helper
-- Connection timeout: 10s
-- Command timeout: 15s
+- Connection timeout: 5s
+- Command timeout: 30s
 - No connection pooling (Vercel serverless = ephemeral)
+- Commands are predefined constants — never interpolates user input
 
 ### Auth
 
@@ -221,12 +257,12 @@ app/(dashboard)/admin/mission-control/
 
 components/mission-control/
   StatusHero.tsx              — Hero bar with status indicator + controls
-  StatsRow.tsx                — 4-column stat cards
+  StatsRow.tsx                — 4-column stat cards (reuses StatCard pattern from shared/)
   TaskFeed.tsx                — Recent task execution list
   WorkflowCards.tsx           — Cron job cards with triggers
   LogViewer.tsx               — Terminal-style log display
   RevenuePanel.tsx            — Revenue & ROI metrics
-  ConfirmDialog.tsx           — Reusable confirmation for destructive actions
+  ConfirmDialog.tsx           — Wraps components/ui/dialog.tsx (shadcn Dialog primitive)
 
 lib/
   openclaw-ssh.ts             — SSH connection utility
@@ -234,17 +270,20 @@ lib/
 
 ## Error Handling
 
-- **SSH connection failure:** Show "VPS Unreachable" state with last-known data timestamp. Retry on next poll.
-- **Command timeout:** Show stale data with warning badge. 15s timeout per command.
+- **SSH connection failure:** Show "VPS Unreachable" state with last-known data timestamp. Retry on next poll. Each endpoint fails independently.
+- **Command timeout:** Show stale data with warning badge. 30s timeout per command.
 - **OpenClaw not running:** Detect from `openclaw health` failure. Show OFFLINE state with restart button prominently displayed.
 - **Cron errors:** Surface `lastError` from cron list JSON. Show consecutive error count as badge.
+- **Missing workspace files:** Return zero values (not errors). Distinct from SSH failures.
+- **Partial failures:** Each API endpoint returns its own `{ data, error, timestamp }` envelope. Client renders available data and shows per-module error states.
 
 ## Security
 
 - SSH private key stored as Vercel env var (encrypted at rest)
 - All API routes gated behind Clerk auth + ADMIN role
 - Control actions (restart, stop, trigger) require confirmation dialog
-- No direct shell execution — all commands are predefined strings, no user input interpolation
+- No direct shell execution — all commands are predefined string constants, no user input interpolation
+- `ssh2` excluded from webpack bundle via `serverExternalPackages`
 
 ## Phasing
 
@@ -253,20 +292,19 @@ lib/
 - Stats row (tasks today, cron count)
 - Workflow cards with trigger buttons
 - Task feed (cron run history)
-- SSH utility + API routes
+- SSH utility + API routes (`/health`, `/cron`)
 
 **Phase 2:**
-- Live log viewer
+- Live log viewer (`/logs` endpoint)
 - Token/cost tracking (log parsing)
-- Remote controls (restart/stop)
+- Remote controls (restart/stop with confirmation)
 
 **Phase 3:**
-- Revenue & ROI panel (workspace file parsing)
+- Revenue & ROI panel (workspace file parsing, `/revenue` endpoint)
 - Historical trend charts (requires DB persistence)
 - Budget alerts
 
 ## Dependencies
 
-- `ssh2` — SSH client for Node.js (new dependency)
-- `swr` — already in use for client-side data fetching patterns
-- No other new dependencies needed
+- `ssh2` + `@types/ssh2` — SSH client for Node.js (new dependencies)
+- `swr` — client-side data fetching (new dependency — not currently in package.json)
