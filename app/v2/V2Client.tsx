@@ -6,22 +6,7 @@ import { useScrollAnimations } from './useScrollAnimations'
 
 // Shared canvas that all ScrollScene Views render into — prevents context limit
 const SharedCanvas = dynamic(
-  () => import('@react-three/fiber').then(m => {
-    const { Canvas } = m
-    const { Preload, View } = require('@react-three/drei')
-    function SC() {
-      return (
-        <Canvas
-          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 1 }}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <View.Port />
-          <Preload all />
-        </Canvas>
-      )
-    }
-    return { default: SC }
-  }),
+  () => import('./SharedCanvas').then(m => ({ default: m.SharedCanvas })),
   { ssr: false }
 )
 
