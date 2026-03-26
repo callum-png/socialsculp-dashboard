@@ -19,7 +19,7 @@ const IntroScene = dynamic(
     loading: () => (
       <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#040810' }}>
         <div style={{ position: 'absolute', bottom: 'clamp(32px,6vh,64px)', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap' }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(4rem,20vw,18rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
+          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(2rem, 9vw, 7rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16 }}>
             <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(0,140,255,0.75)' }}>CREATOR NETWORK — INITIALISING</div>
@@ -168,8 +168,8 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           {introComplete && (
             <div className="v2-hero-creator-cards" aria-hidden="true">
               <FloatingCreatorCard handle="@ashtonhall" platform="tiktok" views="12.4M" delay={0} style={{ top: '28%', right: '4%' }} />
-              <FloatingCreatorCard handle="@imnotkenneth" platform="tiktok" views="6.1M" delay={1.8} style={{ top: '55%', right: '7%' }} />
-              <FloatingCreatorCard handle="@arospeaks" platform="instagram" views="3.8M" delay={3.2} style={{ top: '60%', right: '3%' }} />
+              <FloatingCreatorCard handle="@imnotkenneth" platform="tiktok" views="6.1M" delay={1.8} style={{ top: '50%', right: '8%' }} />
+              <FloatingCreatorCard handle="@arospeaks" platform="instagram" views="3.8M" delay={3.2} style={{ top: '70%', right: '3%' }} />
             </div>
           )}
 
@@ -177,7 +177,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
           <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
           <div className="v2-hero-sub-row">
-            <p className="v2-hero-desc">A data-driven creator seeding agency. 1.9B+ views across TikTok, Instagram & Snapchat.</p>
+            <p className="v2-hero-desc">A data-driven creator seeding agency. 1.9B+ views across TikTok, Instagram, YouTube & Snapchat.</p>
             <div className="v2-hero-actions">
               <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="v2-btn-primary">Book a Call</a>
               <a href="#work" className="v2-btn-ghost">View Work
@@ -193,7 +193,6 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           <div className="v2-stat"><div className="v2-stat-num"><AnimatedCounter target={50} suffix="+" /></div><div className="v2-stat-label">Active Creators</div></div>
           <div className="v2-stat"><div className="v2-stat-num"><AnimatedCounter target={20} suffix="+" /></div><div className="v2-stat-label">Brands Served</div></div>
           <div className="v2-stat"><div className="v2-stat-num">$<AnimatedCounter target={2} /></div><div className="v2-stat-label">Blended CPM</div></div>
-          <div className="v2-stat"><div className="v2-stat-num"><AnimatedCounter target={98} suffix="%" /></div><div className="v2-stat-label">Client Retention</div></div>
         </div>
 
         {/* ── Marquee ── */}
@@ -252,11 +251,10 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             <div className="v2-metric-cell featured">
               <div className="v2-metric-val">$<AnimatedCounter target={2} /></div>
               <div className="v2-metric-lbl">Blended CPM</div>
-              <div className="v2-metric-sub">Consistently below market average across TikTok, Instagram & Snapchat.</div>
+              <div className="v2-metric-sub">Consistently below market average across TikTok, Instagram, YouTube & Snapchat.</div>
             </div>
             <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={50} suffix="+" /></div><div className="v2-metric-lbl">Active Creators</div></div>
             <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={20} suffix="+" /></div><div className="v2-metric-lbl">Brands Served</div></div>
-            <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={98} suffix="%" /></div><div className="v2-metric-lbl">Client Retention</div></div>
           </div>
         </div>
 

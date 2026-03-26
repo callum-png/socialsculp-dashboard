@@ -222,28 +222,35 @@ function BrandLights() {
 
 // ── R3F: 3D extruded SOCIALSCULP title card ────────────────────
 function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<boolean> }) {
-  const groupRef  = useRef<THREE.Group>(null)
-  const matRef    = useRef<THREE.MeshStandardMaterial>(null)
-  const scaleRef  = useRef(0)       // 0 → 1 reveal
-  const rotYRef   = useRef(-0.28)   // -15deg → 0 reveal
+  const groupRef      = useRef<THREE.Group>(null)
+  const matRef        = useRef<THREE.MeshStandardMaterial>(null)
+  const scaleRef      = useRef(0)
+  const rotYRef       = useRef(-0.6)
+  const revealDoneRef = useRef(false)
 
   useFrame(({ clock }) => {
     if (!groupRef.current || !matRef.current) return
     if (!showTextRef.current) return
     const t = clock.getElapsedTime()
 
-    // Reveal: lerp scale and rotation into place
-    scaleRef.current  += (1    - scaleRef.current)  * 0.06
-    rotYRef.current   += (0    - rotYRef.current)   * 0.06
-
+    // Scale in
+    scaleRef.current += (1 - scaleRef.current) * 0.055
     groupRef.current.scale.setScalar(scaleRef.current)
+
+    // Dramatic entrance rotation → slow continuous idle spin
+    if (!revealDoneRef.current) {
+      rotYRef.current += (0 - rotYRef.current) * 0.055
+      if (Math.abs(rotYRef.current) < 0.005) revealDoneRef.current = true
+    } else {
+      rotYRef.current += 0.004
+    }
     groupRef.current.rotation.y = rotYRef.current
 
-    // Idle float
-    groupRef.current.position.y = 0.5 + Math.sin(t * 0.7) * 0.06
+    // Vertical float
+    groupRef.current.position.y = 0.3 + Math.sin(t * 0.55) * 0.15
 
-    // Emissive pulse
-    matRef.current.emissiveIntensity = 0.28 + Math.sin(t * 1.4) * 0.14
+    // Strong emissive shimmer
+    matRef.current.emissiveIntensity = 0.4 + Math.sin(t * 1.8) * 0.3
   })
 
   return (
@@ -251,22 +258,22 @@ function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<bool
       <Center>
         <Text3D
           font="/fonts/helvetiker_bold.typeface.json"
-          size={0.9}
-          height={0.28}
+          size={1.4}
+          height={0.42}
           bevelEnabled
-          bevelSize={0.025}
-          bevelThickness={0.02}
-          bevelSegments={6}
-          curveSegments={14}
+          bevelSize={0.03}
+          bevelThickness={0.025}
+          bevelSegments={8}
+          curveSegments={16}
         >
           SOCIALSCULP
           <meshStandardMaterial
             ref={matRef}
             color="#F0E6DE"
             emissive="#008CFF"
-            emissiveIntensity={0.28}
-            metalness={0.75}
-            roughness={0.12}
+            emissiveIntensity={0.4}
+            metalness={0.85}
+            roughness={0.08}
           />
         </Text3D>
       </Center>
@@ -333,35 +340,16 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const levelsRef = useRef<number[][]>([])
 
   useEffect(() => {
-    // Reset all state — guards against React Fast Refresh preserving stale values
     setSceneReady(false)
     setProgress(0)
     setFading(false)
     setMounted(true)
-    const id = setTimeout(() => {
-      const nodes = generateNodes(NODE_COUNT, SPHERE_RADIUS, MIN_DIST)
-      const edges = buildEdges(nodes, CONNECTION_RADIUS)
-      const levels = bfs(nodes.length, edges)
-      nodesRef.current = nodes
-      edgesRef.current = edges
-      levelsRef.current = levels
-      edgeActivRef.current = new Float32Array(edges.length)
-      setSceneReady(true)
-    }, 0)
-    return () => clearTimeout(id)
-  }, [])
 
-  // Convenience aliases (only valid after sceneReady)
-  const nodes = nodesRef.current
-  const edges = edgesRef.current
-  const levels = levelsRef.current
-
-  useEffect(() => {
-    if (!sceneReady) return
     const activ = activRef.current
     const start = performance.now()
     let raf: number
 
+    // Counter starts immediately — no waiting for node computation
     const tick = () => {
       const pct = Math.min(100, ((performance.now() - start) / INTRO_DURATION) * 100)
       pRef.current = pct
@@ -372,31 +360,31 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       const es = edgesRef.current
       const ls = levelsRef.current
 
-      if (pct < 15) {
-        // Phase 1: nodes scatter in with a dim ambient glow
-        const n = Math.floor((pct / 15) * ns.length)
-        for (let i = 0; i < ns.length; i++) {
-          const t = i < n ? 0.32 : 0   // raised from 0.18 so dormant nodes are visible
-          activ[i] += (t - activ[i]) * 0.14
+      // Network animation only runs once nodes are computed
+      if (ns.length > 0) {
+        if (pct < 15) {
+          const n = Math.floor((pct / 15) * ns.length)
+          for (let i = 0; i < ns.length; i++) {
+            const t = i < n ? 0.32 : 0
+            activ[i] += (t - activ[i]) * 0.14
+          }
+        } else if (pct < 70) {
+          const sp = (pct - 15) / 55
+          const lp = sp * ls.length
+          for (let l = 0; l < ls.length; l++) {
+            const raw = Math.max(0, Math.min(1, lp - l))
+            const smooth = raw * raw * (3 - 2 * raw)
+            const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.28 + smooth * 0.72 : 0.32
+            for (const idx of ls[l]) activ[idx] += (target - activ[idx]) * 0.10
+          }
+          es.forEach(([a, b], i) => {
+            const t = Math.min(activ[a], activ[b]) * 1.2
+            edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.11
+          })
+        } else {
+          for (let i = 0; i < ns.length; i++) activ[i] += (1.0 - activ[i]) * 0.06
+          es.forEach((_, i) => { edgeActivRef.current[i] += (0.85 - edgeActivRef.current[i]) * 0.06 })
         }
-      } else if (pct < 70) {
-        // Phase 2: BFS wave lights up the network
-        const sp = (pct - 15) / 55
-        const lp = sp * ls.length
-        for (let l = 0; l < ls.length; l++) {
-          const raw = Math.max(0, Math.min(1, lp - l))
-          const smooth = raw * raw * (3 - 2 * raw)
-          const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.28 + smooth * 0.72 : 0.32
-          for (const idx of ls[l]) activ[idx] += (target - activ[idx]) * 0.10
-        }
-        es.forEach(([a, b], i) => {
-          const t = Math.min(activ[a], activ[b]) * 1.2
-          edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.11
-        })
-      } else {
-        // Phase 3: full bright settle
-        for (let i = 0; i < ns.length; i++) activ[i] += (1.0 - activ[i]) * 0.06
-        es.forEach((_, i) => { edgeActivRef.current[i] += (0.85 - edgeActivRef.current[i]) * 0.06 })
       }
 
       if (pct < 100) {
@@ -409,8 +397,21 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       }
     }
     raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [sceneReady])
+
+    // Compute nodes after first paint — canvas renders once ready
+    const id = setTimeout(() => {
+      const nodes = generateNodes(NODE_COUNT, SPHERE_RADIUS, MIN_DIST)
+      const edges = buildEdges(nodes, CONNECTION_RADIUS)
+      const levels = bfs(nodes.length, edges)
+      nodesRef.current = nodes
+      edgesRef.current = edges
+      levelsRef.current = levels
+      edgeActivRef.current = new Float32Array(edges.length)
+      setSceneReady(true)
+    }, 0)
+
+    return () => { cancelAnimationFrame(raf); clearTimeout(id) }
+  }, [])
 
   if (!mounted) return null
 
