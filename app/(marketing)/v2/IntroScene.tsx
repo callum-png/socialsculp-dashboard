@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import { Text3D, Center } from '@react-three/drei'
 import * as THREE from 'three'
 
 // ── Duration ──────────────────────────────────────────────────
@@ -10,7 +11,6 @@ const NODE_COUNT = 55
 const SPHERE_RADIUS = 9
 const MIN_DIST = 2.3
 const CONNECTION_RADIUS = 4.2
-const BRAND_TEXT = 'SOCIALSCULP'
 
 // ── GLSL: Nodes ───────────────────────────────────────────────
 const NODE_VERT = /* glsl */`
@@ -209,13 +209,79 @@ function Camera({ pRef }: { pRef: React.MutableRefObject<number> }) {
   return null
 }
 
+// ── R3F: Brand lights (only mounted when text is showing) ──────
+function BrandLights() {
+  return (
+    <>
+      <pointLight position={[0, 8, 12]}  intensity={4}   color="#ffffff" />
+      <pointLight position={[-10, 2, 8]} intensity={3}   color="#008CFF" />
+      <pointLight position={[10, -3, 6]} intensity={1.5} color="#40c4ff" />
+    </>
+  )
+}
+
+// ── R3F: 3D extruded SOCIALSCULP title card ────────────────────
+function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<boolean> }) {
+  const groupRef  = useRef<THREE.Group>(null)
+  const matRef    = useRef<THREE.MeshStandardMaterial>(null)
+  const scaleRef  = useRef(0)       // 0 → 1 reveal
+  const rotYRef   = useRef(-0.28)   // -15deg → 0 reveal
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current || !matRef.current) return
+    if (!showTextRef.current) return
+    const t = clock.getElapsedTime()
+
+    // Reveal: lerp scale and rotation into place
+    scaleRef.current  += (1    - scaleRef.current)  * 0.06
+    rotYRef.current   += (0    - rotYRef.current)   * 0.06
+
+    groupRef.current.scale.setScalar(scaleRef.current)
+    groupRef.current.rotation.y = rotYRef.current
+
+    // Idle float
+    groupRef.current.position.y = 0.5 + Math.sin(t * 0.7) * 0.06
+
+    // Emissive pulse
+    matRef.current.emissiveIntensity = 0.28 + Math.sin(t * 1.4) * 0.14
+  })
+
+  return (
+    <group ref={groupRef} scale={0}>
+      <Center>
+        <Text3D
+          font="/fonts/helvetiker_bold.typeface.json"
+          size={0.9}
+          height={0.28}
+          bevelEnabled
+          bevelSize={0.025}
+          bevelThickness={0.02}
+          bevelSegments={6}
+          curveSegments={14}
+        >
+          SOCIALSCULP
+          <meshStandardMaterial
+            ref={matRef}
+            color="#F0E6DE"
+            emissive="#008CFF"
+            emissiveIntensity={0.28}
+            metalness={0.75}
+            roughness={0.12}
+          />
+        </Text3D>
+      </Center>
+    </group>
+  )
+}
+
 // ── Scene — group rotates slowly on Y ─────────────────────────
-function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
+function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef }: {
   nodes: THREE.Vector3[]
   edges: [number, number][]
   activRef: React.MutableRefObject<Float32Array>
   edgeActivRef: React.MutableRefObject<Float32Array>
   pRef: React.MutableRefObject<number>
+  showTextRef: React.MutableRefObject<boolean>
 }) {
   const groupRef = useRef<THREE.Group>(null)
   const positions = useMemo(() => {
@@ -237,6 +303,8 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
         <Nodes positions={positions} activRef={activRef} />
         <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
       </group>
+      <BrandLights />
+      <BrandText3D showTextRef={showTextRef} />
       <Camera pRef={pRef} />
     </>
   )
@@ -257,6 +325,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const activRef = useRef(new Float32Array(NODE_COUNT))
   const edgeActivRef = useRef(new Float32Array(0))
   const pRef = useRef(0)
+  const showTextRef = useRef(false)
 
   // Defer heavy computation to after first paint so counter shows instantly
   const nodesRef = useRef<THREE.Vector3[]>([])
@@ -297,6 +366,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       const pct = Math.min(100, ((performance.now() - start) / INTRO_DURATION) * 100)
       pRef.current = pct
       setProgress(Math.floor(pct))
+      showTextRef.current = pct >= 70
 
       const ns = nodesRef.current
       const es = edgesRef.current
@@ -344,10 +414,6 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
 
   if (!mounted) return null
 
-  // Brand text appears at 70%
-  const showText = progress >= 70
-  const textCount = showText ? Math.floor(((progress - 70) / 20) * BRAND_TEXT.length) : 0
-
   // Phase-aware status copy
   const phaseLabel =
     progress < 20  ? 'MAPPING CREATOR NETWORK' :
@@ -371,7 +437,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         >
-          <Scene nodes={nodesRef.current} edges={edgesRef.current} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} />
+          <Scene nodes={nodesRef.current} edges={edgesRef.current} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} showTextRef={showTextRef} />
         </Canvas>
       )}
 
@@ -405,51 +471,6 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         <span>SIGNAL PROPAGATION</span>
         <span style={{ color: 'rgba(0,140,255,0.35)' }}>v2.0.1 — {new Date().getFullYear()}</span>
       </div>
-
-      {/* Brand text — cinematic centre reveal */}
-      {showText && (
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(2.8rem, 7vw, 8rem)',
-          letterSpacing: '-0.03em',
-          color: '#F0E6DE',
-          whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
-          perspective: '1400px',
-          textShadow: [
-            '1px 1px 0 rgba(0,90,190,0.9)',
-            '2px 2px 0 rgba(0,70,155,0.8)',
-            '3px 3px 0 rgba(0,52,122,0.7)',
-            '4px 4px 0 rgba(0,38,94,0.6)',
-            '5px 5px 0 rgba(0,26,68,0.5)',
-            '6px 6px 0 rgba(0,16,46,0.4)',
-            '8px 8px 28px rgba(0,0,0,0.75)',
-            '0 0 80px rgba(0,140,255,0.55)',
-            '0 0 160px rgba(0,100,220,0.3)',
-          ].join(', '),
-        }}>
-          {BRAND_TEXT.slice(0, textCount).split('').map((ch, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                animation: 'letterFlip3d 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                animationDelay: `${i * 0.04}s`,
-                opacity: 0,
-              }}
-            >
-              {i === 6 ? (
-                <span style={{
-                  color: '#008CFF',
-                  textShadow: '0 0 60px rgba(0,140,255,1), 0 0 120px rgba(0,140,255,0.6), 0 0 200px rgba(0,80,255,0.3)',
-                }}>{ch}</span>
-              ) : ch}
-            </span>
-          ))}
-        </div>
-      )}
 
       {/* Counter — centred at bottom */}
       <div style={{
@@ -495,13 +516,6 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           transition: 'width 0.06s linear',
         }} />
       </div>
-
-      <style>{`
-        @keyframes letterFlip3d {
-          from { opacity: 0; transform: perspective(1200px) rotateX(80deg) translateY(20px); }
-          to   { opacity: 1; transform: perspective(1200px) rotateX(0deg) translateY(0); }
-        }
-      `}</style>
     </div>
   )
 }
