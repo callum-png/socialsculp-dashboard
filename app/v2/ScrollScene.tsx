@@ -1,7 +1,9 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { View } from '@react-three/drei'
+import { PerspectiveCamera } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // Service geometry types
@@ -64,7 +66,6 @@ const SVC_FRAG = /* glsl */`
 function ServiceMesh({ type, hovered }: { type: GeoType; hovered: boolean }) {
   const mesh = useRef<THREE.Mesh>(null)
   const mat = useRef<THREE.ShaderMaterial>(null)
-  const targetSpeed = useRef(0.004)
   const currentSpeed = useRef(0.004)
 
   useFrame(({ clock }) => {
@@ -108,21 +109,25 @@ function ServiceMesh({ type, hovered }: { type: GeoType; hovered: boolean }) {
   )
 }
 
+// Each ScrollScene uses View (no Canvas) — all share the root SharedCanvas
 export function ScrollScene({ type }: { type: GeoType }) {
   const [hovered, setHovered] = useState(false)
+  const trackRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 3.5], fov: 45 }}
-      gl={{ antialias: true, alpha: true }}
-      style={{ width: '100%', height: '100%', cursor: hovered ? 'pointer' : 'default' }}
+    <div
+      ref={trackRef}
+      style={{ width: '100%', height: '100%' }}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
-      <ambientLight intensity={0.3} />
-      <pointLight position={[5, 5, 5]} intensity={1.5} color="#66aaff" />
-      <pointLight position={[-4, -3, 2]} intensity={0.8} color="#0055ff" />
-      <ServiceMesh type={type} hovered={hovered} />
-    </Canvas>
+      <View track={trackRef as React.MutableRefObject<HTMLElement>}>
+        <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
+        <ambientLight intensity={0.3} />
+        <pointLight position={[5, 5, 5]} intensity={1.5} color="#66aaff" />
+        <pointLight position={[-4, -3, 2]} intensity={0.8} color="#0055ff" />
+        <ServiceMesh type={type} hovered={hovered} />
+      </View>
+    </div>
   )
 }

@@ -4,6 +4,27 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useScrollAnimations } from './useScrollAnimations'
 
+// Shared canvas that all ScrollScene Views render into — prevents context limit
+const SharedCanvas = dynamic(
+  () => import('@react-three/fiber').then(m => {
+    const { Canvas } = m
+    const { Preload, View } = require('@react-three/drei')
+    function SC() {
+      return (
+        <Canvas
+          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 1 }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <View.Port />
+          <Preload all />
+        </Canvas>
+      )
+    }
+    return { default: SC }
+  }),
+  { ssr: false }
+)
+
 // Dynamically import 3D components — no SSR
 // IntroScene has an inline loading fallback so the counter shows instantly
 const IntroScene = dynamic(
@@ -13,7 +34,7 @@ const IntroScene = dynamic(
     loading: () => (
       <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#040810' }}>
         <div style={{ position: 'absolute', bottom: 48, left: 48 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(5rem,9vw,8rem)', color: 'rgba(240,230,222,0.92)', lineHeight: 1, letterSpacing: '-0.03em' }}>000</div>
+          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(9rem,18vw,22rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
           <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(0,140,255,0.75)', marginTop: 6 }}>CREATOR NETWORK — INITIALISING</div>
         </div>
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.07)' }} />
@@ -232,6 +253,9 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           <div className="v2-footer-legal">© 2024 S23 Operations Ltd.</div>
         </footer>
       </div>
+
+      {/* Single shared WebGL canvas for all ScrollScene views — prevents context limit */}
+      {introComplete && <SharedCanvas />}
     </>
   )
 }
