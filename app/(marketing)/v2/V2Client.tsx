@@ -335,21 +335,6 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
           </div>
         </section>
 
-        {/* ── Metrics ── */}
-        <div className="v2-metrics v2-reveal">
-          <div className="v2-metrics-label">Platform Performance</div>
-          <div className="v2-metrics-row">
-            <div className="v2-metric-cell featured">
-              <div className="v2-metric-val">$<AnimatedCounter target={2} /></div>
-              <div className="v2-metric-lbl">Blended CPM</div>
-              <div className="v2-metric-sub">Consistently below market average across TikTok, Instagram, YouTube & Snapchat.</div>
-            </div>
-            <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={50} suffix="+" /></div><div className="v2-metric-lbl">Active Creators</div></div>
-            <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={20} suffix="+" /></div><div className="v2-metric-lbl">Brands Served</div></div>
-            <div className="v2-metric-cell"><div className="v2-metric-val"><AnimatedCounter target={1.9} suffix="B+" isFloat /></div><div className="v2-metric-lbl">Total Views</div></div>
-          </div>
-        </div>
-
         {/* ── About ── */}
         <section className="v2-about" id="about">
           <div className="v2-about-text v2-reveal">
