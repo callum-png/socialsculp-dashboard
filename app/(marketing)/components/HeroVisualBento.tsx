@@ -87,9 +87,9 @@ export function HeroVisualBento() {
       {/* ── Content preview tiles ── */}
       <div className="hb-tiles">
         {[
-          { views: '3.7M', label: '@kasuniversity', hue: '208,88,48' },
-          { views: '2.1M', label: '@shadezstudies',  hue: '196,70,42' },
-          { views: '890K', label: '@masoncapodanno', hue: '220,60,36' },
+          { views: '12.4M', label: '@ashtonhall',    hue: '208,88,48' },
+          { views: '6.1M',  label: '@imnotkenneth',  hue: '196,70,42' },
+          { views: '3.8M',  label: '@arospeaks',     hue: '220,60,36' },
         ].map((t, i) => (
           <div className="hb-tile" key={i}>
             <div
