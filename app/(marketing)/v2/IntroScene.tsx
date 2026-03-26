@@ -237,20 +237,23 @@ function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<bool
     scaleRef.current += (1 - scaleRef.current) * 0.055
     groupRef.current.scale.setScalar(scaleRef.current)
 
-    // Dramatic entrance rotation → slow continuous idle spin
+    // Entrance: snap from -0.6 → 0, then lock face-on
     if (!revealDoneRef.current) {
       rotYRef.current += (0 - rotYRef.current) * 0.055
-      if (Math.abs(rotYRef.current) < 0.005) revealDoneRef.current = true
-    } else {
-      rotYRef.current += 0.004
+      if (Math.abs(rotYRef.current) < 0.005) { rotYRef.current = 0; revealDoneRef.current = true }
     }
-    groupRef.current.rotation.y = rotYRef.current
+    // Idle: slow pendulum rock ±4° — stays face-on, never spins away
+    const pendulum = revealDoneRef.current ? Math.sin(t * 0.38) * 0.07 : rotYRef.current
+    groupRef.current.rotation.y = pendulum
+    // Subtle Z breath — adds life without movement
+    groupRef.current.rotation.z = Math.sin(t * 0.22) * 0.012
 
     // Vertical float
     groupRef.current.position.y = 0.3 + Math.sin(t * 0.55) * 0.15
 
-    // Strong emissive shimmer
-    matRef.current.emissiveIntensity = 0.4 + Math.sin(t * 1.8) * 0.3
+    // Emissive pulse — brightens on the pendulum peak for a "pulse on turn" feel
+    const peakBoost = revealDoneRef.current ? Math.abs(Math.sin(t * 0.38)) * 0.25 : 0
+    matRef.current.emissiveIntensity = 0.35 + Math.sin(t * 1.8) * 0.2 + peakBoost
   })
 
   return (

@@ -129,30 +129,31 @@ function ServiceCard({ svc }: { svc: Service }) {
 
 function BrandLogo({ domain, title, size = 32 }: { domain?: string; title: string; size?: number }) {
   const [err, setErr] = useState(false)
-  if (!domain || err) {
-    return (
-      <div style={{
-        width: size, height: size, borderRadius: 6,
-        background: 'linear-gradient(135deg, rgba(0,140,255,0.25), rgba(0,80,200,0.15))',
-        border: '1px solid rgba(0,140,255,0.3)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
-        fontSize: size * 0.38, color: 'rgba(0,140,255,0.9)',
-        flexShrink: 0,
-      }}>
-        {title[0].toUpperCase()}
-      </div>
-    )
-  }
+  const letterAvatar = (
+    <div style={{
+      width: size, height: size, borderRadius: 6,
+      background: 'linear-gradient(135deg, rgba(0,140,255,0.25), rgba(0,80,200,0.15))',
+      border: '1px solid rgba(0,140,255,0.3)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
+      fontSize: size * 0.38, color: 'rgba(0,140,255,0.9)',
+      flexShrink: 0,
+    }}>
+      {title[0].toUpperCase()}
+    </div>
+  )
+  if (!domain || err) return letterAvatar
+  // Google favicon API — free, reliable, no CORS issues
+  const src = `https://www.google.com/s2/favicons?domain=${domain}&sz=${size >= 48 ? 128 : 64}`
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`https://logo.clearbit.com/${domain}`}
+      src={src}
       alt={title}
       width={size}
       height={size}
       onError={() => setErr(true)}
-      style={{ width: size, height: size, borderRadius: 6, objectFit: 'contain', background: '#fff', padding: 3, flexShrink: 0 }}
+      style={{ width: size, height: size, borderRadius: 6, objectFit: 'contain', background: 'rgba(255,255,255,0.08)', padding: 4, flexShrink: 0 }}
     />
   )
 }
@@ -217,6 +218,11 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
   useScrollAnimations()
 
+  // Always start at top of page on mount
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   // ?skip=1 in URL bypasses the intro instantly (useful for development)
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.search.includes('skip')) {
@@ -255,20 +261,13 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
             {introComplete && <NetworkHero />}
           </div>
 
-          {/* Floating creator cards — glassmorphism overlay, hidden on mobile */}
-          {introComplete && (
-            <div className="v2-hero-creator-cards" aria-hidden="true">
-              <FloatingCreatorCard handle="@ashtonhall" platform="tiktok" views="12.4M" delay={0} style={{ top: '28%', right: '4%' }} />
-              <FloatingCreatorCard handle="@imnotkenneth" platform="tiktok" views="6.1M" delay={1.8} style={{ top: '50%', right: '8%' }} />
-              <FloatingCreatorCard handle="@arospeaks" platform="instagram" views="3.8M" delay={3.2} style={{ top: '70%', right: '3%' }} />
-            </div>
-          )}
+          {/* Creator cards removed */}
 
           <div className="v2-hero-overlay" aria-hidden="true" />
-          <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
-          <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
-          <div className="v2-hero-sub-row">
-            <p className="v2-hero-desc">A data-driven creator seeding agency. 1.9B+ views across TikTok, Instagram, YouTube & Snapchat.</p>
+          <div className="v2-hero-center">
+            <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
+            <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
+            <p className="v2-hero-desc">A data-driven creator seeding agency. 1.9B+ views across TikTok, Instagram, YouTube &amp; Snapchat.</p>
             <div className="v2-hero-actions">
               <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="v2-btn-primary">Book a Call</a>
               <a href="#work" className="v2-btn-ghost">View Work
