@@ -89,7 +89,7 @@ function PlatformBadge({
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 interface TimelineTabProps {
-  videos: Video[] | undefined
+  videos: Video[] | null | undefined
 }
 
 export function TimelineTab({ videos }: TimelineTabProps) {

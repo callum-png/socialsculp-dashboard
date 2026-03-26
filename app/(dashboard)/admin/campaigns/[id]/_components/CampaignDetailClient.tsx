@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import dynamic from "next/dynamic"
 import { AnimatePresence, motion } from "framer-motion"
 import {
   Users,
@@ -20,11 +21,13 @@ import {
   useCampaignVideos,
   useCampaignTimeseries,
 } from "@/hooks/useConvexCampaign"
-import type { Id } from "@/convex/_generated/dataModel"
 
 import { CreatorsTab } from "./CreatorsTab"
 import { TimelineTab } from "./TimelineTab"
-import { PerformanceTab } from "./PerformanceTab"
+const PerformanceTab = dynamic(
+  () => import("./PerformanceTab").then((m) => ({ default: m.PerformanceTab })),
+  { ssr: false }
+)
 import { PaymentsTab } from "./PaymentsTab"
 
 /* ------------------------------------------------------------------ */
@@ -92,14 +95,14 @@ interface CampaignDetailClientProps {
 export default function CampaignDetailClient({
   campaignId,
 }: CampaignDetailClientProps) {
-  const id = campaignId as Id<"campaigns">
-  const campaign = useCampaign(id)
-  const creators = useCampaignCreators(id)
-  const videos = useCampaignVideos(id)
-  const timeseries = useCampaignTimeseries(id)
+  const campaign = useCampaign(campaignId)
+  const creators = useCampaignCreators(campaignId)
+  const videos = useCampaignVideos(campaignId)
+  const timeseries = useCampaignTimeseries(campaignId)
 
   const [activeTab, setActiveTab] = useState("creators")
 
+  // undefined = still loading from Convex; null = non-Convex ID, use mock data
   const isLoading = campaign === undefined
 
   /* ---- header skeleton ---- */
@@ -197,35 +200,27 @@ export default function CampaignDetailClient({
       />
 
       {/* ---- Tab Content ---- */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          variants={tabVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          role="tabpanel"
-          id={`tabpanel-${activeTab}`}
-          aria-labelledby={`tab-${activeTab}`}
-        >
-          {activeTab === "creators" && (
-            <CreatorsTab creators={creators} />
-          )}
-          {activeTab === "timeline" && (
-            <TimelineTab videos={videos} />
-          )}
-          {activeTab === "performance" && (
-            <PerformanceTab
-              videos={videos}
-              timeseries={timeseries}
-            />
-          )}
-          {activeTab === "payments" && (
-            <PaymentsTab creators={creators} campaign={campaign ?? undefined} />
-          )}
-        </motion.div>
-      </AnimatePresence>
+      <div
+        role="tabpanel"
+        id={`tabpanel-${activeTab}`}
+        aria-labelledby={`tab-${activeTab}`}
+      >
+        {activeTab === "creators" && (
+          <CreatorsTab creators={creators} />
+        )}
+        {activeTab === "timeline" && (
+          <TimelineTab videos={videos} />
+        )}
+        {activeTab === "performance" && (
+          <PerformanceTab
+            videos={videos}
+            timeseries={timeseries}
+          />
+        )}
+        {activeTab === "payments" && (
+          <PaymentsTab creators={creators} campaign={campaign} />
+        )}
+      </div>
 
       {/* ---- Mobile Bottom Nav ---- */}
       <CampaignMobileNav

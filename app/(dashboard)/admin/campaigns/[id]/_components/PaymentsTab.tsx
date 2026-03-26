@@ -75,8 +75,8 @@ function PaymentStatusBadge({
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 interface PaymentsTabProps {
-  creators: Creator[] | undefined
-  campaign: Campaign | undefined
+  creators: Creator[] | null | undefined
+  campaign: Campaign | null | undefined
 }
 
 export function PaymentsTab({ creators, campaign }: PaymentsTabProps) {

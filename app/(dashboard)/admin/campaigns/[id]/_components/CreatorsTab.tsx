@@ -142,7 +142,7 @@ function StatusBadge({ status }: { status: string }) {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 interface CreatorsTabProps {
-  creators: Creator[] | undefined
+  creators: Creator[] | null | undefined
 }
 
 export function CreatorsTab({ creators }: CreatorsTabProps) {

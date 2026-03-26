@@ -176,8 +176,8 @@ function ChartTooltip({
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 interface PerformanceTabProps {
-  videos: Video[] | undefined
-  timeseries: TimeseriesPoint[] | undefined
+  videos: Video[] | null | undefined
+  timeseries: TimeseriesPoint[] | null | undefined
 }
 
 export function PerformanceTab({ videos, timeseries }: PerformanceTabProps) {
