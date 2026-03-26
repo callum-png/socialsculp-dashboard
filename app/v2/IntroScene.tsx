@@ -34,15 +34,15 @@ const NODE_FRAG = /* glsl */`
     float core = 1.0 - smoothstep(0.0, 0.13, d);
     float mid  = 1.0 - smoothstep(0.13, 0.3, d);
     float glow = 1.0 - smoothstep(0.3, 0.5, d);
-    // Dormant floor raised: 0.13 base so nodes are visible from frame 1
-    vec3 dormant = vec3(0.08, 0.14, 0.28);
-    vec3 edge    = vec3(0.0, 0.58, 1.0);
-    vec3 bright  = vec3(0.75, 0.92, 1.0);
+    // High dormant floor so nodes appear clearly even before activation
+    vec3 dormant = vec3(0.12, 0.22, 0.48);
+    vec3 edge    = vec3(0.0, 0.65, 1.0);
+    vec3 bright  = vec3(0.88, 0.97, 1.0);
     vec3 col = mix(dormant, edge, vActive);
-    col = mix(col, bright, core * vActive * 0.78);
-    float pulse = sin(uTime * 2.6) * 0.05 * vActive;
-    // dormant alpha floor is 0.13*core so they're always slightly visible
-    float a = clamp(core * 0.92 + mid * 0.45 * vActive + glow * 0.28 * vActive + pulse, 0.13 * core, 1.0);
+    col = mix(col, bright, core * vActive * 0.9);
+    float pulse = sin(uTime * 2.8) * 0.08 * vActive;
+    // dormant floor 0.22*core ensures visibility; active nodes are vivid
+    float a = clamp(core * 1.0 + mid * 0.6 * vActive + glow * 0.45 * vActive + pulse, 0.22 * core, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `
@@ -224,8 +224,8 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
       </group>
       <Camera pRef={pRef} />
       <EffectComposer>
-        <Bloom intensity={1.6} luminanceThreshold={0.1} luminanceSmoothing={0.85} mipmapBlur />
-        <ChromaticAberration offset={[0.0005, 0.0005] as [number, number]} />
+        <Bloom intensity={3.2} luminanceThreshold={0.05} luminanceSmoothing={0.75} mipmapBlur />
+        <ChromaticAberration offset={[0.0007, 0.0007] as [number, number]} />
       </EffectComposer>
     </>
   )
@@ -321,10 +321,16 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
 
   if (!mounted) return null
 
-  // Brand text appears at 70% (phase shift)
+  // Brand text appears at 70%
   const showText = progress >= 70
-  // Each letter flips in sequentially over the 70-100% window
   const textCount = showText ? Math.floor(((progress - 70) / 20) * BRAND_TEXT.length) : 0
+
+  // Phase-aware status copy
+  const phaseLabel =
+    progress < 20  ? 'MAPPING CREATOR NETWORK' :
+    progress < 55  ? 'PROPAGATING SIGNAL' :
+    progress < 80  ? 'NETWORK ONLINE' :
+    'SOCIALSCULP'
 
   return (
     <div style={{
@@ -346,83 +352,102 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         </Canvas>
       )}
 
-      {/* Top-right corner label */}
+      {/* Scan line — descends from top at 0.25x progress speed */}
+      <div style={{
+        position: 'absolute', left: 0, right: 0, zIndex: 9, pointerEvents: 'none',
+        top: `${Math.min(progress * 1.1, 100)}%`,
+        height: 1,
+        background: 'linear-gradient(to right, transparent, rgba(0,140,255,0.5) 20%, rgba(0,140,255,0.8) 50%, rgba(0,140,255,0.5) 80%, transparent)',
+        boxShadow: '0 0 12px rgba(0,140,255,0.6)',
+        transition: 'top 0.06s linear',
+      }} />
+
+      {/* Top-right system labels */}
       <div style={{
         position: 'absolute', top: 24, right: 32, zIndex: 10, pointerEvents: 'none',
-        fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem',
-        letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: 'rgba(0,140,255,0.6)',
+        fontFamily: "'DM Sans', sans-serif", fontSize: '0.56rem',
+        letterSpacing: '0.20em', textTransform: 'uppercase',
+        color: 'rgba(0,140,255,0.55)',
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
       }}>
-        SIGNAL PROPAGATION
+        <span>SIGNAL PROPAGATION</span>
+        <span style={{ color: 'rgba(0,140,255,0.35)' }}>v2.0.1 — {new Date().getFullYear()}</span>
       </div>
 
-      {/* Brand text — 3D CSS reveal */}
+      {/* Brand text — cinematic centre reveal */}
       {showText && (
         <div style={{
           position: 'absolute', top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(3.5rem, 8vw, 9rem)',
+          fontSize: 'clamp(4rem, 10vw, 11rem)',
           letterSpacing: '-0.02em',
           color: '#F0E6DE',
           whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
-          perspective: '900px',
+          perspective: '1200px',
+          textShadow: '0 0 120px rgba(0,140,255,0.5), 0 0 40px rgba(0,140,255,0.2)',
         }}>
           {BRAND_TEXT.slice(0, textCount).split('').map((ch, i) => (
             <span
               key={i}
               style={{
                 display: 'inline-block',
-                animation: 'letterFlip3d 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) forwards',
-                animationDelay: `${i * 0.018}s`,
+                animation: 'letterFlip3d 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                animationDelay: `${i * 0.015}s`,
                 opacity: 0,
-                textShadow: i >= 6
-                  ? '1px 1px 0 #0050aa, 2px 2px 0 #0040a0, 3px 3px 0 #003090, 4px 4px 0 #002080, 5px 5px 6px rgba(0,0,50,0.7), 0 0 60px rgba(0,140,255,0.7)'
-                  : '1px 1px 0 #1a0020, 2px 2px 0 #100018, 3px 3px 0 #0a0010, 4px 4px 0 #06000c, 5px 5px 6px rgba(0,0,20,0.7), 0 0 40px rgba(0,140,255,0.3)',
               }}
             >
               {i === 6 ? (
-                <em style={{ color: '#008CFF', fontStyle: 'normal' }}>{ch}</em>
+                <span style={{
+                  color: '#008CFF',
+                  textShadow: '0 0 40px rgba(0,140,255,1), 0 0 80px rgba(0,140,255,0.5)',
+                }}>{ch}</span>
               ) : ch}
             </span>
           ))}
         </div>
       )}
 
-      {/* Counter — big and dramatic */}
+      {/* Counter — LARGE editorial presence */}
       <div style={{
-        position: 'absolute', bottom: 48, left: 48, zIndex: 10, pointerEvents: 'none',
+        position: 'absolute', bottom: 40, left: 48, zIndex: 10, pointerEvents: 'none',
       }}>
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(5rem, 9vw, 8rem)',
-          color: 'rgba(240,230,222,0.92)', lineHeight: 1, letterSpacing: '-0.03em',
+          fontSize: 'clamp(9rem, 18vw, 22rem)',
+          color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em',
+          textShadow: '0 0 80px rgba(0,140,255,0.15)',
         }}>
           {String(progress).padStart(3, '0')}
         </div>
         <div style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: '0.58rem',
-          letterSpacing: '0.22em', textTransform: 'uppercase',
-          color: 'rgba(0,140,255,0.75)', marginTop: 6,
+          display: 'flex', alignItems: 'center', gap: 12, marginTop: 16,
         }}>
-          CREATOR NETWORK — INITIALISING
+          <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />
+          <div style={{
+            fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem',
+            letterSpacing: '0.24em', textTransform: 'uppercase',
+            color: 'rgba(0,140,255,0.8)',
+          }}>
+            {phaseLabel}
+          </div>
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.07)', zIndex: 10 }}>
+      {/* Progress bar — glowing fill */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.06)', zIndex: 10 }}>
         <div style={{
-          height: '100%', width: `${progress}%`, background: '#008CFF',
-          boxShadow: '0 0 16px rgba(0,140,255,0.9)', transition: 'width 0.06s linear',
+          height: '100%', width: `${progress}%`, background: 'linear-gradient(to right, #0055cc, #008CFF)',
+          boxShadow: '0 0 20px rgba(0,140,255,1)', transition: 'width 0.06s linear',
         }} />
       </div>
 
       <style>{`
         @keyframes letterFlip3d {
-          from { opacity: 0; transform: perspective(900px) rotateX(90deg); }
-          to   { opacity: 1; transform: perspective(900px) rotateX(0deg); }
+          from { opacity: 0; transform: perspective(1200px) rotateX(80deg) translateY(20px); }
+          to   { opacity: 1; transform: perspective(1200px) rotateX(0deg) translateY(0); }
         }
       `}</style>
     </div>
