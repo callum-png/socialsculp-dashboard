@@ -19,8 +19,8 @@ const NODE_VERT = /* glsl */`
   void main() {
     vActive = aActive;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    // Larger points — compensates for no post-processing bloom
-    gl_PointSize = mix(4.5, 30.0, vActive) * (300.0 / -mv.z);
+    // Large halo point — the fragment shader does the glow falloff
+    gl_PointSize = mix(6.0, 52.0, vActive) * (300.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `
@@ -31,17 +31,29 @@ const NODE_FRAG = /* glsl */`
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
-    float core = 1.0 - smoothstep(0.0, 0.10, d);
-    float mid  = 1.0 - smoothstep(0.10, 0.28, d);
-    float glow = 1.0 - smoothstep(0.20, 0.5, d);  // wider glow ring
-    vec3 dormant = vec3(0.14, 0.26, 0.55);
-    vec3 edge    = vec3(0.0, 0.70, 1.0);
-    vec3 bright  = vec3(0.90, 0.97, 1.0);
-    vec3 col = mix(dormant, edge, vActive);
-    col = mix(col, bright, core * vActive * 0.85);
-    float pulse = sin(uTime * 2.8) * 0.10 * vActive;
-    // Stronger glow ring simulates bloom; dormant floor 0.28*core stays visible
-    float a = clamp(core * 1.0 + mid * 0.75 * vActive + glow * 0.65 * vActive + pulse, 0.28 * core, 1.0);
+
+    float pulse = sin(uTime * 2.6) * 0.08 * vActive;
+
+    // Three-layer glow — core / mid / wide outer halo
+    float core  = 1.0 - smoothstep(0.0,  0.07, d);
+    float mid   = 1.0 - smoothstep(0.07, 0.22, d);
+    float outer = 1.0 - smoothstep(0.18, 0.50, d);
+
+    vec3 dormant = vec3(0.18, 0.35, 0.75);
+    vec3 active  = vec3(0.05, 0.72, 1.0);
+    vec3 hot     = vec3(0.92, 0.98, 1.0);
+
+    vec3 col = mix(dormant, active, vActive);
+    col = mix(col, hot, core * vActive * 0.9);
+
+    // Additive alpha: core burns white, mid glows blue, outer halos wide
+    float a = core * 1.0
+            + mid   * 0.85 * (0.35 + vActive * 0.65)
+            + outer * 0.70 * vActive
+            + pulse;
+    // Dormant nodes stay faintly visible
+    a = clamp(a, 0.55 * core + 0.12 * (1.0 - vActive), 1.0);
+
     gl_FragColor = vec4(col, a);
   }
 `
@@ -58,9 +70,13 @@ const EDGE_VERT = /* glsl */`
 const EDGE_FRAG = /* glsl */`
   varying float vActive;
   void main() {
-    if (vActive < 0.02) discard;
-    vec3 col = mix(vec3(0.04, 0.12, 0.28), vec3(0.0, 0.68, 1.0), vActive);
-    gl_FragColor = vec4(col, vActive * 0.72);
+    if (vActive < 0.015) discard;
+    // Dormant edges faintly visible; active edges bright blue
+    vec3 dormant = vec3(0.06, 0.16, 0.40);
+    vec3 active  = vec3(0.08, 0.62, 1.0);
+    vec3 col = mix(dormant, active, smoothstep(0.1, 0.8, vActive));
+    float a = mix(0.18, 0.92, smoothstep(0.05, 0.9, vActive));
+    gl_FragColor = vec4(col, a);
   }
 `
 
@@ -243,7 +259,11 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const levelsRef = useRef<number[][]>([])
 
   useEffect(() => {
-    // Run after first paint via setTimeout 0
+    // Reset all state — guards against React Fast Refresh preserving stale values
+    setSceneReady(false)
+    setProgress(0)
+    setFading(false)
+    setMounted(true)
     const id = setTimeout(() => {
       const nodes = generateNodes(NODE_COUNT, SPHERE_RADIUS, MIN_DIST)
       const edges = buildEdges(nodes, CONNECTION_RADIUS)
@@ -278,27 +298,30 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       const ls = levelsRef.current
 
       if (pct < 15) {
+        // Phase 1: nodes scatter in with a dim ambient glow
         const n = Math.floor((pct / 15) * ns.length)
         for (let i = 0; i < ns.length; i++) {
-          const t = i < n ? 0.18 : 0
-          activ[i] += (t - activ[i]) * 0.12
+          const t = i < n ? 0.32 : 0   // raised from 0.18 so dormant nodes are visible
+          activ[i] += (t - activ[i]) * 0.14
         }
       } else if (pct < 70) {
+        // Phase 2: BFS wave lights up the network
         const sp = (pct - 15) / 55
         const lp = sp * ls.length
         for (let l = 0; l < ls.length; l++) {
           const raw = Math.max(0, Math.min(1, lp - l))
           const smooth = raw * raw * (3 - 2 * raw)
-          const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.2 + smooth * 0.8 : 0.18
-          for (const idx of ls[l]) activ[idx] += (target - activ[idx]) * 0.08
+          const target = l === 0 ? 1.0 : smooth > 0.05 ? 0.28 + smooth * 0.72 : 0.32
+          for (const idx of ls[l]) activ[idx] += (target - activ[idx]) * 0.10
         }
         es.forEach(([a, b], i) => {
-          const t = Math.min(activ[a], activ[b]) * 1.15
-          edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.09
+          const t = Math.min(activ[a], activ[b]) * 1.2
+          edgeActivRef.current[i] += (t - edgeActivRef.current[i]) * 0.11
         })
       } else {
-        for (let i = 0; i < ns.length; i++) activ[i] += (1.0 - activ[i]) * 0.05
-        es.forEach((_, i) => { edgeActivRef.current[i] += (0.75 - edgeActivRef.current[i]) * 0.05 })
+        // Phase 3: full bright settle
+        for (let i = 0; i < ns.length; i++) activ[i] += (1.0 - activ[i]) * 0.06
+        es.forEach((_, i) => { edgeActivRef.current[i] += (0.85 - edgeActivRef.current[i]) * 0.06 })
       }
 
       if (pct < 100) {
@@ -347,13 +370,22 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         </Canvas>
       )}
 
+      {/* CSS ambient bloom — radial glow expands as network activates */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none',
+        background: `radial-gradient(ellipse ${40 + progress * 0.5}% ${25 + progress * 0.3}% at 55% 48%,
+          rgba(0,140,255,${0.04 + progress * 0.0006}) 0%,
+          rgba(0,80,200,${0.03 + progress * 0.0003}) 40%,
+          transparent 75%)`,
+      }} />
+
       {/* Scan line — descends from top at 0.25x progress speed */}
       <div style={{
         position: 'absolute', left: 0, right: 0, zIndex: 9, pointerEvents: 'none',
         top: `${Math.min(progress * 1.1, 100)}%`,
-        height: 1,
-        background: 'linear-gradient(to right, transparent, rgba(0,140,255,0.5) 20%, rgba(0,140,255,0.8) 50%, rgba(0,140,255,0.5) 80%, transparent)',
-        boxShadow: '0 0 12px rgba(0,140,255,0.6)',
+        height: 2,
+        background: 'linear-gradient(to right, transparent 0%, rgba(0,140,255,0.4) 15%, rgba(0,180,255,1) 50%, rgba(0,140,255,0.4) 85%, transparent 100%)',
+        boxShadow: '0 0 18px 3px rgba(0,140,255,0.7), 0 0 40px 8px rgba(0,100,255,0.3)',
         transition: 'top 0.06s linear',
       }} />
 
@@ -376,27 +408,27 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           transform: 'translate(-50%, -50%)',
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(4rem, 10vw, 11rem)',
-          letterSpacing: '-0.02em',
+          fontSize: 'clamp(5.5rem, 13vw, 15rem)',
+          letterSpacing: '-0.03em',
           color: '#F0E6DE',
           whiteSpace: 'nowrap', zIndex: 10, pointerEvents: 'none',
-          perspective: '1200px',
-          textShadow: '0 0 120px rgba(0,140,255,0.5), 0 0 40px rgba(0,140,255,0.2)',
+          perspective: '1400px',
+          textShadow: '0 0 160px rgba(0,140,255,0.6), 0 0 60px rgba(0,140,255,0.25), 0 2px 40px rgba(0,0,0,0.8)',
         }}>
           {BRAND_TEXT.slice(0, textCount).split('').map((ch, i) => (
             <span
               key={i}
               style={{
                 display: 'inline-block',
-                animation: 'letterFlip3d 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                animationDelay: `${i * 0.015}s`,
+                animation: 'letterFlip3d 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                animationDelay: `${i * 0.04}s`,
                 opacity: 0,
               }}
             >
               {i === 6 ? (
                 <span style={{
                   color: '#008CFF',
-                  textShadow: '0 0 40px rgba(0,140,255,1), 0 0 80px rgba(0,140,255,0.5)',
+                  textShadow: '0 0 60px rgba(0,140,255,1), 0 0 120px rgba(0,140,255,0.6), 0 0 200px rgba(0,80,255,0.3)',
                 }}>{ch}</span>
               ) : ch}
             </span>
@@ -432,10 +464,12 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       </div>
 
       {/* Progress bar — glowing fill */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(255,255,255,0.06)', zIndex: 10 }}>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.05)', zIndex: 10 }}>
         <div style={{
-          height: '100%', width: `${progress}%`, background: 'linear-gradient(to right, #0055cc, #008CFF)',
-          boxShadow: '0 0 20px rgba(0,140,255,1)', transition: 'width 0.06s linear',
+          height: '100%', width: `${progress}%`,
+          background: 'linear-gradient(to right, #003db3, #008CFF, #40c4ff)',
+          boxShadow: '0 0 16px 2px rgba(0,140,255,0.9), 0 0 40px rgba(0,100,255,0.4)',
+          transition: 'width 0.06s linear',
         }} />
       </div>
 
