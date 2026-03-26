@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 // ── Duration ──────────────────────────────────────────────────
@@ -20,7 +19,8 @@ const NODE_VERT = /* glsl */`
   void main() {
     vActive = aActive;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = mix(3.5, 20.0, vActive) * (300.0 / -mv.z);
+    // Larger points — compensates for no post-processing bloom
+    gl_PointSize = mix(4.5, 30.0, vActive) * (300.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `
@@ -31,18 +31,17 @@ const NODE_FRAG = /* glsl */`
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
-    float core = 1.0 - smoothstep(0.0, 0.13, d);
-    float mid  = 1.0 - smoothstep(0.13, 0.3, d);
-    float glow = 1.0 - smoothstep(0.3, 0.5, d);
-    // High dormant floor so nodes appear clearly even before activation
-    vec3 dormant = vec3(0.12, 0.22, 0.48);
-    vec3 edge    = vec3(0.0, 0.65, 1.0);
-    vec3 bright  = vec3(0.88, 0.97, 1.0);
+    float core = 1.0 - smoothstep(0.0, 0.10, d);
+    float mid  = 1.0 - smoothstep(0.10, 0.28, d);
+    float glow = 1.0 - smoothstep(0.20, 0.5, d);  // wider glow ring
+    vec3 dormant = vec3(0.14, 0.26, 0.55);
+    vec3 edge    = vec3(0.0, 0.70, 1.0);
+    vec3 bright  = vec3(0.90, 0.97, 1.0);
     vec3 col = mix(dormant, edge, vActive);
-    col = mix(col, bright, core * vActive * 0.9);
-    float pulse = sin(uTime * 2.8) * 0.08 * vActive;
-    // dormant floor 0.22*core ensures visibility; active nodes are vivid
-    float a = clamp(core * 1.0 + mid * 0.6 * vActive + glow * 0.45 * vActive + pulse, 0.22 * core, 1.0);
+    col = mix(col, bright, core * vActive * 0.85);
+    float pulse = sin(uTime * 2.8) * 0.10 * vActive;
+    // Stronger glow ring simulates bloom; dormant floor 0.28*core stays visible
+    float a = clamp(core * 1.0 + mid * 0.75 * vActive + glow * 0.65 * vActive + pulse, 0.28 * core, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `
@@ -60,8 +59,8 @@ const EDGE_FRAG = /* glsl */`
   varying float vActive;
   void main() {
     if (vActive < 0.02) discard;
-    vec3 col = mix(vec3(0.04, 0.10, 0.20), vec3(0.0, 0.62, 1.0), vActive);
-    gl_FragColor = vec4(col, vActive * 0.55);
+    vec3 col = mix(vec3(0.04, 0.12, 0.28), vec3(0.0, 0.68, 1.0), vActive);
+    gl_FragColor = vec4(col, vActive * 0.72);
   }
 `
 
@@ -223,10 +222,6 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef }: {
         <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
       </group>
       <Camera pRef={pRef} />
-      <EffectComposer>
-        <Bloom intensity={3.2} luminanceThreshold={0.05} luminanceSmoothing={0.75} mipmapBlur />
-        <ChromaticAberration offset={[0.0007, 0.0007] as [number, number]} />
-      </EffectComposer>
     </>
   )
 }

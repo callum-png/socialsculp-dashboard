@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useMemo } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 
 function genNodes(count: number, r: number, minD: number): THREE.Vector3[] {
@@ -38,14 +37,14 @@ function genEdges(nodes: THREE.Vector3[], radius: number): [number, number][] {
   return edges
 }
 
-// Larger, more visible nodes
+// Nodes — boosted brightness to compensate for no post-processing bloom
 const HERO_NODE_VERT = /* glsl */`
   attribute float aPhase;
   varying float vPhase;
   void main() {
     vPhase = aPhase;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = (6.5 + sin(aPhase) * 3.0) * (280.0 / -mv.z);
+    gl_PointSize = (9.0 + sin(aPhase) * 4.5) * (280.0 / -mv.z);
     gl_Position = projectionMatrix * mv;
   }
 `
@@ -56,12 +55,14 @@ const HERO_NODE_FRAG = /* glsl */`
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
-    float core = 1.0 - smoothstep(0.0, 0.15, d);
-    float glow = 1.0 - smoothstep(0.15, 0.5, d);
-    // Slower pulse: 0.6 instead of 0.8
+    float core = 1.0 - smoothstep(0.0, 0.12, d);
+    float glow = 1.0 - smoothstep(0.12, 0.5, d);
     float pulse = 0.5 + 0.5 * sin(uTime * 0.6 + vPhase);
-    vec3 col = mix(vec3(0.0, 0.35, 0.75), vec3(0.3, 0.72, 1.0), pulse * 0.5);
-    float a = (core * 0.75 + glow * 0.25) * (0.45 + 0.35 * pulse);
+    vec3 dormant = vec3(0.0, 0.25, 0.6);
+    vec3 active  = vec3(0.35, 0.80, 1.0);
+    vec3 col = mix(dormant, active, pulse * 0.6);
+    // Larger, brighter glow ring — simulates bloom without post-processing
+    float a = (core * 0.95 + glow * 0.55) * (0.55 + 0.45 * pulse);
     gl_FragColor = vec4(col, a);
   }
 `
@@ -69,11 +70,10 @@ const HERO_EDGE_VERT = /* glsl */`
   varying float vDummy;
   void main() { vDummy = 0.0; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
 `
-// Much more visible edges: 0.35 opacity instead of 0.12
+// Brighter edges: 0.45 opacity, more visible connection lines
 const HERO_EDGE_FRAG = /* glsl */`
   varying float vDummy;
-  uniform float uTime;
-  void main() { gl_FragColor = vec4(0.0, 0.45, 0.85, 0.35 + vDummy); }
+  void main() { gl_FragColor = vec4(0.05, 0.5, 0.95, 0.45 + vDummy); }
 `
 
 function HeroNetwork({ nodesData, edgesData }: { nodesData: THREE.Vector3[], edgesData: [number, number][] }) {
@@ -181,9 +181,6 @@ export function NetworkHero() {
     >
       <color attach="background" args={['#040810']} />
       <HeroNetwork nodesData={nodes} edgesData={edges} />
-      <EffectComposer>
-        <Bloom intensity={1.8} luminanceThreshold={0.08} luminanceSmoothing={0.9} mipmapBlur />
-      </EffectComposer>
     </Canvas>
   )
 }

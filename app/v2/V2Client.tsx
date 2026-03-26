@@ -105,7 +105,8 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
         {/* ── Hero ── */}
         <section className="v2-hero" id="hero">
           <div className="v2-hero-canvas-wrap" style={{ opacity: heroVisible ? 1 : 0, transition: 'opacity 1.5s ease' }} aria-hidden="true">
-            <NetworkHero />
+            {/* Only mount NetworkHero after intro — prevents 3 simultaneous WebGL contexts */}
+            {introComplete && <NetworkHero />}
           </div>
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
@@ -239,8 +240,8 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
         </footer>
       </div>
 
-      {/* Single shared WebGL canvas for all ScrollScene views — prevents context limit */}
-      {introComplete && <SharedCanvas />}
+      {/* Single shared WebGL canvas for all ScrollScene views — always present */}
+      <SharedCanvas />
     </>
   )
 }
