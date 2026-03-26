@@ -172,18 +172,57 @@ function PropagationScene({ isMobile }: { isMobile: boolean }) {
       color[idx * 3 + 2] = b
     }
 
-    // Stream particle slots (role=2, all zeros → hidden by shader until Task 2 fills them)
-    const streamStart = 1 + NC
-    for (let i = 0; i < NC * SP_PER_C; i++) {
-      const idx = streamStart + i
-      role[idx] = 2
+    // ── Stream particles ───────────────────────────────────────
+    let idx = 1 + NC
+    for (let c = 0; c < NC; c++) {
+      const [cx, cy, cz, hex] = creators[c]
+      const r = parseInt(hex.slice(1, 3), 16) / 255
+      const g_  = parseInt(hex.slice(3, 5), 16) / 255
+      const b   = parseInt(hex.slice(5, 7), 16) / 255
+      for (let p = 0; p < SP_PER_C; p++) {
+        role[idx]  = 2
+        cidx[idx]  = c
+        phase[idx] = p / SP_PER_C
+        size[idx]  = isMobile ? 5 : 4
+        // aStartPos = [0,0,0] — Float32Array already zeroed
+        // aEndPos = creator position
+        end_[idx * 3]     = cx
+        end_[idx * 3 + 1] = cy
+        end_[idx * 3 + 2] = cz
+        // stream colour: brand blue tinted toward creator colour
+        color[idx * 3]     = 0.1 + r * 0.4
+        color[idx * 3 + 1] = 0.55 + g_ * 0.4
+        color[idx * 3 + 2] = 1.0
+        idx++
+      }
     }
 
-    // Burst particle slots (role=3, all zeros → hidden by shader until Task 3 fills them)
-    const burstStart = 1 + NC + NC * SP_PER_C
-    for (let i = 0; i < NC * BP_PER_C; i++) {
-      const idx = burstStart + i
-      role[idx] = 3
+    // ── Burst particles ────────────────────────────────────────
+    for (let c = 0; c < NC; c++) {
+      const [cx, cy, cz, hex] = creators[c]
+      const r  = parseInt(hex.slice(1, 3), 16) / 255
+      const g_ = parseInt(hex.slice(3, 5), 16) / 255
+      const b  = parseInt(hex.slice(5, 7), 16) / 255
+      for (let p = 0; p < BP_PER_C; p++) {
+        role[idx]  = 3
+        cidx[idx]  = c
+        size[idx]  = isMobile ? 4 : 3
+        // aStartPos = creator pos (burst origin)
+        start[idx * 3]     = cx
+        start[idx * 3 + 1] = cy
+        start[idx * 3 + 2] = cz
+        // aEndPos = pre-baked random direction (scatter vector)
+        const theta = Math.random() * Math.PI * 2
+        const phi   = Math.acos(2 * Math.random() - 1)
+        end_[idx * 3]     = Math.sin(phi) * Math.cos(theta)
+        end_[idx * 3 + 1] = Math.abs(Math.sin(phi) * Math.sin(theta)) * 0.6
+        end_[idx * 3 + 2] = Math.cos(phi) * 0.5
+        // platform colour for burst
+        color[idx * 3]     = r
+        color[idx * 3 + 1] = g_
+        color[idx * 3 + 2] = b
+        idx++
+      }
     }
 
     const g = new THREE.BufferGeometry()
