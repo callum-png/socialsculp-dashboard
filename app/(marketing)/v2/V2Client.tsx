@@ -31,8 +31,8 @@ const IntroScene = dynamic(
     )
   }
 )
-const NetworkHero = dynamic(
-  () => import('./NetworkHero').then(m => ({ default: m.NetworkHero })),
+const HeroCanvas = dynamic(
+  () => import('./HeroCanvas').then(m => ({ default: m.HeroCanvas })),
   { ssr: false }
 )
 const ScrollScene = dynamic(
@@ -257,8 +257,8 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
         {/* ── Hero ── */}
         <section className="v2-hero" id="hero">
           <div className="v2-hero-canvas-wrap" style={{ opacity: heroVisible ? 1 : 0, transition: 'opacity 1.5s ease' }} aria-hidden="true">
-            {/* Only mount NetworkHero after intro — prevents 3 simultaneous WebGL contexts */}
-            {introComplete && <NetworkHero />}
+            {/* Only mount HeroCanvas after intro — prevents 3 simultaneous WebGL contexts */}
+            {introComplete && <HeroCanvas />}
           </div>
 
           {/* Creator cards removed */}
