@@ -6,7 +6,7 @@ import { Text3D, Center } from '@react-three/drei'
 import * as THREE from 'three'
 
 // ── Duration ──────────────────────────────────────────────────
-const INTRO_DURATION = 4000 // ms
+const INTRO_DURATION = 2000 // ms
 const NODE_COUNT = 55
 const SPHERE_RADIUS = 9
 const MIN_DIST = 2.3
