@@ -19,6 +19,7 @@ import {
   CheckSquare,
   UserCheck,
   PhoneCall,
+  Radio,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { UserRole } from '@/types'
@@ -39,6 +40,7 @@ const ICON_MAP = {
   CheckSquare,
   UserCheck,
   PhoneCall,
+  Radio,
 }
 
 type NavItem = { label: string; href: string; icon: keyof typeof ICON_MAP }
@@ -71,6 +73,7 @@ const ROLE_NAV: Record<UserRole, NavGroup[]> = {
         { label: 'Portals', href: '/admin/portals', icon: 'Eye' },
         { label: 'Tasks', href: '/admin/tasks', icon: 'CheckSquare' },
         { label: 'Users', href: '/admin/users', icon: 'UserCheck' },
+        { label: 'Mission Control', href: '/admin/mission-control', icon: 'Radio' },
         { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
       ],
     },
