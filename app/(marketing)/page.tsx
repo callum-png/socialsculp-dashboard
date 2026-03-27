@@ -1,6 +1,4 @@
 import './v2/landing-v2.css'
-import { auth, clerkClient } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
 import { V2PageWrapper } from './v2/V2Client'
 
 const caseStudies = [
@@ -101,28 +99,7 @@ const brands = [
   'Block Blast', '1st Phorm', 'Based Body Works', 'Plutus Gaming',
 ]
 
-export default async function Home() {
-  // Authenticated users → redirect to their dashboard
-  try {
-    const { userId } = await auth()
-    if (userId) {
-      const client = await clerkClient()
-      const user = await client.users.getUser(userId)
-      const role = user.publicMetadata?.role as string | undefined
-      const status = user.publicMetadata?.status as string | undefined
-      if (role && status !== 'PENDING') {
-        switch (role) {
-          case 'ADMIN': redirect('/admin')
-          case 'AGENT': redirect('/agent')
-          case 'CREATOR': redirect('/creator')
-          case 'BRAND': redirect('/brand')
-        }
-      }
-    }
-  } catch {
-    // Clerk auth check failed — show landing page for unauthenticated visitors
-  }
-
-  // Everyone else → v2 landing page
+export default function Home() {
+  // Everyone sees the landing page — sign in via nav button
   return <V2PageWrapper caseStudies={caseStudies} services={services} brands={brands} />
 }
