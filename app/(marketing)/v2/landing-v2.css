@@ -198,7 +198,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-hero {
   min-height: 100vh;
-  padding: 140px 48px 80px;
+  padding: 100px 48px 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -454,8 +454,8 @@ html { scroll-behavior: smooth; }
   perspective: 1200px;
   perspective-origin: 50% 45%;
   overflow: hidden;
-  /* Shift cube up so it overlaps with the headline center */
-  padding-bottom: 12vh;
+  /* Shift cube above headline — sits in upper portion of hero */
+  padding-bottom: 28vh;
 }
 
 .cube-rig {
