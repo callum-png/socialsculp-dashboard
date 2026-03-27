@@ -1,54 +1,56 @@
-import { Client } from 'ssh2'
+import { execFile } from 'child_process'
+import { writeFileSync, unlinkSync, mkdirSync } from 'fs'
+import { join } from 'path'
+import { tmpdir } from 'os'
+import { randomBytes } from 'crypto'
 
-const VPS_HOST = '167.172.237.104'
+const VPS_HOST = process.env.OPENCLAW_SSH_HOST || '167.172.237.104'
 const VPS_USER = 'root'
 const VPS_PORT = 22
 
-function getPrivateKey(): Buffer {
+function writeKeyToTmpFile(): string {
   const keyBase64 = process.env.OPENCLAW_SSH_KEY
   if (!keyBase64) throw new Error('OPENCLAW_SSH_KEY env var not set')
-  return Buffer.from(keyBase64, 'base64')
+  const keyContent = Buffer.from(keyBase64, 'base64').toString('utf-8')
+  const dir = join(tmpdir(), 'openclaw-ssh')
+  mkdirSync(dir, { recursive: true })
+  const keyPath = join(dir, `key-${randomBytes(8).toString('hex')}`)
+  writeFileSync(keyPath, keyContent, { mode: 0o600 })
+  return keyPath
 }
 
-export async function execSSH(command: string, timeoutMs = 30000): Promise<{ stdout: string; stderr: string; code: number }> {
-  return new Promise((resolve, reject) => {
-    const conn = new Client()
-    let stdout = ''
-    let stderr = ''
+export async function execSSH(
+  command: string,
+  timeoutMs = 30000
+): Promise<{ stdout: string; stderr: string; code: number }> {
+  const keyPath = writeKeyToTmpFile()
 
-    const timer = setTimeout(() => {
-      conn.end()
-      reject(new Error(`SSH command timed out after ${timeoutMs}ms`))
-    }, timeoutMs)
-
-    conn.on('ready', () => {
-      conn.exec(command, (err, stream) => {
-        if (err) {
-          clearTimeout(timer)
-          conn.end()
-          reject(err)
-          return
+  try {
+    return await new Promise((resolve, reject) => {
+      const proc = execFile(
+        'ssh',
+        [
+          '-i', keyPath,
+          '-o', 'StrictHostKeyChecking=accept-new',
+          '-o', 'ConnectTimeout=10',
+          '-o', 'BatchMode=yes',
+          '-p', String(VPS_PORT),
+          `${VPS_USER}@${VPS_HOST}`,
+          command,
+        ],
+        { timeout: timeoutMs, maxBuffer: 1024 * 1024 },
+        (err, stdout, stderr) => {
+          if (err && 'code' in err && typeof err.code === 'number') {
+            resolve({ stdout: stdout.trim(), stderr: stderr.trim(), code: err.code })
+          } else if (err) {
+            reject(err)
+          } else {
+            resolve({ stdout: stdout.trim(), stderr: stderr.trim(), code: 0 })
+          }
         }
-        stream.on('close', (code: number) => {
-          clearTimeout(timer)
-          conn.end()
-          resolve({ stdout: stdout.trim(), stderr: stderr.trim(), code: code ?? 0 })
-        })
-        stream.on('data', (data: Buffer) => { stdout += data.toString() })
-        stream.stderr.on('data', (data: Buffer) => { stderr += data.toString() })
-      })
+      )
     })
-
-    conn.on('error', (err) => {
-      clearTimeout(timer)
-      reject(err)
-    })
-
-    conn.connect({
-      host: VPS_HOST,
-      port: VPS_PORT,
-      username: VPS_USER,
-      privateKey: getPrivateKey(),
-    })
-  })
+  } finally {
+    try { unlinkSync(keyPath) } catch {}
+  }
 }
