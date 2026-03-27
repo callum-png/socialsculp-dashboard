@@ -221,7 +221,7 @@ function BrandLights() {
 }
 
 // ── R3F: 3D extruded SOCIALSCULP title card ────────────────────
-function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<boolean> }) {
+function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRefObject<boolean>; textScale: number }) {
   const groupRef      = useRef<THREE.Group>(null)
   const matRef        = useRef<THREE.MeshStandardMaterial>(null)
   const revealStart   = useRef(0)
@@ -270,8 +270,8 @@ function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<bool
       <Center>
         <Text3D
           font="/fonts/helvetiker_bold.typeface.json"
-          size={1.4}
-          height={0.42}
+          size={1.4 * textScale}
+          height={0.42 * textScale}
           bevelEnabled
           bevelSize={0.03}
           bevelThickness={0.025}
@@ -294,13 +294,14 @@ function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<bool
 }
 
 // ── Scene — group rotates slowly on Y ─────────────────────────
-function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef }: {
+function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef, textScale }: {
   nodes: THREE.Vector3[]
   edges: [number, number][]
   activRef: React.MutableRefObject<Float32Array>
   edgeActivRef: React.MutableRefObject<Float32Array>
   pRef: React.MutableRefObject<number>
   showTextRef: React.MutableRefObject<boolean>
+  textScale: number
 }) {
   const groupRef = useRef<THREE.Group>(null)
   const positions = useMemo(() => {
@@ -323,7 +324,7 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef }: {
         <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
       </group>
       <BrandLights />
-      <BrandText3D showTextRef={showTextRef} />
+      <BrandText3D showTextRef={showTextRef} textScale={textScale} />
       <Camera pRef={pRef} />
     </>
   )
@@ -335,6 +336,18 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
   const [fading, setFading] = useState(false)
   const [mounted, setMounted] = useState(true)
   const [sceneReady, setSceneReady] = useState(false)
+
+  // Responsive 3D text scale — shrinks on narrow viewports
+  const [textScale, setTextScale] = useState(1)
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      setTextScale(w < 480 ? 0.45 : w < 768 ? 0.6 : w < 1024 ? 0.8 : 1)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   // Store callback in ref — prevents animation effect from restarting when
   // parent re-renders and creates a new function reference
@@ -450,7 +463,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         >
-          <Scene nodes={nodesRef.current} edges={edgesRef.current} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} showTextRef={showTextRef} />
+          <Scene nodes={nodesRef.current} edges={edgesRef.current} activRef={activRef} edgeActivRef={edgeActivRef} pRef={pRef} showTextRef={showTextRef} textScale={textScale} />
         </Canvas>
       )}
 
