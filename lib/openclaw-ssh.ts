@@ -1,56 +1,70 @@
-import { execFile } from 'child_process'
-import { writeFileSync, unlinkSync, mkdirSync } from 'fs'
-import { join } from 'path'
-import { tmpdir } from 'os'
-import { randomBytes } from 'crypto'
+import { Client } from 'ssh2'
 
 const VPS_HOST = process.env.OPENCLAW_SSH_HOST || '167.172.237.104'
 const VPS_USER = 'root'
 const VPS_PORT = 22
 
-function writeKeyToTmpFile(): string {
+function getPrivateKey(): string {
   const keyBase64 = process.env.OPENCLAW_SSH_KEY
   if (!keyBase64) throw new Error('OPENCLAW_SSH_KEY env var not set')
-  const keyContent = Buffer.from(keyBase64, 'base64').toString('utf-8')
-  const dir = join(tmpdir(), 'openclaw-ssh')
-  mkdirSync(dir, { recursive: true })
-  const keyPath = join(dir, `key-${randomBytes(8).toString('hex')}`)
-  writeFileSync(keyPath, keyContent, { mode: 0o600 })
-  return keyPath
+  return Buffer.from(keyBase64, 'base64').toString('utf-8')
 }
 
 export async function execSSH(
   command: string,
   timeoutMs = 30000
 ): Promise<{ stdout: string; stderr: string; code: number }> {
-  const keyPath = writeKeyToTmpFile()
+  const privateKey = getPrivateKey()
 
-  try {
-    return await new Promise((resolve, reject) => {
-      const proc = execFile(
-        'ssh',
-        [
-          '-i', keyPath,
-          '-o', 'StrictHostKeyChecking=accept-new',
-          '-o', 'ConnectTimeout=10',
-          '-o', 'BatchMode=yes',
-          '-p', String(VPS_PORT),
-          `${VPS_USER}@${VPS_HOST}`,
-          command,
-        ],
-        { timeout: timeoutMs, maxBuffer: 1024 * 1024 },
-        (err, stdout, stderr) => {
-          if (err && 'code' in err && typeof err.code === 'number') {
-            resolve({ stdout: stdout.trim(), stderr: stderr.trim(), code: err.code })
-          } else if (err) {
-            reject(err)
-          } else {
-            resolve({ stdout: stdout.trim(), stderr: stderr.trim(), code: 0 })
-          }
+  return new Promise((resolve, reject) => {
+    const conn = new Client()
+    const timer = setTimeout(() => {
+      conn.end()
+      reject(new Error(`SSH command timed out after ${timeoutMs}ms`))
+    }, timeoutMs)
+
+    conn.on('ready', () => {
+      conn.exec(command, { pty: false }, (err, stream) => {
+        if (err) {
+          clearTimeout(timer)
+          conn.end()
+          return reject(err)
         }
-      )
+
+        let stdout = ''
+        let stderr = ''
+
+        stream.on('data', (data: Buffer) => {
+          stdout += data.toString()
+        })
+
+        stream.stderr.on('data', (data: Buffer) => {
+          stderr += data.toString()
+        })
+
+        stream.on('close', (code: number) => {
+          clearTimeout(timer)
+          conn.end()
+          resolve({
+            stdout: stdout.trim(),
+            stderr: stderr.trim(),
+            code: code ?? 0,
+          })
+        })
+      })
     })
-  } finally {
-    try { unlinkSync(keyPath) } catch {}
-  }
+
+    conn.on('error', (err) => {
+      clearTimeout(timer)
+      reject(err)
+    })
+
+    conn.connect({
+      host: VPS_HOST,
+      port: VPS_PORT,
+      username: VPS_USER,
+      privateKey,
+      readyTimeout: 10000,
+    })
+  })
 }

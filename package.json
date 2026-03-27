@@ -48,6 +48,7 @@
     "react-is": "^19.2.4",
     "recharts": "^3.8.0",
     "shadcn": "^4.0.6",
+    "ssh2": "^1.17.0",
     "svix": "^1.88.0",
     "tailwind-merge": "^3.5.0",
     "three": "^0.183.2",
@@ -59,6 +60,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ssh2": "^1.15.5",
     "@types/three": "^0.183.1",
     "tailwindcss": "^4",
     "typescript": "^5"
