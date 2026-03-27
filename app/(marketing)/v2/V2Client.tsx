@@ -19,7 +19,7 @@ const IntroScene = dynamic(
     ssr: false,
     loading: () => (
       <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#040810' }}>
-        <div style={{ position: 'absolute', bottom: 'clamp(32px,6vh,64px)', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', whiteSpace: 'nowrap' }}>
           <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(2rem, 9vw, 7rem)', color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em' }}>000</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16 }}>
             <div style={{ width: 28, height: 1, background: 'rgba(0,140,255,0.6)' }} />

@@ -451,3 +451,26 @@ model CampaignReport {
   @@index([campaignId])
   @@map("campaign_reports")
 }
+
+// ─── OpenClaw Mission Control ────────────────────────────────────────────────
+
+model OpenClawHeartbeat {
+  id         String   @id @default(cuid())
+  data       Json
+  receivedAt DateTime @default(now())
+
+  @@index([receivedAt])
+  @@map("openclaw_heartbeats")
+}
+
+model OpenClawCommand {
+  id         String   @id @default(cuid())
+  command    String
+  output     String
+  exitCode   Int
+  duration   Int
+  executedAt DateTime @default(now())
+
+  @@index([executedAt])
+  @@map("openclaw_commands")
+}
