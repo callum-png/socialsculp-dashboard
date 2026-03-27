@@ -31,10 +31,6 @@ const IntroScene = dynamic(
     )
   }
 )
-const HeroCanvas = dynamic(
-  () => import('./HeroCanvas').then(m => ({ default: m.HeroCanvas })),
-  { ssr: false }
-)
 const ScrollScene = dynamic(
   () => import('./ScrollScene').then(m => ({ default: m.ScrollScene })),
   { ssr: false }
@@ -213,7 +209,6 @@ function CaseStudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
 
 export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: CaseStudy[]; services: Service[]; brands: string[] }) {
   const [introComplete, setIntroComplete] = useState(false)
-  const [heroVisible, setHeroVisible] = useState(false)
   const [selectedCase, setSelectedCase] = useState<CaseStudy | null>(null)
 
   useScrollAnimations()
@@ -227,13 +222,11 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.search.includes('skip')) {
       setIntroComplete(true)
-      setHeroVisible(true)
     }
   }, [])
 
   const handleIntroComplete = () => {
     setIntroComplete(true)
-    setTimeout(() => setHeroVisible(true), 200)
   }
 
   return (
@@ -256,17 +249,14 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── Hero ── */}
         <section className="v2-hero" id="hero">
-          <div className="v2-hero-canvas-wrap" style={{ opacity: heroVisible ? 1 : 0, transition: 'opacity 1.5s ease' }} aria-hidden="true">
-            {/* Only mount HeroCanvas after intro — prevents 3 simultaneous WebGL contexts */}
-            {introComplete && <HeroCanvas />}
-          </div>
-
           {/* Creator cards removed */}
 
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-center">
             <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
-            <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
+            <div className="v2-hero-headline-wrap">
+              <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
+            </div>
             <p className="v2-hero-desc">A data-driven creator seeding agency. 1.9B+ views across TikTok, Instagram, YouTube &amp; Snapchat.</p>
             <div className="v2-hero-actions">
               <a href="https://calendar.app.google/4wcPnasps28aBHTJ9" target="_blank" rel="noopener noreferrer" className="v2-btn-primary">Book a Call</a>

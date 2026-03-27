@@ -266,6 +266,8 @@ html { scroll-behavior: smooth; }
   height: 1px;
   background: var(--muted);
 }
+/* Headline wrapper */
+.v2-hero-headline-wrap {}
 .v2-hero-headline {
   font-family: var(--font-disp);
   font-style: italic;
@@ -279,11 +281,6 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   transform: translateY(20px);
   animation: v2FadeUp 0.9s ease forwards 2.0s;
-  text-shadow:
-    0 0 120px rgba(0,140,255,0.35),
-    0 0 60px rgba(0,140,255,0.18),
-    0 0 20px rgba(0,140,255,0.08),
-    0 4px 60px rgba(0,0,0,0.6);
 }
 .v2-outline {
   color: transparent;
@@ -296,16 +293,17 @@ html { scroll-behavior: smooth; }
   filter: drop-shadow(0 0 30px rgba(0,140,255,0.5)) drop-shadow(0 0 8px rgba(0,140,255,0.4));
 }
 .v2-gradient-text {
-  background: linear-gradient(130deg, #008CFF 0%, #38CFFF 40%, #a259ff 80%, #008CFF 100%);
+  background: linear-gradient(90deg, #008CFF 0%, #55D4FF 45%, #F0E6DE 55%, #55D4FF 70%, #008CFF 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientShimmer 4s ease-in-out infinite;
+  animation: gradientShimmer 5s ease-in-out infinite;
 }
 @keyframes gradientShimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 .v2-text-accent {
   color: var(--accent);
