@@ -569,6 +569,37 @@ html { scroll-behavior: smooth; }
   50%      { opacity: 1; transform: scale(1.08); }
 }
 
+/* ── Starfield background ─────────────────────────────────── */
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: starTwinkle 4s ease-in-out infinite alternate;
+}
+@keyframes starTwinkle {
+  0%   { opacity: var(--tw-start, 0.15); transform: scale(1); }
+  50%  { opacity: var(--tw-peak, 0.7); transform: scale(1.3); }
+  100% { opacity: var(--tw-start, 0.15); transform: scale(1); }
+}
+
+/* Subtle space gradient — adds warmth to the flat black */
+.hero-space-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 25% 20%, rgba(0,60,140,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 45% at 80% 70%, rgba(0,100,200,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(8,16,32,0.4) 0%, transparent 100%);
+  pointer-events: none;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    STATS TICKER STRIP
 ═══════════════════════════════════════════════════════════════ */
@@ -1536,8 +1567,8 @@ html { scroll-behavior: smooth; }
   .v2-hero-desc { font-size: 0.85rem; max-width: 340px; }
   .v2-hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
-  /* Scale 3D cube down on mobile */
-  .cube-scene { transform: scale(0.5); }
+  /* Scale 3D cube on mobile — big enough to feel present */
+  .cube-scene { transform: scale(0.75); }
   /* Scroll indicator — tighter on mobile */
   .v2-hero-scroll { bottom: 16px; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 0; gap: 0; }
