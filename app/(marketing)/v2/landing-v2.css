@@ -569,12 +569,13 @@ html { scroll-behavior: smooth; }
   50%      { opacity: 1; transform: scale(1.08); }
 }
 
-/* ── Starfield background ─────────────────────────────────── */
-.hero-stars {
-  position: absolute;
+/* ── Starfield — fixed, covers entire page on all viewports ── */
+.page-starfield {
+  position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 .hero-star {
   position: absolute;
@@ -588,7 +589,7 @@ html { scroll-behavior: smooth; }
   100% { opacity: var(--tw-start, 0.15); transform: scale(1); }
 }
 
-/* Subtle space gradient — adds warmth to the flat black */
+/* Subtle space gradient — adds depth behind stars */
 .hero-space-gradient {
   position: absolute;
   inset: 0;

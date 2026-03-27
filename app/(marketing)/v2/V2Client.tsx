@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useScrollAnimations } from './useScrollAnimations'
 import { HeroCube } from './HeroCube'
+import { Starfield } from './Starfield'
 
 // Shared canvas that all ScrollScene Views render into — prevents context limit
 const SharedCanvas = dynamic(
@@ -235,6 +236,9 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
       {!introComplete && <IntroScene onComplete={handleIntroComplete} />}
 
       <div className="v2-root" style={{ opacity: introComplete ? 1 : 0, transition: 'opacity 0.8s ease' }}>
+
+        {/* ── Starfield — fixed behind all content ── */}
+        <Starfield />
 
         {/* ── Nav ── */}
         <nav className="v2-nav">
