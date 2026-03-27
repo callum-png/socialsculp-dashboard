@@ -1440,6 +1440,7 @@ html { scroll-behavior: smooth; }
   .v2-about { padding: 80px 32px; grid-template-columns: 1fr; gap: 48px; }
   .v2-svc-grid { grid-template-columns: 1fr; }
   .v2-metrics-row { grid-template-columns: 1fr 1fr; }
+  .cube-scene { transform: scale(0.75); }
 }
 
 /* ─── Creator card float animation (used by FloatingCreatorCard) ─── */
@@ -1533,8 +1534,8 @@ html { scroll-behavior: smooth; }
   .v2-hero-desc { font-size: 0.85rem; max-width: 340px; }
   .v2-hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
-  /* Hide 3D cube on small screens — too cramped */
-  .cube-scene { display: none; }
+  /* Scale 3D cube down on mobile */
+  .cube-scene { transform: scale(0.55); }
   /* Scroll indicator — tighter on mobile */
   .v2-hero-scroll { bottom: 20px; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 0; gap: 0; }
