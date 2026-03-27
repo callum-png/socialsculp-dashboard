@@ -198,7 +198,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-hero {
   min-height: 100vh;
-  padding: 100px 48px 80px;
+  padding: 0 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -315,7 +315,7 @@ html { scroll-behavior: smooth; }
   font-style: normal;
   font-weight: 400;
 }
-/* Centered hero content wrapper */
+/* Centered hero content wrapper — vertically centered between nav and scroll */
 .v2-hero-center {
   display: flex;
   flex-direction: column;
@@ -326,6 +326,8 @@ html { scroll-behavior: smooth; }
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  /* Offset for nav height (~62px) so visual center accounts for it */
+  padding-top: 62px;
 }
 .v2-hero-sub-row {
   display: flex;
@@ -395,10 +397,10 @@ html { scroll-behavior: smooth; }
 .v2-btn-ghost svg { transition: transform 0.25s; }
 .v2-btn-ghost:hover svg { transform: translate(3px, -3px); }
 
-/* Scroll indicator — centered bottom */
+/* Scroll indicator — in flow at bottom of hero */
 .v2-hero-scroll {
   position: absolute;
-  bottom: 32px;
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -454,8 +456,8 @@ html { scroll-behavior: smooth; }
   perspective: 1200px;
   perspective-origin: 50% 45%;
   overflow: hidden;
-  /* Shift cube above headline — sits in upper portion of hero */
-  padding-bottom: 28vh;
+  /* Nudge cube slightly above center so it overlaps headline area */
+  padding-bottom: 10vh;
 }
 
 .cube-rig {
@@ -1431,7 +1433,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
   .v2-nav { padding: 24px 32px; }
-  .v2-hero { padding: 120px 32px 72px; }
+  .v2-hero { padding: 0 32px; }
   .v2-stats-strip { grid-template-columns: repeat(2, 1fr); padding: 24px 32px; }
   .v2-stat:nth-child(2) { border-right: none; }
   .v2-stat:nth-child(3) { border-top: 1px solid var(--border); padding-top: 24px; }
@@ -1528,16 +1530,16 @@ html { scroll-behavior: smooth; }
   :root { --pad: 24px; }
   .v2-nav { padding: 20px 24px; }
   .v2-nav-links { display: none; }
-  .v2-hero { padding: 72px 24px 48px; min-height: 100svh; justify-content: flex-start; padding-top: 80px; }
+  .v2-hero { padding: 0 24px; min-height: 100svh; }
   .v2-hero-headline { font-size: clamp(2.6rem, 11vw, 4.5rem); text-align: center; word-break: break-word; overflow-wrap: break-word; }
-  .v2-hero-center { align-items: center; text-align: center; }
+  .v2-hero-center { align-items: center; text-align: center; padding-top: 52px; }
   .v2-hero-desc { font-size: 0.85rem; max-width: 340px; }
   .v2-hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
-  /* Scale 3D cube down on mobile + push higher */
-  .cube-scene { transform: scale(0.55); padding-bottom: 40vh; }
+  /* Scale 3D cube down on mobile */
+  .cube-scene { transform: scale(0.5); }
   /* Scroll indicator — tighter on mobile */
-  .v2-hero-scroll { bottom: 20px; }
+  .v2-hero-scroll { bottom: 16px; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 0; gap: 0; }
   .v2-stat { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 24px; }
   .v2-stat:last-child { border-bottom: none; }
