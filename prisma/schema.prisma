@@ -466,11 +466,14 @@ model OpenClawHeartbeat {
 model OpenClawCommand {
   id         String   @id @default(cuid())
   command    String
-  output     String
-  exitCode   Int
-  duration   Int
-  executedAt DateTime @default(now())
+  status     String   @default("pending") // pending | running | completed | failed
+  output     String   @default("")
+  exitCode   Int      @default(0)
+  duration   Int      @default(0)
+  createdAt  DateTime @default(now())
+  executedAt DateTime?
 
-  @@index([executedAt])
+  @@index([createdAt])
+  @@index([status])
   @@map("openclaw_commands")
 }

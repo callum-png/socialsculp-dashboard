@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { getDb } from '@/lib/db'
 import { execSSH } from '@/lib/openclaw-ssh'
 
 // Whitelist of safe command prefixes
@@ -39,17 +38,6 @@ export async function POST(req: Request) {
     const result = await execSSH(command.trim())
     const duration = Date.now() - start
 
-    // Store command in DB
-    const db = getDb()
-    await db.openClawCommand.create({
-      data: {
-        command: command.trim(),
-        output: (result.stdout || result.stderr).slice(0, 10000),
-        exitCode: typeof result.code === 'number' ? result.code : 1,
-        duration,
-      },
-    })
-
     return NextResponse.json({
       command: command.trim(),
       output: result.stdout || result.stderr,
@@ -58,6 +46,6 @@ export async function POST(req: Request) {
     })
   } catch (err: any) {
     console.error('[openclaw/command] Error:', err)
-    return NextResponse.json({ error: err.message || 'SSH error' }, { status: 500 })
+    return NextResponse.json({ error: err.message || 'Execution error' }, { status: 500 })
   }
 }

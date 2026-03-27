@@ -1,47 +1,38 @@
-import { execFile } from 'child_process'
-import { writeFileSync, unlinkSync } from 'fs'
-import { tmpdir } from 'os'
-import { join } from 'path'
+import { getDb } from '@/lib/db'
 
-const VPS_HOST = process.env.OPENCLAW_SSH_HOST || '167.172.237.104'
-const VPS_USER = 'root'
-const VPS_PORT = 22
-
-function getPrivateKeyPath(): string {
-  const keyBase64 = process.env.OPENCLAW_SSH_KEY
-  if (!keyBase64) throw new Error('OPENCLAW_SSH_KEY env var not set')
-  const keyContent = Buffer.from(keyBase64, 'base64').toString('utf-8')
-  const tmpPath = join(tmpdir(), `openclaw_key_${Date.now()}`)
-  writeFileSync(tmpPath, keyContent, { mode: 0o600 })
-  return tmpPath
-}
+const POLL_INTERVAL = 500
+const MAX_WAIT = 30000
 
 export async function execSSH(
   command: string,
-  timeoutMs = 30000
+  _timeoutMs = 30000
 ): Promise<{ stdout: string; stderr: string; code: number }> {
-  const keyPath = getPrivateKeyPath()
+  const db = getDb()
 
-  const args = [
-    '-i', keyPath,
-    '-o', 'StrictHostKeyChecking=no',
-    '-o', 'UserKnownHostsFile=/dev/null',
-    '-o', `ConnectTimeout=${Math.floor(timeoutMs / 1000)}`,
-    '-p', String(VPS_PORT),
-    `${VPS_USER}@${VPS_HOST}`,
-    command,
-  ]
-
-  return new Promise((resolve) => {
-    execFile('ssh', args, { timeout: timeoutMs }, (error, stdout, stderr) => {
-      // Clean up temp key
-      try { unlinkSync(keyPath) } catch {}
-
-      resolve({
-        stdout: (stdout || '').trim(),
-        stderr: (stderr || '').trim(),
-        code: error ? (error as any).code ?? 1 : 0,
-      })
-    })
+  // Queue the command
+  const row = await db.openClawCommand.create({
+    data: { command, status: 'pending' },
   })
+
+  // Poll until the reporter picks it up and returns results
+  const deadline = Date.now() + MAX_WAIT
+  while (Date.now() < deadline) {
+    await new Promise(r => setTimeout(r, POLL_INTERVAL))
+    const updated = await db.openClawCommand.findUnique({ where: { id: row.id } })
+    if (updated && (updated.status === 'completed' || updated.status === 'failed')) {
+      return {
+        stdout: updated.output || '',
+        stderr: '',
+        code: updated.exitCode,
+      }
+    }
+  }
+
+  // Timeout — mark as failed
+  await db.openClawCommand.update({
+    where: { id: row.id },
+    data: { status: 'failed', output: 'Timed out waiting for VPS to execute command' },
+  })
+
+  return { stdout: '', stderr: 'Timed out waiting for VPS to execute command', code: 1 }
 }
