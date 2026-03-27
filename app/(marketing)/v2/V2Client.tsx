@@ -242,7 +242,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── Nav ── */}
         <nav className="v2-nav">
-          <a href="/v2" className="v2-nav-logo">Social<em>Sculp</em></a>
+          <a href="/" className="v2-nav-logo">Social<em>Sculp</em></a>
           <ul className="v2-nav-links">
             <li><a href="#work">Work</a></li>
             <li><a href="#services">Services</a></li>
@@ -399,7 +399,7 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── Footer ── */}
         <footer className="v2-footer">
-          <a href="/v2" className="v2-footer-logo">Social<em>Sculp</em></a>
+          <a href="/" className="v2-footer-logo">Social<em>Sculp</em></a>
           <ul className="v2-footer-links"><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li><li><a href="mailto:business@socialsculp.io">business@socialsculp.io</a></li><li><a href="/sign-in">Sign In</a></li><li><a href="/sign-up">Get Started</a></li></ul>
           <div className="v2-footer-legal">© 2025 SocialSculp LLC.</div>
         </footer>
