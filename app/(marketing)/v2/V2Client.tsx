@@ -255,7 +255,6 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-center">
-            <div className="v2-hero-tag">Creator Seeding Agency — Est. 2024</div>
             <div className="v2-hero-headline-wrap">
               <h1 className="v2-hero-headline">We Engineer<br /><span className="v2-gradient-text">Narratives</span><br />at Scale.</h1>
             </div>

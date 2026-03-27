@@ -224,8 +224,7 @@ function BrandLights() {
 function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<boolean> }) {
   const groupRef      = useRef<THREE.Group>(null)
   const matRef        = useRef<THREE.MeshStandardMaterial>(null)
-  const scaleRef      = useRef(0)
-  const rotYRef       = useRef(-0.6)
+  const revealStart   = useRef(0)
   const revealDoneRef = useRef(false)
 
   useFrame(({ clock }) => {
@@ -233,27 +232,37 @@ function BrandText3D({ showTextRef }: { showTextRef: React.MutableRefObject<bool
     if (!showTextRef.current) return
     const t = clock.getElapsedTime()
 
-    // Scale in
-    scaleRef.current += (1 - scaleRef.current) * 0.055
-    groupRef.current.scale.setScalar(scaleRef.current)
+    // Track when reveal started
+    if (revealStart.current === 0) revealStart.current = t
+    const elapsed = t - revealStart.current
 
-    // Entrance: snap from -0.6 → 0, then lock face-on
+    // Entrance: dramatic zoom from far behind (2.5s ease-out)
+    const entranceT = Math.min(elapsed / 2.5, 1)
+    const eased = 1 - Math.pow(1 - entranceT, 4) // quartic ease-out
+
     if (!revealDoneRef.current) {
-      rotYRef.current += (0 - rotYRef.current) * 0.055
-      if (Math.abs(rotYRef.current) < 0.005) { rotYRef.current = 0; revealDoneRef.current = true }
+      // Scale: 0.15 → 1 (starts small and far, punches forward)
+      const scale = 0.15 + eased * 0.85
+      groupRef.current.scale.setScalar(scale)
+      // Z position: push from behind → 0
+      groupRef.current.position.z = -12 * (1 - eased)
+      // Rotate from angled to face-on
+      groupRef.current.rotation.y = -0.4 * (1 - eased)
+      groupRef.current.rotation.x = 0.15 * (1 - eased)
+      // Opacity ramp (via emissive intensity)
+      matRef.current.opacity = eased
+      if (entranceT >= 1) revealDoneRef.current = true
     }
-    // Idle: slow pendulum rock ±4° — stays face-on, never spins away
-    const pendulum = revealDoneRef.current ? Math.sin(t * 0.38) * 0.07 : rotYRef.current
-    groupRef.current.rotation.y = pendulum
-    // Subtle Z breath — adds life without movement
-    groupRef.current.rotation.z = Math.sin(t * 0.22) * 0.012
 
-    // Vertical float
-    groupRef.current.position.y = 0.3 + Math.sin(t * 0.55) * 0.15
+    // Idle: lock in place — no movement after reveal
+    if (revealDoneRef.current) {
+      groupRef.current.rotation.y = 0
+      groupRef.current.rotation.z = 0
+      groupRef.current.position.y = 0.2
+    }
 
-    // Emissive pulse — brightens on the pendulum peak for a "pulse on turn" feel
-    const peakBoost = revealDoneRef.current ? Math.abs(Math.sin(t * 0.38)) * 0.25 : 0
-    matRef.current.emissiveIntensity = 0.35 + Math.sin(t * 1.8) * 0.2 + peakBoost
+    // Emissive: subtle glow pulse only
+    matRef.current.emissiveIntensity = revealDoneRef.current ? 0.4 : 0.3 + eased * 0.3
   })
 
   return (
@@ -476,12 +485,12 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         <span style={{ color: 'rgba(0,140,255,0.35)' }}>v2.0.1 — {new Date().getFullYear()}</span>
       </div>
 
-      {/* Counter — centred at bottom */}
+      {/* Counter — centred on screen */}
       <div style={{
         position: 'absolute',
-        bottom: 'clamp(32px, 6vh, 64px)',
+        top: '50%',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'translate(-50%, -50%)',
         textAlign: 'center',
         zIndex: 10,
         pointerEvents: 'none',
