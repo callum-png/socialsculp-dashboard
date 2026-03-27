@@ -201,7 +201,8 @@ html { scroll-behavior: smooth; }
   padding: 140px 48px 80px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   position: relative;
   overflow: hidden;
   background: var(--dark);
@@ -220,18 +221,18 @@ html { scroll-behavior: smooth; }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(4,8,16,0.3) 0%,
-    transparent 30%,
-    transparent 50%,
-    rgba(4,8,16,0.7) 75%,
-    rgba(4,8,16,0.95) 100%
+    rgba(4,8,16,0.15) 0%,
+    transparent 25%,
+    transparent 55%,
+    rgba(4,8,16,0.6) 75%,
+    rgba(4,8,16,0.92) 100%
   );
   pointer-events: none;
   z-index: 1;
 }
 
 /* All hero content sits above overlays */
-.v2-hero > *:not(.v2-hero-canvas-wrap):not(.v2-hero-overlay):not(.v2-hero-creator-cards) {
+.v2-hero > *:not(.v2-hero-canvas-wrap):not(.v2-hero-overlay):not(.v2-hero-creator-cards):not(.cube-scene) {
   position: relative;
   z-index: 2;
 }
@@ -435,6 +436,133 @@ html { scroll-behavior: smooth; }
   0%   { top: -100%; }
   50%  { top: 100%; }
   100% { top: 100%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO 3D CUBE — CSS-only rotating geometry (unseen.co style)
+═══════════════════════════════════════════════════════════════ */
+
+.cube-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+  overflow: hidden;
+  /* Shift cube up so it overlaps with the headline center */
+  padding-bottom: 12vh;
+}
+
+.cube-rig {
+  width: clamp(220px, 28vw, 380px);
+  height: clamp(220px, 28vw, 380px);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: cubeOrbit 18s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+
+/* ── Main cube ── */
+.cube {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.cube-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 140, 255, 0.18);
+  background: transparent;
+  backface-visibility: visible;
+}
+
+.cube-front  { transform: translateZ(calc(clamp(110px, 14vw, 190px))); }
+.cube-back   { transform: rotateY(180deg) translateZ(calc(clamp(110px, 14vw, 190px))); }
+.cube-left   { transform: rotateY(-90deg) translateZ(calc(clamp(110px, 14vw, 190px))); }
+.cube-right  { transform: rotateY(90deg) translateZ(calc(clamp(110px, 14vw, 190px))); }
+.cube-top    { transform: rotateX(90deg) translateZ(calc(clamp(110px, 14vw, 190px))); }
+.cube-bottom { transform: rotateX(-90deg) translateZ(calc(clamp(110px, 14vw, 190px))); }
+
+/* ── Inner cube (counter-rotates for depth) ── */
+.cube-inner {
+  animation: cubeInner 12s cubic-bezier(0.34, 1.2, 0.64, 1) infinite reverse;
+}
+.cube-inner .cube-face {
+  width: 65%;
+  height: 65%;
+  top: 17.5%;
+  left: 17.5%;
+  border-color: rgba(0, 140, 255, 0.35);
+  background: rgba(0, 140, 255, 0.015);
+}
+.cube-inner .cube-front  { transform: translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+.cube-inner .cube-back   { transform: rotateY(180deg) translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+.cube-inner .cube-left   { transform: rotateY(-90deg) translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+.cube-inner .cube-right  { transform: rotateY(90deg) translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+.cube-inner .cube-top    { transform: rotateX(90deg) translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+.cube-inner .cube-bottom { transform: rotateX(-90deg) translateZ(calc(clamp(72px, 9.1vw, 124px))); }
+
+/* ── Wireframe octahedron accent ── */
+.octa {
+  position: absolute;
+  inset: 10%;
+  transform-style: preserve-3d;
+  animation: octaSpin 24s linear infinite;
+}
+.octa-edge {
+  position: absolute;
+  width: 141%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,140,255,0.5) 50%, transparent 100%);
+  top: 50%;
+  left: -20.5%;
+  transform-origin: center center;
+}
+.octa-e1 { transform: rotateZ(45deg) rotateY(45deg); }
+.octa-e2 { transform: rotateZ(-45deg) rotateY(45deg); }
+.octa-e3 { transform: rotateZ(45deg) rotateY(-45deg); }
+.octa-e4 { transform: rotateZ(-45deg) rotateY(-45deg); }
+
+/* ── Ambient glow beneath the cube ── */
+.cube-glow {
+  position: absolute;
+  width: clamp(250px, 34vw, 450px);
+  height: clamp(250px, 34vw, 450px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,140,255,0.08) 0%, rgba(0,140,255,0.02) 40%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes cubeOrbit {
+  0%   { transform: rotateX(-20deg) rotateY(0deg); }
+  25%  { transform: rotateX(-35deg) rotateY(90deg); }
+  50%  { transform: rotateX(-15deg) rotateY(180deg); }
+  75%  { transform: rotateX(-40deg) rotateY(270deg); }
+  100% { transform: rotateX(-20deg) rotateY(360deg); }
+}
+
+@keyframes cubeInner {
+  0%   { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  33%  { transform: rotateX(120deg) rotateY(90deg) rotateZ(60deg); }
+  66%  { transform: rotateX(240deg) rotateY(180deg) rotateZ(120deg); }
+  100% { transform: rotateX(360deg) rotateY(270deg) rotateZ(180deg); }
+}
+
+@keyframes octaSpin {
+  from { transform: rotateY(0deg) rotateX(0deg); }
+  to   { transform: rotateY(360deg) rotateX(360deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.08); }
 }
 
 /* ═══════════════════════════════════════════════════════════════

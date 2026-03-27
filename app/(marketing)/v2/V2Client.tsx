@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useScrollAnimations } from './useScrollAnimations'
+import { HeroCube } from './HeroCube'
 
 // Shared canvas that all ScrollScene Views render into — prevents context limit
 const SharedCanvas = dynamic(
@@ -249,7 +250,8 @@ export function V2PageWrapper({ caseStudies, services, brands }: { caseStudies: 
 
         {/* ── Hero ── */}
         <section className="v2-hero" id="hero">
-          {/* Creator cards removed */}
+          {/* CSS 3D rotating geometric form */}
+          <HeroCube />
 
           <div className="v2-hero-overlay" aria-hidden="true" />
           <div className="v2-hero-center">
