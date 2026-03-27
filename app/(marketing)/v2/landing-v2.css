@@ -1528,14 +1528,14 @@ html { scroll-behavior: smooth; }
   :root { --pad: 24px; }
   .v2-nav { padding: 20px 24px; }
   .v2-nav-links { display: none; }
-  .v2-hero { padding: 100px 24px 60px; min-height: 100svh; }
+  .v2-hero { padding: 72px 24px 48px; min-height: 100svh; justify-content: flex-start; padding-top: 80px; }
   .v2-hero-headline { font-size: clamp(2.6rem, 11vw, 4.5rem); text-align: center; word-break: break-word; overflow-wrap: break-word; }
   .v2-hero-center { align-items: center; text-align: center; }
   .v2-hero-desc { font-size: 0.85rem; max-width: 340px; }
   .v2-hero-actions { flex-direction: column; width: 100%; max-width: 280px; }
   .v2-btn-primary, .v2-btn-ghost { width: 100%; justify-content: center; text-align: center; }
-  /* Scale 3D cube down on mobile */
-  .cube-scene { transform: scale(0.55); }
+  /* Scale 3D cube down on mobile + push higher */
+  .cube-scene { transform: scale(0.55); padding-bottom: 40vh; }
   /* Scroll indicator — tighter on mobile */
   .v2-hero-scroll { bottom: 20px; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 0; gap: 0; }
