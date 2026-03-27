@@ -27,7 +27,7 @@ html, body { background: #040810; }
 html { scroll-behavior: smooth; }
 
 .v2-root {
-  background: var(--dark);
+  background: transparent;
   color: var(--cream);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -205,7 +205,7 @@ html { scroll-behavior: smooth; }
   align-items: center;
   position: relative;
   overflow: hidden;
-  background: var(--dark);
+  background: transparent;
 }
 
 /* R3F Canvas container */
@@ -605,7 +605,7 @@ html { scroll-behavior: smooth; }
    STATS TICKER STRIP
 ═══════════════════════════════════════════════════════════════ */
 .v2-stats-strip {
-  background: var(--dark);
+  background: transparent;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: 28px 0;
@@ -651,7 +651,7 @@ html { scroll-behavior: smooth; }
 .v2-marquee-wrap {
   overflow: hidden;
   padding: 18px 0;
-  background: var(--dark);
+  background: transparent;
   mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
   /* Isolate from compositor battles with R3F canvas */
   isolation: isolate;
@@ -694,7 +694,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-work {
   padding: 120px 48px;
-  background: var(--dark);
+  background: transparent;
 }
 .v2-section-header {
   display: flex;
@@ -846,7 +846,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-services {
   padding: 120px 48px;
-  background: var(--dark);
+  background: transparent;
   color: var(--cream);
 }
 .v2-services .v2-section-title { color: var(--cream); }
@@ -943,7 +943,7 @@ html { scroll-behavior: smooth; }
 ═══════════════════════════════════════════════════════════════ */
 .v2-metrics {
   padding: 80px 48px;
-  background: var(--dark);
+  background: transparent;
   border-top: 1px solid rgba(240,230,222,0.06);
 }
 .v2-metrics-label {
@@ -1038,7 +1038,7 @@ html { scroll-behavior: smooth; }
   height: 460px;
   border-radius: 4px;
   overflow: hidden;
-  background: var(--dark);
+  background: transparent;
 }
 .v2-about-bg {
   position: absolute;
@@ -1113,7 +1113,7 @@ html { scroll-behavior: smooth; }
    CTA — full-width
 ═══════════════════════════════════════════════════════════════ */
 .v2-cta {
-  background: var(--dark);
+  background: transparent;
   padding: 140px 48px 120px;
   text-align: center;
   position: relative;
@@ -1391,7 +1391,7 @@ html { scroll-behavior: smooth; }
    FOOTER
 ═══════════════════════════════════════════════════════════════ */
 .v2-footer {
-  background: var(--dark);
+  background: transparent;
   border-top: 1px solid rgba(240,230,222,0.08);
   padding: 48px;
   display: flex;
@@ -1491,7 +1491,7 @@ html { scroll-behavior: smooth; }
 /* ─── Process section ──────────────────────────────────────────── */
 .v2-process {
   padding: 100px var(--pad);
-  background: #050c18;
+  background: transparent;
   overflow: visible;
 }
 /* Centre the section header when there's no right-side link */
