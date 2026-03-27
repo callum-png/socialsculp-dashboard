@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       data: {
         command: command.trim(),
         output: (result.stdout || result.stderr).slice(0, 10000),
-        exitCode: result.code,
+        exitCode: typeof result.code === 'number' ? result.code : 1,
         duration,
       },
     })
