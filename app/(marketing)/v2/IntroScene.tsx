@@ -61,10 +61,10 @@ const NODE_FRAG = /* glsl */`
     float outer = 1.0 - smoothstep(0.18, 0.50, d);
 
     vec3 dormant = vec3(0.18, 0.35, 0.75);
-    vec3 active  = vec3(0.05, 0.72, 1.0);
+    vec3 acCol  = vec3(0.05, 0.72, 1.0);
     vec3 hot     = vec3(0.92, 0.98, 1.0);
 
-    vec3 col = mix(dormant, active, vActive);
+    vec3 col = mix(dormant, acCol, vActive);
     col = mix(col, hot, core * vActive * 0.9);
 
     // Additive alpha: core burns white, mid glows blue, outer halos wide
@@ -94,8 +94,8 @@ const EDGE_FRAG = /* glsl */`
     if (vActive < 0.015) discard;
     // Dormant edges faintly visible; active edges bright blue
     vec3 dormant = vec3(0.06, 0.16, 0.40);
-    vec3 active  = vec3(0.08, 0.62, 1.0);
-    vec3 col = mix(dormant, active, smoothstep(0.1, 0.8, vActive));
+    vec3 acCol  = vec3(0.08, 0.62, 1.0);
+    vec3 col = mix(dormant, acCol, smoothstep(0.1, 0.8, vActive));
     float a = mix(0.18, 0.92, smoothstep(0.05, 0.9, vActive));
     gl_FragColor = vec4(col, a);
   }
@@ -253,27 +253,10 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
   useFrame(({ clock }) => {
     if (!groupRef.current || !matRef.current) return
 
-    // Clean up geometry artifacts and center text once after font generates it
+    // Center the text geometry once after font generates it
     if (!didCenter.current && textMeshRef.current) {
       const geom = textMeshRef.current.geometry
-      if (geom && geom.attributes.position && geom.attributes.position.count > 0 && geom.index) {
-        // Remove tiny parasitic faces produced by TextGeometry/ExtrudeGeometry
-        const pos = geom.attributes.position
-        const idx = geom.index
-        const src = idx.array
-        const keep: number[] = []; const areas: number[] = []
-        const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3()
-        const e1 = new THREE.Vector3(), e2 = new THREE.Vector3()
-        for (let i = 0; i < src.length; i += 3) {
-          a.fromBufferAttribute(pos, src[i])
-          b.fromBufferAttribute(pos, src[i + 1])
-          c.fromBufferAttribute(pos, src[i + 2])
-          e1.subVectors(b, a)
-          e2.subVectors(c, a)
-          const area = e1.cross(e2).length() * 0.5
-          areas.push(area); keep.push(src[i], src[i + 1], src[i + 2])
-        }
-        const sorted = [...areas].sort((x,y) => x - y); console.log("[Text3D] face count:", areas.length, "min:", sorted[0], "max:", sorted[sorted.length-1]); const buckets = [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 50]; const hist = buckets.map(b => ({lt: b, count: areas.filter(a => a < b).length})); console.log("[Text3D] area histogram:", JSON.stringify(hist)); console.log("[Text3D] smallest 20 areas:", sorted.slice(0,20).map(a => a.toFixed(6))); geom.setIndex(keep)
+      if (geom && geom.attributes.position && geom.attributes.position.count > 0) {
         geom.center()
         didCenter.current = true
       }
