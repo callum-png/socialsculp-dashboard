@@ -307,6 +307,8 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
             emissiveIntensity={0.4}
             metalness={0.85}
             roughness={0.08}
+            transparent
+            opacity={0}
           />
         </Text3D>
       </Center>
