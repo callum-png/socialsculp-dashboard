@@ -1,6 +1,56 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { getDb } from '@/lib/db'
+import { Resend } from 'resend'
+
+// Helper: count all emails sent via Resend (paginate through the list API)
+async function getResendEmailCount(): Promise<{ total: number; recentEmails: { id: string; to: string[]; subject: string; created_at: string }[] }> {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey || apiKey.startsWith('re_xxx')) {
+    return { total: 0, recentEmails: [] }
+  }
+
+  try {
+    const resend = new Resend(apiKey)
+    let total = 0
+    let cursor: string | undefined
+    const recentEmails: { id: string; to: string[]; subject: string; created_at: string }[] = []
+
+    // Paginate through all emails to get total count
+    // Each page returns up to 100 emails
+    for (let page = 0; page < 20; page++) {
+      const opts: { limit: number; after?: string } = { limit: 100 }
+      if (cursor) opts.after = cursor
+
+      const { data, error } = await resend.emails.list(opts)
+      if (error || !data) break
+
+      total += data.data.length
+
+      // Collect first 10 recent emails for display
+      if (page === 0) {
+        for (const email of data.data.slice(0, 10)) {
+          recentEmails.push({
+            id: email.id,
+            to: Array.isArray(email.to) ? email.to : [email.to],
+            subject: email.subject,
+            created_at: email.created_at,
+          })
+        }
+      }
+
+      if (!data.has_more) break
+      // Use the last email ID as cursor for next page
+      const lastEmail = data.data[data.data.length - 1]
+      if (lastEmail) cursor = lastEmail.id
+    }
+
+    return { total, recentEmails }
+  } catch (err) {
+    console.error('[openclaw/status] Resend API error:', err)
+    return { total: 0, recentEmails: [] }
+  }
+}
 
 export async function GET() {
   const { userId } = await auth()
@@ -32,7 +82,7 @@ export async function GET() {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
-    const [leadsTotal, leadsThisWeek, leadsThisMonth, deals, dealsByStage] = await Promise.all([
+    const [leadsTotal, leadsThisWeek, leadsThisMonth, deals, dealsByStage, resendStats] = await Promise.all([
       db.lead.count(),
       db.lead.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
       db.lead.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
@@ -44,6 +94,7 @@ export async function GET() {
         _count: { id: true },
         _sum: { value: true },
       }),
+      getResendEmailCount(),
     ])
 
     const pipelineValue = deals.reduce((sum, d) => sum + (d.value || 0), 0)
@@ -75,6 +126,10 @@ export async function GET() {
             count: s._count.id,
             value: s._sum.value || 0,
           })),
+        },
+        emails: {
+          sent: resendStats.total,
+          recent: resendStats.recentEmails,
         },
       },
     })

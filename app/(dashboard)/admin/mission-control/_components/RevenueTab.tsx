@@ -50,6 +50,7 @@ export function RevenueTab({ data }: TabProps) {
   const crm = (data as any)?.crm as {
     leads: { total: number; thisWeek: number; thisMonth: number }
     deals: { total: number; pipelineValue: number; byStage: { stage: string; count: number; value: number }[] }
+    emails?: { sent: number; recent: { id: string; to: string[]; subject: string; created_at: string }[] }
   } | undefined
 
   // Legacy workspace data from reporter heartbeat
@@ -102,8 +103,8 @@ export function RevenueTab({ data }: TabProps) {
               <StatCard
                 icon={<Mail size={18} />}
                 label="Emails Sent"
-                value={workspace?.emailsSent || 14}
-                subtitle="Via Resend"
+                value={crm.emails?.sent ?? workspace?.emailsSent ?? 0}
+                subtitle="Via Resend (live)"
               />
             </div>
           </div>
@@ -162,6 +163,38 @@ export function RevenueTab({ data }: TabProps) {
                       </div>
                     )
                   })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Recent Emails from Resend */}
+          {crm.emails && crm.emails.recent.length > 0 && (
+            <div>
+              <h3 className="text-sm font-syne font-semibold text-[#6B6860] uppercase tracking-wide mb-3">
+                Recent Emails
+              </h3>
+              <div className="rounded-lg bg-[#111111] border border-[#222222]">
+                <div className="divide-y divide-[#222222]">
+                  {crm.emails.recent.map((email) => (
+                    <div
+                      key={email.id}
+                      className="flex items-center justify-between px-5 py-3.5 hover:bg-[#0a0a0a] transition-colors"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Mail size={14} className="text-[#008cff] flex-shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm text-[#EDE8DE] truncate">{email.subject || '(no subject)'}</p>
+                          <p className="text-xs text-[#6B6860] truncate">
+                            To: {email.to.join(', ')}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs text-[#6B6860] flex-shrink-0 ml-4">
+                        {new Date(email.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
