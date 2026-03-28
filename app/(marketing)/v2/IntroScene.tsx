@@ -310,7 +310,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         bevelSegments={4}
         curveSegments={12}
       >
-        SOCIALSCULP
+{"SOCIALSCULP"}
         <meshStandardMaterial
           ref={matRef}
           color="#F0E6DE"
