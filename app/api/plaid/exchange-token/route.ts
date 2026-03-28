@@ -1,9 +1,9 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { plaidClient } from '@/lib/plaid'
-import { PrismaClient } from '@prisma/client'
+import { getDb } from '@/lib/db'
 
-const prisma = new PrismaClient()
+
 
 export async function POST(req: Request) {
   const { userId } = await auth()
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const { access_token, item_id } = exchangeRes.data
 
     // Save connection
-    const connection = await prisma.bankConnection.create({
+    const connection = await getDb().bankConnection.create({
       data: {
         userId,
         accessToken: access_token,
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     // Fetch and save accounts
     const accountsRes = await plaidClient.accountsGet({ access_token })
     for (const acct of accountsRes.data.accounts) {
-      await prisma.bankAccount.create({
+      await getDb().bankAccount.create({
         data: {
           connectionId: connection.id,
           plaidAccountId: acct.account_id,

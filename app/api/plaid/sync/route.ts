@@ -1,16 +1,16 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { plaidClient } from '@/lib/plaid'
-import { PrismaClient } from '@prisma/client'
+import { getDb } from '@/lib/db'
 
-const prisma = new PrismaClient()
+
 
 export async function POST() {
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const connections = await prisma.bankConnection.findMany({
+    const connections = await getDb().bankConnection.findMany({
       where: { userId },
       include: { accounts: true },
     })
@@ -36,7 +36,7 @@ export async function POST() {
           const account = conn.accounts.find(a => a.plaidAccountId === txn.account_id)
           if (!account) continue
 
-          await prisma.plaidTransaction.upsert({
+          await getDb().plaidTransaction.upsert({
             where: { plaidTransactionId: txn.transaction_id },
             create: {
               accountId: account.id,
@@ -65,7 +65,7 @@ export async function POST() {
 
         // Process modified
         for (const txn of modified) {
-          await prisma.plaidTransaction.updateMany({
+          await getDb().plaidTransaction.updateMany({
             where: { plaidTransactionId: txn.transaction_id },
             data: {
               amount: txn.amount,
@@ -79,7 +79,7 @@ export async function POST() {
         // Process removed
         for (const txn of removed) {
           if (txn.transaction_id) {
-            await prisma.plaidTransaction.deleteMany({
+            await getDb().plaidTransaction.deleteMany({
               where: { plaidTransactionId: txn.transaction_id },
             })
           }
@@ -93,7 +93,7 @@ export async function POST() {
       }
 
       // Update cursor
-      await prisma.bankConnection.update({
+      await getDb().bankConnection.update({
         where: { id: conn.id },
         data: { cursor },
       })
@@ -102,7 +102,7 @@ export async function POST() {
       try {
         const balRes = await plaidClient.accountsGet({ access_token: conn.accessToken })
         for (const acct of balRes.data.accounts) {
-          await prisma.bankAccount.updateMany({
+          await getDb().bankAccount.updateMany({
             where: { plaidAccountId: acct.account_id },
             data: {
               currentBalance: acct.balances.current ?? null,

@@ -1,8 +1,8 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { getDb } from '@/lib/db'
 
-const prisma = new PrismaClient()
+
 
 export async function GET(req: Request) {
   const { userId } = await auth()
@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   const accountId = url.searchParams.get('accountId') || ''
 
   // Get user's account IDs
-  const userAccounts = await prisma.bankAccount.findMany({
+  const userAccounts = await getDb().bankAccount.findMany({
     where: {
       connection: { userId },
       ...(accountId ? { id: accountId } : {}),
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
   }
 
   const [transactions, total] = await Promise.all([
-    prisma.plaidTransaction.findMany({
+    getDb().plaidTransaction.findMany({
       where,
       include: {
         account: {
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       skip: (page - 1) * limit,
       take: limit,
     }),
-    prisma.plaidTransaction.count({ where }),
+    getDb().plaidTransaction.count({ where }),
   ])
 
   return NextResponse.json({
