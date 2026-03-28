@@ -18,4 +18,28 @@ export const DECKS: DeckRecord[] = [
     createdAt: '2026-03-21',
     notes: 'Discovery call 2026-03-24',
   },
+  {
+    slug: 'gowish',
+    clientName: 'GoWish',
+    publicUrl: 'https://socialsculp.io/gowish',
+    service: 'Creator Seeding',
+    status: 'live',
+    createdAt: '2026-03-28',
+  },
+  {
+    slug: 'affiliatenetwork',
+    clientName: 'Affiliate Network',
+    publicUrl: 'https://socialsculp.io/affiliatenetwork',
+    service: 'Affiliate Network',
+    status: 'live',
+    createdAt: '2026-03-28',
+  },
+  {
+    slug: 'calai',
+    clientName: 'Cal AI',
+    publicUrl: 'https://sylcroad.com/CalAi',
+    service: 'AI Product',
+    status: 'live',
+    createdAt: '2026-03-28',
+  },
 ]
