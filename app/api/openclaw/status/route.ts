@@ -28,6 +28,26 @@ export async function GET() {
       take: 20,
     })
 
+    // CRM stats from dashboard DB
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+
+    const [leadsTotal, leadsThisWeek, leadsThisMonth, deals, dealsByStage] = await Promise.all([
+      db.lead.count(),
+      db.lead.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+      db.lead.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+      db.salesDeal.findMany({
+        select: { stage: true, value: true, createdAt: true },
+      }),
+      db.salesDeal.groupBy({
+        by: ['stage'],
+        _count: { id: true },
+        _sum: { value: true },
+      }),
+    ])
+
+    const pipelineValue = deals.reduce((sum, d) => sum + (d.value || 0), 0)
+
     const isOnline = latest
       ? Date.now() - new Date(latest.receivedAt).getTime() < 2 * 60 * 1000
       : false
@@ -41,6 +61,22 @@ export async function GET() {
       latest: latest ? { ...(latest.data as Record<string, unknown>), receivedAt: latest.receivedAt } : null,
       history: history.map(h => ({ receivedAt: h.receivedAt, data: h.data })),
       recentCommands: commands,
+      crm: {
+        leads: {
+          total: leadsTotal,
+          thisWeek: leadsThisWeek,
+          thisMonth: leadsThisMonth,
+        },
+        deals: {
+          total: deals.length,
+          pipelineValue,
+          byStage: dealsByStage.map(s => ({
+            stage: s.stage,
+            count: s._count.id,
+            value: s._sum.value || 0,
+          })),
+        },
+      },
     })
   } catch (err) {
     console.error('[openclaw/status] Error:', err)
