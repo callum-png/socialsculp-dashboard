@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Flame, Coins, Info, TrendingUp } from 'lucide-react'
+import { Flame, Coins, Info, TrendingUp, Zap } from 'lucide-react'
 import {
   AreaChart,
   Area,
@@ -28,7 +28,7 @@ function formatTokens(n: number | null | undefined): string {
 
 function formatCost(n: number | null | undefined): string {
   if (n == null) return '—'
-  return `$${n.toFixed(2)}`
+  return `$${n.toFixed(4)}`
 }
 
 function formatTime(iso: string): string {
@@ -40,11 +40,37 @@ function formatTime(iso: string): string {
   }
 }
 
+// Rough cost estimates per 1M tokens
+const MODEL_COSTS: Record<string, { input: number; output: number }> = {
+  'ollama': { input: 0, output: 0 }, // local models are free
+  'gpt-4o-mini': { input: 0.15, output: 0.60 },
+  'gpt-4o': { input: 2.50, output: 10.00 },
+  'claude-sonnet': { input: 3.00, output: 15.00 },
+  'claude-opus': { input: 15.00, output: 75.00 },
+  'claude-haiku': { input: 0.25, output: 1.25 },
+}
+
+function estimateCostForSession(session: any): number {
+  const model = (session.model || '').toLowerCase()
+  let pricing = { input: 0.15, output: 0.60 } // default to cheap model
+
+  for (const [key, costs] of Object.entries(MODEL_COSTS)) {
+    if (model.includes(key)) {
+      pricing = costs
+      break
+    }
+  }
+
+  const inputCost = (session.inputTokens || 0) * (pricing.input / 1_000_000)
+  const outputCost = (session.outputTokens || 0) * (pricing.output / 1_000_000)
+  return inputCost + outputCost
+}
+
 interface PeriodData {
-  input?: number
-  output?: number
-  total?: number
-  estimatedCost?: number
+  input: number
+  output: number
+  total: number
+  estimatedCost: number
 }
 
 function SummaryCard({
@@ -97,23 +123,55 @@ function CustomTooltip({ active, payload, label }: any) {
   )
 }
 
-const MODEL_PRICING = [
-  { model: 'GPT-4o-mini', input: '$0.15', output: '$0.60' },
-  { model: 'GPT-4o', input: '$2.50', output: '$10.00' },
-  { model: 'Claude Sonnet', input: '$3.00', output: '$15.00' },
-]
-
 export function TokenBurnTab({ data }: TabProps) {
-  const tokenUsage = data?.latest?.tokenUsage ?? null
+  // v2 payload: aggregate from sessions[]; legacy: use tokenUsage directly
+  const legacyTokenUsage = data?.latest?.tokenUsage ?? null
+  const sessions: any[] = data?.latest?.sessions ?? []
+
+  const sessionTokens = useMemo((): PeriodData | null => {
+    if (sessions.length === 0) return null
+    let input = 0, output = 0, total = 0, cost = 0
+    for (const s of sessions) {
+      input += s.inputTokens || 0
+      output += s.outputTokens || 0
+      total += s.totalTokens || 0
+      cost += estimateCostForSession(s)
+    }
+    return { input, output, total, estimatedCost: cost }
+  }, [sessions])
+
+  // Per-model breakdown from sessions
+  const modelBreakdown = useMemo(() => {
+    if (sessions.length === 0) return []
+    const byModel: Record<string, { input: number; output: number; total: number; cost: number; count: number }> = {}
+    for (const s of sessions) {
+      const key = s.model || 'unknown'
+      if (!byModel[key]) byModel[key] = { input: 0, output: 0, total: 0, cost: 0, count: 0 }
+      byModel[key].input += s.inputTokens || 0
+      byModel[key].output += s.outputTokens || 0
+      byModel[key].total += s.totalTokens || 0
+      byModel[key].cost += estimateCostForSession(s)
+      byModel[key].count++
+    }
+    return Object.entries(byModel)
+      .map(([model, data]) => ({ model, ...data }))
+      .sort((a, b) => b.total - a.total)
+  }, [sessions])
 
   const chartData = useMemo(() => {
     if (!data?.history?.length) return []
     return data.history
       .slice(-48)
-      .map((entry) => ({
-        time: formatTime(entry.receivedAt),
-        tokens: entry.data?.tokenUsage?.today?.total ?? 0,
-      }))
+      .map((entry) => {
+        // v2: sum sessions tokens; legacy: use tokenUsage.today.total
+        const entrySessions = entry.data?.sessions ?? []
+        const legacyTotal = entry.data?.tokenUsage?.today?.total ?? 0
+        const sessionTotal = entrySessions.reduce((sum: number, s: any) => sum + (s.totalTokens || 0), 0)
+        return {
+          time: formatTime(entry.receivedAt),
+          tokens: sessionTotal > 0 ? sessionTotal : legacyTotal,
+        }
+      })
   }, [data?.history])
 
   if (!data) {
@@ -125,14 +183,98 @@ export function TokenBurnTab({ data }: TabProps) {
     )
   }
 
+  // Use session-derived data if available, fall back to legacy
+  const hasSessionData = sessionTokens && sessionTokens.total > 0
+
   return (
     <div className="space-y-6">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <SummaryCard label="Today" period={tokenUsage?.today} />
-        <SummaryCard label="This Week" period={tokenUsage?.week} />
-        <SummaryCard label="This Month" period={tokenUsage?.month} />
-      </div>
+      {hasSessionData ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <SummaryCard label="Active Sessions" period={sessionTokens} />
+          <div className="rounded-lg bg-[#111111] border border-[#222222] p-5">
+            <p className="text-xs font-medium text-[#6B6860] uppercase tracking-wide font-syne mb-3">
+              Sessions
+            </p>
+            <div className="flex items-baseline gap-2 mb-3">
+              <span className="text-2xl font-semibold text-[#EDE8DE] font-syne">
+                {sessions.length}
+              </span>
+              <span className="text-sm text-[#6B6860]">active</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Zap size={14} className="text-[#008cff]" />
+              <span className="text-sm font-medium text-[#008cff]">
+                {formatCost(sessionTokens?.estimatedCost)} est. cost
+              </span>
+            </div>
+          </div>
+          <div className="rounded-lg bg-[#111111] border border-[#222222] p-5">
+            <p className="text-xs font-medium text-[#6B6860] uppercase tracking-wide font-syne mb-3">
+              Cache Efficiency
+            </p>
+            {(() => {
+              const totalCache = sessions.reduce((sum: number, s: any) => sum + (s.cacheRead || 0), 0)
+              const totalInput = sessions.reduce((sum: number, s: any) => sum + (s.inputTokens || 0), 0)
+              const cacheRate = totalInput > 0 ? ((totalCache / (totalInput + totalCache)) * 100) : 0
+              return (
+                <>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <span className="text-2xl font-semibold text-emerald-400 font-syne">
+                      {cacheRate.toFixed(1)}%
+                    </span>
+                    <span className="text-sm text-[#6B6860]">cache hit</span>
+                  </div>
+                  <p className="text-xs text-[#6B6860]">
+                    {formatTokens(totalCache)} tokens served from cache
+                  </p>
+                </>
+              )
+            })()}
+          </div>
+        </div>
+      ) : legacyTokenUsage ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <SummaryCard label="Today" period={legacyTokenUsage?.today} />
+          <SummaryCard label="This Week" period={legacyTokenUsage?.week} />
+          <SummaryCard label="This Month" period={legacyTokenUsage?.month} />
+        </div>
+      ) : (
+        <div className="rounded-lg bg-[#111111] border border-[#222222] p-8 text-center">
+          <Zap size={24} className="mx-auto text-[#6B6860] mb-3" />
+          <p className="text-[#EDE8DE] font-syne font-semibold">No Token Data</p>
+          <p className="text-[#6B6860] text-sm mt-1">
+            No active sessions or token usage data available yet.
+          </p>
+        </div>
+      )}
+
+      {/* Per-model breakdown */}
+      {modelBreakdown.length > 0 && (
+        <div className="rounded-lg bg-[#111111] border border-[#222222] p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <Flame size={18} className="text-orange-400" />
+            <h3 className="text-[#EDE8DE] font-syne font-semibold">Token Burn by Model</h3>
+          </div>
+          <div className="space-y-3">
+            {modelBreakdown.map(({ model, input, output, total, cost, count }) => (
+              <div key={model} className="flex items-center gap-4 px-4 py-3 rounded-md bg-[#090909] border border-[#222222]">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-[#EDE8DE] font-mono truncate">{model}</p>
+                  <p className="text-[10px] text-[#6B6860]">{count} session{count !== 1 ? 's' : ''}</p>
+                </div>
+                <div className="text-right text-xs">
+                  <p className="text-[#EDE8DE]">{formatTokens(total)} tokens</p>
+                  <p className="text-[#6B6860]">{formatTokens(input)} in / {formatTokens(output)} out</p>
+                </div>
+                <div className="text-right min-w-[70px]">
+                  <p className="text-sm font-medium text-[#008cff]">{formatCost(cost)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Usage Chart */}
       <div className="rounded-lg bg-[#111111] border border-[#222222] p-5">
@@ -191,7 +333,14 @@ export function TokenBurnTab({ data }: TabProps) {
           <span className="text-[10px] text-[#6B6860]">per 1M tokens</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {MODEL_PRICING.map(({ model, input, output }) => (
+          {[
+            { model: 'Ollama (local)', input: 'Free', output: 'Free' },
+            { model: 'GPT-4o-mini', input: '$0.15', output: '$0.60' },
+            { model: 'GPT-4o', input: '$2.50', output: '$10.00' },
+            { model: 'Claude Haiku', input: '$0.25', output: '$1.25' },
+            { model: 'Claude Sonnet', input: '$3.00', output: '$15.00' },
+            { model: 'Claude Opus', input: '$15.00', output: '$75.00' },
+          ].map(({ model, input, output }) => (
             <div
               key={model}
               className="flex items-center justify-between px-4 py-3 rounded-md bg-[#090909] border border-[#222222]"

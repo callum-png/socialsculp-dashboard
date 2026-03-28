@@ -69,7 +69,9 @@ function StatusBadge({ status }: { status: string | undefined }) {
 export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
   const [runningJob, setRunningJob] = useState<string | null>(null)
 
-  const crons: any[] = data?.latest?.crons ?? []
+  // v2 payload sends { jobs: [], total: 0 }, legacy sends CronJob[]
+  const rawCrons = data?.latest?.crons
+  const crons: any[] = Array.isArray(rawCrons) ? rawCrons : (rawCrons?.jobs ?? [])
 
   const handleRunNow = async (name: string) => {
     setRunningJob(name)

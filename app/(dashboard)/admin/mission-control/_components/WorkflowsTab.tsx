@@ -90,7 +90,9 @@ function formatTime(iso?: string): string {
 export function WorkflowsTab({ data, executeCommand, onRefresh }: TabProps) {
   const [runningAll, setRunningAll] = useState(false)
 
-  const crons: CronJob[] = (data?.latest?.crons as CronJob[] | undefined) ?? []
+  // v2 payload sends { jobs: [], total: 0 }, legacy sends CronJob[]
+  const rawCrons = data?.latest?.crons
+  const crons: CronJob[] = (Array.isArray(rawCrons) ? rawCrons : (rawCrons as any)?.jobs ?? []) as CronJob[]
 
   const handleRunAll = async () => {
     setRunningAll(true)

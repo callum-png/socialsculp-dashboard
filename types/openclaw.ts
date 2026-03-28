@@ -10,15 +10,23 @@ export interface OpenClawStatus {
   timestamp: string
   system: SystemVitals
   gateway: GatewayStatus
+  services: ServiceInfo
   agents: AgentInfo[]
-  crons: CronJob[]
-  recentTasks: TaskEntry[]
+  sessions: SessionEntry[]
+  models: ModelInfo[]
+  crons: CronData
+  cronScheduler: CronSchedulerStatus
+  heartbeatConfig: any
+  channels: any[]
+  os: OSInfo
   workspace: WorkspaceStats
-  tokenUsage: TokenUsage
+  // Legacy fields (may still appear in old heartbeats)
+  recentTasks?: TaskEntry[]
+  tokenUsage?: TokenUsage
 }
 
 export interface SystemVitals {
-  uptime: string
+  uptime: string | number
   cpu: number
   memoryUsed: number
   memoryTotal: number
@@ -32,16 +40,65 @@ export interface GatewayStatus {
   pid: number | null
   port: number
   version: string
+  latencyMs: number
+  mode: string
+  url: string
+}
+
+export interface ServiceStatus {
+  label: string
+  installed: boolean
+  runtime: string
+}
+
+export interface ServiceInfo {
+  gateway: ServiceStatus
+  node: ServiceStatus
 }
 
 export interface AgentInfo {
   name: string
   model: string
-  fallbackModels: string[]
-  status: 'idle' | 'busy' | 'error' | 'offline'
-  currentTask: string | null
-  maxConcurrent: number
-  maxSubagents: number
+  sessionsCount: number
+  workspace: string
+  status: 'active' | 'idle' | 'offline'
+  lastActiveAgeMs: number | null
+  // Legacy fields
+  fallbackModels?: string[]
+  currentTask?: string | null
+  maxConcurrent?: number
+  maxSubagents?: number
+}
+
+export interface SessionEntry {
+  key: string
+  agentId: string
+  kind: string
+  model: string
+  modelProvider: string
+  inputTokens: number
+  outputTokens: number
+  cacheRead: number
+  totalTokens: number
+  contextTokens: number
+  percentUsed: number
+  remainingTokens: number
+  updatedAt: number
+  ageMs: number
+}
+
+export interface ModelInfo {
+  key: string
+  name: string
+  local: boolean
+  available: boolean
+  contextWindow: number
+  tags: string[]
+}
+
+export interface CronData {
+  jobs: CronJob[]
+  total: number
 }
 
 export interface CronJob {
@@ -61,6 +118,17 @@ export interface CronRunEntry {
   duration: number
   tokensUsed: number
   error?: string
+}
+
+export interface CronSchedulerStatus {
+  enabled: boolean
+}
+
+export interface OSInfo {
+  platform: string
+  arch: string
+  release: string
+  label: string
 }
 
 export interface TaskEntry {
