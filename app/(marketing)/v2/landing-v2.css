@@ -400,7 +400,7 @@ html { scroll-behavior: smooth; }
 /* Scroll indicator — in flow at bottom of hero */
 .v2-hero-scroll {
   position: absolute;
-  bottom: 28px;
+  bottom: 56px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1163,7 +1163,7 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 28px;
+  margin-bottom: 56px;
   position: relative;
   z-index: 1;
 }
@@ -1340,7 +1340,7 @@ html { scroll-behavior: smooth; }
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 28px;
+  margin-bottom: 56px;
 }
 .v2-modal-stat {
   background: rgba(4,8,16,0.9);
@@ -1571,7 +1571,7 @@ html { scroll-behavior: smooth; }
   /* Scale 3D cube on mobile — big enough to feel present */
   .cube-scene { transform: scale(0.75); }
   /* Scroll indicator — tighter on mobile */
-  .v2-hero-scroll { bottom: 16px; }
+  .v2-hero-scroll { bottom: 36px; }
   .v2-stats-strip { grid-template-columns: 1fr; padding: 0; gap: 0; }
   .v2-stat { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 24px; }
   .v2-stat:last-child { border-bottom: none; }
