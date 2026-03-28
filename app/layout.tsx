@@ -120,6 +120,30 @@ export default function RootLayout({
       >
         <head>
           <meta name="theme-color" content="#008CFF" />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'SocialSculp',
+                url: 'https://www.socialsculp.io',
+                logo: 'https://www.socialsculp.io/favicon.svg',
+                description:
+                  'Performance-driven creator seeding agency. 1.9B+ views at a $2 blended CPM through 50+ vetted creators across TikTok, Instagram, YouTube & Snapchat.',
+                foundingDate: '2024',
+                sameAs: [
+                  'https://twitter.com/socialsculp',
+                  'https://instagram.com/socialsculp',
+                ],
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  email: 'business@socialsculp.io',
+                  contactType: 'sales',
+                },
+              }),
+            }}
+          />
           <meta name="color-scheme" content="dark light" />
         </head>
         <body

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /pending
+
+Sitemap: https://www.socialsculp.io/sitemap.xml

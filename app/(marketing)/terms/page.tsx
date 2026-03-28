@@ -3,7 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'Terms of Service for SocialSculp LLC.',
+  description: 'Terms of Service governing the use of SocialSculp creator seeding and narrative engineering services.',
+  robots: {
+    index: false,
+    follow: true,
+  },
 }
 
 export default function TermsPage() {

@@ -3,7 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy Policy for SocialSculp LLC.',
+  description: 'Privacy Policy for SocialSculp — how we handle data across our creator seeding and marketing platform.',
+  robots: {
+    index: false,
+    follow: true,
+  },
 }
 
 export default function PrivacyPage() {
