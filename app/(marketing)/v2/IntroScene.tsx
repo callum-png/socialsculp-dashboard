@@ -354,8 +354,8 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef, textSc
     <>
       <color attach="background" args={['#040810']} />
       <group ref={groupRef}>
-        <Nodes positions={positions} activRef={activRef} />
-        <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
+        {/* <Nodes positions={positions} activRef={activRef} /> */}
+        {/* <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} /> */}
       </group>
       <BrandLights />
       <Text3DErrorBoundary>
