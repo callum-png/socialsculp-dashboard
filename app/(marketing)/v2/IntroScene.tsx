@@ -1,9 +1,30 @@
 'use client'
 
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo, Suspense, Component, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Text3D, Center } from '@react-three/drei'
 import * as THREE from 'three'
+
+// Error boundary so a font-load failure doesn't crash the whole app
+class Text3DErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+  componentDidCatch(error: Error) {
+    console.warn('[IntroScene] Text3D failed to load:', error.message)
+  }
+  render() {
+    if (this.state.hasError) return null
+    return this.props.children
+  }
+}
 
 // ── Duration ──────────────────────────────────────────────────
 const INTRO_DURATION = 2800 // ms
@@ -324,7 +345,11 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef, textSc
         <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
       </group>
       <BrandLights />
-      <BrandText3D showTextRef={showTextRef} textScale={textScale} />
+      <Text3DErrorBoundary>
+        <Suspense fallback={null}>
+          <BrandText3D showTextRef={showTextRef} textScale={textScale} />
+        </Suspense>
+      </Text3DErrorBoundary>
       <Camera pRef={pRef} />
     </>
   )
