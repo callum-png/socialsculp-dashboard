@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo, Suspense, Component, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Text3D, Center } from '@react-three/drei'
+import { Text3D } from '@react-three/drei'
 import * as THREE from 'three'
 
 // Error boundary so a font-load failure doesn't crash the whole app
@@ -244,32 +244,41 @@ function BrandLights() {
 // ── R3F: 3D extruded SOCIALSCULP title card ────────────────────
 function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRefObject<boolean>; textScale: number }) {
   const groupRef      = useRef<THREE.Group>(null)
+  const textMeshRef   = useRef<THREE.Mesh>(null)
   const matRef        = useRef<THREE.MeshStandardMaterial>(null)
   const revealStart   = useRef(0)
   const revealDoneRef = useRef(false)
+  const didCenter     = useRef(false)
 
   useFrame(({ clock }) => {
     if (!groupRef.current || !matRef.current) return
+
+    // Center the text geometry once after font generates it
+    if (!didCenter.current && textMeshRef.current) {
+      const geom = textMeshRef.current.geometry
+      if (geom && geom.attributes.position && geom.attributes.position.count > 0) {
+        geom.center()
+        didCenter.current = true
+      }
+    }
+
     if (!showTextRef.current) {
       groupRef.current.visible = false
       return
     }
     groupRef.current.visible = true
     const t = clock.getElapsedTime()
-
     // Track when reveal started
     if (revealStart.current === 0) revealStart.current = t
     const elapsed = t - revealStart.current
-
     // Entrance: dramatic zoom from far behind (2.5s ease-out)
     const entranceT = Math.min(elapsed / 2.5, 1)
     const eased = 1 - Math.pow(1 - entranceT, 4) // quartic ease-out
-
     if (!revealDoneRef.current) {
-      // Scale: 0.15 → 1 (starts small and far, punches forward)
+      // Scale: 0.15 -> 1 (starts small and far, punches forward)
       const scale = 0.15 + eased * 0.85
       groupRef.current.scale.setScalar(scale)
-      // Z position: push from behind → 0
+      // Z position: push from behind -> 0
       groupRef.current.position.z = -12 * (1 - eased)
       // Rotate from angled to face-on
       groupRef.current.rotation.y = -0.4 * (1 - eased)
@@ -278,44 +287,42 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
       matRef.current.opacity = eased
       if (entranceT >= 1) revealDoneRef.current = true
     }
-
-    // Idle: lock in place — no movement after reveal
+    // Idle: lock in place -- no movement after reveal
     if (revealDoneRef.current) {
       groupRef.current.rotation.y = 0
       groupRef.current.rotation.z = 0
       groupRef.current.position.y = 0.2
     }
-
     // Emissive: subtle glow pulse only
     matRef.current.emissiveIntensity = revealDoneRef.current ? 0.4 : 0.3 + eased * 0.3
   })
 
   return (
-    <group ref={groupRef} scale={0}>
-      <Center>
-        <Text3D
-          font="/fonts/helvetiker_bold.typeface.json"
-          size={1.4 * textScale}
-          height={0.42 * textScale}
-          bevelEnabled
-          bevelSize={0.03}
-          bevelThickness={0.025}
-          bevelSegments={8}
-          curveSegments={16}
-        >
-          SOCIALSCULP
-          <meshStandardMaterial
-            ref={matRef}
-            color="#F0E6DE"
-            emissive="#008CFF"
-            emissiveIntensity={0.4}
-            metalness={0.85}
-            roughness={0.08}
-            transparent
-            opacity={0}
-          />
-        </Text3D>
-      </Center>
+    <group ref={groupRef} visible={false} scale={0}>
+      <Text3D
+        ref={textMeshRef}
+        font="/fonts/helvetiker_bold.typeface.json"
+        size={1.4 * textScale}
+        height={0.42 * textScale}
+        bevelEnabled
+        bevelSize={0.02}
+        bevelThickness={0.015}
+        bevelSegments={4}
+        curveSegments={12}
+      >
+        SOCIALSCULP
+        <meshStandardMaterial
+          ref={matRef}
+          color="#F0E6DE"
+          emissive="#008CFF"
+          emissiveIntensity={0.4}
+          metalness={0.85}
+          roughness={0.08}
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </Text3D>
     </group>
   )
 }
