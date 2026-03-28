@@ -1,4 +1,21 @@
 import './v2/landing-v2.css'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'SocialSculp — Creator Seeding & Narrative Engineering Agency',
+  description:
+    'SocialSculp is a performance-driven creator seeding agency. 1.9B+ views at a $2 blended CPM through 50+ vetted creators across TikTok, Instagram, YouTube & Snapchat.',
+  openGraph: {
+    title: 'SocialSculp — Creator Seeding & Narrative Engineering Agency',
+    description:
+      'We engineer narratives. We seed creators. We move culture at scale. 1.9B+ views, $2 blended CPM, 50+ creators, 20+ brands served.',
+    url: 'https://www.socialsculp.io',
+  },
+  alternates: {
+    canonical: 'https://www.socialsculp.io',
+  },
+}
+
 import { V2PageWrapper } from './v2/V2Client'
 
 const caseStudies = [
