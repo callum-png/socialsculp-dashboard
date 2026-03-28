@@ -1,29 +1,60 @@
 #!/bin/bash
 # OpenClaw Mission Control Reporter
-# Runs every 60s via system crontab, POSTs status heartbeat to SocialSculp dashboard
+# Runs every 60s via LaunchAgent, POSTs status heartbeat to SocialSculp dashboard
+# Compatible with macOS (Darwin) and Linux
 
 DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp-dashboard.vercel.app}"
 REPORTER_SECRET="${OPENCLAW_REPORTER_SECRET}"
+OPENCLAW_HOME="${OPENCLAW_HOME:-$HOME/.openclaw}"
 
 if [ -z "$REPORTER_SECRET" ]; then
   echo "[reporter] OPENCLAW_REPORTER_SECRET not set, skipping" >&2
   exit 1
 fi
 
+OS_TYPE=$(uname -s)
+
 # ─── System Vitals ────────────────────────────────────────────────────────────
-UPTIME=$(uptime -p 2>/dev/null || uptime | awk '{print $3,$4}')
-CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'.' -f1 2>/dev/null || echo "0")
-MEM_USED=$(free -b | awk '/^Mem:/{print $3}')
-MEM_TOTAL=$(free -b | awk '/^Mem:/{print $2}')
-DISK_USED=$(df -B1 / | awk 'NR==2{print $3}')
-DISK_TOTAL=$(df -B1 / | awk 'NR==2{print $2}')
-LOAD_AVG=$(cat /proc/loadavg | awk '{printf "[%s,%s,%s]", $1, $2, $3}')
+if [ "$OS_TYPE" = "Darwin" ]; then
+  # macOS
+  UPTIME=$(uptime | sed 's/.*up //' | sed 's/,.*//')
+  CPU=$(ps -A -o %cpu | awk '{s+=$1} END {printf "%.0f", s/NR}' 2>/dev/null || echo "0")
+  MEM_TOTAL=$(sysctl -n hw.memsize 2>/dev/null || echo "0")
+  # vm_stat gives pages; page size is typically 16384 on Apple Silicon, 4096 on Intel
+  PAGE_SIZE=$(sysctl -n hw.pagesize 2>/dev/null || echo "16384")
+  PAGES_ACTIVE=$(vm_stat 2>/dev/null | awk '/Pages active:/ {gsub(/\./,"",$3); print $3}')
+  PAGES_WIRED=$(vm_stat 2>/dev/null | awk '/Pages wired down:/ {gsub(/\./,"",$4); print $4}')
+  PAGES_COMPRESSED=$(vm_stat 2>/dev/null | awk '/Pages occupied by compressor:/ {gsub(/\./,"",$5); print $5}')
+  MEM_USED=$(( (${PAGES_ACTIVE:-0} + ${PAGES_WIRED:-0} + ${PAGES_COMPRESSED:-0}) * PAGE_SIZE ))
+  DISK_INFO=$(df -b / | awk 'NR==2{print $3, $2}')
+  DISK_USED=$(echo "$DISK_INFO" | awk '{print $1 * 512}')
+  DISK_TOTAL=$(echo "$DISK_INFO" | awk '{print $2 * 512}')
+  LOAD_AVG=$(sysctl -n vm.loadavg 2>/dev/null | awk '{printf "[%s,%s,%s]", $2, $3, $4}')
+else
+  # Linux
+  UPTIME=$(uptime -p 2>/dev/null || uptime | awk '{print $3,$4}')
+  CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'.' -f1 2>/dev/null || echo "0")
+  MEM_USED=$(free -b | awk '/^Mem:/{print $3}')
+  MEM_TOTAL=$(free -b | awk '/^Mem:/{print $2}')
+  DISK_USED=$(df -B1 / | awk 'NR==2{print $3}')
+  DISK_TOTAL=$(df -B1 / | awk 'NR==2{print $2}')
+  LOAD_AVG=$(cat /proc/loadavg | awk '{printf "[%s,%s,%s]", $1, $2, $3}')
+fi
 
 # ─── Gateway Status ──────────────────────────────────────────────────────────
-GW_PID=$(pgrep -f "openclaw-gateway" 2>/dev/null || echo "")
+if [ "$OS_TYPE" = "Darwin" ]; then
+  # On macOS, check launchctl for the gateway service
+  GW_PID=$(launchctl list 2>/dev/null | awk '/ai\.openclaw\.gateway/{print $1}')
+  [ "$GW_PID" = "-" ] && GW_PID=""
+  # Also try pgrep as fallback
+  [ -z "$GW_PID" ] && GW_PID=$(pgrep -f "openclaw.*gateway" 2>/dev/null || echo "")
+else
+  GW_PID=$(pgrep -f "openclaw-gateway" 2>/dev/null || echo "")
+fi
+
 GW_RUNNING=false
 GW_VERSION=""
-if [ -n "$GW_PID" ]; then
+if [ -n "$GW_PID" ] && [ "$GW_PID" != "0" ]; then
   GW_RUNNING=true
   GW_VERSION=$(openclaw --version 2>/dev/null || echo "unknown")
 fi
@@ -84,7 +115,7 @@ if command -v openclaw &>/dev/null; then
 fi
 
 # ─── Workspace Stats ─────────────────────────────────────────────────────────
-WS_DIR="/root/.openclaw/workspace"
+WS_DIR="${OPENCLAW_HOME}/workspace"
 TARGETS="[]"
 EMAILS_SENT=0
 EMAILS_QUEUED=0
@@ -109,8 +140,8 @@ fi
 
 # ─── Token Usage (from logs) ─────────────────────────────────────────────────
 TODAY=$(date +%Y-%m-%d)
-WEEK_AGO=$(date -d "7 days ago" +%Y-%m-%d 2>/dev/null || date -v-7d +%Y-%m-%d 2>/dev/null || echo "$TODAY")
-MONTH_AGO=$(date -d "30 days ago" +%Y-%m-%d 2>/dev/null || date -v-30d +%Y-%m-%d 2>/dev/null || echo "$TODAY")
+WEEK_AGO=$(date -v-7d +%Y-%m-%d 2>/dev/null || date -d "7 days ago" +%Y-%m-%d 2>/dev/null || echo "$TODAY")
+MONTH_AGO=$(date -v-30d +%Y-%m-%d 2>/dev/null || date -d "30 days ago" +%Y-%m-%d 2>/dev/null || echo "$TODAY")
 
 # Try to get token usage from openclaw CLI
 TOKEN_JSON='{"today":{"input":0,"output":0,"total":0,"estimatedCost":0},"week":{"input":0,"output":0,"total":0,"estimatedCost":0},"month":{"input":0,"output":0,"total":0,"estimatedCost":0}}'
@@ -134,7 +165,7 @@ PAYLOAD=$(jq -n -c \
   --argjson memTotal "${MEM_TOTAL:-0}" \
   --argjson diskUsed "${DISK_USED:-0}" \
   --argjson diskTotal "${DISK_TOTAL:-0}" \
-  --argjson loadAvg "$LOAD_AVG" \
+  --argjson loadAvg "${LOAD_AVG:-[0,0,0]}" \
   --argjson gwRunning "$GW_RUNNING" \
   --arg gwPid "${GW_PID:-null}" \
   --arg gwVersion "$GW_VERSION" \

@@ -1,10 +1,12 @@
 #!/bin/bash
 # OpenClaw Command Poller
-# Runs every 5s via systemd timer or crontab
+# Runs every 5s via LaunchAgent
 # Polls dashboard for pending commands, executes locally, posts results back
+# Compatible with macOS (Darwin) and Linux
 
 DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp-dashboard.vercel.app}"
 REPORTER_SECRET="${OPENCLAW_REPORTER_SECRET}"
+OPENCLAW_HOME="${OPENCLAW_HOME:-$HOME/.openclaw}"
 
 if [ -z "$REPORTER_SECRET" ]; then
   echo "[cmd-poller] OPENCLAW_REPORTER_SECRET not set" >&2
@@ -12,17 +14,18 @@ if [ -z "$REPORTER_SECRET" ]; then
 fi
 
 # Whitelist (redundant safety — dashboard also validates)
+# Paths are relative to $OPENCLAW_HOME for portability
 ALLOWED_PREFIXES=(
   "openclaw"
-  "systemctl status openclaw"
-  "cat /root/.openclaw/"
-  "ls /root/.openclaw/"
-  "tail /root/.openclaw/"
+  "launchctl list ai.openclaw"
+  "cat ${OPENCLAW_HOME}/"
+  "ls ${OPENCLAW_HOME}/"
+  "tail ${OPENCLAW_HOME}/"
   "uptime"
-  "free -h"
+  "vm_stat"
+  "sysctl"
   "df -h"
   "ps aux | grep openclaw"
-  "journalctl -u openclaw"
 )
 
 is_allowed() {
@@ -67,10 +70,10 @@ echo "$COMMANDS" | while IFS= read -r CMD_JSON; do
   fi
 
   # Execute command
-  START_MS=$(($(date +%s%N)/1000000))
+  START_MS=$(python3 -c "import time; print(int(time.time()*1000))" 2>/dev/null || echo "0")
   OUTPUT=$(bash -c "$CMD_TEXT" 2>&1)
   EXIT_CODE=$?
-  END_MS=$(($(date +%s%N)/1000000))
+  END_MS=$(python3 -c "import time; print(int(time.time()*1000))" 2>/dev/null || echo "0")
   DURATION=$((END_MS - START_MS))
 
   # Escape output for JSON

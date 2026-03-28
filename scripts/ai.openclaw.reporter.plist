@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>ai.openclaw.reporter</string>
+
+    <key>Comment</key>
+    <string>OpenClaw Mission Control Reporter — heartbeats to SocialSculp dashboard</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>/Users/callumhyman/socialsculp-dashboard/scripts/openclaw-reporter.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>60</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/callumhyman/.openclaw/logs/reporter.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/callumhyman/.openclaw/logs/reporter.err.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>HOME</key>
+      <string>/Users/callumhyman</string>
+      <key>OPENCLAW_HOME</key>
+      <string>/Users/callumhyman/.openclaw</string>
+      <key>PATH</key>
+      <string>/Users/callumhyman/.nvm/versions/node/v24.13.1/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+  </dict>
+</plist>
