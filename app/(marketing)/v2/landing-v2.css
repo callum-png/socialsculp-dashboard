@@ -1581,7 +1581,8 @@ html { scroll-behavior: smooth; }
   .v2-case-metric { display: none; }
   .v2-metrics-row { grid-template-columns: 1fr 1fr; }
   .v2-metric-cell.featured { grid-column: 1 / -1; }
-  .v2-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  .v2-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .v2-footer-links { flex-wrap: wrap; gap: 16px 24px; }
   .v2-about { grid-template-columns: 1fr; }
   .v2-cta { padding: 80px 24px 100px; }
   .v2-cta-hl-big    { font-size: clamp(3.4rem, 13vw, 5rem); }
