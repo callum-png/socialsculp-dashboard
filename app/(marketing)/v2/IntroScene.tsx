@@ -253,10 +253,27 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
   useFrame(({ clock }) => {
     if (!groupRef.current || !matRef.current) return
 
-    // Center the text geometry once after font generates it
+    // Clean up geometry artifacts and center text once after font generates it
     if (!didCenter.current && textMeshRef.current) {
       const geom = textMeshRef.current.geometry
-      if (geom && geom.attributes.position && geom.attributes.position.count > 0) {
+      if (geom && geom.attributes.position && geom.attributes.position.count > 0 && geom.index) {
+        // Remove tiny parasitic faces produced by TextGeometry/ExtrudeGeometry
+        const pos = geom.attributes.position
+        const idx = geom.index
+        const src = idx.array
+        const keep: number[] = []
+        const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3()
+        const e1 = new THREE.Vector3(), e2 = new THREE.Vector3()
+        for (let i = 0; i < src.length; i += 3) {
+          a.fromBufferAttribute(pos, src[i])
+          b.fromBufferAttribute(pos, src[i + 1])
+          c.fromBufferAttribute(pos, src[i + 2])
+          e1.subVectors(b, a)
+          e2.subVectors(c, a)
+          const area = e1.cross(e2).length() * 0.5
+          if (area > 0.01) keep.push(src[i], src[i + 1], src[i + 2])
+        }
+        geom.setIndex(keep)
         geom.center()
         didCenter.current = true
       }
@@ -304,7 +321,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         font="/fonts/helvetiker_bold.typeface.json"
         size={1.4 * textScale}
         height={0.42 * textScale}
-        bevelEnabled={false}
+        bevelEnabled
         bevelSize={0.02}
         bevelThickness={0.015}
         bevelSegments={4}
@@ -314,7 +331,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         <meshStandardMaterial
           ref={matRef}
           color="#F0E6DE"
-          emissive="#FF0000"
+          emissive="#008CFF"
           emissiveIntensity={0.4}
           metalness={0.85}
           roughness={0.08}
