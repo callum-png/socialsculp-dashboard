@@ -8,6 +8,7 @@ export async function GET(req: Request) {
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  const prisma = getDb()
   const url = new URL(req.url)
   const page = parseInt(url.searchParams.get('page') || '1')
   const limit = parseInt(url.searchParams.get('limit') || '50')
