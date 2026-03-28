@@ -261,7 +261,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         const pos = geom.attributes.position
         const idx = geom.index
         const src = idx.array
-        const keep: number[] = []
+        const keep: number[] = []; const areas: number[] = []
         const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3()
         const e1 = new THREE.Vector3(), e2 = new THREE.Vector3()
         for (let i = 0; i < src.length; i += 3) {
@@ -271,9 +271,9 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
           e1.subVectors(b, a)
           e2.subVectors(c, a)
           const area = e1.cross(e2).length() * 0.5
-          if (area > 0.01) keep.push(src[i], src[i + 1], src[i + 2])
+          areas.push(area); keep.push(src[i], src[i + 1], src[i + 2])
         }
-        geom.setIndex(keep)
+        const sorted = [...areas].sort((x,y) => x - y); console.log("[Text3D] face count:", areas.length, "min:", sorted[0], "max:", sorted[sorted.length-1]); const buckets = [0.0001, 0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 50]; const hist = buckets.map(b => ({lt: b, count: areas.filter(a => a < b).length})); console.log("[Text3D] area histogram:", JSON.stringify(hist)); console.log("[Text3D] smallest 20 areas:", sorted.slice(0,20).map(a => a.toFixed(6))); geom.setIndex(keep)
         geom.center()
         didCenter.current = true
       }
