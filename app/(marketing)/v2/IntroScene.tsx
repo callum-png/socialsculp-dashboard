@@ -351,6 +351,11 @@ function Scene({ nodes, edges, activRef, edgeActivRef, pRef, showTextRef, textSc
         <Edges nodes={nodes} edges={edges} edgeActivRef={edgeActivRef} />
       </group>
       <BrandLights />
+      <Text3DErrorBoundary>
+        <Suspense fallback={null}>
+          <BrandText3D showTextRef={showTextRef} textScale={textScale} />
+        </Suspense>
+      </Text3DErrorBoundary>
       <Camera pRef={pRef} />
     </>
   )
