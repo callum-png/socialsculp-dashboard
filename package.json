@@ -7,7 +7,7 @@
     "dev:brand": "next dev -p 3001",
     "dev:creator": "next dev -p 3002",
     "dev:agent": "next dev -p 3003",
-    "build": "prisma generate && next build",
+    "build": "prisma db push --accept-data-loss && prisma generate && next build",
     "start": "next start",
     "seed:stealth": "npx tsx prisma/seed-stealth.ts",
     "seed:fitbod": "npx tsx prisma/seed-fitbod.ts",
