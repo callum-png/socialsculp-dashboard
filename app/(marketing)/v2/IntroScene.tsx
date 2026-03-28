@@ -250,7 +250,11 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
 
   useFrame(({ clock }) => {
     if (!groupRef.current || !matRef.current) return
-    if (!showTextRef.current) return
+    if (!showTextRef.current) {
+      groupRef.current.visible = false
+      return
+    }
+    groupRef.current.visible = true
     const t = clock.getElapsedTime()
 
     // Track when reveal started
