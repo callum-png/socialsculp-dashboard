@@ -1,11 +1,16 @@
 #!/bin/bash
-# OpenClaw Mission Control Reporter
+# OpenClaw Mission Control Reporter v2
 # Runs every 60s via LaunchAgent, POSTs status heartbeat to SocialSculp dashboard
-# Compatible with macOS (Darwin) and Linux
+# Uses `openclaw status --json` as primary data source (v2026.3.24+)
 
 DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp-dashboard.vercel.app}"
 REPORTER_SECRET="${OPENCLAW_REPORTER_SECRET}"
-OPENCLAW_HOME="${OPENCLAW_HOME:-$HOME/.openclaw}"
+
+# IMPORTANT: Do NOT set OPENCLAW_HOME — the CLI auto-detects ~/.openclaw and
+# setting it explicitly causes double-nesting bugs (/.openclaw/.openclaw/).
+# We only use this variable for workspace file paths, not for CLI commands.
+OPENCLAW_DATA_DIR="${HOME}/.openclaw"
+unset OPENCLAW_HOME
 
 if [ -z "$REPORTER_SECRET" ]; then
   echo "[reporter] OPENCLAW_REPORTER_SECRET not set, skipping" >&2
@@ -14,24 +19,24 @@ fi
 
 OS_TYPE=$(uname -s)
 
+# Ensure /usr/sbin is in PATH (needed for sysctl, vm_stat under LaunchAgent)
+export PATH="/usr/sbin:/sbin:$PATH"
+
 # ─── System Vitals ────────────────────────────────────────────────────────────
 if [ "$OS_TYPE" = "Darwin" ]; then
-  # macOS
   UPTIME=$(uptime | sed 's/.*up //' | sed 's/,.*//')
   CPU=$(ps -A -o %cpu | awk '{s+=$1} END {printf "%.0f", s/NR}' 2>/dev/null || echo "0")
-  MEM_TOTAL=$(sysctl -n hw.memsize 2>/dev/null || echo "0")
-  # vm_stat gives pages; page size is typically 16384 on Apple Silicon, 4096 on Intel
-  PAGE_SIZE=$(sysctl -n hw.pagesize 2>/dev/null || echo "16384")
-  PAGES_ACTIVE=$(vm_stat 2>/dev/null | awk '/Pages active:/ {gsub(/\./,"",$3); print $3}')
-  PAGES_WIRED=$(vm_stat 2>/dev/null | awk '/Pages wired down:/ {gsub(/\./,"",$4); print $4}')
-  PAGES_COMPRESSED=$(vm_stat 2>/dev/null | awk '/Pages occupied by compressor:/ {gsub(/\./,"",$5); print $5}')
+  MEM_TOTAL=$(/usr/sbin/sysctl -n hw.memsize 2>/dev/null || echo "0")
+  PAGE_SIZE=$(/usr/sbin/sysctl -n hw.pagesize 2>/dev/null || echo "16384")
+  PAGES_ACTIVE=$(/usr/bin/vm_stat 2>/dev/null | awk '/Pages active:/ {gsub(/\./,"",$3); print $3}')
+  PAGES_WIRED=$(/usr/bin/vm_stat 2>/dev/null | awk '/Pages wired down:/ {gsub(/\./,"",$4); print $4}')
+  PAGES_COMPRESSED=$(/usr/bin/vm_stat 2>/dev/null | awk '/Pages occupied by compressor:/ {gsub(/\./,"",$5); print $5}')
   MEM_USED=$(( (${PAGES_ACTIVE:-0} + ${PAGES_WIRED:-0} + ${PAGES_COMPRESSED:-0}) * PAGE_SIZE ))
   DISK_INFO=$(df -b / | awk 'NR==2{print $3, $2}')
   DISK_USED=$(echo "$DISK_INFO" | awk '{print $1 * 512}')
   DISK_TOTAL=$(echo "$DISK_INFO" | awk '{print $2 * 512}')
-  LOAD_AVG=$(sysctl -n vm.loadavg 2>/dev/null | awk '{printf "[%s,%s,%s]", $2, $3, $4}')
+  LOAD_AVG=$(/usr/sbin/sysctl -n vm.loadavg 2>/dev/null | awk '{printf "[%s,%s,%s]", $2, $3, $4}')
 else
-  # Linux
   UPTIME=$(uptime -p 2>/dev/null || uptime | awk '{print $3,$4}')
   CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'.' -f1 2>/dev/null || echo "0")
   MEM_USED=$(free -b | awk '/^Mem:/{print $3}')
@@ -41,81 +46,121 @@ else
   LOAD_AVG=$(cat /proc/loadavg | awk '{printf "[%s,%s,%s]", $1, $2, $3}')
 fi
 
-# ─── Gateway Status ──────────────────────────────────────────────────────────
-if [ "$OS_TYPE" = "Darwin" ]; then
-  # On macOS, check launchctl for the gateway service
-  GW_PID=$(launchctl list 2>/dev/null | awk '/ai\.openclaw\.gateway/{print $1}')
-  [ "$GW_PID" = "-" ] && GW_PID=""
-  # Also try pgrep as fallback
-  [ -z "$GW_PID" ] && GW_PID=$(pgrep -f "openclaw.*gateway" 2>/dev/null || echo "")
-else
-  GW_PID=$(pgrep -f "openclaw-gateway" 2>/dev/null || echo "")
-fi
-
-GW_RUNNING=false
-GW_VERSION=""
-if [ -n "$GW_PID" ] && [ "$GW_PID" != "0" ]; then
-  GW_RUNNING=true
-  GW_VERSION=$(openclaw --version 2>/dev/null || echo "unknown")
-fi
-
-# ─── Agent Info ──────────────────────────────────────────────────────────────
-AGENTS_JSON="[]"
+# ─── OpenClaw Status (single command, all data) ─────────────────────────────
+OC_STATUS_JSON="{}"
 if command -v openclaw &>/dev/null; then
-  AGENTS_RAW=$(openclaw agents list --json 2>/dev/null || echo "")
-  if [ -n "$AGENTS_RAW" ] && echo "$AGENTS_RAW" | jq . &>/dev/null; then
-    AGENTS_JSON=$(echo "$AGENTS_RAW" | jq -c '[.[] | {
+  OC_STATUS_RAW=$(openclaw status --json 2>/dev/null || echo "")
+  if [ -n "$OC_STATUS_RAW" ] && echo "$OC_STATUS_RAW" | jq . &>/dev/null; then
+    OC_STATUS_JSON="$OC_STATUS_RAW"
+  fi
+fi
+
+# Extract gateway info from status
+GW_RUNNING=$(echo "$OC_STATUS_JSON" | jq -r '.gateway.reachable // false')
+GW_VERSION=$(echo "$OC_STATUS_JSON" | jq -r '.runtimeVersion // "unknown"')
+GW_PID=$(echo "$OC_STATUS_JSON" | jq -r '.gatewayService.runtimeShort // ""' | grep -oE 'pid [0-9]+' | awk '{print $2}')
+GW_LATENCY=$(echo "$OC_STATUS_JSON" | jq -r '.gateway.connectLatencyMs // 0')
+GW_MODE=$(echo "$OC_STATUS_JSON" | jq -r '.gateway.mode // "unknown"')
+GW_URL=$(echo "$OC_STATUS_JSON" | jq -r '.gateway.url // ""')
+
+# Extract agent info from status
+AGENTS_JSON=$(echo "$OC_STATUS_JSON" | jq -c '[.agents.agents // [] | .[] | {
+  name: .id,
+  model: (.model // "unknown"),
+  sessionsCount: (.sessionsCount // 0),
+  workspace: (.workspaceDir // ""),
+  status: (if .lastActiveAgeMs != null and .lastActiveAgeMs < 300000 then "active" elif .lastActiveAgeMs != null then "idle" else "offline" end),
+  lastActiveAgeMs: (.lastActiveAgeMs // null)
+}]' 2>/dev/null || echo "[]")
+
+# Extract session/token data from status
+SESSIONS_JSON=$(echo "$OC_STATUS_JSON" | jq -c '[.sessions.recent // [] | .[] | {
+  key: .key,
+  agentId: .agentId,
+  kind: .kind,
+  model: (.model // "unknown"),
+  modelProvider: (.modelProvider // "unknown"),
+  inputTokens: (.inputTokens // 0),
+  outputTokens: (.outputTokens // 0),
+  cacheRead: (.cacheRead // 0),
+  totalTokens: (.totalTokens // 0),
+  contextTokens: (.contextTokens // 0),
+  percentUsed: (.percentUsed // 0),
+  remainingTokens: (.remainingTokens // 0),
+  updatedAt: (.updatedAt // 0),
+  ageMs: (.age // 0)
+}]' 2>/dev/null || echo "[]")
+
+# Extract models from status
+MODELS_JSON="[]"
+if command -v openclaw &>/dev/null; then
+  MODELS_RAW=$(openclaw models list --json 2>/dev/null || echo "")
+  if [ -n "$MODELS_RAW" ] && echo "$MODELS_RAW" | jq . &>/dev/null; then
+    MODELS_JSON=$(echo "$MODELS_RAW" | jq -c '[.models // [] | .[] | {
+      key: .key,
       name: .name,
-      model: (.model // "unknown"),
-      fallbackModels: (.fallback_models // []),
-      status: (.status // "offline"),
-      currentTask: (.current_task // null),
-      maxConcurrent: (.max_concurrent // 1),
-      maxSubagents: (.max_subagents // 1)
+      local: (.local // false),
+      available: (.available // false),
+      contextWindow: (.contextWindow // 0),
+      tags: (.tags // [])
     }]' 2>/dev/null || echo "[]")
   fi
 fi
 
+# Extract service status
+GW_SERVICE=$(echo "$OC_STATUS_JSON" | jq -c '{
+  label: (.gatewayService.label // "unknown"),
+  installed: (.gatewayService.installed // false),
+  runtime: (.gatewayService.runtimeShort // "unknown")
+}' 2>/dev/null || echo '{}')
+
+NODE_SERVICE=$(echo "$OC_STATUS_JSON" | jq -c '{
+  label: (.nodeService.label // "unknown"),
+  installed: (.nodeService.installed // false),
+  runtime: (.nodeService.runtimeShort // "unknown")
+}' 2>/dev/null || echo '{}')
+
+# Heartbeat config from status
+HEARTBEAT_CONFIG=$(echo "$OC_STATUS_JSON" | jq -c '.heartbeat // {}' 2>/dev/null || echo '{}')
+
+# Channel summary
+CHANNELS_JSON=$(echo "$OC_STATUS_JSON" | jq -c '.channelSummary // []' 2>/dev/null || echo '[]')
+
 # ─── Cron Jobs ───────────────────────────────────────────────────────────────
-CRONS_JSON="[]"
+CRONS_JSON='{"jobs":[],"total":0}'
 if command -v openclaw &>/dev/null; then
   CRONS_RAW=$(openclaw cron list --json 2>/dev/null || echo "")
   if [ -n "$CRONS_RAW" ] && echo "$CRONS_RAW" | jq . &>/dev/null; then
-    CRONS_JSON=$(echo "$CRONS_RAW" | jq -c '[.[] | {
-      id: (.id // .name),
-      name: .name,
-      schedule: .schedule,
-      enabled: (.enabled // true),
-      lastRun: (.last_run // null),
-      lastStatus: (.last_status // null),
-      nextRun: (.next_run // null),
-      runCount: (.run_count // 0)
-    }]' 2>/dev/null || echo "[]")
+    # Flatten schedule object and state for the frontend
+    CRONS_JSON=$(echo "$CRONS_RAW" | jq -c '{
+      jobs: [.jobs // [] | .[] | {
+        id: .id,
+        name: .name,
+        description: (.description // ""),
+        schedule: (if .schedule.expr then .schedule.expr else (.schedule // "") end),
+        timezone: (.schedule.tz // null),
+        enabled: (.enabled // false),
+        lastRun: null,
+        lastStatus: null,
+        nextRun: (if .state.nextRunAtMs then (.state.nextRunAtMs / 1000 | todate) else null end),
+        runCount: (.state.runCount // 0)
+      }],
+      total: (.total // 0)
+    }' 2>/dev/null || echo '{"jobs":[],"total":0}')
   fi
 fi
 
-# ─── Recent Tasks ────────────────────────────────────────────────────────────
-TASKS_JSON="[]"
+# Cron scheduler status
+CRON_STATUS='{"enabled":false}'
 if command -v openclaw &>/dev/null; then
-  TASKS_RAW=$(openclaw tasks list --json --limit 20 2>/dev/null || echo "")
-  if [ -n "$TASKS_RAW" ] && echo "$TASKS_RAW" | jq . &>/dev/null; then
-    TASKS_JSON=$(echo "$TASKS_RAW" | jq -c '[.[:20] | .[] | {
-      id: (.id // "unknown"),
-      agent: (.agent // "main"),
-      description: (.description // .title // ""),
-      status: (.status // "completed"),
-      startedAt: (.started_at // .created_at // null),
-      completedAt: (.completed_at // null),
-      duration: (.duration // null),
-      tokensUsed: (.tokens_used // .tokens // 0),
-      model: (.model // "unknown"),
-      error: (.error // null)
-    }]' 2>/dev/null || echo "[]")
+  CRON_STATUS_RAW=$(openclaw cron status --json 2>/dev/null || echo "")
+  if [ -n "$CRON_STATUS_RAW" ] && echo "$CRON_STATUS_RAW" | jq . &>/dev/null; then
+    CRON_STATUS=$(echo "$CRON_STATUS_RAW" | jq -c '.' 2>/dev/null || echo '{"enabled":false}')
   fi
 fi
 
 # ─── Workspace Stats ─────────────────────────────────────────────────────────
-WS_DIR="${OPENCLAW_HOME}/workspace"
+WS_DIR="${OPENCLAW_DATA_DIR}/workspace"
 TARGETS="[]"
 EMAILS_SENT=0
 EMAILS_QUEUED=0
@@ -128,33 +173,16 @@ if [ -d "$WS_DIR" ]; then
   [ -f "$WS_DIR/email-queue.json" ] && EMAILS_QUEUED=$(jq 'length' "$WS_DIR/email-queue.json" 2>/dev/null || echo "0")
   [ -f "$WS_DIR/apollo-leads.json" ] && LEADS_TOTAL=$(jq 'length' "$WS_DIR/apollo-leads.json" 2>/dev/null || echo "0")
 
-  # Get target names from workspace dirs/files
   TARGETS=$(ls -d "$WS_DIR"/outreach-* 2>/dev/null | xargs -I{} basename {} | sed 's/outreach-//' | jq -R -s -c 'split("\n") | map(select(. != ""))' 2>/dev/null || echo "[]")
   [ "$TARGETS" = "" ] && TARGETS="[]"
 
-  # Fallback: check tracker for target names
   if [ "$TARGETS" = "[]" ] && [ -f "$WS_DIR/tracker.json" ]; then
     TARGETS=$(jq -c '[.[].target // .[].name] | unique | map(select(. != null))' "$WS_DIR/tracker.json" 2>/dev/null || echo "[]")
   fi
 fi
 
-# ─── Token Usage (from logs) ─────────────────────────────────────────────────
-TODAY=$(date +%Y-%m-%d)
-WEEK_AGO=$(date -v-7d +%Y-%m-%d 2>/dev/null || date -d "7 days ago" +%Y-%m-%d 2>/dev/null || echo "$TODAY")
-MONTH_AGO=$(date -v-30d +%Y-%m-%d 2>/dev/null || date -d "30 days ago" +%Y-%m-%d 2>/dev/null || echo "$TODAY")
-
-# Try to get token usage from openclaw CLI
-TOKEN_JSON='{"today":{"input":0,"output":0,"total":0,"estimatedCost":0},"week":{"input":0,"output":0,"total":0,"estimatedCost":0},"month":{"input":0,"output":0,"total":0,"estimatedCost":0}}'
-if command -v openclaw &>/dev/null; then
-  TOKEN_RAW=$(openclaw usage --json 2>/dev/null || echo "")
-  if [ -n "$TOKEN_RAW" ] && echo "$TOKEN_RAW" | jq . &>/dev/null; then
-    TOKEN_JSON=$(echo "$TOKEN_RAW" | jq -c '{
-      today: { input: (.today.input // 0), output: (.today.output // 0), total: (.today.total // 0), estimatedCost: (.today.cost // 0) },
-      week: { input: (.week.input // 0), output: (.week.output // 0), total: (.week.total // 0), estimatedCost: (.week.cost // 0) },
-      month: { input: (.month.input // 0), output: (.month.output // 0), total: (.month.total // 0), estimatedCost: (.month.cost // 0) }
-    }' 2>/dev/null || echo "$TOKEN_JSON")
-  fi
-fi
+# ─── OS Info from status ─────────────────────────────────────────────────────
+OS_INFO=$(echo "$OC_STATUS_JSON" | jq -c '.os // {}' 2>/dev/null || echo '{}')
 
 # ─── Build Payload ───────────────────────────────────────────────────────────
 PAYLOAD=$(jq -n -c \
@@ -169,15 +197,24 @@ PAYLOAD=$(jq -n -c \
   --argjson gwRunning "$GW_RUNNING" \
   --arg gwPid "${GW_PID:-null}" \
   --arg gwVersion "$GW_VERSION" \
+  --argjson gwLatency "${GW_LATENCY:-0}" \
+  --arg gwMode "$GW_MODE" \
+  --arg gwUrl "$GW_URL" \
   --argjson agents "$AGENTS_JSON" \
+  --argjson sessions "$SESSIONS_JSON" \
+  --argjson models "$MODELS_JSON" \
   --argjson crons "$CRONS_JSON" \
-  --argjson tasks "$TASKS_JSON" \
+  --argjson cronStatus "$CRON_STATUS" \
+  --argjson heartbeatConfig "$HEARTBEAT_CONFIG" \
+  --argjson channels "$CHANNELS_JSON" \
+  --argjson gwService "$GW_SERVICE" \
+  --argjson nodeService "$NODE_SERVICE" \
+  --argjson osInfo "$OS_INFO" \
   --argjson targets "$TARGETS" \
   --argjson emailsSent "$EMAILS_SENT" \
   --argjson emailsQueued "$EMAILS_QUEUED" \
   --argjson leadsTotal "$LEADS_TOTAL" \
   --argjson trackerEntries "$TRACKER_ENTRIES" \
-  --argjson tokenUsage "$TOKEN_JSON" \
   '{
     timestamp: $timestamp,
     system: {
@@ -193,19 +230,30 @@ PAYLOAD=$(jq -n -c \
       running: $gwRunning,
       pid: (if $gwPid == "null" then null else ($gwPid | tonumber) end),
       port: 18789,
-      version: $gwVersion
+      version: $gwVersion,
+      latencyMs: $gwLatency,
+      mode: $gwMode,
+      url: $gwUrl
+    },
+    services: {
+      gateway: $gwService,
+      node: $nodeService
     },
     agents: $agents,
+    sessions: $sessions,
+    models: $models,
     crons: $crons,
-    recentTasks: $tasks,
+    cronScheduler: $cronStatus,
+    heartbeatConfig: $heartbeatConfig,
+    channels: $channels,
+    os: $osInfo,
     workspace: {
       targets: $targets,
       emailsSent: $emailsSent,
       emailsQueued: $emailsQueued,
       leadsTotal: $leadsTotal,
       trackerEntries: $trackerEntries
-    },
-    tokenUsage: $tokenUsage
+    }
   }')
 
 # ─── POST to Dashboard ──────────────────────────────────────────────────────
