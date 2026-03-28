@@ -314,7 +314,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         <meshStandardMaterial
           ref={matRef}
           color="#F0E6DE"
-          emissive="#008CFF"
+          emissive="#FF0000"
           emissiveIntensity={0.4}
           metalness={0.85}
           roughness={0.08}
