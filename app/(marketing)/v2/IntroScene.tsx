@@ -304,7 +304,7 @@ function BrandText3D({ showTextRef, textScale }: { showTextRef: React.MutableRef
         font="/fonts/helvetiker_bold.typeface.json"
         size={1.4 * textScale}
         height={0.42 * textScale}
-        bevelEnabled
+        bevelEnabled={false}
         bevelSize={0.02}
         bevelThickness={0.015}
         bevelSegments={4}
