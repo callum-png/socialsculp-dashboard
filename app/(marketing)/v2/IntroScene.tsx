@@ -455,7 +455,15 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
       } else {
         setTimeout(() => {
           setFading(true)
-          setTimeout(() => { setMounted(false); onCompleteRef.current() }, 1000)
+          setTimeout(() => {
+            // Unmount the intro overlay first, then trigger the page fade-in in a
+            // separate macro-task so React commits two distinct renders. This
+            // guarantees the browser paints v2-root at opacity:0 before the
+            // transition to opacity:1 is applied — without this the batched update
+            // can prevent the CSS transition from firing.
+            setMounted(false)
+            setTimeout(() => onCompleteRef.current(), 50)
+          }, 1000)
         }, 300)
       }
     }
@@ -536,7 +544,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         <span style={{ color: 'rgba(0,140,255,0.35)' }}>v2.0.1 — {new Date().getFullYear()}</span>
       </div>
 
-      {/* Counter — centred on screen */}
+      {/* Counter — centred on screen; fades out when 3D text appears at 70% */}
       <div style={{
         position: 'absolute',
         top: '50%',
@@ -546,6 +554,8 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         zIndex: 10,
         pointerEvents: 'none',
         whiteSpace: 'nowrap',
+        opacity: progress >= 70 ? 0 : 1,
+        transition: 'opacity 0.6s ease',
       }}>
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -554,7 +564,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
           color: 'rgba(240,230,222,0.9)', lineHeight: 0.82, letterSpacing: '-0.04em',
           textShadow: '0 0 80px rgba(0,140,255,0.15)',
         }}>
-          {String(progress).padStart(3, '0')}
+          {String(Math.min(progress, 69)).padStart(3, '0')}
         </div>
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16,
@@ -571,8 +581,13 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         </div>
       </div>
 
-      {/* Progress bar — glowing fill */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.05)', zIndex: 10 }}>
+      {/* Progress bar — glowing fill; fades out with counter at 70% */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: 2,
+        background: 'rgba(255,255,255,0.05)', zIndex: 10,
+        opacity: progress >= 70 ? 0 : 1,
+        transition: 'opacity 0.6s ease',
+      }}>
         <div style={{
           height: '100%', width: `${progress}%`,
           background: 'linear-gradient(to right, #003db3, #008CFF, #40c4ff)',
