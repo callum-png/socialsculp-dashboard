@@ -175,6 +175,7 @@ export interface OpenClawCommand {
 
 // Tab types for Mission Control
 export const MISSION_CONTROL_TABS = [
+  'brief',
   'overview',
   'tasks',
   'crons',
@@ -187,6 +188,7 @@ export const MISSION_CONTROL_TABS = [
 export type MissionControlTab = (typeof MISSION_CONTROL_TABS)[number]
 
 export const TAB_LABELS: Record<MissionControlTab, string> = {
+  brief: 'AI Brief',
   overview: 'Status',
   tasks: 'Tasks',
   crons: 'Cron Jobs',

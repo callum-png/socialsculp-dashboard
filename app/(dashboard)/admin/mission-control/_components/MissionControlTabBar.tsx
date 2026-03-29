@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
 const TABS = [
+  { label: 'AI Brief', value: 'brief' },
   { label: 'Status', value: 'overview' },
   { label: 'Tasks', value: 'tasks' },
   { label: 'Cron Jobs', value: 'crons' },

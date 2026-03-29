@@ -68,6 +68,7 @@ function StatusBadge({ status }: { status: string | undefined }) {
 
 export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
   const [runningJob, setRunningJob] = useState<string | null>(null)
+  const [togglingJob, setTogglingJob] = useState<string | null>(null)
 
   // v2 payload sends { jobs: [], total: 0 }, legacy sends CronJob[]
   const rawCrons = data?.latest?.crons
@@ -82,6 +83,19 @@ export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
       // error handled upstream
     } finally {
       setRunningJob(null)
+    }
+  }
+
+  const handleToggle = async (name: string, currentlyEnabled: boolean) => {
+    setTogglingJob(name)
+    try {
+      const action = currentlyEnabled ? 'disable' : 'enable'
+      await executeCommand(`openclaw cron ${action} ${name}`)
+      onRefresh()
+    } catch {
+      // error handled upstream
+    } finally {
+      setTogglingJob(null)
     }
   }
 
@@ -140,6 +154,9 @@ export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
                 Status
               </th>
               <th className="text-right text-xs font-medium text-[#6B6860] uppercase tracking-wide px-6 py-3 font-syne">
+                Enabled
+              </th>
+              <th className="text-right text-xs font-medium text-[#6B6860] uppercase tracking-wide px-6 py-3 font-syne">
                 Actions
               </th>
             </tr>
@@ -181,6 +198,23 @@ export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={job.lastStatus} />
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <button
+                      onClick={() => handleToggle(job.name, job.enabled)}
+                      disabled={togglingJob === job.name}
+                      title={job.enabled ? 'Disable job' : 'Enable job'}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent
+                        transition-colors duration-200 ease-in-out focus:outline-none
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                        ${job.enabled ? 'bg-[#008cff]' : 'bg-[#333333]'}`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow
+                          transition duration-200 ease-in-out
+                          ${job.enabled ? 'translate-x-4' : 'translate-x-0'}`}
+                      />
+                    </button>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button

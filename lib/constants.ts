@@ -171,6 +171,7 @@ export const ROLE_HOME_ROUTES: Record<UserRoleValue, string> = {
 
 export const ADMIN_NAV_ITEMS = [
   { label: 'Overview', href: '/admin', icon: 'LayoutDashboard' },
+  { label: 'Mission Control', href: '/admin/mission-control', icon: 'Bot' },
   { label: 'Campaigns', href: '/admin/campaigns', icon: 'Megaphone' },
   { label: 'Creators', href: '/admin/creators', icon: 'Users' },
   { label: 'Brands', href: '/admin/brands', icon: 'Building2' },

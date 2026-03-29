@@ -452,6 +452,44 @@ model CampaignReport {
   @@map("campaign_reports")
 }
 
+// ─── AI CEO Mission Control (Dispatch / Claude task tracking) ────────────────
+
+model AiTask {
+  id           String   @id @default(cuid())
+  taskId       String   @unique // External task ID from Dispatch/AI system
+  title        String
+  status       String   @default("idle") // running | completed | failed | idle
+  summary      String?
+  lastActivity DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status])
+  @@index([lastActivity])
+  @@map("ai_tasks")
+}
+
+model DailyBrief {
+  id        String   @id @default(cuid())
+  category  String   // morning-brief | lead-gen | follow-up | competitive-intel | content-research | security | general
+  content   String
+  priority  String   @default("normal") // high | normal | low
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("daily_briefs")
+}
+
+model AiMetric {
+  id         String   @id @default(cuid())
+  metricName String
+  value      Float
+  date       DateTime @default(now())
+
+  @@index([metricName, date])
+  @@map("ai_metrics")
+}
+
 // ─── OpenClaw Mission Control ────────────────────────────────────────────────
 
 model OpenClawHeartbeat {

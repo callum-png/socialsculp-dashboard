@@ -9,6 +9,8 @@ import { TokenBurnTab } from './TokenBurnTab'
 import { RevenueTab } from './RevenueTab'
 import { WorkflowsTab } from './WorkflowsTab'
 import { CommandTerminalTab } from './CommandTerminalTab'
+import { AiBriefTab } from './AiBriefTab'
+import type { AiDashboardData } from './AiBriefTab'
 
 interface Props {
   activeTab: MissionControlTab
@@ -19,10 +21,12 @@ export interface OpenClawData {
   latest: any | null
   history: { receivedAt: string; data: any }[]
   recentCommands: any[]
+  crm?: any
 }
 
 export function MissionControlClient({ activeTab }: Props) {
   const [data, setData] = useState<OpenClawData | null>(null)
+  const [aiData, setAiData] = useState<AiDashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -40,11 +44,31 @@ export function MissionControlClient({ activeTab }: Props) {
     }
   }, [])
 
+  const fetchAiData = useCallback(async () => {
+    try {
+      const res = await fetch('/api/mission-control')
+      if (!res.ok) return
+      const json = await res.json()
+      setAiData(json)
+    } catch {
+      // non-fatal — AI data may not be available yet
+    }
+  }, [])
+
   useEffect(() => {
     fetchStatus()
-    const interval = setInterval(fetchStatus, 30000)
+    fetchAiData()
+    const interval = setInterval(() => {
+      fetchStatus()
+      fetchAiData()
+    }, 30000)
     return () => clearInterval(interval)
-  }, [fetchStatus])
+  }, [fetchStatus, fetchAiData])
+
+  const onRefresh = useCallback(() => {
+    fetchStatus()
+    fetchAiData()
+  }, [fetchStatus, fetchAiData])
 
   const executeCommand = async (command: string): Promise<{ output: string; exitCode: number }> => {
     const res = await fetch('/api/openclaw/command', {
@@ -54,8 +78,7 @@ export function MissionControlClient({ activeTab }: Props) {
     })
     const json = await res.json()
     if (!res.ok) throw new Error(json.error || 'Command failed')
-    // Refresh status after command
-    fetchStatus()
+    onRefresh()
     return json
   }
 
@@ -79,7 +102,7 @@ export function MissionControlClient({ activeTab }: Props) {
           <p className="text-red-400 font-syne font-semibold">Connection Error</p>
           <p className="text-[#6B6860] text-sm mt-1">{error}</p>
           <button
-            onClick={fetchStatus}
+            onClick={onRefresh}
             className="mt-4 px-4 py-2 text-sm font-syne bg-[#008cff]/10 text-[#008cff] border border-[#008cff]/20 rounded-md hover:bg-[#008cff]/20 transition-colors"
           >
             Retry
@@ -89,17 +112,18 @@ export function MissionControlClient({ activeTab }: Props) {
     )
   }
 
-  const tabProps = { data, executeCommand, onRefresh: fetchStatus }
+  const tabProps = { data, executeCommand, onRefresh }
 
   return (
     <div className="px-6">
-      {activeTab === 'overview' && <StatusOverviewTab {...tabProps} />}
-      {activeTab === 'tasks' && <TaskFeedTab {...tabProps} />}
-      {activeTab === 'crons' && <CronJobsTab {...tabProps} />}
-      {activeTab === 'tokens' && <TokenBurnTab {...tabProps} />}
-      {activeTab === 'revenue' && <RevenueTab {...tabProps} />}
+      {activeTab === 'brief'     && <AiBriefTab {...tabProps} aiData={aiData} />}
+      {activeTab === 'overview'  && <StatusOverviewTab {...tabProps} />}
+      {activeTab === 'tasks'     && <TaskFeedTab {...tabProps} />}
+      {activeTab === 'crons'     && <CronJobsTab {...tabProps} />}
+      {activeTab === 'tokens'    && <TokenBurnTab {...tabProps} />}
+      {activeTab === 'revenue'   && <RevenueTab {...tabProps} />}
       {activeTab === 'workflows' && <WorkflowsTab {...tabProps} />}
-      {activeTab === 'terminal' && <CommandTerminalTab {...tabProps} />}
+      {activeTab === 'terminal'  && <CommandTerminalTab {...tabProps} />}
     </div>
   )
 }
