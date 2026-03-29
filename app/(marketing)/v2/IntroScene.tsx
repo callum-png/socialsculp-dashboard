@@ -555,7 +555,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         pointerEvents: 'none',
         whiteSpace: 'nowrap',
         opacity: progress >= 70 ? 0 : 1,
-        transition: 'opacity 0.6s ease',
+        transition: 'opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s',
       }}>
         <div style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -586,7 +586,7 @@ export function IntroScene({ onComplete }: { onComplete: () => void }) {
         position: 'absolute', bottom: 0, left: 0, right: 0, height: 2,
         background: 'rgba(255,255,255,0.05)', zIndex: 10,
         opacity: progress >= 70 ? 0 : 1,
-        transition: 'opacity 0.6s ease',
+        transition: 'opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s',
       }}>
         <div style={{
           height: '100%', width: `${progress}%`,
