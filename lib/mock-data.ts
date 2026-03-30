@@ -339,7 +339,7 @@ export function generateAnalyticsData(
   const baseDailyBudget = 500 + rand() * 2000  // $500–$2,500/day
   const baseImpressions = Math.round(baseDailyBudget / (baseCPM / 1000))
 
-  const snapshots = []
+  const snapshots: any[] = []
   const now = new Date()
 
   for (let i = days - 1; i >= 0; i--) {
@@ -398,7 +398,7 @@ export function generateFollowerGrowth(
   const dailyRate = monthlyGrowthRate / 30
   const startFollowers = Math.round(currentFollowers / (1 + dailyRate * days))
 
-  const growth = []
+  const growth: any[] = []
   const now = new Date()
 
   for (let i = days; i >= 0; i--) {

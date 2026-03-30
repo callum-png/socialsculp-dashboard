@@ -13,10 +13,10 @@ export default async function AdminCampaignsPage() {
     orderBy: { createdAt: 'desc' },
   })
 
-  const active = campaigns.filter((c) => c.status === 'ACTIVE').length
-  const draft = campaigns.filter((c) => c.status === 'DRAFT').length
-  const completed = campaigns.filter((c) => c.status === 'COMPLETED').length
-  const totalBudget = campaigns.reduce((sum, c) => sum + c.totalBudget, 0)
+  const active = campaigns.filter((c: any) => c.status === 'ACTIVE').length
+  const draft = campaigns.filter((c: any) => c.status === 'DRAFT').length
+  const completed = campaigns.filter((c: any) => c.status === 'COMPLETED').length
+  const totalBudget = campaigns.reduce((sum: number, c: any) => sum + c.totalBudget, 0)
 
   const stats = [
     { title: 'Active', value: active, icon: Megaphone, delta: 12.5, deltaLabel: 'vs last month' },
@@ -25,7 +25,7 @@ export default async function AdminCampaignsPage() {
     { title: 'Total Budget', value: formatCurrency(totalBudget), icon: DollarSign, accent: true },
   ]
 
-  const tableData = campaigns.map((c) => ({
+  const tableData = campaigns.map((c: any) => ({
     id: c.id,
     name: c.name,
     brandName: c.brand.companyName,

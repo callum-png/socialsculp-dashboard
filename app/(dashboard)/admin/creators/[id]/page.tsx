@@ -36,7 +36,7 @@ export default async function CreatorDetailPage({ params }: PageProps) {
   // Use real platform stats if available, otherwise fall back to mock
   const analytics = generateAnalyticsData(creator.handle, 30)
 
-  const engData = analytics.map((d) => ({
+  const engData = analytics.map((d: any) => ({
     date: d.date,
     tiktok: parseFloat((d.engagementRate * 1.3).toFixed(2)),
     instagram: parseFloat((d.engagementRate * 0.65).toFixed(2)),
@@ -54,12 +54,12 @@ export default async function CreatorDetailPage({ params }: PageProps) {
     (creator.tiktokEngRate && creator.instagramEngRate ? 2 : 1)
 
   const activeDealCount = creator.deals.filter(
-    (d) => d.stage === 'LIVE' || d.stage === 'SIGNED'
+    (d: any) => d.stage === 'LIVE' || d.stage === 'SIGNED'
   ).length
 
   const totalEarned = creator.deals
-    .filter((d) => d.stage === 'COMPLETED' || d.stage === 'LIVE')
-    .reduce((sum, d) => sum + (d.agreedFee ?? 0), 0)
+    .filter((d: any) => d.stage === 'COMPLETED' || d.stage === 'LIVE')
+    .reduce(( sum: number, d: any) => sum + (d.agreedFee ?? 0), 0)
 
   const stats = [
     { title: 'TikTok Followers', value: creator.tiktokFollowers ? formatNumber(creator.tiktokFollowers) : '—' },
@@ -90,7 +90,7 @@ export default async function CreatorDetailPage({ params }: PageProps) {
               <div className="font-syne text-sm text-muted-foreground mb-3">{creator.user.name}</div>
               {creator.niche.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  {creator.niche.map((n) => (
+                  {creator.niche.map((n: any) => (
                     <span
                       key={n}
                       className="px-2 py-0.5 text-[10px] font-syne uppercase tracking-widest bg-background border border-border text-muted-foreground"
@@ -190,7 +190,7 @@ export default async function CreatorDetailPage({ params }: PageProps) {
               <h3 className="text-sm font-syne font-bold text-foreground">Deal History</h3>
             </div>
             <div className="divide-y divide-border">
-              {creator.deals.map((deal) => (
+              {creator.deals.map((deal: any) => (
                 <div key={deal.id} className="flex items-center justify-between px-5 py-3.5">
                   <div className="min-w-0">
                     <div className="text-sm font-syne font-bold text-foreground truncate">

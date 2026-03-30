@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { SalesDealStage, DealStage } from '@prisma/client'
+
 import {
   Users,
   DollarSign,
@@ -15,8 +15,8 @@ import { StatCardGrid } from '@/components/dashboard/StatCardGrid'
 import { getDb } from '@/lib/db'
 import { formatCurrency, timeAgo } from '@/lib/utils'
 
-// Labels for SalesDealStage values
-const SALES_STAGE_LABELS: Record<SalesDealStage, string> = {
+// Labels for string values
+const SALES_STAGE_LABELS: Record<string, string> = {
   APPOINTMENT_SET: 'Appointment Set',
   QUALIFIED: 'Qualified',
   DECISION_MAKER: 'Decision Maker',
@@ -26,7 +26,7 @@ const SALES_STAGE_LABELS: Record<SalesDealStage, string> = {
 }
 
 // Labels for DealStage values (used in DealStageEvent activity feed)
-const DEAL_STAGE_ACTIVITY_LABELS: Record<DealStage, string> = {
+const DEAL_STAGE_ACTIVITY_LABELS: Record<string, string> = {
   OUTREACH: 'Outreach',
   NEGOTIATING: 'Negotiating',
   SIGNED: 'Signed',
@@ -35,12 +35,12 @@ const DEAL_STAGE_ACTIVITY_LABELS: Record<DealStage, string> = {
   CANCELLED: 'Cancelled',
 }
 
-const PIPELINE_STAGES: SalesDealStage[] = [
-  SalesDealStage.APPOINTMENT_SET,
-  SalesDealStage.QUALIFIED,
-  SalesDealStage.DECISION_MAKER,
-  SalesDealStage.PROPOSAL_SENT,
-  SalesDealStage.CLOSED_WON,
+const PIPELINE_STAGES: string[] = [
+  "APPOINTMENT_SET",
+  "QUALIFIED",
+  "DECISION_MAKER",
+  "PROPOSAL_SENT",
+  "CLOSED_WON",
 ]
 
 export default async function AgentHomePage() {
@@ -93,23 +93,23 @@ export default async function AgentHomePage() {
 
   // Compute SalesDeal metrics
   const negotiatingCount = salesDeals.filter(
-    (d) => d.stage === SalesDealStage.PROPOSAL_SENT,
+    (d) => d.stage === "PROPOSAL_SENT",
   ).length
 
   const closedWonThisMonth = salesDeals.filter(
-    (d) => d.stage === SalesDealStage.CLOSED_WON && d.createdAt >= thirtyDaysAgo,
+    (d) => d.stage === "CLOSED_WON" && d.createdAt >= thirtyDaysAgo,
   ).length
 
   const pipelineValue = salesDeals
     .filter(
       (d) =>
-        d.stage !== SalesDealStage.CLOSED_LOST &&
-        d.stage !== SalesDealStage.CLOSED_WON,
+        d.stage !== "CLOSED_LOST" &&
+        d.stage !== "CLOSED_WON",
     )
     .reduce((sum, d) => sum + (d.value ?? 0), 0)
 
   // Compute pipeline stage breakdown
-  const stageCountMap: Record<SalesDealStage, number> = {
+  const stageCountMap: Record<string, number> = {
     APPOINTMENT_SET: 0,
     QUALIFIED: 0,
     DECISION_MAKER: 0,
@@ -183,7 +183,7 @@ export default async function AgentHomePage() {
               {PIPELINE_STAGES.map((stage, idx) => {
                 const count = stageCountMap[stage]
                 const isLast = idx === PIPELINE_STAGES.length - 1
-                const isWon = stage === SalesDealStage.CLOSED_WON
+                const isWon = stage === "CLOSED_WON"
                 return (
                   <div key={stage} className="flex items-center flex-1 min-w-0">
                     <div

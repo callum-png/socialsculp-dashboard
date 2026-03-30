@@ -6,13 +6,13 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { StatCardGrid } from '@/components/dashboard/StatCardGrid'
 import { formatCurrency } from '@/lib/utils'
 import { Users, DollarSign, TrendingUp, Handshake } from 'lucide-react'
-import { SalesDealStage } from '@prisma/client'
+
 
 interface PageProps {
   params: Promise<{ userId: string }>
 }
 
-const STAGE_LABELS: Record<SalesDealStage, string> = {
+const STAGE_LABELS: Record<string, string> = {
   APPOINTMENT_SET: 'Appointment Set',
   QUALIFIED: 'Qualified',
   DECISION_MAKER: 'Decision Maker',

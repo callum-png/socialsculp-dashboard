@@ -46,11 +46,11 @@ export default async function AdminAnalyticsPage() {
     : 4.3
 
   // Chart data — use real snapshots or fall back to mock
-  const mockAnalytics = generateAnalyticsData('admin-analytics', 30)
+  const mockAnalytics: any[] = generateAnalyticsData('admin-analytics', 30)
 
   const roasData = hasRealData
     ? snapshots.map((d: Snap) => ({ date: d.date.toISOString(), roas: d.roas }))
-    : mockAnalytics.map((d: Mock) => ({ date: d.date, roas: d.roas }))
+    : mockAnalytics.map((d: any) => ({ date: d.date, roas: d.roas }))
 
   const engData = hasRealData
     ? snapshots.map((d: Snap) => ({
@@ -58,7 +58,7 @@ export default async function AdminAnalyticsPage() {
         tiktok: parseFloat((d.engagementRate * 1.25).toFixed(2)),
         instagram: parseFloat((d.engagementRate * 0.7).toFixed(2)),
       }))
-    : mockAnalytics.map((d: Mock) => ({
+    : mockAnalytics.map((d: any) => ({
         date: d.date,
         tiktok: parseFloat((d.engagementRate * 1.25).toFixed(2)),
         instagram: parseFloat((d.engagementRate * 0.7).toFixed(2)),
