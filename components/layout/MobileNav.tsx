@@ -17,6 +17,9 @@ import {
   Eye,
   CheckSquare,
   UserCheck,
+  PhoneCall,
+  Radio,
+  Wallet,
 } from 'lucide-react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
@@ -37,6 +40,9 @@ const ICON_MAP = {
   Eye,
   CheckSquare,
   UserCheck,
+  PhoneCall,
+  Radio,
+  Wallet,
 }
 
 type NavItem = { label: string; href: string; icon: keyof typeof ICON_MAP }
@@ -64,10 +70,13 @@ const ROLE_NAV: Record<UserRole, NavGroup[]> = {
       label: 'Operations',
       items: [
         { label: 'CRM', href: '/admin/crm', icon: 'ContactRound' },
+        { label: 'Sales', href: '/admin/sales', icon: 'PhoneCall' },
         { label: 'Decks', href: '/admin/decks', icon: 'LayoutTemplate' },
         { label: 'Portals', href: '/admin/portals', icon: 'Eye' },
         { label: 'Tasks', href: '/admin/tasks', icon: 'CheckSquare' },
         { label: 'Users', href: '/admin/users', icon: 'UserCheck' },
+        { label: 'Mission Control', href: '/admin/mission-control', icon: 'Radio' },
+        { label: 'Finance', href: '/admin/finance', icon: 'Wallet' },
         { label: 'Settings', href: '/admin/settings', icon: 'Settings' },
       ],
     },
