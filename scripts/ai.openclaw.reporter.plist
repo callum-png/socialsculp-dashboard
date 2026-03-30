@@ -11,7 +11,7 @@
     <key>ProgramArguments</key>
     <array>
       <string>/bin/bash</string>
-      <string>/Users/callumhyman/socialsculp-dashboard/scripts/openclaw-reporter.sh</string>
+      <string>/Users/callumhyman/Desktop/SocialSculp Mac/socialsculp-dashboard/scripts/openclaw-reporter.sh</string>
     </array>
 
     <key>StartInterval</key>
@@ -33,6 +33,10 @@
       <string>/Users/callumhyman/.openclaw</string>
       <key>PATH</key>
       <string>/Users/callumhyman/.nvm/versions/node/v24.13.1/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+      <key>OPENCLAW_REPORTER_SECRET</key>
+      <string>c7e769a35e6c3b8850f5b5beab521f887488c44594772e0e2668a3c9c86544aa</string>
+      <key>OPENCLAW_DASHBOARD_URL</key>
+      <string>https://socialsculp.io</string>
     </dict>
   </dict>
 </plist>

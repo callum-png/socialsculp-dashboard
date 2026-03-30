@@ -3,7 +3,7 @@
 # Runs every 60s via LaunchAgent, POSTs status heartbeat to SocialSculp dashboard
 # Uses `openclaw status --json` as primary data source (v2026.3.24+)
 
-DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp-dashboard.vercel.app}"
+DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp.io}"
 REPORTER_SECRET="${OPENCLAW_REPORTER_SECRET}"
 
 # IMPORTANT: Do NOT set OPENCLAW_HOME — the CLI auto-detects ~/.openclaw and
