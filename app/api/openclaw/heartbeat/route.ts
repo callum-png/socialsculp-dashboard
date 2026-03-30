@@ -4,12 +4,8 @@ import { getDb } from '@/lib/db'
 export async function POST(req: Request) {
   // Authenticate with shared secret (not Clerk — this comes from VPS)
   const secret = req.headers.get('x-reporter-secret')
-  const envSecret = process.env.OPENCLAW_REPORTER_SECRET
-  if (!secret || !envSecret || secret !== envSecret) {
-    return NextResponse.json({
-      error: 'Unauthorized',
-      debug: { hasHeader: !!secret, hasEnv: !!envSecret, headerLen: secret?.length, envLen: envSecret?.length }
-    }, { status: 401 })
+  if (!secret || secret !== process.env.OPENCLAW_REPORTER_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
