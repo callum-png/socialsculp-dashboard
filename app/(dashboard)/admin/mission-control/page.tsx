@@ -3,7 +3,7 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { MissionControlTabBar } from './_components/MissionControlTabBar'
 import { MissionControlClient } from './_components/MissionControlClient'
 
-const VALID_TABS = ['overview', 'tasks', 'crons', 'tokens', 'revenue', 'workflows', 'terminal'] as const
+const VALID_TABS = ['overview', 'tasks', 'crons', 'revenue', 'workflows'] as const
 type Tab = (typeof VALID_TABS)[number]
 
 export default async function MissionControlPage({
@@ -21,7 +21,7 @@ export default async function MissionControlPage({
       <PageHeader
         eyebrow="Admin"
         title="Mission Control"
-        description="OpenClaw AI — real-time monitoring and command center"
+        description="AI CEO — real-time task monitoring and reports"
       />
 
       <Suspense>

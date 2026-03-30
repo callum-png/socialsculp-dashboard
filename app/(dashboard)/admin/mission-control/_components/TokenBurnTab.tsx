@@ -11,10 +11,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import type { OpenClawData } from './MissionControlClient'
-
 interface TabProps {
-  data: OpenClawData | null
+  data: any | null
   executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
   onRefresh: () => void
 }

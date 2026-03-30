@@ -178,20 +178,16 @@ export const MISSION_CONTROL_TABS = [
   'overview',
   'tasks',
   'crons',
-  'tokens',
   'revenue',
   'workflows',
-  'terminal',
 ] as const
 
 export type MissionControlTab = (typeof MISSION_CONTROL_TABS)[number]
 
 export const TAB_LABELS: Record<MissionControlTab, string> = {
-  overview: 'Status',
-  tasks: 'Tasks',
+  overview: 'Overview',
+  tasks: 'Daily Briefs',
   crons: 'Cron Jobs',
-  tokens: 'Token Burn',
   revenue: 'Revenue',
   workflows: 'Workflows',
-  terminal: 'Terminal',
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import type { OpenClawData } from './MissionControlClient'
 import {
   HeartPulse,
   Users,
@@ -18,7 +17,7 @@ import {
 } from 'lucide-react'
 
 interface TabProps {
-  data: OpenClawData | null
+  data: any | null
   executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
   onRefresh: () => void
 }

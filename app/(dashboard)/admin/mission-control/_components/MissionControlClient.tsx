@@ -5,30 +5,51 @@ import type { MissionControlTab } from '@/types/openclaw'
 import { StatusOverviewTab } from './StatusOverviewTab'
 import { TaskFeedTab } from './TaskFeedTab'
 import { CronJobsTab } from './CronJobsTab'
-import { TokenBurnTab } from './TokenBurnTab'
 import { RevenueTab } from './RevenueTab'
 import { WorkflowsTab } from './WorkflowsTab'
-import { CommandTerminalTab } from './CommandTerminalTab'
 
 interface Props {
   activeTab: MissionControlTab
 }
 
-export interface OpenClawData {
-  status: 'online' | 'stale' | 'offline'
-  latest: any | null
-  history: { receivedAt: string; data: any }[]
-  recentCommands: any[]
+export interface TaskDefinition {
+  id: string
+  name: string
+  description: string
+  schedule: string
+  scheduleHuman: string
+  lastRun: string | null
+  lastStatus: 'success' | 'error' | null
+  nextRun: string | null
+  runCount: number
+  lastSummary: string | null
+  lastDetails: string | null
+}
+
+export interface CronReport {
+  taskId: string
+  description: string
+  startedAt: string
+  completedAt: string
+  status: 'success' | 'error'
+  summary: string
+  details: string
+}
+
+export interface CronReportData {
+  tasks: TaskDefinition[]
+  reports: CronReport[]
+  generatedAt: string
 }
 
 export function MissionControlClient({ activeTab }: Props) {
-  const [data, setData] = useState<OpenClawData | null>(null)
+  const [data, setData] = useState<CronReportData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchStatus = useCallback(async () => {
+  const fetchReports = useCallback(async () => {
     try {
-      const res = await fetch('/api/openclaw/status')
+      const res = await fetch('/api/admin/cron-reports')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const json = await res.json()
       setData(json)
@@ -41,23 +62,10 @@ export function MissionControlClient({ activeTab }: Props) {
   }, [])
 
   useEffect(() => {
-    fetchStatus()
-    const interval = setInterval(fetchStatus, 30000)
+    fetchReports()
+    const interval = setInterval(fetchReports, 60000)
     return () => clearInterval(interval)
-  }, [fetchStatus])
-
-  const executeCommand = async (command: string): Promise<{ output: string; exitCode: number }> => {
-    const res = await fetch('/api/openclaw/command', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ command }),
-    })
-    const json = await res.json()
-    if (!res.ok) throw new Error(json.error || 'Command failed')
-    // Refresh status after command
-    fetchStatus()
-    return json
-  }
+  }, [fetchReports])
 
   if (loading) {
     return (
@@ -76,10 +84,10 @@ export function MissionControlClient({ activeTab }: Props) {
     return (
       <div className="px-6">
         <div className="rounded-lg bg-[#111111] border border-[#222222] p-8 text-center">
-          <p className="text-red-400 font-syne font-semibold">Connection Error</p>
+          <p className="text-red-400 font-syne font-semibold">Failed to load reports</p>
           <p className="text-[#6B6860] text-sm mt-1">{error}</p>
           <button
-            onClick={fetchStatus}
+            onClick={fetchReports}
             className="mt-4 px-4 py-2 text-sm font-syne bg-[#008cff]/10 text-[#008cff] border border-[#008cff]/20 rounded-md hover:bg-[#008cff]/20 transition-colors"
           >
             Retry
@@ -89,17 +97,15 @@ export function MissionControlClient({ activeTab }: Props) {
     )
   }
 
-  const tabProps = { data, executeCommand, onRefresh: fetchStatus }
+  const tabProps = { data, onRefresh: fetchReports }
 
   return (
     <div className="px-6">
       {activeTab === 'overview' && <StatusOverviewTab {...tabProps} />}
       {activeTab === 'tasks' && <TaskFeedTab {...tabProps} />}
       {activeTab === 'crons' && <CronJobsTab {...tabProps} />}
-      {activeTab === 'tokens' && <TokenBurnTab {...tabProps} />}
-      {activeTab === 'revenue' && <RevenueTab {...tabProps} />}
+      {activeTab === 'revenue' && <RevenueTab data={null} executeCommand={async () => ({ output: '', exitCode: 0 })} onRefresh={fetchReports} />}
       {activeTab === 'workflows' && <WorkflowsTab {...tabProps} />}
-      {activeTab === 'terminal' && <CommandTerminalTab {...tabProps} />}
     </div>
   )
 }

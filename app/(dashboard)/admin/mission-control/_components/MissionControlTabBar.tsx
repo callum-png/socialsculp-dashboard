@@ -4,13 +4,11 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
 const TABS = [
-  { label: 'Status', value: 'overview' },
-  { label: 'Tasks', value: 'tasks' },
+  { label: 'Overview', value: 'overview' },
+  { label: 'Daily Briefs', value: 'tasks' },
   { label: 'Cron Jobs', value: 'crons' },
-  { label: 'Token Burn', value: 'tokens' },
   { label: 'Revenue', value: 'revenue' },
   { label: 'Workflows', value: 'workflows' },
-  { label: 'Terminal', value: 'terminal' },
 ]
 
 export function MissionControlTabBar() {

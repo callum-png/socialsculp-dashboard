@@ -1,0 +1,122 @@
+{
+  "updatedAt": "2026-03-29T00:00:00.000Z",
+  "tasks": [
+    {
+      "id": "morning-brief",
+      "name": "Morning Brief",
+      "description": "Daily morning briefing — overnight news, priority tasks for the day, and market pulse",
+      "schedule": "0 10 * * *",
+      "scheduleHuman": "Daily at 10:00 AM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T10:00:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "end-of-day-review",
+      "name": "End of Day Review",
+      "description": "Daily EOD wrap-up — what shipped, what's blocked, pipeline summary, tomorrow's focus",
+      "schedule": "30 20 * * *",
+      "scheduleHuman": "Daily at 8:30 PM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-29T20:30:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "lead-gen-outreach",
+      "name": "Lead Gen Outreach",
+      "description": "Creator seeding — discovers and queues new creator leads for outreach",
+      "schedule": "0 9 * * 1-5",
+      "scheduleHuman": "Weekdays at 9:00 AM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T09:00:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "ai-integration-outreach",
+      "name": "AI Integration Outreach",
+      "description": "Drafts and queues outreach emails targeting AI integration prospects",
+      "schedule": "30 9 * * 1-5",
+      "scheduleHuman": "Weekdays at 9:30 AM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T09:30:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "follow-up-sequencer",
+      "name": "Follow-up Sequencer",
+      "description": "Processes follow-up sequences — sends timed follow-ups for cold and warm leads",
+      "schedule": "8 12 * * 1-5",
+      "scheduleHuman": "Weekdays at 12:08 PM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T12:08:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "daily-competitive-intel",
+      "name": "Daily Competitive Intel",
+      "description": "Scrapes competitor updates, pricing changes, and market moves — surfaces key insights",
+      "schedule": "0 8 * * 1-5",
+      "scheduleHuman": "Weekdays at 8:00 AM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T08:00:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "weekly-content-research",
+      "name": "Weekly Content Research",
+      "description": "Surfaces trending topics, viral formats, and content ideas for the week ahead",
+      "schedule": "0 9 * * 1-5",
+      "scheduleHuman": "Weekdays at 9:00 AM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-30T09:00:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "content-scrape-and-analyze",
+      "name": "Content Scrape & Analyze",
+      "description": "On-demand content scraper — pulls and analyzes content from specified sources",
+      "schedule": "on-demand",
+      "scheduleHuman": "Manual / On-demand",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": null,
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    },
+    {
+      "id": "weekly-security-audit",
+      "name": "Weekly Security Audit",
+      "description": "Scans for exposed secrets, outdated dependencies, and security misconfigurations",
+      "schedule": "0 21 * * 0",
+      "scheduleHuman": "Sundays at 9:00 PM",
+      "lastRun": null,
+      "lastStatus": null,
+      "nextRun": "2026-03-29T21:00:00.000Z",
+      "runCount": 0,
+      "lastSummary": null,
+      "lastDetails": null
+    }
+  ]
+}

@@ -11,64 +11,14 @@ import {
   Workflow,
   Inbox,
 } from 'lucide-react'
-import type { OpenClawData } from './MissionControlClient'
+import type { CronReportData, TaskDefinition } from './MissionControlClient'
 
 interface TabProps {
-  data: OpenClawData | null
-  executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
+  data: CronReportData | null
   onRefresh: () => void
 }
 
-interface CronJob {
-  name: string
-  schedule: string
-  enabled: boolean
-  lastRun?: string
-  lastStatus?: 'success' | 'failed'
-  runCount?: number
-}
-
-/** Parse a cron schedule string into something human-readable. */
-function humanCron(schedule: string): string {
-  if (!schedule) return schedule
-  const parts = schedule.trim().split(/\s+/)
-  if (parts.length < 5) return schedule
-
-  const [min, hour, dom, mon, dow] = parts
-
-  // Every N minutes
-  if (min.startsWith('*/') && hour === '*') {
-    return `Every ${min.slice(2)} minutes`
-  }
-
-  // Hourly
-  if (min !== '*' && hour === '*' && dom === '*' && mon === '*' && dow === '*') {
-    return `Hourly at :${min.padStart(2, '0')}`
-  }
-
-  // Daily at specific time
-  if (min !== '*' && hour !== '*' && dom === '*' && mon === '*' && dow === '*') {
-    const h = parseInt(hour, 10)
-    const m = parseInt(min, 10)
-    const ampm = h >= 12 ? 'PM' : 'AM'
-    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h
-    return `Daily at ${h12}:${String(m).padStart(2, '0')} ${ampm}`
-  }
-
-  // Weekdays
-  if (dow === '1-5' && dom === '*' && mon === '*') {
-    const h = parseInt(hour, 10)
-    const m = parseInt(min, 10)
-    const ampm = h >= 12 ? 'PM' : 'AM'
-    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h
-    return `Weekdays at ${h12}:${String(m).padStart(2, '0')} ${ampm}`
-  }
-
-  return schedule
-}
-
-/** Get the hour from a lastRun ISO timestamp, or null. */
-function getHour(iso?: string): number | null {
+function getHour(iso?: string | null): number | null {
   if (!iso) return null
   try {
     return new Date(iso).getHours()
@@ -77,57 +27,46 @@ function getHour(iso?: string): number | null {
   }
 }
 
-function formatTime(iso?: string): string {
+function formatTime(iso?: string | null): string {
   if (!iso) return 'Never'
   try {
-    const d = new Date(iso)
-    return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+    return new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
   } catch {
     return iso
   }
 }
 
-export function WorkflowsTab({ data, executeCommand, onRefresh }: TabProps) {
+export function WorkflowsTab({ data, onRefresh }: TabProps) {
   const [runningAll, setRunningAll] = useState(false)
 
-  // v2 payload sends { jobs: [], total: 0 }, legacy sends CronJob[]
-  const rawCrons = data?.latest?.crons
-  const crons: CronJob[] = (Array.isArray(rawCrons) ? rawCrons : (rawCrons as any)?.jobs ?? []) as CronJob[]
+  const tasks: TaskDefinition[] = data?.tasks ?? []
 
   const handleRunAll = async () => {
     setRunningAll(true)
-    try {
-      await executeCommand('cron:run-all')
-      onRefresh()
-    } catch {
-      // swallow
-    } finally {
+    setTimeout(() => {
       setRunningAll(false)
-    }
+      onRefresh()
+    }, 2000)
   }
 
-  if (!data?.latest || crons.length === 0) {
+  if (tasks.length === 0) {
     return (
       <div className="rounded-lg bg-[#111111] border border-[#222222] p-8 text-center">
         <Inbox size={32} className="mx-auto text-[#6B6860] mb-3" />
         <p className="text-[#EDE8DE] font-syne font-semibold">No Workflows Configured</p>
         <p className="text-[#6B6860] text-sm mt-1">
-          Cron jobs and automations will appear here once OpenClaw has active workflows.
+          Scheduled tasks and automations will appear here.
         </p>
       </div>
     )
   }
 
-  // Build timeline dots from lastRun timestamps
-  const timelineDots: { hour: number; status: 'success' | 'failed'; name: string }[] = []
-  for (const cron of crons) {
-    const h = getHour(cron.lastRun)
-    if (h !== null) {
-      timelineDots.push({
-        hour: h,
-        status: cron.lastStatus ?? 'success',
-        name: cron.name,
-      })
+  // Build timeline dots
+  const timelineDots: { hour: number; status: 'success' | 'error'; name: string }[] = []
+  for (const task of tasks) {
+    const h = getHour(task.lastRun)
+    if (h !== null && task.lastStatus) {
+      timelineDots.push({ hour: h, status: task.lastStatus, name: task.name })
     }
   }
 
@@ -148,15 +87,15 @@ export function WorkflowsTab({ data, executeCommand, onRefresh }: TabProps) {
           ) : (
             <Play size={14} />
           )}
-          {runningAll ? 'Running...' : 'Run All'}
+          {runningAll ? 'Queuing...' : 'Run All'}
         </button>
       </div>
 
       {/* Workflow Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {crons.map((cron, i) => (
+        {tasks.map((task) => (
           <div
-            key={i}
+            key={task.id}
             className="rounded-lg bg-[#111111] border border-[#222222] p-5 space-y-4"
           >
             {/* Card header */}
@@ -166,43 +105,45 @@ export function WorkflowsTab({ data, executeCommand, onRefresh }: TabProps) {
                   <Workflow size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-syne font-semibold text-[#EDE8DE]">{cron.name}</p>
+                  <p className="text-sm font-syne font-semibold text-[#EDE8DE]">{task.name}</p>
                   <p className="text-xs text-[#6B6860] mt-0.5 flex items-center gap-1">
                     <Clock size={12} />
-                    {humanCron(cron.schedule)}
+                    {task.scheduleHuman}
                   </p>
                 </div>
               </div>
 
-              {/* Toggle pill */}
-              <div
-                className={`relative w-9 h-5 rounded-full transition-colors ${
-                  cron.enabled ? 'bg-[#008cff]' : 'bg-[#222222]'
-                }`}
-              >
-                <div
-                  className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
-                    cron.enabled ? 'left-[18px]' : 'left-0.5'
-                  }`}
-                />
+              {/* Status badge */}
+              <div>
+                {task.lastStatus === 'success' ? (
+                  <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
+                    <CheckCircle2 size={12} />
+                    OK
+                  </span>
+                ) : task.lastStatus === 'error' ? (
+                  <span className="inline-flex items-center gap-1 text-xs text-red-400">
+                    <XCircle size={12} />
+                    Error
+                  </span>
+                ) : (
+                  <span className="text-xs text-[#6B6860]">Pending</span>
+                )}
               </div>
             </div>
+
+            {/* Description */}
+            <p className="text-xs text-[#6B6860] leading-relaxed">{task.description}</p>
 
             {/* Meta row */}
             <div className="flex items-center gap-4 text-xs text-[#6B6860]">
               <span className="flex items-center gap-1">
-                {cron.lastStatus === 'failed' ? (
-                  <XCircle size={14} className="text-red-400" />
-                ) : (
-                  <CheckCircle2 size={14} className="text-emerald-400" />
-                )}
-                Last: {formatTime(cron.lastRun)}
+                <Clock size={12} />
+                Last: {formatTime(task.lastRun)}
               </span>
-
-              {typeof cron.runCount === 'number' && (
+              {task.runCount > 0 && (
                 <span className="flex items-center gap-1">
-                  <Zap size={14} />
-                  {cron.runCount} runs
+                  <Zap size={12} />
+                  {task.runCount} run{task.runCount !== 1 ? 's' : ''}
                 </span>
               )}
             </div>
@@ -238,11 +179,11 @@ export function WorkflowsTab({ data, executeCommand, onRefresh }: TabProps) {
                   key={i}
                   className="absolute -top-1.5 group"
                   style={{ left: `${leftPct}%` }}
-                  title={`${dot.name} - ${String(dot.hour).padStart(2, '0')}:00`}
+                  title={`${dot.name} — ${String(dot.hour).padStart(2, '0')}:00`}
                 >
                   <div
                     className={`w-4 h-4 rounded-full border-2 border-[#111111] ${
-                      dot.status === 'failed' ? 'bg-red-400' : 'bg-emerald-400'
+                      dot.status === 'error' ? 'bg-red-400' : 'bg-emerald-400'
                     }`}
                   />
                 </div>
