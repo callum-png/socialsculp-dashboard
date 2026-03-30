@@ -40,14 +40,14 @@ function formatTime(iso: string): string {
   }
 }
 
-// Rough cost estimates per 1M tokens
+// Claude model costs per 1M tokens
 const MODEL_COSTS: Record<string, { input: number; output: number }> = {
-  'ollama': { input: 0, output: 0 }, // local models are free
-  'gpt-4o-mini': { input: 0.15, output: 0.60 },
-  'gpt-4o': { input: 2.50, output: 10.00 },
+  'claude-haiku-4-5': { input: 0.80, output: 4.00 },
+  'claude-haiku': { input: 0.80, output: 4.00 },
+  'claude-sonnet-4-6': { input: 3.00, output: 15.00 },
   'claude-sonnet': { input: 3.00, output: 15.00 },
+  'claude-opus-4-6': { input: 15.00, output: 75.00 },
   'claude-opus': { input: 15.00, output: 75.00 },
-  'claude-haiku': { input: 0.25, output: 1.25 },
 }
 
 function estimateCostForSession(session: any): number {
@@ -334,12 +334,9 @@ export function TokenBurnTab({ data }: TabProps) {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { model: 'Ollama (local)', input: 'Free', output: 'Free' },
-            { model: 'GPT-4o-mini', input: '$0.15', output: '$0.60' },
-            { model: 'GPT-4o', input: '$2.50', output: '$10.00' },
-            { model: 'Claude Haiku', input: '$0.25', output: '$1.25' },
-            { model: 'Claude Sonnet', input: '$3.00', output: '$15.00' },
-            { model: 'Claude Opus', input: '$15.00', output: '$75.00' },
+            { model: 'Claude Haiku 4.5', input: '$0.80', output: '$4.00' },
+            { model: 'Claude Sonnet 4.6', input: '$3.00', output: '$15.00' },
+            { model: 'Claude Opus 4.6', input: '$15.00', output: '$75.00' },
           ].map(({ model, input, output }) => (
             <div
               key={model}

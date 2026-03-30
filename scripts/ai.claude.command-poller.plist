@@ -3,40 +3,34 @@
 <plist version="1.0">
   <dict>
     <key>Label</key>
-    <string>ai.openclaw.reporter</string>
+    <string>ai.claude.command-poller</string>
 
     <key>Comment</key>
-    <string>OpenClaw Mission Control Reporter — heartbeats to SocialSculp dashboard</string>
+    <string>Claude Agent Command Poller — executes remote commands from SocialSculp dashboard</string>
 
     <key>ProgramArguments</key>
     <array>
       <string>/bin/bash</string>
-      <string>/Users/callumhyman/Desktop/SocialSculp Mac/socialsculp-dashboard/scripts/openclaw-reporter.sh</string>
+      <string>/Users/callumhyman/socialsculp-dashboard/scripts/openclaw-command-poller.sh</string>
     </array>
 
     <key>StartInterval</key>
-    <integer>60</integer>
+    <integer>5</integer>
 
     <key>RunAtLoad</key>
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/Users/callumhyman/.openclaw/logs/reporter.log</string>
+    <string>/Users/callumhyman/.claude-agent/logs/command-poller.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/callumhyman/.openclaw/logs/reporter.err.log</string>
+    <string>/Users/callumhyman/.claude-agent/logs/command-poller.err.log</string>
 
     <key>EnvironmentVariables</key>
     <dict>
       <key>HOME</key>
       <string>/Users/callumhyman</string>
-      <key>OPENCLAW_HOME</key>
-      <string>/Users/callumhyman/.openclaw</string>
       <key>PATH</key>
       <string>/Users/callumhyman/.nvm/versions/node/v24.13.1/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
-      <key>OPENCLAW_REPORTER_SECRET</key>
-      <string>c7e769a35e6c3b8850f5b5beab521f887488c44594772e0e2668a3c9c86544aa</string>
-      <key>OPENCLAW_DASHBOARD_URL</key>
-      <string>https://socialsculp.io</string>
     </dict>
   </dict>
 </plist>

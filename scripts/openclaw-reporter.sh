@@ -1,19 +1,19 @@
 #!/bin/bash
-# OpenClaw Mission Control Reporter v2
+# Claude Agent Mission Control Reporter v2
 # Runs every 60s via LaunchAgent, POSTs status heartbeat to SocialSculp dashboard
-# Uses `openclaw status --json` as primary data source (v2026.3.24+)
+# Uses `claude status --json` as primary data source
 
-DASHBOARD_URL="${OPENCLAW_DASHBOARD_URL:-https://socialsculp.io}"
-REPORTER_SECRET="${OPENCLAW_REPORTER_SECRET}"
+DASHBOARD_URL="${CLAUDE_DASHBOARD_URL:-https://socialsculp.io}"
+REPORTER_SECRET="${CLAUDE_REPORTER_SECRET}"
 
-# IMPORTANT: Do NOT set OPENCLAW_HOME — the CLI auto-detects ~/.openclaw and
-# setting it explicitly causes double-nesting bugs (/.openclaw/.openclaw/).
+# IMPORTANT: Do NOT set CLAUDE_HOME — the CLI auto-detects ~/.claude and
+# setting it explicitly causes double-nesting bugs.
 # We only use this variable for workspace file paths, not for CLI commands.
-OPENCLAW_DATA_DIR="${HOME}/.openclaw"
-unset OPENCLAW_HOME
+CLAUDE_DATA_DIR="${HOME}/.claude"
+unset CLAUDE_HOME
 
 if [ -z "$REPORTER_SECRET" ]; then
-  echo "[reporter] OPENCLAW_REPORTER_SECRET not set, skipping" >&2
+  echo "[reporter] CLAUDE_REPORTER_SECRET not set, skipping" >&2
   exit 1
 fi
 
@@ -46,10 +46,10 @@ else
   LOAD_AVG=$(cat /proc/loadavg | awk '{printf "[%s,%s,%s]", $1, $2, $3}')
 fi
 
-# ─── OpenClaw Status (single command, all data) ─────────────────────────────
+# ─── Claude Agent Status (single command, all data) ──────────────────────────
 OC_STATUS_JSON="{}"
-if command -v openclaw &>/dev/null; then
-  OC_STATUS_RAW=$(openclaw status --json 2>/dev/null || echo "")
+if command -v claude &>/dev/null; then
+  OC_STATUS_RAW=$(claude status --json 2>/dev/null || echo "")
   if [ -n "$OC_STATUS_RAW" ] && echo "$OC_STATUS_RAW" | jq . &>/dev/null; then
     OC_STATUS_JSON="$OC_STATUS_RAW"
   fi
@@ -93,8 +93,8 @@ SESSIONS_JSON=$(echo "$OC_STATUS_JSON" | jq -c '[.sessions.recent // [] | .[] | 
 
 # Extract models from status
 MODELS_JSON="[]"
-if command -v openclaw &>/dev/null; then
-  MODELS_RAW=$(openclaw models list --json 2>/dev/null || echo "")
+if command -v claude &>/dev/null; then
+  MODELS_RAW=$(claude models list --json 2>/dev/null || echo "")
   if [ -n "$MODELS_RAW" ] && echo "$MODELS_RAW" | jq . &>/dev/null; then
     MODELS_JSON=$(echo "$MODELS_RAW" | jq -c '[.models // [] | .[] | {
       key: .key,
@@ -128,8 +128,8 @@ CHANNELS_JSON=$(echo "$OC_STATUS_JSON" | jq -c '.channelSummary // []' 2>/dev/nu
 
 # ─── Cron Jobs ───────────────────────────────────────────────────────────────
 CRONS_JSON='{"jobs":[],"total":0}'
-if command -v openclaw &>/dev/null; then
-  CRONS_RAW=$(openclaw cron list --json 2>/dev/null || echo "")
+if command -v claude &>/dev/null; then
+  CRONS_RAW=$(claude cron list --json 2>/dev/null || echo "")
   if [ -n "$CRONS_RAW" ] && echo "$CRONS_RAW" | jq . &>/dev/null; then
     # Flatten schedule object and state for the frontend
     CRONS_JSON=$(echo "$CRONS_RAW" | jq -c '{
@@ -152,15 +152,15 @@ fi
 
 # Cron scheduler status
 CRON_STATUS='{"enabled":false}'
-if command -v openclaw &>/dev/null; then
-  CRON_STATUS_RAW=$(openclaw cron status --json 2>/dev/null || echo "")
+if command -v claude &>/dev/null; then
+  CRON_STATUS_RAW=$(claude cron status --json 2>/dev/null || echo "")
   if [ -n "$CRON_STATUS_RAW" ] && echo "$CRON_STATUS_RAW" | jq . &>/dev/null; then
     CRON_STATUS=$(echo "$CRON_STATUS_RAW" | jq -c '.' 2>/dev/null || echo '{"enabled":false}')
   fi
 fi
 
 # ─── Workspace Stats ─────────────────────────────────────────────────────────
-WS_DIR="${OPENCLAW_DATA_DIR}/workspace"
+WS_DIR="${CLAUDE_DATA_DIR}/workspace"
 TARGETS="[]"
 EMAILS_SENT=0
 EMAILS_QUEUED=0
@@ -258,7 +258,7 @@ PAYLOAD=$(jq -n -c \
 
 # ─── POST to Dashboard ──────────────────────────────────────────────────────
 RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-  "${DASHBOARD_URL}/api/openclaw/heartbeat" \
+  "${DASHBOARD_URL}/api/claude-agent/heartbeat" \
   -H "Content-Type: application/json" \
   -H "x-reporter-secret: ${REPORTER_SECRET}" \
   -d "$PAYLOAD" 2>/dev/null)

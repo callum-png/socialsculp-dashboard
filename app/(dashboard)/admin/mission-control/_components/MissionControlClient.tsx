@@ -31,7 +31,7 @@ export function MissionControlClient({ activeTab }: Props) {
 
   const fetchStatus = useCallback(async () => {
     try {
-      const res = await fetch('/api/openclaw/status')
+      const res = await fetch('/api/claude-agent/status')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const json = await res.json()
       setData(json)
@@ -50,7 +50,7 @@ export function MissionControlClient({ activeTab }: Props) {
   }, [fetchStatus])
 
   const executeCommand = async (command: string): Promise<{ output: string; exitCode: number }> => {
-    const res = await fetch('/api/openclaw/status', {
+    const res = await fetch('/api/claude-agent/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ command }),

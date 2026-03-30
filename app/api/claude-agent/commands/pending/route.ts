@@ -3,21 +3,21 @@ import { getDb } from '@/lib/db'
 
 export async function GET(req: Request) {
   const secret = req.headers.get('x-reporter-secret')
-  if (!secret || secret !== process.env.OPENCLAW_REPORTER_SECRET) {
+  if (!secret || secret !== process.env.CLAUDE_REPORTER_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const db = getDb()
 
   // Fetch pending commands and mark them as running
-  const pending = await db.openClawCommand.findMany({
+  const pending = await db.claudeCommand.findMany({
     where: { status: 'pending' },
     orderBy: { createdAt: 'asc' },
     take: 10,
   })
 
   if (pending.length > 0) {
-    await db.openClawCommand.updateMany({
+    await db.claudeCommand.updateMany({
       where: { id: { in: pending.map(c => c.id) } },
       data: { status: 'running' },
     })

@@ -47,7 +47,7 @@ async function getResendEmailCount(): Promise<{ total: number; recentEmails: { i
 
     return { total, recentEmails }
   } catch (err) {
-    console.error('[openclaw/status] Resend API error:', err)
+    console.error('[claude-agent/status] Resend API error:', err)
     return { total: 0, recentEmails: [] }
   }
 }
@@ -60,20 +60,20 @@ export async function GET() {
     const db = getDb()
 
     // Get latest heartbeat
-    const latest = await db.openClawHeartbeat.findFirst({
+    const latest = await db.claudeHeartbeat.findFirst({
       orderBy: { receivedAt: 'desc' },
     })
 
     // Get heartbeat history for charts (last 24h, one per 5 min)
     const dayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
-    const history = await db.openClawHeartbeat.findMany({
+    const history = await db.claudeHeartbeat.findMany({
       where: { receivedAt: { gte: dayAgo } },
       orderBy: { receivedAt: 'asc' },
       select: { receivedAt: true, data: true },
     })
 
     // Get recent commands
-    const commands = await db.openClawCommand.findMany({
+    const commands = await db.claudeCommand.findMany({
       orderBy: { executedAt: 'desc' },
       take: 20,
     })
@@ -134,7 +134,7 @@ export async function GET() {
       },
     })
   } catch (err) {
-    console.error('[openclaw/status] Error:', err)
+    console.error('[claude-agent/status] Error:', err)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }

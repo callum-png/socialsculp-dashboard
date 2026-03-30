@@ -3,7 +3,7 @@ import { getDb } from '@/lib/db'
 
 export async function POST(req: Request) {
   const secret = req.headers.get('x-reporter-secret')
-  if (!secret || secret !== process.env.OPENCLAW_REPORTER_SECRET) {
+  if (!secret || secret !== process.env.CLAUDE_REPORTER_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const db = getDb()
-    await db.openClawCommand.update({
+    await db.claudeCommand.update({
       where: { id },
       data: {
         status: exitCode === 0 ? 'completed' : 'failed',
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true })
   } catch (err: any) {
-    console.error('[openclaw/commands/result] Error:', err)
+    console.error('[claude-agent/commands/result] Error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

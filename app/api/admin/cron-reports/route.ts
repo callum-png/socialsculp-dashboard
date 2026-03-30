@@ -81,7 +81,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   // Authenticate with shared secret
   const authHeader = req.headers.get('authorization')
-  const secret = process.env.OPENCLAW_REPORTER_SECRET
+  const secret = process.env.CLAUDE_REPORTER_SECRET
   if (!secret || authHeader !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
