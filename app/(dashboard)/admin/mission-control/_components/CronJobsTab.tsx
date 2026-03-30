@@ -76,7 +76,7 @@ export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
   const handleRunNow = async (name: string) => {
     setRunningJob(name)
     try {
-      await executeCommand(`openclaw cron run ${name}`)
+      await executeCommand(`claude task run ${name}`)
       onRefresh()
     } catch {
       // error handled upstream

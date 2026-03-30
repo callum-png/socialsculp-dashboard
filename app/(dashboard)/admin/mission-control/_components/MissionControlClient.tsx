@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import type { MissionControlTab } from '@/types/openclaw'
+import type { MissionControlTab } from '@/types/claude'
 import { StatusOverviewTab } from './StatusOverviewTab'
 import { TaskFeedTab } from './TaskFeedTab'
 import { CronJobsTab } from './CronJobsTab'
@@ -22,7 +22,7 @@ export interface AgentData {
 }
 
 /** @deprecated Use AgentData */
-export type OpenClawData = AgentData
+export type ClaudeAgentData = AgentData
 
 export function MissionControlClient({ activeTab }: Props) {
   const [data, setData] = useState<AgentData | null>(null)
@@ -31,7 +31,7 @@ export function MissionControlClient({ activeTab }: Props) {
 
   const fetchStatus = useCallback(async () => {
     try {
-      const res = await fetch('/api/openclaw/status')
+      const res = await fetch('/api/admin/cron-reports')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const json = await res.json()
       setData(json)
@@ -50,7 +50,7 @@ export function MissionControlClient({ activeTab }: Props) {
   }, [fetchStatus])
 
   const executeCommand = async (command: string): Promise<{ output: string; exitCode: number }> => {
-    const res = await fetch('/api/openclaw/command', {
+    const res = await fetch('/api/admin/cron-reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ command }),

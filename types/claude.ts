@@ -7,7 +7,7 @@ export interface AgentHeartbeat {
 }
 
 /** @deprecated Use AgentHeartbeat */
-export type OpenClawHeartbeat = AgentHeartbeat
+export type ClaudeHeartbeat = AgentHeartbeat
 
 export interface AgentStatus {
   timestamp: string
