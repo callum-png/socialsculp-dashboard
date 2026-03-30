@@ -477,6 +477,28 @@ model OpenClawCommand {
   @@index([status])
   @@map("openclaw_commands")
 }
+// ─── Cron Reports ────────────────────────────────────────────────────────────
+
+model CronReport {
+  id               String   @id @default(cuid())
+  taskId           String
+  description      String?
+  schedule         String?
+  startedAt        DateTime
+  completedAt      DateTime
+  status           String   // "success" or "error"
+  summary          String
+  details          String?  @db.Text
+  leadsFound       Int?
+  emailsDrafted    Int?
+  followUpsDrafted Int?
+  createdAt        DateTime @default(now())
+
+  @@index([taskId])
+  @@index([createdAt])
+  @@map("cron_reports")
+}
+
 // ─── Finance / Plaid ─────────────────────────────────────────────────────────
 model BankConnection {
   id              String   @id @default(cuid())
