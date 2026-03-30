@@ -76,7 +76,8 @@ export function CronJobsTab({ data, executeCommand, onRefresh }: TabProps) {
   const handleRunNow = async (name: string) => {
     setRunningJob(name)
     try {
-      await executeCommand(`openclaw cron run ${name}`)
+      // TODO: wire to agent cron trigger endpoint
+      await executeCommand(`cron:run ${name}`)
       onRefresh()
     } catch {
       // error handled upstream
