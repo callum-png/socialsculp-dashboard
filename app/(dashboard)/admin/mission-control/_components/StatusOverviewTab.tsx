@@ -2,10 +2,10 @@
 
 import { useMemo } from 'react'
 import { Cpu, HardDrive, MemoryStick, Clock, Radio, Server, Bot, Monitor, Layers, Wifi } from 'lucide-react'
-import type { OpenClawData } from './MissionControlClient'
+import type { AgentData } from './MissionControlClient'
 
 interface TabProps {
-  data: OpenClawData | null
+  data: AgentData | null
   executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
   onRefresh: () => void
 }
@@ -105,7 +105,7 @@ export function StatusOverviewTab({ data }: TabProps) {
             <div className="w-5 h-5 rounded-full bg-[#6B6860]" />
           </div>
           <p className="text-[#EDE8DE] font-syne font-semibold text-lg">Waiting for first heartbeat...</p>
-          <p className="text-[#6B6860] text-sm">No data received from OpenClaw yet</p>
+          <p className="text-[#6B6860] text-sm">No data received yet — waiting for first heartbeat</p>
         </div>
       </div>
     )

@@ -21,7 +21,7 @@ export default async function MissionControlPage({
       <PageHeader
         eyebrow="Admin"
         title="Mission Control"
-        description="OpenClaw AI — real-time monitoring and command center"
+        description="AI CEO — real-time task monitoring and reports"
       />
 
       <Suspense>

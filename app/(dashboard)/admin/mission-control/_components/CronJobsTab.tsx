@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { Play, Clock, CheckCircle2, XCircle, Loader2, CalendarClock, Timer } from 'lucide-react'
-import type { OpenClawData } from './MissionControlClient'
+import type { AgentData } from './MissionControlClient'
 
 interface TabProps {
-  data: OpenClawData | null
+  data: AgentData | null
   executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
   onRefresh: () => void
 }

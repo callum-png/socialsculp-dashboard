@@ -1,10 +1,10 @@
 'use client'
 
 import { Mail, Users, ListChecks, Inbox, TrendingUp, DollarSign, CalendarDays, Target } from 'lucide-react'
-import type { OpenClawData } from './MissionControlClient'
+import type { AgentData } from './MissionControlClient'
 
 interface TabProps {
-  data: OpenClawData | null
+  data: AgentData | null
   executeCommand: (cmd: string) => Promise<{ output: string; exitCode: number }>
   onRefresh: () => void
 }
@@ -66,7 +66,7 @@ export function RevenueTab({ data }: TabProps) {
         <Inbox size={32} className="mx-auto text-[#6B6860] mb-3" />
         <p className="text-[#EDE8DE] font-syne font-semibold">No Pipeline Data</p>
         <p className="text-[#6B6860] text-sm mt-1">
-          Lead generation and deal pipeline data will appear once OpenClaw starts running outreach.
+          Lead generation and deal pipeline data will appear once outreach campaigns begin.
         </p>
       </div>
     )

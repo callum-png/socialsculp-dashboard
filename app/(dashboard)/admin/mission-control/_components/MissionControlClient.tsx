@@ -14,15 +14,18 @@ interface Props {
   activeTab: MissionControlTab
 }
 
-export interface OpenClawData {
+export interface AgentData {
   status: 'online' | 'stale' | 'offline'
   latest: any | null
   history: { receivedAt: string; data: any }[]
   recentCommands: any[]
 }
 
+/** @deprecated Use AgentData */
+export type OpenClawData = AgentData
+
 export function MissionControlClient({ activeTab }: Props) {
-  const [data, setData] = useState<OpenClawData | null>(null)
+  const [data, setData] = useState<AgentData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

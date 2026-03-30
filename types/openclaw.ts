@@ -1,12 +1,15 @@
-// ─── OpenClaw Mission Control Types ─────────────────────────────────────────
+// ─── Mission Control Types ────────────────────────────────────────────────────
 
-export interface OpenClawHeartbeat {
+export interface AgentHeartbeat {
   id: string
   receivedAt: Date
-  data: OpenClawStatus
+  data: AgentStatus
 }
 
-export interface OpenClawStatus {
+/** @deprecated Use AgentHeartbeat */
+export type OpenClawHeartbeat = AgentHeartbeat
+
+export interface AgentStatus {
   timestamp: string
   system: SystemVitals
   gateway: GatewayStatus
@@ -165,7 +168,7 @@ export interface TokenPeriod {
   estimatedCost: number
 }
 
-export interface OpenClawCommand {
+export interface AgentCommand {
   command: string
   output: string
   exitCode: number
@@ -190,8 +193,8 @@ export const TAB_LABELS: Record<MissionControlTab, string> = {
   overview: 'Status',
   tasks: 'Tasks',
   crons: 'Cron Jobs',
-  tokens: 'Token Burn',
+  tokens: 'Usage',
   revenue: 'Revenue',
   workflows: 'Workflows',
-  terminal: 'Terminal',
+  terminal: 'Logs',
 }
