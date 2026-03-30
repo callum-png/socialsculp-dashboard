@@ -79,6 +79,13 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  // Authenticate with shared secret
+  const authHeader = req.headers.get('authorization')
+  const secret = process.env.OPENCLAW_REPORTER_SECRET
+  if (!secret || authHeader !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const body = await req.json()
     const { taskId, status, summary, details, startedAt, completedAt, leadsFound, emailsDrafted, followUpsDrafted } = body
