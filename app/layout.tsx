@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
 
   title: {
-    default: 'SocialSculp — Creator Seeding & Narrative Engineering Agency',
+    default: 'SocialSculp - Creator Seeding & Narrative Engineering Agency',
     template: '%s | SocialSculp',
   },
 
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.socialsculp.io',
     siteName: 'SocialSculp',
-    title: 'SocialSculp — Creator Seeding & Narrative Engineering Agency',
+    title: 'SocialSculp - Creator Seeding & Narrative Engineering Agency',
     description:
       'We engineer narratives. We seed creators. We move culture at scale. 1.9B+ views, $2 blended CPM, 50+ creators, 20+ brands served.',
     images: [
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'SocialSculp — Creator Seeding & Narrative Engineering Agency',
+        alt: 'SocialSculp - Creator Seeding & Narrative Engineering Agency',
       },
     ],
   },
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@socialsculp',
     creator: '@socialsculp',
-    title: 'SocialSculp — Creator Seeding & Narrative Engineering',
+    title: 'SocialSculp - Creator Seeding & Narrative Engineering',
     description:
       '1.9B+ views at a $2 blended CPM. We engineer viral narratives through 50+ vetted creators on TikTok, Instagram & YouTube.',
     images: ['/og-image.png'],
