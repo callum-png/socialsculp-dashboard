@@ -1,0 +1,1966 @@
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3100
+- Network:       http://10.50.139.144:3100
+- Environments: .env.local
+
+✓ Starting...
+⚠ Turbopack's filesystem cache has been deleted because we previously detected an internal error in Turbopack. Builds or page loads may be slower as a result.
+✓ Ready in 914ms
+ GET /v2 200 in 2.3s (compile: 1861ms, proxy.ts: 119ms, render: 317ms)
+ GET /v2 200 in 151ms (compile: 5ms, proxy.ts: 24ms, render: 123ms)
+ GET /v2 404 in 584ms (compile: 487ms, proxy.ts: 30ms, render: 67ms)
+ GET /v2 404 in 128ms (compile: 11ms, proxy.ts: 17ms, render: 100ms)
+ GET /v2 404 in 162ms (compile: 24ms, proxy.ts: 15ms, render: 123ms)
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET /v2 404 in 119ms (compile: 84ms, proxy.ts: 14ms, render: 21ms)
+ GET /v2 404 in 93ms (compile: 6ms, proxy.ts: 6ms, render: 81ms)
+✓ Compiled in 588ms
+ GET /v2 200 in 776ms (compile: 501ms, proxy.ts: 37ms, render: 238ms)
+ GET /v2 200 in 314ms (compile: 3ms, proxy.ts: 12ms, render: 298ms)
+ GET /v2 200 in 201ms (compile: 9ms, proxy.ts: 9ms, render: 182ms)
+ GET /v2 200 in 284ms (compile: 3ms, proxy.ts: 5ms, render: 275ms)
+ GET /v2 200 in 201ms (compile: 38ms, proxy.ts: 12ms, render: 151ms)
+ GET /v2 200 in 247ms (compile: 4ms, proxy.ts: 6ms, render: 236ms)
+ GET /v2 200 in 168ms (compile: 4ms, proxy.ts: 7ms, render: 158ms)
+ GET /v2 200 in 275ms (compile: 46ms, proxy.ts: 46ms, render: 182ms)
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 799ms
+ GET /v2 404 in 690ms (compile: 583ms, proxy.ts: 51ms, render: 56ms)
+ GET /v2 404 in 126ms (compile: 10ms, proxy.ts: 102ms, render: 13ms)
+ GET /v2 404 in 175ms (compile: 19ms, proxy.ts: 11ms, render: 146ms)
+ GET /v2 404 in 213ms (compile: 36ms, proxy.ts: 9ms, render: 169ms)
+ GET /v2 404 in 108ms (compile: 11ms, proxy.ts: 30ms, render: 67ms)
+ GET /v2 404 in 76ms (compile: 12ms, proxy.ts: 34ms, render: 30ms)
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 77ms
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './HeroThreeCanvas'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './V2Client'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/v2/page.tsx
+Module not found: Can't resolve './landing-v2.css'
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 224ms
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3100
+- Network:       http://10.50.139.144:3100
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 1294ms
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3100
+- Network:       http://10.50.139.144:3100
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 987ms
+  Reload env: .env.local
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3100
+- Network:       http://10.50.139.144:3100
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 750ms
+  Reload env: .env.local
+ GET /v2 200 in 1095ms (compile: 806ms, proxy.ts: 108ms, render: 180ms)
+ GET /v2 200 in 73ms (compile: 4ms, proxy.ts: 11ms, render: 59ms)
+✓ Compiled in 97ms
+ GET /sign-up 200 in 1027ms (compile: 966ms, proxy.ts: 13ms, render: 48ms)
+ GET /sign-up/SignUp_clerk_catchall_check_1774482036649 200 in 63ms (compile: 12ms, proxy.ts: 17ms, render: 34ms)
+ GET /v2 200 in 59ms (compile: 3ms, proxy.ts: 9ms, render: 46ms)
+✓ Compiled in 94ms
+Persisting failed: Unable to open static sorted file referenced from 00000859.meta
+
+Caused by:
+    0: Unable to open static sorted file 00000858.sst
+    1: The system cannot find the file specified. (os error 2)
+✓ Compiled in 91ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 83ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 90ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 92ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 80ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 81ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 96ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+thread 'tokio-runtime-worker' (13624) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <DiskFileSystem as FileSystem>::write (TaskId 166286))
+
+Caused by:
+    0: Looking up data for TaskId 166286 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' (38128) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <VirtualOutputAsset as OutputAssetsReference>::references (TaskId 164886))
+
+Caused by:
+    0: Looking up data for TaskId 164886 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (41200) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for build_server_actions_loader (TaskId 162272))
+
+Caused by:
+    0: Looking up data for TaskId 162272 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (22544) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for AppProject::app_module_graphs (TaskId 160895))
+
+Caused by:
+    0: Looking up data for TaskId 160895 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (38292) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBuildNodeChunk as OutputAsset>::path (TaskId 165276))
+
+Caused by:
+    0: Looking up data for TaskId 165276 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for AppProject::app_module_graphs (TaskId 160895))
+
+Caused by:
+    0: Looking up data for TaskId 160895 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBuildNodeChunk as OutputAsset>::path (TaskId 165276))
+
+Caused by:
+    0: Looking up data for TaskId 165276 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (24860) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <DiskFileSystem as FileSystem>::write (TaskId 166286))
+
+Caused by:
+    0: Looking up data for TaskId 166286 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (28168) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_group_assets (TaskId 162871))
+
+Caused by:
+    0: Looking up data for TaskId 162871 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15008) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_group_assets (TaskId 162871))
+
+Caused by:
+    0: Looking up data for TaskId 162871 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (26492) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_items_with_info_with_type (TaskId 163257))
+
+Caused by:
+    0: Looking up data for TaskId 163257 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (33696) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBuildNodeChunk as OutputAsset>::path (TaskId 165276))
+
+Caused by:
+    0: Looking up data for TaskId 165276 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (22544) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ModuleBatch::ident_strings (TaskId 201564))
+
+Caused by:
+    0: Looking up data for TaskId 201564 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (26492) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_items_with_info_with_type (TaskId 201605))
+
+Caused by:
+    0: Looking up data for TaskId 201605 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (33696) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBuildNodeChunk as OutputAsset>::path (TaskId 165276))
+
+Caused by:
+    0: Looking up data for TaskId 165276 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (38128) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <VirtualOutputAsset as OutputAssetsReference>::references (TaskId 164886))
+
+Caused by:
+    0: Looking up data for TaskId 164886 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (39800) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for batch_chunk_items_with_info_with_type (TaskId 201631))
+
+Caused by:
+    0: Looking up data for TaskId 201631 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (41200) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for build_server_actions_loader (TaskId 162272))
+
+Caused by:
+    0: Looking up data for TaskId 162272 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for AppProject::app_module_graphs (TaskId 160895))
+
+Caused by:
+    0: Looking up data for TaskId 160895 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15008) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_group_assets (TaskId 162871))
+
+Caused by:
+    0: Looking up data for TaskId 162871 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (28168) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_group_assets (TaskId 162871))
+
+Caused by:
+    0: Looking up data for TaskId 162871 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (38128) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for VersionedContentMap::compute_entry (TaskId 166010))
+
+Caused by:
+    0: Looking up data for TaskId 166010 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for AppProject::app_module_graphs (TaskId 160895))
+
+Caused by:
+    0: Looking up data for TaskId 160895 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (39800) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for chunk_items_with_info_with_type (TaskId 163257))
+
+Caused by:
+    0: Looking up data for TaskId 163257 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <AsyncLoaderChunkItem as ChunkItem>::asset_ident (TaskId 163420))
+
+Caused by:
+    0: Looking up data for TaskId 163420 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+○ Compiling /_not-found/page ...
+ GET /v2 404 in 15.1s (proxy.ts: 7ms)
+  Reload env: .env.local
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 117443))
+
+Caused by:
+    0: Looking up data for TaskId 117443 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (5036) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 117443))
+
+Caused by:
+    0: Looking up data for TaskId 117443 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (41424) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for EsmAssetReference::get_referenced_asset (TaskId 146115))
+
+Caused by:
+    0: Looking up data for TaskId 146115 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (24860) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 20730))
+
+Caused by:
+    0: Looking up data for TaskId 20730 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (5036) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 117443))
+
+Caused by:
+    0: Looking up data for TaskId 117443 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (41424) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for EsmAssetReference::get_referenced_asset (TaskId 146115))
+
+Caused by:
+    0: Looking up data for TaskId 146115 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 20730))
+
+Caused by:
+    0: Looking up data for TaskId 20730 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <NodeJsChunkingContext as ChunkingContext>::chunk_item_id_from_ident (TaskId 134484))
+
+Caused by:
+    0: Looking up data for TaskId 134484 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for ReferencedAsset::from_resolve_result (TaskId 20730))
+
+Caused by:
+    0: Looking up data for TaskId 20730 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (41200) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptModuleFacadeChunkItem as ChunkItem>::chunking_context (TaskId 153557))
+
+Caused by:
+    0: Looking up data for TaskId 153557 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptModuleLocalsChunkItem as ChunkItem>::chunking_context (TaskId 153586))
+
+Caused by:
+    0: Looking up data for TaskId 153586 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <NodeJsChunkingContext as ChunkingContext>::chunk_item_id_from_ident (TaskId 134484))
+
+Caused by:
+    0: Looking up data for TaskId 134484 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+ GET /v2 404 in 26.4min (proxy.ts: 20ms)
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBrowserChunkContent as GenerateSourceMap>::generate_source_map (TaskId 178953))
+
+Caused by:
+    0: Looking up data for TaskId 178953 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (23184) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EcmascriptBrowserChunkContent as GenerateSourceMap>::generate_source_map (TaskId 178953))
+
+Caused by:
+    0: Looking up data for TaskId 178953 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+thread 'tokio-runtime-worker' (15008) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for app_entry_point_to_route (TaskId 707))
+
+Caused by:
+    0: Looking up data for TaskId 707 from database failed
+    1: Unable to open static sorted file referenced from 00000812.meta
+    2: Unable to open static sorted file 00000804.sst
+    3: The system cannot find the file specified. (os error 2)
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to C:\Users\Cal\AppData\Local\Temp\next-panic-36b7b34b90d51620015dc05cac6db79f.log.
+
+To help make Turbopack better, report this error by clicking here: https://github.com/vercel/next.js/discussions/new?category=turbopack-error-report&title=Turbopack%20Error%3A%20Failed%20to%20restore%20task%20data%20%28corrupted%20database%20or%20bug%29%3A%20Data%20for%20app_entry_point_to_route%20%28TaskId%20707%29%29&body=Turbopack%20version%3A%20%60dc98c04f%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0ATurbopack%20Error%3A%20Failed%20to%20restore%20task%20data%20%28corrupted%20database%20or%20bug%29%3A%20Data%20for%20app_entry_point_to_route%20%28TaskId%20707%29%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+
+thread 'tokio-runtime-worker' (31112) panicked at C:\actions-runner\_work\next.js\next.js\turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for PageEndpoint::output (TaskId 201670))
+
+Caused by:
+    0: Looking up data for TaskId 201670 from database failed
+    1: Unable to open static sorted file referenced from 00000837.meta
+    2: Unable to open static sorted file 00000832.sst
+    3: The system cannot find the file specified. (os error 2)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to C:\Users\Cal\AppData\Local\Temp\next-panic-36b7b34b90d51620015dc05cac6db79f.log.
+
+To help make Turbopack better, report this error by clicking here: https://github.com/vercel/next.js/discussions/new?category=turbopack-error-report&title=Turbopack%20Error%3A%20Failed%20to%20restore%20task%20data%20%28corrupted%20database%20or%20bug%29%3A%20Data%20for%20app_entry_point_to_route%20%28TaskId%20707%29%29&body=Turbopack%20version%3A%20%60dc98c04f%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0ATurbopack%20Error%3A%20Failed%20to%20restore%20task%20data%20%28corrupted%20database%20or%20bug%29%3A%20Data%20for%20app_entry_point_to_route%20%28TaskId%20707%29%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3100
+    at <unknown> (Error: listen EADDRINUSE: address already in use :::3100)
+    at new Promise (<anonymous>) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 3100
+}
+[?25h

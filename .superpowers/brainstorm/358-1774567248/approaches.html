@@ -1,0 +1,61 @@
+<h2>How should Mission Control talk to OpenClaw?</h2>
+<p class="subtitle">Now that we know the VPS setup, here are three realistic approaches</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>SSH Relay Only</h3>
+      <p>Dashboard API routes SSH into the VPS on every request, runs <code>openclaw</code> CLI commands (<code>health</code>, <code>cron list --json</code>, <code>agents list</code>), and returns the JSON. Simple, no VPS changes needed.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        Dashboard click &rarr; Next.js API route &rarr; SSH exec &rarr; <code>openclaw cron list --json</code> &rarr; JSON back<br>
+        Dashboard click &rarr; Next.js API route &rarr; SSH exec &rarr; <code>openclaw health</code> &rarr; parse + return<br>
+        Dashboard click &rarr; Next.js API route &rarr; SSH exec &rarr; <code>tail -100 /tmp/openclaw/*.log</code> &rarr; stream
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Zero changes to OpenClaw or VPS</li><li>CLI already has --json output</li><li>Full ad-hoc control (restart, kill, etc.)</li><li>Fastest to build</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Every request = new SSH connection (~200-500ms latency)</li><li>No real-time push — only updates when you look</li><li>SSH key must be stored on Vercel (env var)</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Tailscale Direct + Gateway WebSocket</h3>
+      <p>Your VPS already runs Tailscale. Expose the OpenClaw gateway on the Tailscale network, then connect the dashboard directly via WebSocket for real-time data. No SSH needed.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        Vercel &rarr; Tailscale Funnel/HTTPS &rarr; <code>ws://100.x.x.x:18789</code> &rarr; OpenClaw Gateway<br>
+        Real-time: agent events, cron status, session updates streamed live
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Real-time WebSocket connection</li><li>No SSH keys to manage</li><li>Uses OpenClaw's native protocol</li><li>Lowest latency</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Requires Tailscale Funnel or proxy for Vercel to reach VPS</li><li>Gateway auth/token management needed</li><li>More complex networking setup</li><li>Vercel serverless can't hold persistent WebSocket</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>SSH Relay + Polling <span style="color: #008cff; font-size: 13px;">&#x2605; Recommended</span></h3>
+      <p>SSH relay for all data + controls (same as A), but the dashboard polls every 30-60s on the status page for near-real-time feel. Cron run history and logs read from VPS files. Client-side polling with SWR gives a live dashboard feel without WebSocket complexity.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        <strong>Auto-poll (30s):</strong><br>
+        &nbsp;&nbsp;SWR &rarr; <code>/api/openclaw/status</code> &rarr; SSH &rarr; <code>openclaw health</code> + <code>cron list --json</code><br>
+        <br>
+        <strong>On-demand:</strong><br>
+        &nbsp;&nbsp;Button &rarr; <code>/api/openclaw/logs</code> &rarr; SSH &rarr; <code>tail -200 /tmp/openclaw/*.log</code><br>
+        &nbsp;&nbsp;Button &rarr; <code>/api/openclaw/cron/trigger</code> &rarr; SSH &rarr; <code>openclaw cron trigger &lt;id&gt;</code><br>
+        &nbsp;&nbsp;Button &rarr; <code>/api/openclaw/restart</code> &rarr; SSH &rarr; <code>systemctl --user restart openclaw-gateway</code><br>
+        <br>
+        <strong>Token/cost tracking:</strong><br>
+        &nbsp;&nbsp;SSH &rarr; parse log files for model usage &rarr; aggregate in dashboard
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Near real-time feel with SWR polling</li><li>Zero VPS changes — all via SSH + CLI</li><li>Full control panel (restart, trigger, kill)</li><li>Pragmatic — can upgrade to WebSocket later</li><li>Works on Vercel serverless (no persistent connections)</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>SSH key in Vercel env vars</li><li>30s polling delay (not instant)</li><li>Each poll = SSH connection overhead</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

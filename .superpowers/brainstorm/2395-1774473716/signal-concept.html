@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SocialSculp — SIGNAL Concept Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: 'Georgia', serif; overflow-x: hidden; }
+
+  #intro-canvas {
+    position: fixed; inset: 0; z-index: 100;
+    background: #000;
+    transition: opacity 1.2s ease;
+  }
+  #intro-canvas.hidden { opacity: 0; pointer-events: none; }
+
+  canvas { display: block; width: 100%; height: 100%; }
+
+  #loader-ui {
+    position: fixed; inset: 0; z-index: 101; pointer-events: none;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 40px 48px;
+  }
+  #loader-count {
+    font-family: 'Georgia', serif; font-style: italic;
+    font-size: clamp(3rem, 8vw, 7rem);
+    color: rgba(255,255,255,0.9);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    transition: opacity 0.5s;
+  }
+  #loader-label {
+    font-family: sans-serif; font-size: 0.65rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(0,140,255,0.8); margin-top: 6px;
+    transition: opacity 0.5s;
+  }
+  #loader-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 1px; background: rgba(255,255,255,0.08);
+    z-index: 102;
+  }
+  #loader-bar {
+    height: 100%; background: #008CFF;
+    width: 0%; transition: width 0.05s linear;
+    box-shadow: 0 0 12px rgba(0,140,255,0.8);
+  }
+
+  /* — LANDING PAGE — */
+  #page { opacity: 0; transition: opacity 1s ease; }
+  #page.visible { opacity: 1; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 28px 48px; display: flex; justify-content: space-between; align-items: center;
+    mix-blend-mode: difference;
+  }
+  .logo { font-style: italic; font-size: 1.15rem; font-weight: 700; color: white; }
+  .logo span { color: #008CFF; }
+  .nav-links { display: flex; gap: 32px; font-family: sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; position: relative; display: flex; align-items: flex-end;
+    padding: 0 48px 80px; overflow: hidden; background: #040810;
+  }
+  #hero-canvas-wrap {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  #hero-canvas-bg { width: 100%; height: 100%; display: block; }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: sans-serif; font-size: 0.65rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: #008CFF; margin-bottom: 20px;
+  }
+  .hero-h1 {
+    font-size: clamp(3.5rem, 9vw, 10rem); line-height: 0.9;
+    letter-spacing: -0.03em; font-weight: 700; font-style: italic;
+    color: #F0E6DE;
+    text-shadow: 0 0 120px rgba(0,140,255,0.15);
+  }
+  .hero-h1 .outline {
+    color: transparent; -webkit-text-stroke: 1px rgba(240,230,222,0.4);
+  }
+  .hero-sub {
+    font-family: sans-serif; font-size: 0.9rem; color: rgba(240,230,222,0.5);
+    max-width: 380px; line-height: 1.6; margin-top: 28px;
+  }
+
+  /* STATS STRIP */
+  #stats {
+    background: #000; padding: 60px 48px;
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat { padding: 32px 24px; }
+  .stat-num {
+    font-size: clamp(2.5rem,5vw,4.5rem); font-style: italic; font-weight: 700;
+    color: #F0E6DE; line-height: 1;
+    text-shadow: 0 0 40px rgba(0,140,255,0.3);
+  }
+  .stat-num span { color: #008CFF; }
+  .stat-label {
+    font-family: sans-serif; font-size: 0.65rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 8px;
+  }
+
+  /* SECTION: CASE STUDIES */
+  #work { background: #040810; padding: 120px 48px; }
+  .section-eyebrow {
+    font-family: sans-serif; font-size: 0.65rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: #008CFF; margin-bottom: 60px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-eyebrow::before { content:''; display:block; width:32px; height:1px; background:#008CFF; }
+  .case-row {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    align-items: center; gap: 40px;
+    padding: 32px 0; border-top: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .case-row:hover .case-3d-icon { transform: rotateY(180deg) rotateX(15deg); }
+  .case-num { font-family: sans-serif; font-size: 0.65rem; color: rgba(255,255,255,0.25); }
+  .case-title {
+    font-size: clamp(1.4rem,3vw,2.4rem); font-style: italic; font-weight: 700;
+    color: rgba(255,255,255,0.9);
+  }
+  .case-3d-icon {
+    width: 64px; height: 64px; transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+    position: relative;
+  }
+  .case-3d-icon canvas { width: 64px; height: 64px; }
+
+  /* SERVICES */
+  #services { background: #000; padding: 120px 48px; }
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 60px; }
+  .service-card {
+    background: rgba(255,255,255,0.02); padding: 48px 36px;
+    border: 1px solid rgba(255,255,255,0.04);
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .service-card:hover { border-color: rgba(0,140,255,0.3); }
+  .service-card:hover .svc-3d { transform: scale(1.1) rotateX(15deg); }
+  .svc-3d {
+    width: 56px; height: 56px; margin-bottom: 28px;
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .svc-num { font-family: sans-serif; font-size: 0.6rem; color: rgba(0,140,255,0.5);
+    letter-spacing: 0.15em; margin-bottom: 12px; }
+  .svc-title { font-size: 1.35rem; font-style: italic; font-weight: 700; color: #F0E6DE; }
+  .svc-desc { font-family: sans-serif; font-size: 0.82rem; color: rgba(255,255,255,0.4);
+    margin-top: 12px; line-height: 1.6; }
+
+  /* CTA */
+  #cta {
+    background: #000; min-height: 70vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; text-align: center; padding: 80px 48px;
+  }
+  #cta-canvas { position: absolute; inset: 0; opacity: 0.4; }
+  .cta-label { font-family: sans-serif; font-size: 0.65rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: #008CFF; margin-bottom: 24px; position: relative; z-index: 2; }
+  .cta-h2 {
+    font-size: clamp(3rem, 8vw, 9rem); font-style: italic; font-weight: 700;
+    line-height: 0.9; letter-spacing: -0.03em; color: #F0E6DE;
+    position: relative; z-index: 2;
+  }
+  .cta-h2 .outline { color: transparent; -webkit-text-stroke: 1px rgba(240,230,222,0.3); }
+  .cta-btn {
+    margin-top: 48px; position: relative; z-index: 2;
+    background: #008CFF; color: white; border: none; cursor: pointer;
+    font-family: sans-serif; font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; padding: 18px 40px;
+    transition: all 0.3s;
+    box-shadow: 0 0 40px rgba(0,140,255,0.3);
+  }
+  .cta-btn:hover { box-shadow: 0 0 80px rgba(0,140,255,0.6); transform: translateY(-2px); }
+
+  /* annotation badges */
+  .badge {
+    position: absolute; background: rgba(0,140,255,0.12); border: 1px solid rgba(0,140,255,0.4);
+    padding: 6px 12px; font-family: sans-serif; font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #008CFF;
+    pointer-events: none; z-index: 200; white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- INTRO CANVAS -->
+<div id="intro-canvas">
+  <canvas id="c"></canvas>
+  <div id="loader-ui">
+    <div id="loader-count">000</div>
+    <div id="loader-label">Initialising SocialSculp</div>
+  </div>
+  <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+</div>
+
+<!-- PAGE -->
+<div id="page">
+  <nav>
+    <div class="logo">Social<span>Sculp</span></div>
+    <div class="nav-links">
+      <span>Work</span><span>Services</span><span>About</span><span>Contact</span>
+    </div>
+  </nav>
+
+  <!-- HERO with persistent particle field -->
+  <section id="hero">
+    <div id="hero-canvas-wrap">
+      <canvas id="hero-canvas-bg"></canvas>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Creator Seeding Agency — Est. 2024</div>
+      <h1 class="hero-h1">
+        We Engineer<br>
+        <span class="outline">Narratives</span><br>
+        at Scale.
+      </h1>
+      <p class="hero-sub">Performance-driven creator seeding. 1.9B+ views. $2 blended CPM. 50+ creators across TikTok, Instagram & YouTube.</p>
+    </div>
+    <!-- Annotation -->
+    <div class="badge" style="top:60px;right:48px;">↑ Particle field persists from intro → hero</div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="stat">
+      <div class="stat-num">1.9<span>B+</span></div>
+      <div class="stat-label">Total Views Delivered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$<span>2</span></div>
+      <div class="stat-label">Blended CPM</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50<span>+</span></div>
+      <div class="stat-label">Vetted Creators</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">20<span>+</span></div>
+      <div class="stat-label">Brands Served</div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-eyebrow">Selected Work</div>
+    <div class="case-row">
+      <div class="case-num">01</div>
+      <div class="case-title">Alpha Lion — Sports Nutrition Seeding</div>
+      <canvas class="case-3d-icon" width="128" height="128" id="icon1"></canvas>
+    </div>
+    <div class="case-row">
+      <div class="case-num">02</div>
+      <div class="case-title">GoWish — Viral Launch Campaign</div>
+      <canvas class="case-3d-icon" width="128" height="128" id="icon2"></canvas>
+    </div>
+    <div class="case-row">
+      <div class="case-num">03</div>
+      <div class="case-title">StealthGPT — Organic Growth Drive</div>
+      <canvas class="case-3d-icon" width="128" height="128" id="icon3"></canvas>
+    </div>
+    <div class="badge" style="bottom:40px;right:48px;">↑ 3D icon spins on hover via Three.js TorusKnot</div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-eyebrow">What We Offer</div>
+    <div style="font-size:clamp(2.5rem,5vw,5rem);font-style:italic;font-weight:700;color:#F0E6DE;line-height:0.9;margin-bottom:0">
+      Full-Stack<br><span style="color:transparent;-webkit-text-stroke:1px rgba(240,230,222,0.3)">Creator</span><br>Intelligence.
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <canvas class="svc-3d" width="112" height="112" id="svc1"></canvas>
+        <div class="svc-num">01</div>
+        <div class="svc-title">Creator Seeding</div>
+        <div class="svc-desc">We place your product in front of 50+ vetted creators. Data-driven. Psychologically informed.</div>
+      </div>
+      <div class="service-card">
+        <canvas class="svc-3d" width="112" height="112" id="svc2"></canvas>
+        <div class="svc-num">02</div>
+        <div class="svc-title">Narrative Engineering</div>
+        <div class="svc-desc">We don't write ads — we build narratives. Every campaign has a story architecture.</div>
+      </div>
+      <div class="service-card">
+        <canvas class="svc-3d" width="112" height="112" id="svc3"></canvas>
+        <div class="svc-num">03</div>
+        <div class="svc-title">Media Buying</div>
+        <div class="svc-desc">Precision buying across TikTok, Meta, and Snap. Blended CPM below $2.</div>
+      </div>
+    </div>
+    <div class="badge" style="top:40px;right:48px;">↑ Each icon: unique 3D geometry, rotates on scroll</div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <canvas id="cta-canvas"></canvas>
+    <div class="cta-label">Ready to grow?</div>
+    <h2 class="cta-h2">
+      Let's Build<br>
+      <span class="outline">Something</span><br>
+      Unforgettable.
+    </h2>
+    <button class="cta-btn">Book a Strategy Call →</button>
+    <div class="badge" style="top:40px;right:48px;">↑ Particle field reconverges on CTA</div>
+  </section>
+</div>
+
+<script>
+// ────────────────────────────────────────────────────────────
+// PARTICLE ENGINE — approximates the Three.js GLSL shader look
+// ────────────────────────────────────────────────────────────
+const introCanvas = document.getElementById('c');
+const ctx = introCanvas.getContext('2d');
+
+function resize() {
+  introCanvas.width = window.innerWidth;
+  introCanvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Simplex-like noise (simplified)
+function hash(n) { return (Math.sin(n * 127.1 + 311.7) * 43758.5453) % 1; }
+function noise(x, y, t) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  const fx = x - ix, fy = y - iy;
+  const a = hash(ix + iy * 57 + t * 17);
+  const b = hash(ix+1 + iy * 57 + t * 17);
+  const c = hash(ix + (iy+1) * 57 + t * 17);
+  const d = hash(ix+1 + (iy+1) * 57 + t * 17);
+  const ux = fx*fx*(3-2*fx), uy = fy*fy*(3-2*fy);
+  return a + (b-a)*ux + (c-a)*uy + (a-b-c+d)*ux*uy;
+}
+
+// ── PARTICLES ──────────────────────────────────────────────
+const N = 3500;
+const px = new Float32Array(N);
+const py = new Float32Array(N);
+const pz = new Float32Array(N); // fake depth 0-1
+const pvx = new Float32Array(N);
+const pvy = new Float32Array(N);
+const phase = new Float32Array(N);
+const size = new Float32Array(N);
+
+function initParticles() {
+  const w = introCanvas.width, h = introCanvas.height;
+  for (let i = 0; i < N; i++) {
+    // Start at center with burst velocity
+    const angle = Math.random() * Math.PI * 2;
+    const elev = (Math.random() - 0.5) * Math.PI;
+    const speed = 0.5 + Math.random() * 4;
+    px[i] = w / 2;
+    py[i] = h / 2;
+    pz[i] = Math.random();
+    pvx[i] = Math.cos(angle) * Math.cos(elev) * speed;
+    pvy[i] = Math.sin(elev) * speed + Math.cos(angle) * 0.5 * speed;
+    phase[i] = Math.random() * Math.PI * 2;
+    size[i] = 0.5 + Math.random() * 2.5;
+  }
+}
+initParticles();
+
+let progress = 0; // 0-1
+let introPhase = 0; // 0: burst, 1: flow, 2: converge, 3: done
+let t = 0;
+let mouseX = 0.5, mouseY = 0.5;
+window.addEventListener('mousemove', e => {
+  mouseX = e.clientX / window.innerWidth;
+  mouseY = e.clientY / window.innerHeight;
+});
+
+function lerpColor(a, b, t) {
+  const ar = (a>>16)&255, ag=(a>>8)&255, ab=a&255;
+  const br = (b>>16)&255, bg=(b>>8)&255, bb=b&255;
+  return `rgb(${Math.round(ar+(br-ar)*t)},${Math.round(ag+(bg-ag)*t)},${Math.round(ab+(bb-ab)*t)})`;
+}
+
+// Fake target positions (spell out "SS" pattern)
+const targets = [];
+for (let i = 0; i < N; i++) {
+  const w = introCanvas.width || window.innerWidth;
+  const h = introCanvas.height || window.innerHeight;
+  // Distribute in a flowing ribbon shape
+  const u = (i / N);
+  const angle = u * Math.PI * 6;
+  const r = 80 + u * 180;
+  targets.push({
+    x: w/2 + Math.cos(angle) * r * (1 + 0.3 * Math.sin(u * 12)),
+    y: h/2 + Math.sin(angle) * r * 0.4 + (u - 0.5) * 200
+  });
+}
+
+function drawFrame() {
+  const w = introCanvas.width, h = introCanvas.height;
+  t += 0.008;
+  progress = Math.min(1, progress + 0.0025);
+
+  // Phase transitions
+  if (progress < 0.3) introPhase = 0;
+  else if (progress < 0.6) introPhase = 1;
+  else if (progress < 0.85) introPhase = 2;
+  else introPhase = 3;
+
+  // Clear with trail
+  ctx.fillStyle = `rgba(4,8,16,${introPhase === 0 ? 0.15 : 0.12})`;
+  ctx.fillRect(0, 0, w, h);
+
+  // Central glow
+  if (introPhase <= 1) {
+    const glow = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, 200);
+    glow.addColorStop(0, `rgba(0,140,255,${0.3 * (1 - progress)})`);
+    glow.addColorStop(1, 'transparent');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  for (let i = 0; i < N; i++) {
+    const depth = pz[i]; // 0=back, 1=front
+    const depthScale = 0.3 + depth * 0.7;
+
+    if (introPhase === 0) {
+      // BURST: particles fly outward
+      pvx[i] += (noise(px[i]*0.003, py[i]*0.003, t) - 0.5) * 0.8;
+      pvy[i] += (noise(px[i]*0.003+100, py[i]*0.003, t) - 0.5) * 0.8;
+      pvx[i] *= 0.96; pvy[i] *= 0.96;
+      pvy[i] += depth * 0.02; // fake gravity for depth
+    } else if (introPhase === 1) {
+      // FLOW: noise-driven organic movement
+      const n1 = noise(px[i]*0.002, py[i]*0.002, t) * Math.PI * 4;
+      const n2 = noise(px[i]*0.002+50, py[i]*0.002+50, t + 1);
+      pvx[i] += Math.cos(n1) * 0.15 * (1 + n2);
+      pvy[i] += Math.sin(n1) * 0.15 * (1 + n2);
+      pvx[i] *= 0.95; pvy[i] *= 0.95;
+    } else if (introPhase === 2) {
+      // CONVERGE: pull to target spiral
+      const tgt = targets[i];
+      const tx = tgt.x + (mouseX - 0.5) * 60 * (1-pz[i]);
+      const ty = tgt.y + (mouseY - 0.5) * 40 * (1-pz[i]);
+      pvx[i] += (tx - px[i]) * 0.04;
+      pvy[i] += (ty - py[i]) * 0.04;
+      pvx[i] *= 0.88; pvy[i] *= 0.88;
+    } else {
+      // SETTLE: gentle orbit
+      const tgt = targets[i];
+      const tx = tgt.x + Math.sin(t * 0.3 + phase[i]) * 8;
+      const ty = tgt.y + Math.cos(t * 0.2 + phase[i]) * 4;
+      pvx[i] += (tx - px[i]) * 0.02;
+      pvy[i] += (ty - py[i]) * 0.02;
+      pvx[i] *= 0.92; pvy[i] *= 0.92;
+    }
+
+    px[i] += pvx[i] * depthScale;
+    py[i] += pvy[i] * depthScale;
+
+    // Color: blue→white based on speed + depth
+    const speed = Math.sqrt(pvx[i]*pvx[i] + pvy[i]*pvy[i]);
+    const heat = Math.min(1, speed * 0.15);
+    const alpha = (0.3 + depth * 0.7) * (0.6 + heat * 0.4) * (introPhase < 3 ? 1 : 0.8);
+    const r2 = Math.round(heat * 255 + (1-heat) * 0);
+    const g2 = Math.round(heat * 255 + (1-heat) * 140 * depth);
+    const b2 = 255;
+
+    const sz = (size[i] * depthScale * (1 + heat)) * (introPhase === 0 ? 1.5 : 1);
+
+    ctx.beginPath();
+    ctx.arc(px[i], py[i], Math.max(0.3, sz), 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r2},${g2},${b2},${alpha})`;
+    ctx.fill();
+
+    // Glow for bright particles
+    if (heat > 0.5 && depth > 0.6) {
+      ctx.beginPath();
+      ctx.arc(px[i], py[i], sz * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,140,255,${alpha * 0.08})`;
+      ctx.fill();
+    }
+  }
+}
+
+// ── LOADER ──
+let loadPct = 0;
+const loaderBar = document.getElementById('loader-bar');
+const loaderCount = document.getElementById('loader-count');
+const loaderLabel = document.getElementById('loader-label');
+const labels = ['Initialising SocialSculp','Loading Creator Network','Calibrating Signal','Launching...'];
+
+function animLoop() {
+  drawFrame();
+
+  // Loader progress
+  loadPct = Math.min(100, loadPct + (100 - loadPct) * 0.012 + 0.08);
+  loaderBar.style.width = loadPct + '%';
+  loaderCount.textContent = String(Math.floor(loadPct)).padStart(3,'0');
+  loaderLabel.textContent = labels[Math.min(3, Math.floor(loadPct / 26))];
+
+  if (loadPct < 99.5) {
+    requestAnimationFrame(animLoop);
+  } else {
+    loaderCount.textContent = '100';
+    loaderBar.style.width = '100%';
+    setTimeout(revealPage, 800);
+  }
+}
+animLoop();
+
+function revealPage() {
+  const intro = document.getElementById('intro-canvas');
+  intro.classList.add('hidden');
+  const page = document.getElementById('page');
+  page.classList.add('visible');
+  startHeroBg();
+  startCtaBg();
+  startIconCanvases();
+}
+
+// ── HERO BG (continuous particle field post-intro) ──
+function startHeroBg() {
+  const c = document.getElementById('hero-canvas-bg');
+  c.width = c.offsetWidth * window.devicePixelRatio;
+  c.height = c.offsetHeight * window.devicePixelRatio;
+  const cx = c.getContext('2d');
+  let ht = 0;
+  const HN = 1200;
+  const hx = new Float32Array(HN), hy = new Float32Array(HN);
+  const hvx = new Float32Array(HN), hvy = new Float32Array(HN);
+  const hz = new Float32Array(HN), hp = new Float32Array(HN);
+  for(let i=0;i<HN;i++) {
+    hx[i]=Math.random()*c.width; hy[i]=Math.random()*c.height;
+    hvx[i]=(Math.random()-0.5)*0.3; hvy[i]=(Math.random()-0.5)*0.3;
+    hz[i]=Math.random(); hp[i]=Math.random()*Math.PI*2;
+  }
+  function draw() {
+    ht+=0.004;
+    cx.fillStyle='rgba(4,8,16,0.25)';
+    cx.fillRect(0,0,c.width,c.height);
+    for(let i=0;i<HN;i++) {
+      const n1=noise(hx[i]*0.001,hy[i]*0.001,ht)*Math.PI*4;
+      hvx[i]+=Math.cos(n1)*0.04; hvy[i]+=Math.sin(n1)*0.04;
+      hvx[i]*=0.98; hvy[i]*=0.98;
+      hx[i]+=hvx[i]; hy[i]+=hvy[i];
+      if(hx[i]<0) hx[i]+=c.width; if(hx[i]>c.width) hx[i]-=c.width;
+      if(hy[i]<0) hy[i]+=c.height; if(hy[i]>c.height) hy[i]-=c.height;
+      const a=(hz[i]*0.4+0.1)*(0.5+0.5*Math.sin(ht*0.5+hp[i]));
+      const sz=hz[i]*1.5+0.3;
+      cx.beginPath(); cx.arc(hx[i],hy[i],sz,0,Math.PI*2);
+      cx.fillStyle=`rgba(0,140,255,${a*0.6})`;
+      cx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ── CTA BG (converging particles) ──
+function startCtaBg() {
+  const c = document.getElementById('cta-canvas');
+  const section = document.getElementById('cta');
+  c.width = section.offsetWidth; c.height = section.offsetHeight;
+  const cx = c.getContext('2d');
+  let ct = 0;
+  const CN = 800;
+  const cpx = new Float32Array(CN), cpy = new Float32Array(CN);
+  const cpvx = new Float32Array(CN), cpvy = new Float32Array(CN);
+  const cph = new Float32Array(CN);
+  for(let i=0;i<CN;i++) {
+    cpx[i]=(Math.random()-0.5)*c.width*2+c.width/2;
+    cpy[i]=(Math.random()-0.5)*c.height*2+c.height/2;
+    cpvx[i]=0; cpvy[i]=0; cph[i]=Math.random()*Math.PI*2;
+  }
+  const btn = document.querySelector('.cta-btn');
+  function draw() {
+    ct+=0.006;
+    cx.fillStyle='rgba(0,0,0,0.15)';
+    cx.fillRect(0,0,c.width,c.height);
+    const bx=c.width/2, by=c.height*0.65;
+    for(let i=0;i<CN;i++) {
+      cpvx[i]+=(bx-cpx[i])*0.002+Math.sin(ct+cph[i])*0.5;
+      cpvy[i]+=(by-cpy[i])*0.002+Math.cos(ct*0.7+cph[i])*0.5;
+      cpvx[i]*=0.97; cpvy[i]*=0.97;
+      cpx[i]+=cpvx[i]; cpy[i]+=cpvy[i];
+      const dist=Math.sqrt((cpx[i]-bx)**2+(cpy[i]-by)**2);
+      if(dist<60) { cpx[i]=(Math.random()-0.5)*c.width+c.width/2; cpy[i]=(Math.random()-0.5)*c.height+c.height/2; }
+      const a=Math.max(0,1-dist/400)*0.6;
+      cx.beginPath(); cx.arc(cpx[i],cpy[i],0.8+dist/800,0,Math.PI*2);
+      cx.fillStyle=`rgba(0,140,255,${a})`;
+      cx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ── MINI 3D ICON CANVASES (fake 3D wireframe) ──
+function startIconCanvases() {
+  function drawTorus(id, col, speed) {
+    const c = document.getElementById(id);
+    if (!c) return;
+    const cx = c.getContext('2d');
+    let at = 0;
+    function draw() {
+      at += speed;
+      cx.clearRect(0,0,128,128);
+      const cx2=64, cy2=64, R=28, r=10, segs=40, tube=20;
+      for(let i=0;i<=segs;i++) {
+        for(let j=0;j<=tube;j++) {
+          const u=i/segs*Math.PI*2, v=j/tube*Math.PI*2;
+          const x=(R+r*Math.cos(v))*Math.cos(u);
+          const y=(R+r*Math.cos(v))*Math.sin(u);
+          const z=r*Math.sin(v);
+          // Rotate
+          const cx3=x*Math.cos(at)-z*Math.sin(at);
+          const cz3=x*Math.sin(at)+z*Math.cos(at);
+          const cy3=y*Math.cos(at*0.5)-cz3*Math.sin(at*0.5);
+          const cz4=y*Math.sin(at*0.5)+cz3*Math.cos(at*0.5);
+          const scale=1.4/(1+cz4*0.02);
+          const sx=cx2+cx3*scale*1.2;
+          const sy=cy2+cy3*scale*1.2;
+          const depth=(cz4+40)/80;
+          if(i>0&&j>0) {
+            cx.beginPath(); cx.arc(sx,sy,depth*1.5,0,Math.PI*2);
+            cx.fillStyle=`rgba(${col},${depth*0.7})`;
+            cx.fill();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  // Case study icons
+  drawTorus('icon1','0,200,255',0.02);
+  drawTorus('icon2','100,180,255',0.015);
+  drawTorus('icon3','0,160,255',0.025);
+
+  function drawIco(id, col, speed) {
+    const c = document.getElementById(id);
+    if (!c) return;
+    const cx = c.getContext('2d');
+    let at = 0;
+    const verts = [[0,1,0],[-0.9,-0.4,0.3],[0.9,-0.4,0.3],[0,-0.4,-1],[-0.6,0.3,-0.8],[0.6,0.3,-0.8]].map(v=>v.map(x=>x*30));
+    function draw() {
+      at += speed;
+      cx.clearRect(0,0,112,112);
+      const rot = verts.map(([x,y,z])=>{
+        const nx=x*Math.cos(at)-z*Math.sin(at);
+        const nz=x*Math.sin(at)+z*Math.cos(at);
+        const ny=y*Math.cos(at*0.6)-nz*Math.sin(at*0.6);
+        const nz2=y*Math.sin(at*0.6)+nz*Math.cos(at*0.6);
+        return [56+nx*1.5,56+ny*1.5,nz2];
+      });
+      const edges=[[0,1],[0,2],[0,4],[0,5],[1,2],[1,3],[2,3],[3,4],[3,5],[4,5]];
+      edges.forEach(([a,b])=>{
+        const depth=(rot[a][2]+rot[b][2]+100)/200;
+        cx.beginPath();
+        cx.moveTo(rot[a][0],rot[a][1]);
+        cx.lineTo(rot[b][0],rot[b][1]);
+        cx.strokeStyle=`rgba(${col},${depth*0.8})`;
+        cx.lineWidth=depth*1.5;
+        cx.stroke();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  // Service icons
+  function drawSphere(id, col, speed) {
+    const c = document.getElementById(id);
+    if (!c) return;
+    const cx = c.getContext('2d');
+    let at = 0;
+    function draw() {
+      at += speed;
+      cx.clearRect(0,0,112,112);
+      const lats=12, lons=18;
+      for(let i=0;i<=lats;i++) {
+        for(let j=0;j<=lons;j++) {
+          const lat=i/lats*Math.PI, lon=j/lons*Math.PI*2;
+          const x=Math.sin(lat)*Math.cos(lon+at)*32;
+          const y=Math.cos(lat)*32;
+          const z=Math.sin(lat)*Math.sin(lon+at)*32;
+          const nx=x*Math.cos(at*0.3)-z*Math.sin(at*0.3);
+          const nz=x*Math.sin(at*0.3)+z*Math.cos(at*0.3);
+          const ny=y*Math.cos(at*0.2)-nz*Math.sin(at*0.2);
+          const depth=(nz+50)/100;
+          const sx=56+nx*1.2, sy=56+ny*1.2;
+          cx.beginPath(); cx.arc(sx,sy,depth*1.2+0.3,0,Math.PI*2);
+          cx.fillStyle=`rgba(${col},${depth*0.7})`;
+          cx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  drawSphere('svc1','0,200,255',0.018);
+  drawSphere('svc2','100,200,255',0.012);
+  drawSphere('svc3','50,180,255',0.022);
+}
+</script>
+</body>
+</html>

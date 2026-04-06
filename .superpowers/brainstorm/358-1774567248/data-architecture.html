@@ -1,0 +1,70 @@
+<h2>How should Mission Control get data from OpenClaw?</h2>
+<p class="subtitle">Pick the communication pattern between your dashboard and the VPS</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>OpenClaw Reports In (Push)</h3>
+      <p>OpenClaw pushes heartbeats, task logs, and token usage to the dashboard via API. You see live status without touching the VPS.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        <span style="color: #888;">VPS (OpenClaw)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Every 60s: POST /api/openclaw/heartbeat</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; On task start/end: POST /api/openclaw/tasks</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Hourly: POST /api/openclaw/usage {tokens, cost}</span><br>
+        <br>
+        <span style="color: #888;">Dashboard (Mission Control)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Reads from DB, displays in real-time</span>
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Real-time updates</li><li>No SSH keys on dashboard server</li><li>Works even if dashboard is down (queues up)</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Requires adding a reporting client to OpenClaw</li><li>Can't run ad-hoc commands on VPS</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Dashboard Reaches Out (Pull)</h3>
+      <p>Mission Control SSH's into the VPS on-demand to check logs, process status, and cron output. You trigger inspections manually.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        <span style="color: #888;">Dashboard (Mission Control)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Button click: SSH exec "systemctl status openclaw"</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Button click: SSH exec "tail -100 /var/log/openclaw"</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Button click: SSH exec "cat /tmp/openclaw-usage.json"</span><br>
+        <br>
+        <span style="color: #888;">VPS (OpenClaw)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Passive — just responds to SSH commands</span>
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>No changes needed on OpenClaw side</li><li>Full ad-hoc access (run any command)</li><li>Simple — just SSH</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>SSH keys stored on Vercel (security risk)</li><li>Not real-time — only updates when you look</li><li>Latency on each request</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid (Push + On-Demand) <span style="color: #008cff; font-size: 13px;">&#x2605; Recommended</span></h3>
+      <p>OpenClaw pushes heartbeats &amp; task updates automatically. You can also trigger SSH commands from Mission Control for deep inspection, restarts, etc.</p>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,140,255,0.08); border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+        <span style="color: #888;">VPS (OpenClaw) &#x2192; Dashboard</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Heartbeat every 60s (alive/dead/working)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Task events (started, completed, failed)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Token/cost usage reports</span><br>
+        <br>
+        <span style="color: #888;">Dashboard &#x2192; VPS (on-demand)</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; View live logs</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Restart services</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Kill runaway tasks</span><br>
+        <span style="padding-left: 20px;">&#x2514;&#x2500; Run diagnostics</span>
+      </div>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Best of both worlds — passive monitoring + active control</li><li>Always know if OpenClaw is alive (no manual checking)</li><li>Can intervene when something goes wrong</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>More to build (both push client + SSH relay)</li><li>SSH key management still needed for on-demand</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

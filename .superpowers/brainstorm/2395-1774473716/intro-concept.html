@@ -1,0 +1,82 @@
+<h2>What should the 3D intro feel like?</h2>
+<p class="subtitle">This is the first thing visitors see — sets the tone for the entire site. Pick the concept that fits SocialSculp best.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="text-sculpt" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080c14;height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+      <div style="font-family:serif;font-size:2.8rem;font-style:italic;font-weight:700;color:#fff;letter-spacing:-0.02em;position:relative;z-index:2;">
+        <span style="color:#008CFF;display:inline-block;transform:translateY(-8px) rotate(-5deg);opacity:0.7">S</span><span style="display:inline-block;transform:translateY(4px)">o</span><span style="display:inline-block;transform:translateY(-3px) translateX(2px)">c</span><span style="color:#008CFF;display:inline-block;transform:translateY(6px) rotate(3deg);opacity:0.5">i</span><span style="display:inline-block;">al</span>
+        <span style="color:#008CFF;display:inline-block;transform:translateY(-10px) rotate(-8deg)">S</span><span style="display:inline-block;transform:translateY(3px)">c</span><span style="display:inline-block;transform:translateY(-4px)">u</span><span style="color:#008CFF;display:inline-block;transform:translateY(8px) rotate(4deg);opacity:0.6">lp</span>
+      </div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%, rgba(0,140,255,0.08) 0%, transparent 70%);"></div>
+    </div>
+    <div class="card-body">
+      <h3>A — Letter Sculpt</h3>
+      <p>3D letterforms scatter across the viewport as particles, then fly together and "sculpt" the SocialSculp wordmark — camera orbits as letters lock in. Ends with the full logo snapping into place, camera settling front-on.</p>
+      <p class="label" style="color:#008CFF;margin-top:8px">Three.js · MeshPhysicalMaterial letters · particle physics · ~3s</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="network" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#040810;height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+      <!-- Network nodes -->
+      <svg width="100%" height="100%" viewBox="0 0 320 160" style="position:absolute;inset:0;">
+        <line x1="160" y1="80" x2="80" y2="40" stroke="#008CFF" stroke-width="0.5" opacity="0.4"/>
+        <line x1="160" y1="80" x2="240" y2="50" stroke="#008CFF" stroke-width="0.5" opacity="0.4"/>
+        <line x1="160" y1="80" x2="60" y2="110" stroke="#008CFF" stroke-width="0.5" opacity="0.3"/>
+        <line x1="160" y1="80" x2="270" y2="120" stroke="#008CFF" stroke-width="0.5" opacity="0.3"/>
+        <line x1="160" y1="80" x2="140" y2="130" stroke="#008CFF" stroke-width="0.5" opacity="0.4"/>
+        <line x1="80" y1="40" x2="40" y2="60" stroke="#4499cc" stroke-width="0.3" opacity="0.25"/>
+        <line x1="240" y1="50" x2="290" y2="30" stroke="#4499cc" stroke-width="0.3" opacity="0.25"/>
+        <circle cx="160" cy="80" r="8" fill="#008CFF" opacity="0.9"/>
+        <circle cx="80" cy="40" r="4" fill="#008CFF" opacity="0.5"/>
+        <circle cx="240" cy="50" r="5" fill="#008CFF" opacity="0.6"/>
+        <circle cx="60" cy="110" r="3" fill="#4499cc" opacity="0.4"/>
+        <circle cx="270" cy="120" r="4" fill="#4499cc" opacity="0.5"/>
+        <circle cx="140" cy="130" r="3" fill="#4499cc" opacity="0.4"/>
+        <circle cx="40" cy="60" r="2" fill="#4499cc" opacity="0.3"/>
+        <circle cx="290" cy="30" r="2" fill="#4499cc" opacity="0.3"/>
+        <text x="160" y="84" text-anchor="middle" font-size="5" fill="white" opacity="0.9" font-weight="bold">SS</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>B — Creator Network</h3>
+      <p>Starts with a black screen. Creator nodes (dots) pulse into existence across the 3D space, connecting with glowing edges. The network contracts toward a central SocialSculp node. Numbers count up as nodes arrive: 50 creators → 1.9B views → $2 CPM.</p>
+      <p class="label" style="color:#008CFF;margin-top:8px">Three.js · Points + Lines · data-viz aesthetic · ~4s</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="geometric" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+      <div style="position:relative;width:80px;height:80px;">
+        <div style="position:absolute;inset:0;border:1px solid rgba(0,140,255,0.6);transform:rotate(0deg);"></div>
+        <div style="position:absolute;inset:8px;border:1px solid rgba(0,140,255,0.4);transform:rotate(22deg);"></div>
+        <div style="position:absolute;inset:16px;border:1px solid rgba(0,140,255,0.25);transform:rotate(45deg);"></div>
+        <div style="position:absolute;inset:24px;border:1px solid rgba(0,140,255,0.15);transform:rotate(67deg);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:sans-serif;font-size:10px;font-weight:900;color:#fff;letter-spacing:0.05em">SS</div>
+      </div>
+      <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-family:serif;font-style:italic;font-size:0.9rem;color:rgba(255,255,255,0.4)">SocialSculp</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Geometric Reveal</h3>
+      <p>Concentric 3D rings/planes rotate and expand outward from center, Unseen Studio-style. Clean, architectural. Camera starts tight on a glowing geometry, slowly pulls back revealing the full scene — then fades to the cream hero with a hard cut.</p>
+      <p class="label" style="color:#008CFF;margin-top:8px">Three.js · TorusGeometry · smooth camera · ~3s</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="text-morph" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#040810;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;gap:6px">
+      <div style="font-family:monospace;font-size:0.65rem;color:rgba(0,140,255,0.5);letter-spacing:0.15em">CREATOR SEEDING AGENCY</div>
+      <div style="font-family:serif;font-size:2.2rem;font-weight:700;font-style:italic;color:#fff;letter-spacing:-0.02em">1.9B</div>
+      <div style="font-family:monospace;font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.2em">VIEWS DELIVERED</div>
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(0,140,255,0.04) 0%, transparent 60%)"></div>
+    </div>
+    <div class="card-body">
+      <h3>D — Stats Cascade</h3>
+      <p>The screen starts black. Each of SocialSculp's key stats materialises in 3D space, large and theatrical — "1.9B", "$2", "50+" — each flying in from depth, rotating into place, then dissolving. Ends with the SocialSculp wordmark assembling. Cinematic, data-driven.</p>
+      <p class="label" style="color:#008CFF;margin-top:8px">Three.js TextGeometry · depth blur · cinematic · ~4s</p>
+    </div>
+  </div>
+
+</div>

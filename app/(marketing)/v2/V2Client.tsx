@@ -1,10 +1,21 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Component, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { useScrollAnimations } from './useScrollAnimations'
 import { HeroCube } from './HeroCube'
 import { Starfield } from './Starfield'
+
+// Error boundary — if IntroScene (WebGL) crashes, skip to landing
+class IntroBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  state = { hasError: false }
+  static getDerivedStateFromError() { return { hasError: true } }
+  componentDidCatch() { this.props.onError() }
+  render() { return this.state.hasError ? null : this.props.children }
+}
 
 // Shared canvas that all ScrollScene Views render into — prevents context limit
 const SharedCanvas = dynamic(

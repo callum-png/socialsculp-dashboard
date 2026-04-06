@@ -1,0 +1,21 @@
+
+> socialsculp-dashboard@0.1.0 dev
+> next dev -p 3000 --port 3099
+
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3099
+- Network:       http://10.50.139.144:3099
+- Environments: .env.local
+
+✓ Starting...
+✓ Ready in 1247ms
+ GET / 200 in 1576ms (compile: 677ms, proxy.ts: 145ms, render: 753ms)
+✓ Compiled in 138ms
+✓ Compiled in 140ms
+✓ Compiled in 174ms
+✓ Compiled in 80ms
+✓ Compiled in 74ms
+ GET / 200 in 120ms (compile: 62ms, proxy.ts: 10ms, render: 48ms)
+ GET / 200 in 103ms (compile: 52ms, proxy.ts: 13ms, render: 37ms)
+✓ Compiled in 56ms
+ GET / 200 in 613ms (compile: 4ms, proxy.ts: 6ms, render: 603ms)
